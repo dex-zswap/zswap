@@ -146,3 +146,7 @@ export const useGetLastOraclePrice = () => {
 export const useGetLeaderboardLoadingState = () => {
   return useSelector((state: State) => state.predictions.leaderboard.loadingState)
 }
+
+export const useGetLeaderboardResults = () => {
+  return useSelector((state: State) => state.predictions.leaderboard.results)
+}
