@@ -1,9 +1,19 @@
 export interface UserResponse {
   id: string
-  address: string
+  createdAt: string
+  updatedAt: string
   block: string
   totalBets: string
+  totalBetsBull: string
+  totalBetsBear: string
   totalBNB: string
+  totalBNBBull: string
+  totalBNBBear: string
+  totalBetsClaimed: string
+  totalBNBClaimed: string
+  winRate: string
+  averageBNB: string
+  netBNB: string
   bets?: BetResponse[]
 }
 
@@ -96,8 +106,18 @@ export const getBetBaseFields = () => `
 
 export const getUserBaseFields = () => `
   id
-  address
+  createdAt
+  updatedAt
   block
   totalBets
+  totalBetsBull
+  totalBetsBear
   totalBNB
+  totalBNBBull
+  totalBNBBear
+  totalBetsClaimed
+  totalBNBClaimed
+  winRate
+  averageBNB
+  netBNB
 `

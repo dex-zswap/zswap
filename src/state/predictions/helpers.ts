@@ -11,6 +11,7 @@ import {
   ReduxNodeRound,
   Round,
   RoundData,
+  PredictionUser,
 } from 'state/types'
 import { multicallv2 } from 'utils/multicall'
 import predictionsAbi from 'config/abi/predictions.json'
@@ -24,6 +25,7 @@ import {
   RoundResponse,
   TotalWonMarketResponse,
   TotalWonRoundResponse,
+  UserResponse,
 } from './queries'
 
 export enum Result {
@@ -50,20 +52,55 @@ export const transformBetResponse = (betResponse: BetResponse): Bet => {
     position: betResponse.position === 'Bull' ? BetPosition.BULL : BetPosition.BEAR,
     claimed: betResponse.claimed,
     claimedHash: betResponse.claimedHash,
-    user: {
-      id: betResponse.user.id,
-      address: betResponse.user.address,
-      block: numberOrNull(betResponse.user.block),
-      totalBets: numberOrNull(betResponse.user.totalBets),
-      totalBNB: numberOrNull(betResponse.user.totalBNB),
-    },
   } as Bet
+
+  if (betResponse.user) {
+    bet.user = transformUserResponse(betResponse.user)
+  }
 
   if (betResponse.round) {
     bet.round = transformRoundResponse(betResponse.round)
   }
 
   return bet
+}
+
+export const transformUserResponse = (userResponse: UserResponse): PredictionUser => {
+  const {
+    id,
+    createdAt,
+    updatedAt,
+    block,
+    totalBets,
+    totalBetsBull,
+    totalBetsBear,
+    totalBNB,
+    totalBNBBull,
+    totalBNBBear,
+    totalBetsClaimed,
+    totalBNBClaimed,
+    winRate,
+    averageBNB,
+    netBNB,
+  } = userResponse
+
+  return {
+    id,
+    createdAt: numberOrNull(createdAt),
+    updatedAt: numberOrNull(updatedAt),
+    block: numberOrNull(block),
+    totalBets: numberOrNull(totalBets),
+    totalBetsBull: numberOrNull(totalBetsBull),
+    totalBetsBear: numberOrNull(totalBetsBear),
+    totalBNB: totalBNB ? parseFloat(totalBNB) : 0,
+    totalBNBBull: totalBNBBull ? parseFloat(totalBNBBull) : 0,
+    totalBNBBear: totalBNBBear ? parseFloat(totalBNBBear) : 0,
+    totalBetsClaimed: numberOrNull(totalBetsClaimed),
+    totalBNBClaimed: totalBNBClaimed ? parseFloat(totalBNBClaimed) : 0,
+    winRate: winRate ? parseFloat(winRate) : 0,
+    averageBNB: averageBNB ? parseFloat(averageBNB) : 0,
+    netBNB: netBNB ? parseFloat(netBNB) : 0,
+  }
 }
 
 export const transformRoundResponse = (roundResponse: RoundResponse): Round => {
