@@ -5,10 +5,6 @@ import { minBy, orderBy } from 'lodash'
 import { State, NodeRound, ReduxNodeLedger, NodeLedger, ReduxNodeRound } from '../types'
 import { parseBigNumberObj } from './helpers'
 
-// /!\
-// Don't add anything here. These hooks will be moved the the predictions folder
-
-// Predictions
 export const useGetRounds = () => {
   const rounds = useSelector((state: State) => state.predictions.rounds)
   return Object.keys(rounds).reduce((accum, epoch) => {
@@ -144,4 +140,9 @@ export const useGetLastOraclePrice = () => {
   return useMemo(() => {
     return ethers.BigNumber.from(lastOraclePrice)
   }, [lastOraclePrice])
+}
+
+// Leaderboard
+export const useGetLeaderboardLoadingState = () => {
+  return useSelector((state: State) => state.predictions.leaderboard.loadingState)
 }

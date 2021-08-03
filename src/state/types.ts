@@ -296,6 +296,14 @@ export interface NodeRound {
   oracleCalled: boolean
 }
 
+export enum LeaderboardLoadingState {
+  INITIAL,
+  LOADING,
+  IDLE,
+}
+
+export type LeaderboardFilterTimePeriod = '1d' | '7d' | '1m' | 'all'
+
 export interface PredictionsState {
   status: PredictionStatus
   isLoading: boolean
@@ -315,6 +323,17 @@ export interface PredictionsState {
   ledgers?: LedgerData
   claimableStatuses: {
     [key: string]: boolean
+  }
+  leaderboard: {
+    loadingState: LeaderboardLoadingState
+    filters: {
+      address?: string
+      orderBy?: string
+      timePeriod?: LeaderboardFilterTimePeriod
+    }
+    page: number
+    accountResult: PredictionUser
+    results: PredictionUser[]
   }
 }
 

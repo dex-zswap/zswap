@@ -3,7 +3,16 @@ import maxBy from 'lodash/maxBy'
 import merge from 'lodash/merge'
 import range from 'lodash/range'
 import { BIG_ZERO } from 'utils/bigNumber'
-import { Bet, LedgerData, HistoryFilter, PredictionsState, PredictionStatus, ReduxNodeRound } from 'state/types'
+import {
+  Bet,
+  LedgerData,
+  HistoryFilter,
+  PredictionsState,
+  PredictionStatus,
+  ReduxNodeRound,
+  LeaderboardLoadingState,
+  PredictionUser,
+} from 'state/types'
 import { getPredictionsContract } from 'utils/contractHelpers'
 import {
   getBetHistory,
@@ -17,6 +26,9 @@ import {
   makeLedgerData,
   serializePredictionsRoundsResponse,
   getClaimStatuses,
+  getPredictionUsers,
+  getPredictionUser,
+  transformUserResponse,
 } from './helpers'
 
 const PAST_ROUND_COUNT = 5
@@ -43,6 +55,17 @@ const initialState: PredictionsState = {
   history: {},
   ledgers: {},
   claimableStatuses: {},
+  leaderboard: {
+    loadingState: LeaderboardLoadingState.INITIAL,
+    filters: {
+      address: null,
+      orderBy: 'netBNB',
+      timePeriod: 'all',
+    },
+    page: 1,
+    accountResult: null,
+    results: [],
+  },
 }
 
 // Thunks
@@ -161,6 +184,28 @@ export const fetchHistory = createAsyncThunk<{ account: string; bets: Bet[] }, {
   },
 )
 
+// Leaderboard
+export const initializeLeaderboard = createAsyncThunk<
+  { results: PredictionUser[]; accountResult: PredictionUser },
+  string
+>('predictions/intiliazeLeaderboard', async (account = null) => {
+  const usersResponse = await getPredictionUsers()
+
+  if (account) {
+    const userResponse = await getPredictionUser(account)
+
+    return {
+      results: usersResponse.map(transformUserResponse),
+      accountResult: transformUserResponse(userResponse),
+    }
+  }
+
+  return {
+    results: usersResponse.map(transformUserResponse),
+    accountResult: null,
+  }
+})
+
 export const predictionsSlice = createSlice({
   name: 'predictions',
   initialState,
@@ -197,6 +242,15 @@ export const predictionsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Initialize leaderboard
+    builder.addCase(initializeLeaderboard.fulfilled, (state, action) => {
+      const { results, accountResult } = action.payload
+
+      state.leaderboard.loadingState = LeaderboardLoadingState.IDLE
+      state.leaderboard.results = results
+      state.leaderboard.accountResult = accountResult
+    })
+
     // Claimable statuses
     builder.addCase(fetchClaimableStatuses.fulfilled, (state, action) => {
       state.claimableStatuses = merge({}, state.claimableStatuses, action.payload)
