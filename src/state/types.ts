@@ -304,6 +304,12 @@ export enum LeaderboardLoadingState {
 
 export type LeaderboardFilterTimePeriod = '1d' | '7d' | '1m' | 'all'
 
+export interface LeaderboardFilter {
+  address?: string
+  orderBy?: string
+  timePeriod?: LeaderboardFilterTimePeriod
+}
+
 export interface PredictionsState {
   status: PredictionStatus
   isLoading: boolean
@@ -326,11 +332,7 @@ export interface PredictionsState {
   }
   leaderboard: {
     loadingState: LeaderboardLoadingState
-    filters: {
-      address?: string
-      orderBy?: string
-      timePeriod?: LeaderboardFilterTimePeriod
-    }
+    filters: LeaderboardFilter
     page: number
     accountResult: PredictionUser
     results: PredictionUser[]

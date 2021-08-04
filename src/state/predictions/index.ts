@@ -12,6 +12,7 @@ import {
   ReduxNodeRound,
   LeaderboardLoadingState,
   PredictionUser,
+  LeaderboardFilter,
 } from 'state/types'
 import { getPredictionsContract } from 'utils/contractHelpers'
 import {
@@ -27,7 +28,6 @@ import {
   serializePredictionsRoundsResponse,
   getClaimStatuses,
   getPredictionUsers,
-  getPredictionUser,
   transformUserResponse,
 } from './helpers'
 
@@ -185,31 +185,28 @@ export const fetchHistory = createAsyncThunk<{ account: string; bets: Bet[] }, {
 )
 
 // Leaderboard
-export const initializeLeaderboard = createAsyncThunk<
-  { results: PredictionUser[]; accountResult: PredictionUser },
-  string
->('predictions/intiliazeLeaderboard', async (account = null) => {
-  const usersResponse = await getPredictionUsers()
+export const filterLeaderboard = createAsyncThunk<{ results: PredictionUser[] }, { filters: LeaderboardFilter }>(
+  'predictions/filterLeaderboard',
+  async ({ filters }) => {
+    const usersResponse = await getPredictionUsers({
+      skip: 0,
+      orderBy: filters.orderBy,
+    })
 
-  if (account) {
-    const userResponse = await getPredictionUser(account)
-
-    return {
-      results: usersResponse.map(transformUserResponse),
-      accountResult: transformUserResponse(userResponse),
-    }
-  }
-
-  return {
-    results: usersResponse.map(transformUserResponse),
-    accountResult: null,
-  }
-})
+    return { results: usersResponse.map(transformUserResponse) }
+  },
+)
 
 export const predictionsSlice = createSlice({
   name: 'predictions',
   initialState,
   reducers: {
+    setLeaderboardFilter: (state, action: PayloadAction<Partial<LeaderboardFilter>>) => {
+      state.leaderboard.filters = {
+        ...state.leaderboard.filters,
+        ...action.payload,
+      }
+    },
     setPredictionStatus: (state, action: PayloadAction<PredictionStatus>) => {
       state.status = action.payload
     },
@@ -243,12 +240,11 @@ export const predictionsSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Initialize leaderboard
-    builder.addCase(initializeLeaderboard.fulfilled, (state, action) => {
-      const { results, accountResult } = action.payload
+    builder.addCase(filterLeaderboard.fulfilled, (state, action) => {
+      const { results } = action.payload
 
       state.leaderboard.loadingState = LeaderboardLoadingState.IDLE
       state.leaderboard.results = results
-      state.leaderboard.accountResult = accountResult
     })
 
     // Claimable statuses
@@ -352,6 +348,7 @@ export const {
   setPredictionStatus,
   setLastOraclePrice,
   markBetHistoryAsCollected,
+  setLeaderboardFilter,
 } = predictionsSlice.actions
 
 export default predictionsSlice.reducer

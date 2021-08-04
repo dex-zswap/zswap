@@ -284,7 +284,7 @@ export const LEADERBOARD_RESULTS_PER_PAGE = 20
 interface GetPredictionUsersOptions {
   skip?: number
   first?: number
-  order?: string
+  orderBy?: string
   orderDir?: string
   where?: WhereClause
 }
@@ -292,13 +292,12 @@ interface GetPredictionUsersOptions {
 const defaultPredictionUserOptions = {
   skip: 0,
   first: LEADERBOARD_RESULTS_PER_PAGE,
-  order: 'createdAt',
+  orderBy: 'createdAt',
   orderDir: 'desc',
 }
 
 export const getPredictionUsers = async (options: GetPredictionUsersOptions = {}): Promise<UserResponse[]> => {
-  const { first, skip, where, order, orderDir } = { ...defaultPredictionUserOptions, ...options }
-
+  const { first, skip, where, orderBy, orderDir } = { ...defaultPredictionUserOptions, ...options }
   const response = await request(
     GRAPH_API_PREDICTION,
     gql`
@@ -308,7 +307,7 @@ export const getPredictionUsers = async (options: GetPredictionUsersOptions = {}
         }
       }
     `,
-    { first, skip, where, order, orderDir },
+    { first, skip, where, orderBy, orderDir },
   )
   return response.users
 }

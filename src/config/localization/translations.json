@@ -1318,5 +1318,15 @@
   "Burnt CAKE": "Burnt CAKE",
   "Stake %stakingSymbol% - Earn %earningSymbol%": "Stake %stakingSymbol% - Earn %earningSymbol%",
   "Top Farms": "Top Farms",
-  "Top Syrup Pools": "Top Syrup Pools"
+  "Top Syrup Pools": "Top Syrup Pools",
+  "User": "User",
+  "Net Winnings (BNB)": "Net Winnings (BNB)",
+  "Win Rate": "Win Rate",
+  "Rounds Won": "Rounds Won",
+  "Rank By": "Rank By",
+  "Net Winnings": "Net Winnings",
+  "Total Winnings": "Total Winnings",
+  "Total Bets": "Total Bets",
+  "All Others": "All Others",
+  "%num%m": "%num%m"
 }
