@@ -53,7 +53,7 @@ import MultiCallAbi from 'config/abi/Multicall.json'
 import bunnySpecialCakeVaultAbi from 'config/abi/bunnySpecialCakeVault.json'
 import bunnySpecialPredictionAbi from 'config/abi/bunnySpecialPrediction.json'
 import farmAuctionAbi from 'config/abi/farmAuction.json'
-import { ChainLinkOracleContract, FarmAuctionContract, PredictionsContract } from './types'
+import { ChainLinkOracleContract, FarmAuctionContract, PancakeProfileContract, PredictionsContract } from './types'
 
 const getContract = (abi: any, address: string, signer?: ethers.Signer | ethers.providers.Provider) => {
   const signerOrProvider = signer ?? simpleRpcProvider
@@ -91,7 +91,7 @@ export const getCakeContract = (signer?: ethers.Signer | ethers.providers.Provid
   return getContract(cakeAbi, getCakeAddress(), signer)
 }
 export const getProfileContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
-  return getContract(profileABI, getPancakeProfileAddress(), signer)
+  return getContract(profileABI, getPancakeProfileAddress(), signer) as PancakeProfileContract
 }
 export const getPancakeRabbitContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getContract(pancakeRabbitsAbi, getPancakeRabbitsAddress(), signer)
