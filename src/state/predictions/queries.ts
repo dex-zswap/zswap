@@ -92,7 +92,7 @@ export const getRoundBaseFields = () => `
   id
   epoch
   position
-  failed: boolean
+  failed
   startAt
   startBlock
   startHash
