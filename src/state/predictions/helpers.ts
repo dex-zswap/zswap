@@ -51,7 +51,13 @@ export const transformBetResponse = (betResponse: BetResponse): Bet => {
     amount: betResponse.amount ? parseFloat(betResponse.amount) : 0,
     position: betResponse.position === 'Bull' ? BetPosition.BULL : BetPosition.BEAR,
     claimed: betResponse.claimed,
+    claimedAt: numberOrNull(betResponse.claimedAt),
+    claimedBlock: numberOrNull(betResponse.claimedBlock),
     claimedHash: betResponse.claimedHash,
+    claimedBNB: betResponse.claimedBNB ? parseFloat(betResponse.claimedBNB) : 0,
+    claimedNetBNB: betResponse.claimedNetBNB ? parseFloat(betResponse.claimedNetBNB) : 0,
+    createdAt: numberOrNull(betResponse.createdAt),
+    updatedAt: numberOrNull(betResponse.updatedAt),
   } as Bet
 
   if (betResponse.user) {
@@ -108,20 +114,27 @@ export const transformRoundResponse = (roundResponse: RoundResponse): Round => {
     id,
     epoch,
     failed,
-    startBlock,
+    position,
     startAt,
+    startBlock,
+    startHash,
     lockAt,
     lockBlock,
+    lockHash,
     lockPrice,
-    endBlock,
+    lockRoundId,
+    closeAt,
+    closeBlock,
+    closeHash,
     closePrice,
+    closeRoundId,
     totalBets,
     totalAmount,
+    totalAmountTreasury,
     bullBets,
+    bullAmount,
     bearBets,
     bearAmount,
-    bullAmount,
-    position,
     bets = [],
   } = roundResponse
 
@@ -140,21 +153,28 @@ export const transformRoundResponse = (roundResponse: RoundResponse): Round => {
   return {
     id,
     failed,
+    startHash,
+    lockHash,
+    lockRoundId,
+    closeRoundId,
+    closeHash,
+    position: getRoundPosition(position),
     epoch: numberOrNull(epoch),
-    startBlock: numberOrNull(startBlock),
     startAt: numberOrNull(startAt),
+    startBlock: numberOrNull(startBlock),
     lockAt: numberOrNull(lockAt),
     lockBlock: numberOrNull(lockBlock),
-    lockPrice: lockPrice ? parseFloat(lockPrice) : null,
-    endBlock: numberOrNull(endBlock),
-    closePrice: closePrice ? parseFloat(closePrice) : null,
+    lockPrice: lockPrice ? parseFloat(lockPrice) : 0,
+    closeAt: numberOrNull(closeAt),
+    closeBlock: numberOrNull(closeBlock),
+    closePrice: closePrice ? parseFloat(closePrice) : 0,
     totalBets: numberOrNull(totalBets),
     totalAmount: totalAmount ? parseFloat(totalAmount) : 0,
+    totalAmountTreasury: totalAmountTreasury ? parseFloat(totalAmountTreasury) : 0,
     bullBets: numberOrNull(bullBets),
+    bullAmount: bullAmount ? parseFloat(bullAmount) : 0,
     bearBets: numberOrNull(bearBets),
-    bearAmount: numberOrNull(bearAmount),
-    bullAmount: numberOrNull(bullAmount),
-    position: getRoundPosition(position),
+    bearAmount: bearAmount ? parseFloat(bearAmount) : 0,
     bets: bets.map(transformBetResponse),
   }
 }
@@ -279,7 +299,7 @@ export const getLedgerData = async (account: string, epochs: number[]) => {
   return response
 }
 
-export const LEADERBOARD_RESULTS_PER_PAGE = 8
+export const LEADERBOARD_RESULTS_PER_PAGE = 20
 
 interface GetPredictionUsersOptions {
   skip?: number
