@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Modal, Button, NoProfileAvatarIcon, Flex } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { CompetitionProps } from '../../types'
+import { CompetitionProps } from 'views/TradingCompetition/types'
+import ProfileAvatar from 'views/Profile/components/ProfileAvatar'
 import MakeProfile from './MakeProfile'
 import ReactivateProfile from './ReactivateProfile'
 import RegisterWithProfile from './RegisterWithProfile'
-import ProfileAvatar from '../../../Profile/components/ProfileAvatar'
 
 const AvatarWrapper = styled.div`
   height: 64px;

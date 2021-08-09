@@ -8,7 +8,7 @@ import { usePriceCakeBusd } from 'state/farms/hooks'
 import { useGetLotteryGraphDataById } from 'state/lottery/hooks'
 import { formatNumber, getBalanceNumber } from 'utils/formatBalance'
 import Balance from 'components/Balance'
-import RewardBrackets from '../RewardBrackets'
+import RewardBrackets from 'views/Lottery/components/RewardBrackets'
 
 const NextDrawWrapper = styled(Flex)`
   background: ${({ theme }) => theme.colors.background};

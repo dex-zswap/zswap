@@ -15,9 +15,9 @@ import {
 import { useTranslation } from 'contexts/Localization'
 import { useTradingCompetitionContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
-import { useCompetitionCakeRewards, getRewardGroupAchievements } from '../../helpers'
-import { CompetitionProps } from '../../types'
-import NftBunnies from '../../pngs/syrup-nft.png'
+import { useCompetitionCakeRewards, getRewardGroupAchievements } from 'views/TradingCompetition/helpers'
+import { CompetitionProps } from 'views/TradingCompetition/types'
+import NftBunnies from 'views/TradingCompetition/pngs/syrup-nft.png'
 
 const ImageWrapper = styled(Flex)`
   justify-content: center;

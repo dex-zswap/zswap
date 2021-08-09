@@ -5,7 +5,7 @@ import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
 import { FarmAuctionBidderConfig } from 'config/constants/types'
 import truncateWalletAddress from 'utils/truncateWalletAddress'
-import useWhitelistedAddresses from '../hooks/useWhitelistedAddresses'
+import useWhitelistedAddresses from 'views/FarmAuction/hooks/useWhitelistedAddresses'
 
 interface WhitelistedBiddersModalProps {
   onDismiss?: () => void

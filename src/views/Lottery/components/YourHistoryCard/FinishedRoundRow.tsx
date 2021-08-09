@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text, Flex, ChevronRightIcon, Box, SmallDotIcon, PrizeIcon } from '@pancakeswap/uikit'
-import { dateOptions, timeOptions } from '../../helpers'
+import { dateOptions, timeOptions } from 'views/Lottery/helpers'
 
 interface FinishedRoundRowProps {
   roundId: string

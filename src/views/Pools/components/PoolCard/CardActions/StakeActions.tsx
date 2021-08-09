@@ -5,8 +5,8 @@ import { useTranslation } from 'contexts/Localization'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { Pool } from 'state/types'
 import Balance from 'components/Balance'
-import NotEnoughTokensModal from '../Modals/NotEnoughTokensModal'
-import StakeModal from '../Modals/StakeModal'
+import NotEnoughTokensModal from 'views/Pools/components/PoolCard/Modals/NotEnoughTokensModal'
+import StakeModal from 'views/Pools/components/PoolCard/Modals/StakeModal'
 
 interface StakeActionsProps {
   pool: Pool

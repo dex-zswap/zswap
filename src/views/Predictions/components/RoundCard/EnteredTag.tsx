@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import styled from 'styled-components'
 import { CheckmarkCircleIcon, CheckmarkCircleFillIcon, Tag, useTooltip } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { formatBnbv2 } from '../../helpers'
+import { formatBnbv2 } from 'views/Predictions/helpers'
 
 interface EnteredTagProps {
   amount?: ethers.BigNumber

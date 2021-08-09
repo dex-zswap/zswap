@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ListViewIcon, CardViewIcon, IconButton } from '@pancakeswap/uikit'
-import { ViewMode } from '../types'
+import { ViewMode } from 'views/Farms/components/types'
 
 interface ToggleViewProps {
   viewMode: ViewMode

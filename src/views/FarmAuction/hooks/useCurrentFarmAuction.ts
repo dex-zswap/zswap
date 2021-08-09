@@ -7,7 +7,7 @@ import useLastUpdated from 'hooks/useLastUpdated'
 import useRefresh from 'hooks/useRefresh'
 import { AUCTION_BIDDERS_TO_FETCH } from 'config'
 import { BIG_ZERO } from 'utils/bigNumber'
-import { sortAuctionBidders, processAuctionData } from '../helpers'
+import { sortAuctionBidders, processAuctionData } from 'views/FarmAuction/helpers'
 
 export const useCurrentFarmAuction = (account: string) => {
   const [currentAuction, setCurrentAuction] = useState<Auction | null>(null)

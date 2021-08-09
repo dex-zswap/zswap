@@ -7,12 +7,12 @@ import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import { getAddress } from 'utils/addressHelpers'
 import { getBscScanLink } from 'utils'
 import { CommunityTag, CoreTag, DualTag } from 'components/Tags'
+import Apr, { AprProps } from 'views/Farms/components/FarmTable/Apr'
+import Multiplier, { MultiplierProps } from 'views/Farms/components/FarmTable/Multiplier'
+import Liquidity, { LiquidityProps } from 'views/Farms/components/FarmTable/Liquidity'
 
 import HarvestAction from './HarvestAction'
 import StakedAction from './StakedAction'
-import Apr, { AprProps } from '../Apr'
-import Multiplier, { MultiplierProps } from '../Multiplier'
-import Liquidity, { LiquidityProps } from '../Liquidity'
 
 export interface ActionPanelProps {
   apr: AprProps

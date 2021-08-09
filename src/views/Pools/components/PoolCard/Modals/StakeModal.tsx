@@ -7,10 +7,10 @@ import useToast from 'hooks/useToast'
 import BigNumber from 'bignumber.js'
 import { getFullDisplayBalance, formatNumber, getDecimalAmount } from 'utils/formatBalance'
 import { Pool } from 'state/types'
+import useStakePool from 'views/Pools/hooks/useStakePool'
+import useUnstakePool from 'views/Pools/hooks/useUnstakePool'
 import { getAddress } from 'utils/addressHelpers'
 import PercentageButton from './PercentageButton'
-import useStakePool from '../../../hooks/useStakePool'
-import useUnstakePool from '../../../hooks/useUnstakePool'
 
 interface StakeModalProps {
   isBnbPool: boolean

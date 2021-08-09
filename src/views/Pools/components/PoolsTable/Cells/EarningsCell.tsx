@@ -10,8 +10,8 @@ import Balance from 'components/Balance'
 import { useCakeVault } from 'state/pools/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { getCakeVaultEarnings } from 'views/Pools/helpers'
+import CollectModal from 'views/Pools/components/PoolCard/Modals/CollectModal'
 import BaseCell, { CellContent } from './BaseCell'
-import CollectModal from '../../PoolCard/Modals/CollectModal'
 
 interface EarningsCellProps {
   pool: Pool

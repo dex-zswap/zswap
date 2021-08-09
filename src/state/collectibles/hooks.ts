@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
 import Nfts from 'config/constants/nfts'
-import { State } from '../types'
+import { State } from 'state/types'
 import { fetchWalletNfts } from './index'
 
 export const useGetCollectibles = () => {

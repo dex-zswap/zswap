@@ -11,7 +11,7 @@ import useToast from 'hooks/useToast'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { ethers } from 'ethers'
 import ApproveConfirmButtons, { ButtonArrangement } from 'views/Profile/components/ApproveConfirmButtons'
-import useReclaimAuctionBid from '../hooks/useReclaimAuctionBid'
+import useReclaimAuctionBid from 'views/FarmAuction/hooks/useReclaimAuctionBid'
 
 const StyledReclaimBidCard = styled(Card)`
   margin-top: 16px;

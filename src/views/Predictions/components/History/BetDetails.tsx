@@ -5,7 +5,7 @@ import { useTranslation } from 'contexts/Localization'
 import { getBscScanLink } from 'utils'
 import { Flex, Text, Link, Heading } from '@pancakeswap/uikit'
 import { Result } from 'state/predictions/helpers'
-import { PayoutRow, RoundResultHistory } from '../RoundResult'
+import { PayoutRow, RoundResultHistory } from 'views/Predictions/components/RoundResult'
 import BetResult from './BetResult'
 import { getMultiplier } from './helpers'
 

@@ -5,13 +5,13 @@ import { Text, Flex, CardBody, CardFooter, Button, AddIcon } from '@pancakeswap/
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import FullPositionCard from '../../components/PositionCard'
-import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
-import { usePairs } from '../../hooks/usePairs'
-import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
-import Dots from '../../components/Loader/Dots'
-import { AppHeader, AppBody } from '../../components/App'
-import Page from '../Page'
+import FullPositionCard from 'components/PositionCard'
+import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
+import { usePairs } from 'hooks/usePairs'
+import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
+import Dots from 'components/Loader/Dots'
+import { AppHeader, AppBody } from 'components/App'
+import Page from 'views/Page'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.dropdownDeep};

@@ -16,7 +16,7 @@ import useToast from 'hooks/useToast'
 import { fetchCakeVaultUserData } from 'state/pools'
 import { Pool } from 'state/types'
 import { getAddress } from 'utils/addressHelpers'
-import { convertCakeToShares } from '../../helpers'
+import { convertCakeToShares } from 'views/Pools/helpers'
 import FeeSummary from './FeeSummary'
 
 interface VaultStakeModalProps {

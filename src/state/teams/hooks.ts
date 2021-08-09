@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
 import { Team } from 'config/constants/types'
-import { State, TeamsState } from '../types'
+import { State, TeamsState } from 'state/types'
 import { fetchTeam, fetchTeams } from '.'
 
 export const useTeam = (id: number) => {

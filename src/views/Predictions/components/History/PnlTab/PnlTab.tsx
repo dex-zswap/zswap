@@ -9,7 +9,7 @@ import store from 'state'
 import { useGetCurrentEpoch } from 'state/predictions/hooks'
 import { usePriceBnbBusd } from 'state/farms/hooks'
 import { Bet, BetPosition } from 'state/types'
-import { formatBnb, getMultiplier, getNetPayout } from '../helpers'
+import { formatBnb, getMultiplier, getNetPayout } from 'views/Predictions/components/History/helpers'
 import PnlChart from './PnlChart'
 import SummaryRow from './SummaryRow'
 

@@ -6,8 +6,8 @@ import { LotteryStatus } from 'config/constants/types'
 import { useTranslation } from 'contexts/Localization'
 import { useGetUserLotteriesGraphData, useLottery } from 'state/lottery/hooks'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import useGetUnclaimedRewards, { FetchStatus } from 'views/Lottery/hooks/useGetUnclaimedRewards'
 import ClaimPrizesModal from './ClaimPrizesModal'
-import useGetUnclaimedRewards, { FetchStatus } from '../hooks/useGetUnclaimedRewards'
 
 const TicketImage = styled.img`
   height: 60px;

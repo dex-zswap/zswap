@@ -30,13 +30,13 @@ import {
 import { Contract } from '@ethersproject/contracts'
 import { ChainId, WETH } from '@pancakeswap/sdk'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
-import ENS_PUBLIC_RESOLVER_ABI from '../config/abi/ens-public-resolver.json'
-import ENS_ABI from '../config/abi/ens-registrar.json'
-import { ERC20_BYTES32_ABI } from '../config/abi/erc20'
-import ERC20_ABI from '../config/abi/erc20.json'
-import WETH_ABI from '../config/abi/weth.json'
-import { MULTICALL_ABI, MULTICALL_NETWORKS } from '../config/constants/multicall'
-import { getContract } from '../utils'
+import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
+import ENS_ABI from 'config/abi/ens-registrar.json'
+import { ERC20_BYTES32_ABI } from 'config/abi/erc20'
+import ERC20_ABI from 'config/abi/erc20.json'
+import WETH_ABI from 'config/abi/weth.json'
+import { MULTICALL_ABI, MULTICALL_NETWORKS } from 'config/constants/multicall'
+import { getContract } from 'utils'
 
 /**
  * Helper hooks to get specific contracts (by ABI)

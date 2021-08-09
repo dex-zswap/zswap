@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex } from '@pancakeswap/uikit'
-import { RibbonProps } from '../../types'
-import Ribbon from '../Ribbon'
+import { RibbonProps } from 'views/TradingCompetition/types'
+import Ribbon from 'views/TradingCompetition/components/Ribbon'
 
 const Wrapper = styled(Flex)<{ marginBottom?: string }>`
   position: relative;

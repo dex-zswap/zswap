@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { Pool } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
+import Apr from 'views/Pools/components/PoolsTable/Apr'
 import BaseCell, { CellContent } from './BaseCell'
-import Apr from '../Apr'
 
 interface AprCellProps {
   pool: Pool

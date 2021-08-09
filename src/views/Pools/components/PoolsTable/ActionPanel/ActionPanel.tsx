@@ -26,9 +26,9 @@ import { getAddress, getCakeVaultAddress } from 'utils/addressHelpers'
 import { registerToken } from 'utils/wallet'
 import { getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import { getPoolBlockInfo } from 'views/Pools/helpers'
+import Apr from 'views/Pools/components/PoolsTable/Apr'
 import Harvest from './Harvest'
 import Stake from './Stake'
-import Apr from '../Apr'
 
 const expandAnimation = keyframes`
   from {

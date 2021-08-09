@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowForwardIcon, Box, IconButton, Flex, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { Proposal } from 'state/types'
-import { isCoreProposal } from '../../helpers'
+import { isCoreProposal } from 'views/Voting/helpers'
 import TimeFrame from './TimeFrame'
 import { ProposalStateTag, ProposalTypeTag } from './tags'
 

@@ -5,7 +5,7 @@ import { getActivePools } from 'utils/calls'
 import { getAddress } from 'utils/addressHelpers'
 import { simpleRpcProvider } from 'utils/providers'
 import BigNumber from 'bignumber.js'
-import { getVotingPower } from '../helpers'
+import { getVotingPower } from 'views/Voting/helpers'
 
 interface State {
   verificationHash: string

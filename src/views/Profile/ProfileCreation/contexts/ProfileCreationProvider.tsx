@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import { getBunnyFactoryContract } from 'utils/contractHelpers'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
-import { MINT_COST, REGISTER_COST, ALLOWANCE_MULTIPLIER } from '../config'
+import { MINT_COST, REGISTER_COST, ALLOWANCE_MULTIPLIER } from 'views/Profile/ProfileCreation/config'
 import { Actions, State, ContextType } from './types'
 
 const totalCost = MINT_COST + REGISTER_COST

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from 'config/constants'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useAllTokens } from 'hooks/Tokens'
-import { AppDispatch, AppState } from '../../index'
+import { AppDispatch, AppState } from 'state'
 import {
   addSerializedPair,
   addSerializedToken,
@@ -20,7 +20,7 @@ import {
   updateUserFarmStakedOnly,
   updateUserSingleHopOnly,
   updateUserSlippageTolerance,
-} from '../actions'
+} from 'state/user/actions'
 import { deserializeToken, serializeToken } from './helpers'
 
 export function useAudioModeManager(): [boolean, () => void] {

@@ -16,9 +16,9 @@ import {
 import { useProfile } from 'state/profile/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { Nft } from 'config/constants/types'
-import InfoRow from '../InfoRow'
-import TransferNftModal from '../TransferNftModal'
-import ClaimNftModal from '../ClaimNftModal'
+import InfoRow from 'views/Collectibles/components/InfoRow'
+import TransferNftModal from 'views/Collectibles/components/TransferNftModal'
+import ClaimNftModal from 'views/Collectibles/components/ClaimNftModal'
 import Preview from './Preview'
 
 export interface NftCardProps {

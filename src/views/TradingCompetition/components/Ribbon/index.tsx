@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex, LaurelLeftIcon, LaurelRightIcon } from '@pancakeswap/uikit'
-import { RibbonProps } from '../../types'
+import { RibbonProps } from 'views/TradingCompetition/types'
+import { Heading2Text, VisuallyHiddenHeading2Text } from 'views/TradingCompetition/components/CompetitionHeadingText'
 import {
   RibbonDownMidExpanding,
   RibbonUpMidExpanding,
@@ -10,7 +11,6 @@ import {
   RibbonDownLeftSide,
   RibbonUpLeftSide,
 } from './RibbonStyles'
-import { Heading2Text, VisuallyHiddenHeading2Text } from '../CompetitionHeadingText'
 
 const Wrapper = styled(Flex)<{ ribbonDirection?: 'up' | 'down' }>`
   position: relative;

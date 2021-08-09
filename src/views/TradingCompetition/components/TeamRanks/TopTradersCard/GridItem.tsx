@@ -2,8 +2,8 @@ import React from 'react'
 import { Heading, Text, Flex } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import truncateWalletAddress from 'utils/truncateWalletAddress'
-import { LeaderboardDataItem } from '../../../types'
-import { localiseTradingVolume } from '../../../helpers'
+import { LeaderboardDataItem } from 'views/TradingCompetition/types'
+import { localiseTradingVolume } from 'views/TradingCompetition/helpers'
 
 const Wrapper = styled.div`
   position: relative;

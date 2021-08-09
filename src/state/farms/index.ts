@@ -10,7 +10,7 @@ import {
   fetchFarmUserTokenBalances,
   fetchFarmUserStakedBalances,
 } from './fetchFarmUser'
-import { FarmsState, Farm } from '../types'
+import { FarmsState, Farm } from 'state/types'
 
 const noAccountFarmConfig = farmsConfig.map((farm) => ({
   ...farm,

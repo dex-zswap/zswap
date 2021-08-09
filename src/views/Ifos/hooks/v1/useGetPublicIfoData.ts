@@ -7,8 +7,8 @@ import { useLpTokenPrice } from 'state/farms/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { multicallv2 } from 'utils/multicall'
 import ifoV1Abi from 'config/abi/ifoV1.json'
-import { PublicIfoData } from '../../types'
-import { getStatus } from '../helpers'
+import { PublicIfoData } from 'views/Ifos/types'
+import { getStatus } from 'views/Ifos/hooks/helpers'
 
 /**
  * Gets all public data of an IFO

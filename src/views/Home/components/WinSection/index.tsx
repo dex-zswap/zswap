@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import { Flex, Text, TicketFillIcon, PredictionsIcon } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
-import PurpleWordHeading from '../PurpleWordHeading'
-import IconCard, { IconCardData } from '../IconCard'
+import PurpleWordHeading from 'views/Home/components/PurpleWordHeading'
+import IconCard, { IconCardData } from 'views/Home/components/IconCard'
+import CompositeImage from 'views/Home/components/CompositeImage'
 import PredictionCardContent from './PredictionCardContent'
 import LotteryCardContent from './LotteryCardContent'
-import CompositeImage from '../CompositeImage'
 
 const TransparentFrame = styled.div<{ isDark: boolean }>`
   background: ${({ theme }) => (theme.isDark ? 'rgba(8, 6, 11, 0.6)' : ' rgba(255, 255, 255, 0.6)')};

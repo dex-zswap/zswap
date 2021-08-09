@@ -3,7 +3,7 @@ import _uniqueId from 'lodash/uniqueId'
 import styled from 'styled-components'
 import { Flex } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { CountdownProps } from '../../types'
+import { CountdownProps } from 'views/TradingCompetition/types'
 import Step from './Step'
 
 const Spacer = styled.div<{ isPastSpacer?: boolean }>`

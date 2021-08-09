@@ -5,9 +5,9 @@ import { Flex, Text, Box } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { Pool } from 'state/types'
 import { BIG_ZERO } from 'utils/bigNumber'
+import { useCheckVaultApprovalStatus } from 'views/Pools/hooks/useApprove'
 import VaultApprovalAction from './VaultApprovalAction'
 import VaultStakeActions from './VaultStakeActions'
-import { useCheckVaultApprovalStatus } from '../../../hooks/useApprove'
 
 const InlineText = styled(Text)`
   display: inline;

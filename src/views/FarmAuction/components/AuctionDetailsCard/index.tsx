@@ -17,7 +17,7 @@ import {
 import { useTranslation } from 'contexts/Localization'
 import { Auction, AuctionStatus, ConnectedBidder } from 'config/constants/types'
 import { getBalanceNumber } from 'utils/formatBalance'
-import PlaceBidModal from '../PlaceBidModal'
+import PlaceBidModal from 'views/FarmAuction/components/PlaceBidModal'
 import { AuctionSchedule } from './AuctionSchedule'
 import CannotBidMessage from './CannotBidMessage'
 import AuctionFooter from './AuctionFooter'

@@ -10,11 +10,11 @@ import { Bet, BetPosition } from 'state/types'
 import { fetchLedgerData, markBetHistoryAsCollected } from 'state/predictions'
 import { Result } from 'state/predictions/helpers'
 import { getBscScanLink } from 'utils'
-import useIsRefundable from '../../hooks/useIsRefundable'
+import useIsRefundable from 'views/Predictions/hooks/useIsRefundable'
+import CollectWinningsButton from 'views/Predictions/components/CollectWinningsButton'
+import PositionTag from 'views/Predictions/components/PositionTag'
+import ReclaimPositionButton from 'views/Predictions/components/ReclaimPositionButton'
 import { formatBnb, getNetPayout } from './helpers'
-import CollectWinningsButton from '../CollectWinningsButton'
-import PositionTag from '../PositionTag'
-import ReclaimPositionButton from '../ReclaimPositionButton'
 
 interface BetResultProps {
   bet: Bet

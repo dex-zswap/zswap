@@ -8,8 +8,8 @@ import { multicallv2 } from 'utils/multicall'
 import ifoV2Abi from 'config/abi/ifoV2.json'
 import { getAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
-import useIfoAllowance from '../useIfoAllowance'
-import { WalletIfoState, WalletIfoData } from '../../types'
+import useIfoAllowance from 'views/Ifos/hooks/useIfoAllowance'
+import { WalletIfoState, WalletIfoData } from 'views/Ifos/types'
 
 /**
  * Gets all data from an IFO related to a wallet

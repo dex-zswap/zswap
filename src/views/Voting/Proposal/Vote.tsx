@@ -8,7 +8,7 @@ import { fetchVotes } from 'state/voting'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'contexts/Localization'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import CastVoteModal from '../components/CastVoteModal'
+import CastVoteModal from 'views/Voting/components/CastVoteModal'
 
 interface VoteProps extends CardProps {
   proposal: Proposal

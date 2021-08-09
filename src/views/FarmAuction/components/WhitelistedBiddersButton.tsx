@@ -1,7 +1,7 @@
 import React from 'react'
 import { useModal, Button, Skeleton } from '@pancakeswap/uikit'
+import useWhitelistedAddresses from 'views/FarmAuction/hooks/useWhitelistedAddresses'
 import WhitelistedBiddersModal from './WhitelistedBiddersModal'
-import useWhitelistedAddresses from '../hooks/useWhitelistedAddresses'
 
 const WhitelistedBiddersButton: React.FC = () => {
   const whitelistedBidders = useWhitelistedAddresses()

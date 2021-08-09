@@ -4,7 +4,7 @@ import { Button, Heading, Text, Flex, Checkbox, AutoRenewIcon } from '@pancakesw
 import { useTradingCompetitionContract } from 'hooks/useContract'
 import { useTranslation } from 'contexts/Localization'
 import useToast from 'hooks/useToast'
-import { CompetitionProps } from '../../types'
+import { CompetitionProps } from 'views/TradingCompetition/types'
 
 const StyledCheckbox = styled(Checkbox)`
   min-width: 24px;

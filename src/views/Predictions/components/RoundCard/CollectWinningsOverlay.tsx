@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Flex, TrophyGoldIcon } from '@pancakeswap/uikit'
 import { useGetIsClaimable } from 'state/predictions/hooks'
 import { useTranslation } from 'contexts/Localization'
-import CollectWinningsButton from '../CollectWinningsButton'
+import CollectWinningsButton from 'views/Predictions/components/CollectWinningsButton'
 
 interface CollectWinningsOverlayProps {
   epoch: number

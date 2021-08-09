@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
+import RibbonWithImage from 'views/TradingCompetition/components/RibbonWithImage'
+import { YourScoreProps } from 'views/TradingCompetition/types'
 import ScoreCard from './ScoreCard'
 import ScoreHeader from './ScoreHeader'
-import RibbonWithImage from '../RibbonWithImage'
-import { YourScoreProps } from '../../types'
 
 const Wrapper = styled.div`
   position: relative;

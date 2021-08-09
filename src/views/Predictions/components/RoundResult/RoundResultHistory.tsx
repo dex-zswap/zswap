@@ -2,8 +2,8 @@ import React from 'react'
 import { BoxProps, Flex, Text } from '@pancakeswap/uikit'
 import { BetPosition, Round } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
-import { formatUsd } from '../History/helpers'
-import PositionTag from '../PositionTag'
+import { formatUsd } from 'views/Predictions/components/History/helpers'
+import PositionTag from 'views/Predictions/components/PositionTag'
 import { LockPriceHistoryRow, PrizePoolHistoryRow, RoundResultBox } from './styles'
 
 interface RoundResultProps extends BoxProps {

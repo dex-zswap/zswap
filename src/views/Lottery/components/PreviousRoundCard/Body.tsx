@@ -16,8 +16,8 @@ import { LotteryRound } from 'state/types'
 import { useGetUserLotteriesGraphData, useLottery } from 'state/lottery/hooks'
 import { LotteryStatus } from 'config/constants/types'
 import { useTranslation } from 'contexts/Localization'
-import WinningNumbers from '../WinningNumbers'
-import ViewTicketsModal from '../ViewTicketsModal'
+import WinningNumbers from 'views/Lottery/components/WinningNumbers'
+import ViewTicketsModal from 'views/Lottery/components/ViewTicketsModal'
 
 const StyledCardBody = styled(CardBody)`
   position: relative;

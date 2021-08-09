@@ -7,7 +7,7 @@ import { usePriceCakeBusd } from 'state/farms/hooks'
 import { useLottery } from 'state/lottery/hooks'
 import { getBalanceNumber } from 'utils/formatBalance'
 import Balance from 'components/Balance'
-import { TicketPurchaseCard } from '../svgs'
+import { TicketPurchaseCard } from 'views/Lottery/svgs'
 import BuyTicketsButton from './BuyTicketsButton'
 
 const floatingStarsLeft = keyframes`

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Flex, Text, Button, Link } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import CompositeImage, { CompositeImageProps } from '../CompositeImage'
-import PurpleWordHeading from '../PurpleWordHeading'
+import CompositeImage, { CompositeImageProps } from 'views/Home/components/CompositeImage'
+import PurpleWordHeading from 'views/Home/components/PurpleWordHeading'
 
 interface SalesSectionButton {
   to: string

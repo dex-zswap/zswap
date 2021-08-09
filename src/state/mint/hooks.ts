@@ -6,9 +6,9 @@ import { PairState, usePair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
 
 import { wrappedCurrency, wrappedCurrencyAmount } from 'utils/wrappedCurrency'
-import { AppDispatch, AppState } from '../index'
-import { tryParseAmount } from '../swap/hooks'
-import { useCurrencyBalances } from '../wallet/hooks'
+import { AppDispatch, AppState } from 'state'
+import { tryParseAmount } from 'state/swap/hooks'
+import { useCurrencyBalances } from 'state/wallet/hooks'
 import { Field, typeInput } from './actions'
 
 const ZERO = JSBI.BigInt(0)

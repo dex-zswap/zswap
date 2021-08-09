@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { BidderAuction } from 'config/constants/types'
 import { useFarmAuctionContract } from 'hooks/useContract'
 import { RECLAIM_AUCTIONS_TO_FETCH } from 'config'
-import { processBidderAuctions, sortAuctionBidders } from '../helpers'
+import { processBidderAuctions, sortAuctionBidders } from 'views/FarmAuction/helpers'
 
 interface ReclaimableAuction {
   id: number

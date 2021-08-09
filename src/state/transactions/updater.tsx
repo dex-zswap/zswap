@@ -4,8 +4,8 @@ import { Text, Flex, Link } from '@pancakeswap/uikit'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getBscScanLink } from 'utils'
 import useToast from 'hooks/useToast'
-import { useBlockNumber } from '../application/hooks'
-import { AppDispatch, AppState } from '../index'
+import { useBlockNumber } from 'state/application/hooks'
+import { AppDispatch, AppState } from 'state'
 import { checkedTransaction, finalizeTransaction } from './actions'
 
 export function shouldCheck(

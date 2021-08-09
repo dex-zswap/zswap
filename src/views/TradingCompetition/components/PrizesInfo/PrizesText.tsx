@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Flex, Text, Heading, Image } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import FlipperBunny from '../../pngs/flippers.png'
+import FlipperBunny from 'views/TradingCompetition/pngs/flippers.png'
 
 const StyledFlex = styled(Flex)`
   ${({ theme }) => theme.mediaQueries.md} {

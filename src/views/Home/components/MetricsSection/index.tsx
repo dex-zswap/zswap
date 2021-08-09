@@ -4,9 +4,9 @@ import { useTranslation } from 'contexts/Localization'
 import { useGetStats } from 'hooks/api'
 import useTheme from 'hooks/useTheme'
 import { formatLocalisedCompactNumber } from 'utils/formatBalance'
-import IconCard, { IconCardData } from '../IconCard'
+import IconCard, { IconCardData } from 'views/Home/components/IconCard'
+import GradientLogo from 'views/Home/components/GradientLogoSvg'
 import StatCardContent from './StatCardContent'
-import GradientLogo from '../GradientLogoSvg'
 
 // Values fetched from bitQuery effective 28/7/21
 const txCount = 30673865

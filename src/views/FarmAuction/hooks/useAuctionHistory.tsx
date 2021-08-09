@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useFarmAuctionContract } from 'hooks/useContract'
 import { Auction, Bidder } from 'config/constants/types'
 import { AUCTION_BIDDERS_TO_FETCH } from 'config'
-import { processAuctionData, sortAuctionBidders } from '../helpers'
+import { processAuctionData, sortAuctionBidders } from 'views/FarmAuction/helpers'
 
 interface AuctionHistoryMap {
   [key: number]: {

@@ -15,9 +15,9 @@ import orderBy from 'lodash/orderBy'
 import { useTranslation } from 'contexts/Localization'
 import { Vote, VotingStateLoadingStatus } from 'state/types'
 import { useGetVotingStateLoadingStatus } from 'state/voting/hooks'
-import VotesLoading from '../components/Proposal/VotesLoading'
-import VoteRow from '../components/Proposal/VoteRow'
-import Row, { AddressColumn, ChoiceColumn, VotingPowerColumn } from '../components/Proposal/Row'
+import VotesLoading from 'views/Voting/components/Proposal/VotesLoading'
+import VoteRow from 'views/Voting/components/Proposal/VoteRow'
+import Row, { AddressColumn, ChoiceColumn, VotingPowerColumn } from 'views/Voting/components/Proposal/Row'
 
 const VOTES_PER_VIEW = 20
 

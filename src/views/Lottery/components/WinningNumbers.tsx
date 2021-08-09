@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Flex, FlexProps } from '@pancakeswap/uikit'
 import { random } from 'lodash'
 import uniqueId from 'lodash/uniqueId'
-import { parseRetreivedNumber } from '../helpers'
-import { BallWithNumber } from '../svgs'
-import { BallColor } from '../svgs/Balls'
+import { parseRetreivedNumber } from 'views/Lottery/helpers'
+import { BallWithNumber } from 'views/Lottery/svgs'
+import { BallColor } from 'views/Lottery/svgs/Balls'
 
 interface WinningNumbersProps extends FlexProps {
   number: string

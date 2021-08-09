@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Skeleton } from '@pancakeswap/uikit'
 import styled from 'styled-components'
-import { LeaderboardDataItem } from '../../../types'
+import { LeaderboardDataItem } from 'views/TradingCompetition/types'
+import { LeaderboardStorm, LeaderboardFlippers, LeaderboardCakers } from 'views/TradingCompetition/svgs'
 import GridItem from './GridItem'
 import ExpandedGridItem from './ExpandedGridItem'
-import { LeaderboardStorm, LeaderboardFlippers, LeaderboardCakers } from '../../../svgs'
 
 const SkeletonLoader = () => {
   return (

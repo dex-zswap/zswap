@@ -14,11 +14,11 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import { getAddress } from 'utils/addressHelpers'
 import { useERC20 } from 'hooks/useContract'
 import { convertSharesToCake } from 'views/Pools/helpers'
+import NotEnoughTokensModal from 'views/Pools/components/PoolCard/Modals/NotEnoughTokensModal'
+import StakeModal from 'views/Pools/components/PoolCard/Modals/StakeModal'
+import VaultStakeModal from 'views/Pools/components/CakeVaultCard/VaultStakeModal'
+import { useCheckVaultApprovalStatus, useApprovePool, useVaultApprove } from 'views/Pools/hooks/useApprove'
 import { ActionContainer, ActionTitles, ActionContent } from './styles'
-import NotEnoughTokensModal from '../../PoolCard/Modals/NotEnoughTokensModal'
-import StakeModal from '../../PoolCard/Modals/StakeModal'
-import VaultStakeModal from '../../CakeVaultCard/VaultStakeModal'
-import { useCheckVaultApprovalStatus, useApprovePool, useVaultApprove } from '../../../hooks/useApprove'
 
 const IconButtonWrapper = styled.div`
   display: flex;

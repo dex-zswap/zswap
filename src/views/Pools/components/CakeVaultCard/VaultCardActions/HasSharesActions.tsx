@@ -6,9 +6,9 @@ import { Pool } from 'state/types'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import { useCakeVault } from 'state/pools/hooks'
 import Balance from 'components/Balance'
-import NotEnoughTokensModal from '../../PoolCard/Modals/NotEnoughTokensModal'
-import { convertSharesToCake } from '../../../helpers'
-import VaultStakeModal from '../VaultStakeModal'
+import NotEnoughTokensModal from 'views/Pools/components/PoolCard/Modals/NotEnoughTokensModal'
+import { convertSharesToCake } from 'views/Pools/helpers'
+import VaultStakeModal from 'views/Pools/components/CakeVaultCard/VaultStakeModal'
 
 interface HasStakeActionProps {
   pool: Pool

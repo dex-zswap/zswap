@@ -2,11 +2,10 @@ import { Contract } from '@ethersproject/contracts'
 import { useEffect, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useMulticallContract } from '../../hooks/useContract'
-import useDebounce from '../../hooks/useDebounce'
-import { CancelledError, retry, RetryableError } from './retry'
-import { useBlockNumber } from '../application/hooks'
-import { AppDispatch, AppState } from '../index'
+import { useMulticallContract } from 'hooks/useContract'
+import useDebounce from 'hooks/useDebounce'
+import { useBlockNumber } from 'state/application/hooks'
+import { AppDispatch, AppState } from 'state/index'
 import {
   Call,
   errorFetchingMulticallResults,
@@ -14,6 +13,7 @@ import {
   parseCallKey,
   updateMulticallResults,
 } from './actions'
+import { CancelledError, retry, RetryableError } from './retry'
 import chunkArray from './chunkArray'
 
 // chunk calls so we do not exceed the gas limit

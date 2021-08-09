@@ -20,7 +20,7 @@ import { getBalanceNumber } from 'utils/formatBalance'
 import { useTranslation } from 'contexts/Localization'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import { Bidder } from 'config/constants/types'
-import WhitelistedBiddersModal from '../WhitelistedBiddersModal'
+import WhitelistedBiddersModal from 'views/FarmAuction/components/WhitelistedBiddersModal'
 
 const LeaderboardContainer = styled.div`
   display: grid;

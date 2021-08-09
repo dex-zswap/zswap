@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
 import useRefresh from 'hooks/useRefresh'
-import { State } from '../types'
+import { State } from 'state/types'
 import { fetchCurrentLotteryId, fetchCurrentLottery, fetchUserTicketsAndLotteries, fetchPublicLotteries } from '.'
 import { useProcessLotteryResponse } from './helpers'
 

@@ -12,8 +12,8 @@ import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { getErc721Contract } from 'utils/contractHelpers'
 import { useProfile as useProfileContract } from 'hooks/useContract'
 import { getPancakeProfileAddress } from 'utils/addressHelpers'
-import SelectionCard from '../SelectionCard'
-import ApproveConfirmButtons from '../ApproveConfirmButtons'
+import SelectionCard from 'views/Profile/components/SelectionCard'
+import ApproveConfirmButtons from 'views/Profile/components/ApproveConfirmButtons'
 
 type ChangeProfilePicPageProps = InjectedModalProps
 

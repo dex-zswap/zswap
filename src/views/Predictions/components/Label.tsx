@@ -5,8 +5,8 @@ import { BnbUsdtPairTokenIcon, Box, Card, PocketWatchIcon, Text } from '@pancake
 import { formatBigNumberToFixed } from 'utils/formatBalance'
 import { useGetLastOraclePrice } from 'state/predictions/hooks'
 import { useTranslation } from 'contexts/Localization'
-import { formatRoundTime } from '../helpers'
-import useRoundCountdown from '../hooks/useRoundCountdown'
+import { formatRoundTime } from 'views/Predictions/helpers'
+import useRoundCountdown from 'views/Predictions/hooks/useRoundCountdown'
 
 const Token = styled(Box)`
   margin-top: -24px;

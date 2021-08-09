@@ -15,7 +15,7 @@ import { useAppDispatch } from 'state'
 import { PredictionStatus } from 'state/types'
 import { useGetPredictionsStatus, useIsChartPaneOpen, useIsHistoryPaneOpen } from 'state/predictions/hooks'
 import { setChartPaneState, setHistoryPaneState } from 'state/predictions'
-import useSwiper from '../hooks/useSwiper'
+import useSwiper from 'views/Predictions/hooks/useSwiper'
 
 const ButtonNav = styled.div`
   flex: none;

@@ -15,10 +15,10 @@ import {
 import { CLAIM, OVER } from 'config/constants/trading-competition/easterPhases'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from 'contexts/Localization'
-import UserPrizeGrid from './UserPrizeGrid'
-import ClaimModal from '../ClaimModal'
-import { YourScoreProps } from '../../types'
+import ClaimModal from 'views/TradingCompetition/components/ClaimModal'
+import { YourScoreProps } from 'views/TradingCompetition/types'
 import CardUserInfo from './CardUserInfo'
+import UserPrizeGrid from './UserPrizeGrid'
 
 const StyledCard = styled(Card)`
   ${({ theme }) => theme.mediaQueries.sm} {

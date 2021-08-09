@@ -5,8 +5,8 @@ import { useTranslation } from 'contexts/Localization'
 import { LotteryStatus } from 'config/constants/types'
 import { useLottery } from 'state/lottery/hooks'
 import useTheme from 'hooks/useTheme'
-import TicketNumber from '../TicketNumber'
-import BuyTicketsButton from '../BuyTicketsButton'
+import TicketNumber from 'views/Lottery/components/TicketNumber'
+import BuyTicketsButton from 'views/Lottery/components/BuyTicketsButton'
 
 const ScrollBox = styled(Box)`
   max-height: 300px;

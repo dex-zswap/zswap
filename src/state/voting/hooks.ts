@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { State } from '../types'
+import { State } from 'state/types'
 
 // Voting
 export const useGetProposals = () => {

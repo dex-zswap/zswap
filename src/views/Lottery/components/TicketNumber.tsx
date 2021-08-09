@@ -4,7 +4,7 @@ import { Flex, Text } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
 import _uniqueId from 'lodash/uniqueId'
-import { parseRetreivedNumber } from '../helpers'
+import { parseRetreivedNumber } from 'views/Lottery/helpers'
 
 const StyledNumberWrapper = styled(Flex)`
   position: relative;

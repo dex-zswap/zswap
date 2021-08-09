@@ -25,9 +25,9 @@ import useToast from 'hooks/useToast'
 import { BetPosition } from 'state/types'
 import { formatBigNumber, formatFixedNumber } from 'utils/formatBalance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import PositionTag from '../PositionTag'
-import useSwiper from '../../hooks/useSwiper'
-import FlexRow from '../FlexRow'
+import PositionTag from 'views/Predictions/components/PositionTag'
+import useSwiper from 'views/Predictions/hooks/useSwiper'
+import FlexRow from 'views/Predictions/components/FlexRow'
 import Card from './Card'
 
 interface SetPositionCardProps {

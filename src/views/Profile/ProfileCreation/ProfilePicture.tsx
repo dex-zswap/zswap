@@ -9,8 +9,8 @@ import { getErc721Contract } from 'utils/contractHelpers'
 import { useTranslation } from 'contexts/Localization'
 import { useGetCollectibles } from 'state/collectibles/hooks'
 import useToast from 'hooks/useToast'
-import SelectionCard from '../components/SelectionCard'
-import NextStepButton from '../components/NextStepButton'
+import SelectionCard from 'views/Profile/components/SelectionCard'
+import NextStepButton from 'views/Profile/components/NextStepButton'
 import { ProfileCreationContext } from './contexts/ProfileCreationProvider'
 
 const Link = styled(RouterLink)`

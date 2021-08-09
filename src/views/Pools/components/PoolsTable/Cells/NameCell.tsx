@@ -7,7 +7,7 @@ import { useCakeVault } from 'state/pools/hooks'
 import { Pool } from 'state/types'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { TokenPairImage } from 'components/TokenImage'
-import CakeVaultTokenPairImage from '../../CakeVaultCard/CakeVaultTokenPairImage'
+import CakeVaultTokenPairImage from 'views/Pools/components/CakeVaultCard/CakeVaultTokenPairImage'
 import BaseCell, { CellContent } from './BaseCell'
 
 interface NameCellProps {

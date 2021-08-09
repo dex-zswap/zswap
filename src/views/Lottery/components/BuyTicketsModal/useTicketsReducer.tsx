@@ -1,6 +1,6 @@
 import { LotteryTicket } from 'config/constants/types'
 import { useEffect, useReducer } from 'react'
-import { parseRetreivedNumber } from '../../helpers'
+import { parseRetreivedNumber } from 'views/Lottery/helpers'
 import generateTicketNumbers from './generateTicketNumbers'
 
 export interface Ticket {

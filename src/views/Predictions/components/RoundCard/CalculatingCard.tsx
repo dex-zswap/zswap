@@ -3,7 +3,7 @@ import { CardBody, Flex, Spinner, WaitIcon, TooltipText, useTooltip, InfoIcon } 
 import { useTranslation } from 'contexts/Localization'
 import { NodeRound, BetPosition } from 'state/types'
 import { useGetTotalIntervalBlocks } from 'state/predictions/hooks'
-import { RoundResultBox } from '../RoundResult'
+import { RoundResultBox } from 'views/Predictions/components/RoundResult'
 import MultiplierArrow from './MultiplierArrow'
 import Card from './Card'
 import CardHeader from './CardHeader'

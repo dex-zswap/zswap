@@ -15,10 +15,10 @@ import { useHistory } from 'react-router-dom'
 import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'contexts/Localization'
 import { FINISHED, OVER } from 'config/constants/trading-competition/easterPhases'
-import RegisterModal from '../RegisterModal'
-import ClaimModal from '../ClaimModal'
-import { Heading2Text } from '../CompetitionHeadingText'
-import { CompetitionProps } from '../../types'
+import RegisterModal from 'views/TradingCompetition/components/RegisterModal'
+import ClaimModal from 'views/TradingCompetition/components/ClaimModal'
+import { Heading2Text } from 'views/TradingCompetition/components/CompetitionHeadingText'
+import { CompetitionProps } from 'views/TradingCompetition/types'
 
 const StyledCard = styled(Card)`
   display: inline-flex;

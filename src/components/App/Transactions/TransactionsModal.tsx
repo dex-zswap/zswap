@@ -7,7 +7,7 @@ import { isTransactionRecent, useAllTransactions } from 'state/transactions/hook
 import { TransactionDetails } from 'state/transactions/reducer'
 import { AppDispatch } from 'state'
 import { clearAllTransactions } from 'state/transactions/actions'
-import { AutoRow } from '../../Layout/Row'
+import { AutoRow } from 'components/Layout/Row'
 import Transaction from './Transaction'
 
 // we want the latest one to come first, so return negative if a is after b

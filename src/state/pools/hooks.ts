@@ -12,8 +12,8 @@ import {
   fetchCakeVaultUserData,
   fetchCakeVaultFees,
   fetchPoolsStakingLimitsAsync,
-} from '.'
-import { State, Pool } from '../types'
+} from 'state/pools'
+import { State, Pool } from 'state/types'
 import { transformPool } from './helpers'
 
 export const useFetchPublicPoolsData = () => {

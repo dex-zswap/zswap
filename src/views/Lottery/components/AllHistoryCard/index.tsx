@@ -5,10 +5,10 @@ import { useTranslation } from 'contexts/Localization'
 import { useLottery } from 'state/lottery/hooks'
 import { fetchLottery } from 'state/lottery/helpers'
 import { LotteryStatus } from 'config/constants/types'
+import { getDrawnDate, processLotteryResponse } from 'views/Lottery/helpers'
+import PreviousRoundCardBody from 'views/Lottery/components/PreviousRoundCard/Body'
+import PreviousRoundCardFooter from 'views/Lottery/components/PreviousRoundCard/Footer'
 import RoundSwitcher from './RoundSwitcher'
-import { getDrawnDate, processLotteryResponse } from '../../helpers'
-import PreviousRoundCardBody from '../PreviousRoundCard/Body'
-import PreviousRoundCardFooter from '../PreviousRoundCard/Footer'
 
 const StyledCard = styled(Card)`
   width: 100%;

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { LogoIcon, CheckmarkCircleIcon, CircleOutlineIcon, Flex, Text } from '@pancakeswap/uikit'
-import { CountdownProps } from '../../types'
+import { CountdownProps } from 'views/TradingCompetition/types'
 
 const sharedFlexStyles = `
 flex-direction: column;

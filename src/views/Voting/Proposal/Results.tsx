@@ -17,8 +17,8 @@ import times from 'lodash/times'
 import { Vote, VotingStateLoadingStatus } from 'state/types'
 import { useGetVotingStateLoadingStatus } from 'state/voting/hooks'
 import { useTranslation } from 'contexts/Localization'
-import { calculateVoteResults, getTotalFromVotes } from '../helpers'
-import TextEllipsis from '../components/TextEllipsis'
+import { calculateVoteResults, getTotalFromVotes } from 'views/Voting/helpers'
+import TextEllipsis from 'views/Voting/components/TextEllipsis'
 
 interface ResultsProps {
   choices: string[]

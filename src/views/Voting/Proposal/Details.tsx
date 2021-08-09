@@ -6,8 +6,8 @@ import { Proposal } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 import { getBscScanLink } from 'utils'
 import truncateWalletAddress from 'utils/truncateWalletAddress'
-import { IPFS_GATEWAY } from '../config'
-import { ProposalStateTag } from '../components/Proposals/tags'
+import { IPFS_GATEWAY } from 'views/Voting/config'
+import { ProposalStateTag } from 'views/Voting/components/Proposals/tags'
 
 interface DetailsProps {
   proposal: Proposal

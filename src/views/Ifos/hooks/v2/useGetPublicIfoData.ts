@@ -8,8 +8,8 @@ import useRefresh from 'hooks/useRefresh'
 import { multicallv2 } from 'utils/multicall'
 import ifoV2Abi from 'config/abi/ifoV2.json'
 import { BIG_ZERO } from 'utils/bigNumber'
-import { PublicIfoData } from '../../types'
-import { getStatus } from '../helpers'
+import { PublicIfoData } from 'views/Ifos/types'
+import { getStatus } from 'views/Ifos/hooks/helpers'
 
 // https://github.com/pancakeswap/pancake-contracts/blob/master/projects/ifo/contracts/IFOV2.sol#L431
 // 1,000,000,000 / 100

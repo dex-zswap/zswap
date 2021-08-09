@@ -7,9 +7,9 @@ import { useCake, useProfile } from 'hooks/useContract'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { fetchProfile } from 'state/profile'
 import useToast from 'hooks/useToast'
-import { REGISTER_COST } from '../ProfileCreation/config'
+import { REGISTER_COST } from 'views/Profile/ProfileCreation/config'
+import { State } from 'views/Profile/ProfileCreation/contexts/types'
 import ApproveConfirmButtons from './ApproveConfirmButtons'
-import { State } from '../ProfileCreation/contexts/types'
 
 interface Props {
   userName: string

@@ -12,7 +12,7 @@ import {
   ExpandableLabel,
 } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { TeamRanksProps } from '../../../types'
+import { TeamRanksProps } from 'views/TradingCompetition/types'
 import TopTradersGrid from './TopTradersGrid'
 
 const TopTradersCard: React.FC<TeamRanksProps> = ({

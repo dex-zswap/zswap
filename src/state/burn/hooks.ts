@@ -6,9 +6,9 @@ import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { usePair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
 
-import { AppDispatch, AppState } from '../index'
-import { tryParseAmount } from '../swap/hooks'
-import { useTokenBalances } from '../wallet/hooks'
+import { AppDispatch, AppState } from 'state'
+import { tryParseAmount } from 'state/swap/hooks'
+import { useTokenBalances } from 'state/wallet/hooks'
 import { Field, typeInput } from './actions'
 
 export function useBurnState(): AppState['burn'] {

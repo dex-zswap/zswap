@@ -5,7 +5,7 @@ import { Token } from 'config/constants/types'
 import { useTranslation } from 'contexts/Localization'
 import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
 import Balance from 'components/Balance'
-import CollectModal from '../Modals/CollectModal'
+import CollectModal from 'views/Pools/components/PoolCard/Modals/CollectModal'
 
 interface HarvestActionsProps {
   earnings: BigNumber

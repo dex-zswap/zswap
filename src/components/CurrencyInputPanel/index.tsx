@@ -4,11 +4,11 @@ import { Button, ChevronDownIcon, Text, useModal, Flex } from '@pancakeswap/uiki
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useCurrencyBalance } from '../../state/wallet/hooks'
-import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
-import { CurrencyLogo, DoubleCurrencyLogo } from '../Logo'
+import { useCurrencyBalance } from 'state/wallet/hooks'
+import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
+import { CurrencyLogo, DoubleCurrencyLogo } from 'components/Logo'
 
-import { RowBetween } from '../Layout/Row'
+import { RowBetween } from 'components/Layout/Row'
 import { Input as NumericalInput } from './NumericalInput'
 
 const InputRow = styled.div<{ selected: boolean }>`

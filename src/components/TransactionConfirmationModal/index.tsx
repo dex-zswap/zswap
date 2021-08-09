@@ -18,9 +18,9 @@ import { registerToken } from 'utils/wallet'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { RowFixed } from '../Layout/Row'
-import { AutoColumn, ColumnCenter } from '../Layout/Column'
-import { getBscScanLink } from '../../utils'
+import { RowFixed } from 'components/Layout/Row'
+import { AutoColumn, ColumnCenter } from 'components/Layout/Column'
+import { getBscScanLink } from 'utils'
 
 const Wrapper = styled.div`
   width: 100%;

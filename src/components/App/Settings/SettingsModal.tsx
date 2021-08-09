@@ -10,9 +10,9 @@ import {
 import { useTranslation } from 'contexts/Localization'
 
 import { useSwapActionHandlers } from 'state/swap/hooks'
-import { AutoColumn } from '../../Layout/Column'
-import QuestionHelper from '../../QuestionHelper'
-import { RowBetween, RowFixed } from '../../Layout/Row'
+import { AutoColumn } from 'components/Layout/Column'
+import QuestionHelper from 'components/QuestionHelper'
+import { RowBetween, RowFixed } from 'components/Layout/Row'
 import TransactionSettings from './TransactionSettings'
 
 const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {

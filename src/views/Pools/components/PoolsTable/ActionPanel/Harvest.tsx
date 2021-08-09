@@ -10,10 +10,9 @@ import Balance from 'components/Balance'
 import { useCakeVault } from 'state/pools/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { Pool } from 'state/types'
-
+import CollectModal from 'views/Pools/components/PoolCard/Modals/CollectModal'
+import UnstakingFeeCountdownRow from 'views/Pools/components/CakeVaultCard/UnstakingFeeCountdownRow'
 import { ActionContainer, ActionTitles, ActionContent } from './styles'
-import CollectModal from '../../PoolCard/Modals/CollectModal'
-import UnstakingFeeCountdownRow from '../../CakeVaultCard/UnstakingFeeCountdownRow'
 
 interface HarvestActionProps extends Pool {
   userDataLoaded: boolean

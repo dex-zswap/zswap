@@ -15,7 +15,7 @@ import {
   useMatchBreakpoints,
 } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import useAuctionHistory from '../hooks/useAuctionHistory'
+import useAuctionHistory from 'views/FarmAuction/hooks/useAuctionHistory'
 import AuctionLeaderboardTable from './AuctionLeaderboard/AuctionLeaderboardTable'
 
 interface AuctionHistoryProps {

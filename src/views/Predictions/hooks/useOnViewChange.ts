@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import usePrevious from 'hooks/usePreviousValue'
+import { PageView } from 'views/Predictions/types'
 import useSwiper from './useSwiper'
-import { PageView } from '../types'
 
 /**
  * Hooks for actions to be performed when the view changes (mobile)

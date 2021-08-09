@@ -4,7 +4,7 @@ import { CheckmarkIcon, CloseIcon, LinkExternal } from '@pancakeswap/uikit'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getBscScanLink } from 'utils'
 import { TransactionDetails } from 'state/transactions/reducer'
-import CircleLoader from '../../Loader/CircleLoader'
+import CircleLoader from 'components/Loader/CircleLoader'
 
 const TransactionState = styled.div<{ pending: boolean; success?: boolean }>`
   display: flex;

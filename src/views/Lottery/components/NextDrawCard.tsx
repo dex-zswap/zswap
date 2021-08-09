@@ -21,9 +21,9 @@ import { usePriceCakeBusd } from 'state/farms/hooks'
 import { useLottery } from 'state/lottery/hooks'
 import { getBalanceNumber } from 'utils/formatBalance'
 import Balance from 'components/Balance'
+import { dateTimeOptions } from 'views/Lottery/helpers'
 import ViewTicketsModal from './ViewTicketsModal'
 import BuyTicketsButton from './BuyTicketsButton'
-import { dateTimeOptions } from '../helpers'
 import RewardBrackets from './RewardBrackets'
 
 const Grid = styled.div`

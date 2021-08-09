@@ -25,7 +25,7 @@ import { useTranslation } from 'contexts/Localization'
 import useHasCakeBalance from 'hooks/useHasCakeBalance'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import debounce from 'lodash/debounce'
-import ConfirmProfileCreationModal from '../components/ConfirmProfileCreationModal'
+import ConfirmProfileCreationModal from 'views/Profile/components/ConfirmProfileCreationModal'
 import useProfileCreation from './contexts/hook'
 import { USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH, REGISTER_COST } from './config'
 

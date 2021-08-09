@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { RibbonDownMid, RibbonUpMid, RibbonDownSide, RibbonUpSide } from '../../svgs'
+import { RibbonDownMid, RibbonUpMid, RibbonDownSide, RibbonUpSide } from 'views/TradingCompetition/svgs'
 
 const MidRibbonStyles = `
 width: 100%;

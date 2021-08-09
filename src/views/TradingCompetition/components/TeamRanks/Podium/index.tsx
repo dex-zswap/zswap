@@ -2,10 +2,10 @@ import React from 'react'
 import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
 import { Flex, Box, Text, Skeleton } from '@pancakeswap/uikit'
+import { PodiumBase } from 'views/TradingCompetition/svgs'
+import { TeamLeaderboardProps } from 'views/TradingCompetition/types'
+import { localiseTradingVolume } from 'views/TradingCompetition/helpers'
 import TeamPodiumIcon from './TeamPodiumIcon'
-import { PodiumBase } from '../../../svgs'
-import { TeamLeaderboardProps } from '../../../types'
-import { localiseTradingVolume } from '../../../helpers'
 
 interface PodiumProps {
   teamsSortedByVolume?: Array<TeamLeaderboardProps>

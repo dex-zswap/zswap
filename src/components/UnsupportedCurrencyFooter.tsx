@@ -8,7 +8,7 @@ import { CurrencyLogo } from 'components/Logo'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getBscScanLink } from 'utils'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { useUnsupportedTokens } from '../hooks/Tokens'
+import { useUnsupportedTokens } from 'hooks/Tokens'
 
 interface Props extends InjectedModalProps {
   currencies: (Currency | undefined)[]

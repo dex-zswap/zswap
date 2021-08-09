@@ -9,9 +9,9 @@ import { Farm } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 import { useERC20 } from 'hooks/useContract'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import useApproveFarm from 'views/Farms/hooks/useApproveFarm'
 import StakeAction from './StakeAction'
 import HarvestAction from './HarvestAction'
-import useApproveFarm from '../../hooks/useApproveFarm'
 
 const Action = styled.div`
   padding-top: 16px;

@@ -3,8 +3,8 @@ import { Flex, Text, Heading, Image } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
-import AllBunniesImage from '../../pngs/all-bunnies.png'
-import { Heading1Text, Heading2Text } from '../CompetitionHeadingText'
+import AllBunniesImage from 'views/TradingCompetition/pngs/all-bunnies.png'
+import { Heading1Text, Heading2Text } from 'views/TradingCompetition/components/CompetitionHeadingText'
 
 const TextStyles = (theme) => `
   text-align: center;

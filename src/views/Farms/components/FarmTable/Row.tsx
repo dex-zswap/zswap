@@ -5,6 +5,7 @@ import { useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import useDelayedUnmount from 'hooks/useDelayedUnmount'
 import { useFarmUser } from 'state/farms/hooks'
+import { DesktopColumnSchema, MobileColumnSchema } from 'views/Farms/components/types'
 
 import Apr, { AprProps } from './Apr'
 import Farm, { FarmProps } from './Farm'
@@ -14,7 +15,6 @@ import Multiplier, { MultiplierProps } from './Multiplier'
 import Liquidity, { LiquidityProps } from './Liquidity'
 import ActionPanel from './Actions/ActionPanel'
 import CellLayout from './CellLayout'
-import { DesktopColumnSchema, MobileColumnSchema } from '../types'
 
 export interface RowProps {
   apr: AprProps

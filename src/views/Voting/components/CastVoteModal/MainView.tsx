@@ -2,7 +2,7 @@ import React from 'react'
 import { IconButton, Text, Skeleton, Button, AutoRenewIcon, ChevronRightIcon } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'contexts/Localization'
-import TextEllipsis from '../TextEllipsis'
+import TextEllipsis from 'views/Voting/components/TextEllipsis'
 import { VotingBox, ModalInner } from './styles'
 import { CastVoteModalProps } from './types'
 

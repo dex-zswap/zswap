@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Flex } from '@pancakeswap/uikit'
-import { SectionProps } from '../../types'
+import { SectionProps } from 'views/TradingCompetition/types'
 
 const BackgroundColorWrapper = styled(Flex)<SectionProps>`
   min-height: calc(100vh - 64px);

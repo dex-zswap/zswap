@@ -4,7 +4,7 @@ import { Text, Heading, Card, CardHeader, CardBody, Flex } from '@pancakeswap/ui
 import { Auction, Bidder } from 'config/constants/types'
 import { useTranslation } from 'contexts/Localization'
 import { getBalanceNumber } from 'utils/formatBalance'
-import useCongratulateAuctionWinner from '../hooks/useCongratulateAuctionWinner'
+import useCongratulateAuctionWinner from 'views/FarmAuction/hooks/useCongratulateAuctionWinner'
 import { FarmSchedule } from './AuctionDetailsCard/AuctionSchedule'
 import WhitelistedBiddersButton from './WhitelistedBiddersButton'
 

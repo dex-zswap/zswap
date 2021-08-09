@@ -22,10 +22,10 @@ import { LotteryRound } from 'state/types'
 import { useGetUserLotteryGraphRoundById } from 'state/lottery/hooks'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
-import WinningNumbers from '../WinningNumbers'
-import { processLotteryResponse } from '../../helpers'
-import TicketNumber from '../TicketNumber'
-import ClaimPrizesModal from '../ClaimPrizesModal'
+import WinningNumbers from 'views/Lottery/components/WinningNumbers'
+import { processLotteryResponse } from 'views/Lottery/helpers'
+import TicketNumber from 'views/Lottery/components/TicketNumber'
+import ClaimPrizesModal from 'views/Lottery/components/ClaimPrizesModal'
 
 const TopBox = styled(Flex)`
   flex-direction: column;

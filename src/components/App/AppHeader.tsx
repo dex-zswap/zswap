@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text, Flex, Heading, IconButton, ArrowBackIcon } from '@pancakeswap/uikit'
 import { Link } from 'react-router-dom'
+import QuestionHelper from 'components/QuestionHelper'
 import Settings from './Settings'
 import Transactions from './Transactions'
-import QuestionHelper from '../QuestionHelper'
 
 interface Props {
   title: string

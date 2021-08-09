@@ -19,11 +19,11 @@ import { useERC20 } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'contexts/Localization'
 import { getAddress } from 'utils/addressHelpers'
+import useIfoApprove from 'views/Ifos/hooks/useIfoApprove'
 import { EnableStatus } from './types'
 import IfoPoolCard from './IfoPoolCard'
 import Timer from './Timer'
 import Achievement from './Achievement'
-import useIfoApprove from '../../hooks/useIfoApprove'
 
 interface IfoFoldableCardProps {
   ifo: Ifo

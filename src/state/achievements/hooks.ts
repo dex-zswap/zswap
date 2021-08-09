@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
-import { State, AchievementState } from '../types'
+import { State, AchievementState } from 'state/types'
 import { fetchAchievements } from '.'
 
 export const useFetchAchievements = () => {

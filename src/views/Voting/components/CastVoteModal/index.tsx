@@ -7,11 +7,11 @@ import { signMessage } from 'utils/web3React'
 import useToast from 'hooks/useToast'
 import useWeb3Provider from 'hooks/useActiveWeb3React'
 import useTheme from 'hooks/useTheme'
+import { generatePayloadData, Message, sendSnaphotData } from 'views/Voting/helpers'
+import useGetVotingPower from 'views/Voting/hooks/useGetVotingPower'
 import { CastVoteModalProps, ConfirmVoteView } from './types'
 import MainView from './MainView'
 import DetailsView from './DetailsView'
-import { generatePayloadData, Message, sendSnaphotData } from '../../helpers'
-import useGetVotingPower from '../../hooks/useGetVotingPower'
 
 const CastVoteModal: React.FC<CastVoteModalProps> = ({ onSuccess, proposalId, vote, block, onDismiss }) => {
   const [view, setView] = useState<ConfirmVoteView>(ConfirmVoteView.MAIN)

@@ -10,8 +10,8 @@ import { useTranslation } from 'contexts/Localization'
 import useGetProfileCosts from 'views/Profile/hooks/useGetProfileCosts'
 import useHasCakeBalance from 'hooks/useHasCakeBalance'
 import { useProfile } from 'state/profile/hooks'
+import ProfileAvatar from 'views/Profile/components/ProfileAvatar'
 import { UseEditProfileResponse } from './reducer'
-import ProfileAvatar from '../ProfileAvatar'
 
 interface StartPageProps extends InjectedModalProps {
   goToChange: UseEditProfileResponse['goToChange']

@@ -5,8 +5,8 @@ import truncateWalletAddress from 'utils/truncateWalletAddress'
 import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import { Vote } from 'state/types'
-import { IPFS_GATEWAY } from '../../config'
-import TextEllipsis from '../TextEllipsis'
+import { IPFS_GATEWAY } from 'views/Voting/config'
+import TextEllipsis from 'views/Voting/components/TextEllipsis'
 import Row, { AddressColumn, ChoiceColumn, VotingPowerColumn } from './Row'
 
 interface VoteRowProps {

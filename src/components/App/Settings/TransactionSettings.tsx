@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Text, Button, Input, Flex, Grid } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import QuestionHelper from '../../QuestionHelper'
-import { AutoColumn } from '../../Layout/Column'
-import { RowBetween, RowFixed } from '../../Layout/Row'
+import QuestionHelper from 'components/QuestionHelper'
+import { AutoColumn } from 'components/Layout/Column'
+import { RowBetween, RowFixed } from 'components/Layout/Row'
 
 enum SlippageError {
   InvalidInput = 'InvalidInput',

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Box, Flex, Text, Heading, useMatchBreakpoints, Link } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
-import { BallWithNumber, MatchExampleA, MatchExampleB, PoolAllocationChart } from '../svgs'
+import { BallWithNumber, MatchExampleA, MatchExampleB, PoolAllocationChart } from 'views/Lottery/svgs'
 
 const Divider = styled.div`
   background-color: ${({ theme }) => theme.colors.cardBorder};

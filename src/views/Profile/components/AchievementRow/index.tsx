@@ -5,11 +5,11 @@ import { Achievement } from 'state/types'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'contexts/Localization'
 import { usePointCenterIfoContract } from 'hooks/useContract'
-import ActionColumn from '../ActionColumn'
+import ActionColumn from 'views/Profile/components/ActionColumn'
+import AchievementTitle from 'views/Profile/components/AchievementTitle'
+import AchievementAvatar from 'views/Profile/components/AchievementAvatar'
+import AchievementDescription from 'views/Profile/components/AchievementDescription'
 import PointsLabel from './PointsLabel'
-import AchievementTitle from '../AchievementTitle'
-import AchievementAvatar from '../AchievementAvatar'
-import AchievementDescription from '../AchievementDescription'
 
 interface AchievementRowProps {
   achievement: Achievement

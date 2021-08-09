@@ -2,9 +2,9 @@ import { Currency, ETHER, Token } from '@pancakeswap/sdk'
 import { BinanceIcon } from '@pancakeswap/uikit'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import useHttpLocations from '../../hooks/useHttpLocations'
-import { WrappedTokenInfo } from '../../state/lists/hooks'
-import getTokenLogoURL from '../../utils/getTokenLogoURL'
+import useHttpLocations from 'hooks/useHttpLocations'
+import { WrappedTokenInfo } from 'state/lists/hooks'
+import getTokenLogoURL from 'utils/getTokenLogoURL'
 import Logo from './Logo'
 
 const StyledLogo = styled(Logo)<{ size: string }>`

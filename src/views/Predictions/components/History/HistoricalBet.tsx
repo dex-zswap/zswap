@@ -17,10 +17,10 @@ import { useGetCurrentEpoch, useGetPredictionsStatus, useGetRewardRate } from 's
 import { fetchLedgerData, markBetHistoryAsCollected } from 'state/predictions'
 import { getRoundResult, Result } from 'state/predictions/helpers'
 import { useTranslation } from 'contexts/Localization'
-import { formatBnb, getNetPayout } from './helpers'
-import CollectWinningsButton from '../CollectWinningsButton'
-import ReclaimPositionButton from '../ReclaimPositionButton'
+import CollectWinningsButton from 'views/Predictions/components/CollectWinningsButton'
+import ReclaimPositionButton from 'views/Predictions/components/ReclaimPositionButton'
 import BetDetails from './BetDetails'
+import { formatBnb, getNetPayout } from './helpers'
 
 interface BetProps {
   bet: Bet

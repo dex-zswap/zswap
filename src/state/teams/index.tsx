@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import teamsList from 'config/constants/teams'
 import { Team } from 'config/constants/types'
-import { TeamsById, TeamsState } from '../types'
+import { TeamsById, TeamsState } from 'state/types'
 import { getTeam, getTeams } from './helpers'
 
 const teamsById: TeamsById = teamsList.reduce((accum, team) => {

@@ -3,8 +3,8 @@ import { Flex, Button, useModal, Skeleton } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'contexts/Localization'
 import { Pool } from 'state/types'
-import NotEnoughTokensModal from '../../PoolCard/Modals/NotEnoughTokensModal'
-import VaultStakeModal from '../VaultStakeModal'
+import NotEnoughTokensModal from 'views/Pools/components/PoolCard/Modals/NotEnoughTokensModal'
+import VaultStakeModal from 'views/Pools/components/CakeVaultCard/VaultStakeModal'
 import HasSharesActions from './HasSharesActions'
 
 interface VaultStakeActionsProps {

@@ -18,7 +18,7 @@ import {
 } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import easterPrizes, { Tiers, Rank } from 'config/constants/trading-competition/easter'
-import { Td, BoldTd, StyledPrizeTable } from '../../StyledPrizeTable'
+import { Td, BoldTd, StyledPrizeTable } from 'views/TradingCompetition/components/StyledPrizeTable'
 
 const COLOR_GOLD = '#FFBF33'
 const COLOR_SILVER = '#C1C1C1'

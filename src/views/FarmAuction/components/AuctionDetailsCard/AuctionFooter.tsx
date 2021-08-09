@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { Text, Flex, Box, CardFooter, ExpandableLabel } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { Auction, AuctionStatus } from 'config/constants/types'
+import WhitelistedBiddersButton from 'views/FarmAuction/components/WhitelistedBiddersButton'
 import { FarmSchedule } from './AuctionSchedule'
-import WhitelistedBiddersButton from '../WhitelistedBiddersButton'
 
 const FooterInner = styled(Box)`
   background-color: ${({ theme }) => theme.colors.dropdown};

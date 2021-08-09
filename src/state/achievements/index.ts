@@ -1,5 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
-import { AchievementState, Achievement } from '../types'
+import { AchievementState, Achievement } from 'state/types'
 import { getAchievements } from './helpers'
 
 const initialState: AchievementState = {

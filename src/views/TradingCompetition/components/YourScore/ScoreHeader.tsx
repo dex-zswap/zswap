@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { NoProfileAvatarIcon, LaurelLeftIcon, LaurelRightIcon, Skeleton } from '@pancakeswap/uikit'
-import { YourScoreProps } from '../../types'
-import ProfileAvatar from '../../../Profile/components/ProfileAvatar'
-import Sticker from '../Sticker'
+import { YourScoreProps } from 'views/TradingCompetition/types'
+import ProfileAvatar from 'views/Profile/components/ProfileAvatar'
+import Sticker from 'views/TradingCompetition/components/Sticker'
 
 const Wrapper = styled.div`
   display: flex;

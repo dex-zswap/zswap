@@ -11,9 +11,9 @@ import {
   Skeleton,
 } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { UserTradingInformationProps } from '../../types'
-import { useCompetitionCakeRewards, getRewardGroupAchievements } from '../../helpers'
-import { BoldTd, Td, StyledPrizeTable } from '../StyledPrizeTable'
+import { UserTradingInformationProps } from 'views/TradingCompetition/types'
+import { useCompetitionCakeRewards, getRewardGroupAchievements } from 'views/TradingCompetition/helpers'
+import { BoldTd, Td, StyledPrizeTable } from 'views/TradingCompetition/components/StyledPrizeTable'
 
 const StyledThead = styled.thead`
   border-bottom: 2px solid ${({ theme }) => theme.colors.cardBorder};

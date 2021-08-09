@@ -19,12 +19,12 @@ import { useGetUserLotteriesGraphData, useLottery } from 'state/lottery/hooks'
 import { fetchLottery } from 'state/lottery/helpers'
 import { LotteryRound } from 'state/types'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import { WhiteBunny } from 'views/Lottery/svgs'
+import BuyTicketsButton from 'views/Lottery/components/BuyTicketsButton'
+import PreviousRoundCardBody from 'views/Lottery/components/PreviousRoundCard/Body'
+import { processLotteryResponse, getDrawnDate } from 'views/Lottery/helpers'
+import PreviousRoundCardFooter from 'views/Lottery/components/PreviousRoundCard/Footer'
 import FinishedRoundTable from './FinishedRoundTable'
-import { WhiteBunny } from '../../svgs'
-import BuyTicketsButton from '../BuyTicketsButton'
-import PreviousRoundCardBody from '../PreviousRoundCard/Body'
-import { processLotteryResponse, getDrawnDate } from '../../helpers'
-import PreviousRoundCardFooter from '../PreviousRoundCard/Footer'
 
 const StyledCard = styled(Card)`
   width: 100%;

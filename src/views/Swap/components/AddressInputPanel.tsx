@@ -2,11 +2,11 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { Text, Link } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import useENS from '../../../hooks/ENS/useENS'
-import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
-import { AutoColumn } from '../../../components/Layout/Column'
-import { RowBetween } from '../../../components/Layout/Row'
-import { getBscScanLink } from '../../../utils'
+import useENS from 'hooks/ENS/useENS'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { AutoColumn } from 'components/Layout/Column'
+import { RowBetween } from 'components/Layout/Row'
+import { getBscScanLink } from 'utils'
 
 const InputPanel = styled.div`
   display: flex;

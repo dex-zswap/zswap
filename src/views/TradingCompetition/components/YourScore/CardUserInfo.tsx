@@ -16,11 +16,11 @@ import {
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import { LIVE } from 'config/constants/trading-competition/easterPhases'
-import { YourScoreProps } from '../../types'
+import { YourScoreProps } from 'views/TradingCompetition/types'
+import ShareImageModal from 'views/TradingCompetition/components/ShareImageModal'
+import { localiseTradingVolume } from 'views/TradingCompetition/helpers'
 import UserRankBox from './UserRankBox'
 import NextRankBox from './NextRankBox'
-import ShareImageModal from '../ShareImageModal'
-import { localiseTradingVolume } from '../../helpers'
 
 const TeamRankTextWrapper = styled(Flex)`
   align-items: center;

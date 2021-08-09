@@ -3,8 +3,8 @@ import { ethers } from 'ethers'
 import { BoxProps, Flex, Skeleton, Text } from '@pancakeswap/uikit'
 import { BetPosition, NodeRound } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
-import { formatUsdv2, getPriceDifference } from '../../helpers'
-import PositionTag from '../PositionTag'
+import { formatUsdv2, getPriceDifference } from 'views/Predictions/helpers'
+import PositionTag from 'views/Predictions/components/PositionTag'
 import { LockPriceRow, PrizePoolRow, RoundResultBox } from './styles'
 
 interface RoundResultProps extends BoxProps {
