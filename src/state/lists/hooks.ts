@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from 'zswap-sdk'
 import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
@@ -43,7 +43,7 @@ export class WrappedTokenInfo extends Token {
 }
 
 export type TokenAddressMap = Readonly<
-  { [chainId in ChainId]: Readonly<{ [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList } }> }
+  { [chainId in ChainId]?: Readonly<{ [tokenAddress: string]: { token: WrappedTokenInfo; list: TokenList } }> }
 >
 
 /**

@@ -1,4 +1,4 @@
-import { Token } from '@pancakeswap/sdk'
+import { Token } from 'zswap-sdk'
 import { SerializedToken } from 'state/user/actions'
 
 export function serializeToken(token: Token): SerializedToken {

@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { Token, TokenAmount } from '@pancakeswap/sdk'
+import { Token, TokenAmount } from 'zswap-sdk'
 import { useSingleCallResult } from 'state/multicall/hooks'
 import { useTokenContract } from './useContract'
 

@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from 'zswap-sdk'
 
 export const CAKE: { [chainId: number]: Token } = {
   [ChainId.MAINNET]: new Token(
