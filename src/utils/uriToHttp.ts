@@ -3,13 +3,13 @@
  * Given a URI that may be ipfs, ipns, http, or https protocol, return the fetch-able http(s) URLs for the same content
  * @param uri to convert to fetch-able http url
  */
-export default function uriToHttp(uri: string): string[] {
+export default function uriToHttp(uri: string, ignore: boolean = false): string[] {
   const protocol = uri.split(':')[0].toLowerCase()
   switch (protocol) {
     case 'https':
       return [uri]
     case 'http':
-      return [`https${uri.substr(4)}`, uri]
+      return ignore ? [`http${uri.substr(4)}`, uri] : [`https${uri.substr(4)}`, uri]
     case 'ipfs':
       const hash = uri.match(/^ipfs:(\/\/)?(.*)$/i)?.[2]
       return [`https://cloudflare-ipfs.com/ipfs/${hash}/`, `https://ipfs.io/ipfs/${hash}/`]
