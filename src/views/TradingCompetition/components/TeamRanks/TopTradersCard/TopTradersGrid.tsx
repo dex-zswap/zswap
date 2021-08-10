@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Skeleton } from '@pancakeswap/uikit'
+import { Box, Skeleton } from 'zswap-uikit'
 import styled from 'styled-components'
 import { LeaderboardDataItem } from 'views/TradingCompetition/types'
 import { LeaderboardStorm, LeaderboardFlippers, LeaderboardCakers } from 'views/TradingCompetition/svgs'

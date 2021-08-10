@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { NoProfileAvatarIcon, LaurelLeftIcon, LaurelRightIcon, Skeleton } from '@pancakeswap/uikit'
+import { NoProfileAvatarIcon, LaurelLeftIcon, LaurelRightIcon, Skeleton } from 'zswap-uikit'
 import { YourScoreProps } from 'views/TradingCompetition/types'
 import ProfileAvatar from 'views/Profile/components/ProfileAvatar'
 import Sticker from 'views/TradingCompetition/components/Sticker'

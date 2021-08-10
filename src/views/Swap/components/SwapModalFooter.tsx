@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { Trade, TradeType } from 'zswap-sdk'
-import { Button, Text, AutoRenewIcon } from '@pancakeswap/uikit'
+import { Button, Text, AutoRenewIcon } from 'zswap-uikit'
 import { Field } from 'state/swap/actions'
 import {
   computeSlippageAdjustedAmounts,

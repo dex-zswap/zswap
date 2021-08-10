@@ -9,7 +9,7 @@ import {
   TeamPlayerIcon,
   TrophyGoldIcon,
   Skeleton,
-} from '@pancakeswap/uikit'
+} from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { UserTradingInformationProps } from 'views/TradingCompetition/types'
 import { useCompetitionCakeRewards, getRewardGroupAchievements } from 'views/TradingCompetition/helpers'

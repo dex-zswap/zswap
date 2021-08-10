@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { LogoIcon, CheckmarkCircleIcon, CircleOutlineIcon, Flex, Text } from '@pancakeswap/uikit'
+import { LogoIcon, CheckmarkCircleIcon, CircleOutlineIcon, Flex, Text } from 'zswap-uikit'
 import { CountdownProps } from 'views/TradingCompetition/types'
 
 const sharedFlexStyles = `

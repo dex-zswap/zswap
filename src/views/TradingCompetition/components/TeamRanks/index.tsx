@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Box, Image } from '@pancakeswap/uikit'
+import { Flex, Box, Image } from 'zswap-uikit'
 import { TeamRanksProps } from 'views/TradingCompetition/types'
 import CakerBunny from 'views/TradingCompetition/pngs/cakers.png'
 import TopTradersCard from './TopTradersCard'

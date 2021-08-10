@@ -1,6 +1,6 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
-import { Flex, Text } from '@pancakeswap/uikit'
+import { Flex, Text } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { formatBnb } from 'views/Predictions/components/History/helpers'
 

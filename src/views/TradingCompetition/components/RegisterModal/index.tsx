@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Modal, Button, NoProfileAvatarIcon, Flex } from '@pancakeswap/uikit'
+import { Modal, Button, NoProfileAvatarIcon, Flex } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { CompetitionProps } from 'views/TradingCompetition/types'
 import ProfileAvatar from 'views/Profile/components/ProfileAvatar'

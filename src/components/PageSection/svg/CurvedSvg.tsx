@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css, DefaultTheme } from 'styled-components'
-import { Box } from '@pancakeswap/uikit'
+import { Box } from 'zswap-uikit'
 import { ClipFill } from 'components/PageSection/types'
 
 interface CurveProps {

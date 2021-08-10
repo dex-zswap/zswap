@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowBackIcon, ArrowForwardIcon, BunnyCardsIcon, Card, IconButton } from '@pancakeswap/uikit'
+import { ArrowBackIcon, ArrowForwardIcon, BunnyCardsIcon, Card, IconButton } from 'zswap-uikit'
 import styled from 'styled-components'
 import { useGetCurrentEpoch, useGetSortedRounds } from 'state/predictions/hooks'
 import useSwiper from 'views/Predictions/hooks/useSwiper'

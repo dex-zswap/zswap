@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex } from '@pancakeswap/uikit'
+import { Flex } from 'zswap-uikit'
 import { SectionProps } from 'views/TradingCompetition/types'
 
 const BackgroundColorWrapper = styled(Flex)<SectionProps>`

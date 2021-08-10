@@ -15,7 +15,7 @@ import {
   FIVE,
   FEES_NUMERATOR,
   FEES_DENOMINATOR,
-  ChainId
+  ChainId,
 } from '../constants'
 import { sqrt, parseBigintIsh } from '../utils'
 import { InsufficientReservesError, InsufficientInputAmountError } from '../errors'
@@ -38,9 +38,9 @@ export class Pair {
           [tokens[1].address]: getCreate2Address(
             FACTORY_ADDRESS,
             keccak256(['bytes'], [pack(['address', 'address'], [tokens[0].address, tokens[1].address])]),
-            INIT_CODE_HASH
-          )
-        }
+            INIT_CODE_HASH,
+          ),
+        },
       }
     }
 
@@ -56,7 +56,7 @@ export class Pair {
       Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token),
       18,
       'UNI-V2',
-      'Uniswap V2'
+      'Uniswap V2',
     )
     this.tokenAmounts = tokenAmounts as [TokenAmount, TokenAmount]
   }
@@ -132,7 +132,7 @@ export class Pair {
     const denominator = JSBI.add(JSBI.multiply(inputReserve.raw, FEES_DENOMINATOR), inputAmountWithFee)
     const outputAmount = new TokenAmount(
       inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.divide(numerator, denominator)
+      JSBI.divide(numerator, denominator),
     )
     if (JSBI.equal(outputAmount.raw, ZERO)) {
       throw new InsufficientInputAmountError()
@@ -156,7 +156,7 @@ export class Pair {
     const denominator = JSBI.multiply(JSBI.subtract(outputReserve.raw, outputAmount.raw), FEES_NUMERATOR)
     const inputAmount = new TokenAmount(
       outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.add(JSBI.divide(numerator, denominator), ONE)
+      JSBI.add(JSBI.divide(numerator, denominator), ONE),
     )
     return [inputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
   }
@@ -164,7 +164,7 @@ export class Pair {
   public getLiquidityMinted(
     totalSupply: TokenAmount,
     tokenAmountA: TokenAmount,
-    tokenAmountB: TokenAmount
+    tokenAmountB: TokenAmount,
   ): TokenAmount {
     invariant(totalSupply.token.equals(this.liquidityToken), 'LIQUIDITY')
     const tokenAmounts = tokenAmountA.token.sortsBefore(tokenAmountB.token) // does safety checks
@@ -191,7 +191,7 @@ export class Pair {
     totalSupply: TokenAmount,
     liquidity: TokenAmount,
     feeOn: boolean = false,
-    kLast?: BigintIsh
+    kLast?: BigintIsh,
   ): TokenAmount {
     invariant(this.involvesToken(token), 'TOKEN')
     invariant(totalSupply.token.equals(this.liquidityToken), 'TOTAL_SUPPLY')
@@ -222,7 +222,7 @@ export class Pair {
 
     return new TokenAmount(
       token,
-      JSBI.divide(JSBI.multiply(liquidity.raw, this.reserveOf(token).raw), totalSupplyAdjusted.raw)
+      JSBI.divide(JSBI.multiply(liquidity.raw, this.reserveOf(token).raw), totalSupplyAdjusted.raw),
     )
   }
 }

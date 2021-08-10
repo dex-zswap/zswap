@@ -6,18 +6,18 @@ export type BigintIsh = JSBI | bigint | string
 export enum ChainId {
   MAINNET = 56,
   BSCTESTNET = 97,
-  TESTNET = 40
+  TESTNET = 40,
 }
 
 export enum TradeType {
   EXACT_INPUT,
-  EXACT_OUTPUT
+  EXACT_OUTPUT,
 }
 
 export enum Rounding {
   ROUND_DOWN,
   ROUND_HALF_UP,
-  ROUND_UP
+  ROUND_UP,
 }
 
 export const FACTORY_ADDRESS = '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73'
@@ -39,10 +39,10 @@ export const FEES_DENOMINATOR = JSBI.BigInt(10000)
 
 export enum SolidityType {
   uint8 = 'uint8',
-  uint256 = 'uint256'
+  uint256 = 'uint256',
 }
 
 export const SOLIDITY_TYPE_MAXIMA = {
   [SolidityType.uint8]: JSBI.BigInt('0xff'),
-  [SolidityType.uint256]: JSBI.BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+  [SolidityType.uint256]: JSBI.BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import _uniqueId from 'lodash/uniqueId'
 import styled from 'styled-components'
-import { Flex } from '@pancakeswap/uikit'
+import { Flex } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { CountdownProps } from 'views/TradingCompetition/types'
 import Step from './Step'

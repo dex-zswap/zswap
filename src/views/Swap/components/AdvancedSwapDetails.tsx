@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trade, TradeType } from 'zswap-sdk'
-import { Text } from '@pancakeswap/uikit'
+import { Text } from 'zswap-uikit'
 import { Field } from 'state/swap/actions'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from 'utils/prices'

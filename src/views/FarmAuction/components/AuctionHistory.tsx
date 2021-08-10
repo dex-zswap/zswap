@@ -13,7 +13,7 @@ import {
   BunnyPlaceholderIcon,
   Spinner,
   useMatchBreakpoints,
-} from '@pancakeswap/uikit'
+} from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import useAuctionHistory from 'views/FarmAuction/hooks/useAuctionHistory'
 import AuctionLeaderboardTable from './AuctionLeaderboard/AuctionLeaderboardTable'

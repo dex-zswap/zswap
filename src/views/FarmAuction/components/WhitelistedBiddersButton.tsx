@@ -1,5 +1,5 @@
 import React from 'react'
-import { useModal, Button, Skeleton } from '@pancakeswap/uikit'
+import { useModal, Button, Skeleton } from 'zswap-uikit'
 import useWhitelistedAddresses from 'views/FarmAuction/hooks/useWhitelistedAddresses'
 import WhitelistedBiddersModal from './WhitelistedBiddersModal'
 

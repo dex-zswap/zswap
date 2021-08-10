@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex } from '@pancakeswap/uikit'
+import { Flex } from 'zswap-uikit'
 import { RibbonProps } from 'views/TradingCompetition/types'
 import Ribbon from 'views/TradingCompetition/components/Ribbon'
 

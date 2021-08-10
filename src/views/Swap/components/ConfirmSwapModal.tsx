@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { currencyEquals, Trade } from 'zswap-sdk'
-import { InjectedModalProps } from '@pancakeswap/uikit'
+import { InjectedModalProps } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import TransactionConfirmationModal, {
   ConfirmationModalContent,

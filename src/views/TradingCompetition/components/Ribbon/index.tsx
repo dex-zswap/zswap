@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, LaurelLeftIcon, LaurelRightIcon } from '@pancakeswap/uikit'
+import { Flex, LaurelLeftIcon, LaurelRightIcon } from 'zswap-uikit'
 import { RibbonProps } from 'views/TradingCompetition/types'
 import { Heading2Text, VisuallyHiddenHeading2Text } from 'views/TradingCompetition/components/CompetitionHeadingText'
 import {

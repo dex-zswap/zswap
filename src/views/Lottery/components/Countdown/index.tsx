@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Heading, Skeleton } from '@pancakeswap/uikit'
+import { Flex, Heading, Skeleton } from 'zswap-uikit'
 import getTimePeriods from 'utils/getTimePeriods'
 import useNextEventCountdown from 'views/Lottery/hooks/useNextEventCountdown'
 import Timer from './Timer'

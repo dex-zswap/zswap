@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ListViewIcon, CardViewIcon, IconButton } from '@pancakeswap/uikit'
+import { ListViewIcon, CardViewIcon, IconButton } from 'zswap-uikit'
 import { ViewMode } from 'views/Farms/components/types'
 
 interface ToggleViewProps {
