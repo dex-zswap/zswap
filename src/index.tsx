@@ -15,7 +15,7 @@ function Updaters() {
       <ListsUpdater />
       <ApplicationUpdater />
       <TransactionUpdater />
-      {/* <MulticallUpdater /> */}
+      <MulticallUpdater />
     </>
   )
 }
