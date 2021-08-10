@@ -37,7 +37,7 @@ export default async function getTokenList(
     }
     urls = uriToHttp(`${translatedUri}${parsedENS.ensPath ?? ''}`)
   } else {
-    urls = uriToHttp(listUrl)
+    urls = uriToHttp(listUrl, true)
   }
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i]
