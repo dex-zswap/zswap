@@ -1,5 +1,5 @@
 {
-  "name": "pancake-frontend",
+  "name": "zswap",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,12 +12,6 @@
     "format:check": "prettier --check 'src/**/*.{js,jsx,ts,tsx}'",
     "format:write": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "updateLPsAPR": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/updateLPsAPR.ts"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn format:write",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "browserslist": {
     "production": [
