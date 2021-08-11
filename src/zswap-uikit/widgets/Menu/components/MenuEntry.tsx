@@ -33,6 +33,8 @@ const MenuEntry = styled.div<Props>`
   height: ${SUB_MENU_ENTRY_HEIGHT}px;
   padding: ${({ secondary }) => (secondary ? '0 60px' : '0 16px')};
   font-size: ${({ secondary }) => (secondary ? '14px' : '16px')};
+  font-weight: bold;
+  line-height: 18px;
   background-color: ${({ secondary, theme }) => (secondary ? theme.colors.background : 'transparent')};
   color: ${({ theme }) => theme.colors.textSubtle};
   box-shadow: ${({ isActive, theme }) => (isActive ? `inset 4px 0px 0px ${theme.colors.primary}` : 'none')};
@@ -44,12 +46,8 @@ const MenuEntry = styled.div<Props>`
     height: 100%;
   }
 
-  a.active svg {
-    fill: ${({ theme }) => theme.colors.primary};
-  }
-
   svg {
-    fill: ${({ theme }) => theme.colors.textSubtle};
+    fill: ${({ isActive, theme }) => (isActive ? theme.colors.primary : theme.colors.textSubtle)};
   }
 
   &:hover {

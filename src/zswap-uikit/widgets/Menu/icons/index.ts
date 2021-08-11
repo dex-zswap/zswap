@@ -16,7 +16,6 @@ export { default as TicketIcon } from './Ticket'
 export { default as TradeIcon } from './Trade'
 export { default as TwitterIcon } from './Twitter'
 
-
 export { default as HomeIcon } from './Home'
 export { default as ExchangeIcon } from './Exchange'
 export { default as LiquidityIcon } from './Liquidity'

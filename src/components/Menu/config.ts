@@ -23,11 +23,11 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     items: [
       {
         label: t('Single Currency Pledge Mining'),
-        href: '/',
+        href: '/pledge',
       },
       {
         label: t('LP Pledge Mining'),
-        href: '/',
+        href: '/lp',
       },
     ],
   },
@@ -39,22 +39,22 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
   {
     label: t('Lottery'),
     icon: 'LotteryIcon',
-    href: '/farms',
+    href: '/lottery',
   },
   {
     label: t('IFO'),
     icon: 'IfoIcon',
-    href: '/farms',
+    href: '/ifo',
   },
   {
     label: t('Data'),
     icon: 'DataIcon',
-    href: '/farms',
+    href: 'https://pancakeswap.info/',
   },
   {
     label: t('Help'),
     icon: 'HelpIcon',
-    href: '/farms',
+    href: '/help',
   },
   // {
   //   label: t('Farms'),

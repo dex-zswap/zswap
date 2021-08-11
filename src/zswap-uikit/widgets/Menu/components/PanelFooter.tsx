@@ -14,10 +14,9 @@ import LangSelector from './LangSelector'
 interface Props extends PanelProps, PushedProps {}
 
 const Container = styled.div`
+  padding: 30px 0;
   flex: none;
-  padding: 8px 4px;
   background-color: ${({ theme }) => theme.nav.background};
-  border-top: solid 2px rgba(133, 133, 133, 0.1);
 `
 
 const SettingsEntry = styled.div`
@@ -26,7 +25,7 @@ const SettingsEntry = styled.div`
   height: ${MENU_ENTRY_HEIGHT}px;
   padding: 0 16px;
   > svg {
-    margin-right: 30px;
+    margin-right: 40px;
   }
   > div {
     cursor: pointer;
@@ -71,11 +70,11 @@ const PanelFooter: React.FC<Props> = ({
   return (
     <Container>
       <SettingsEntry>
-        <ShareIcon width="18" color="textSubtle" />
+        <ShareIcon width="16" color="textSubtle" />
         <SocialLinks />
       </SettingsEntry>
       <SettingsEntry>
-        <LangIcon width="18" color="textSubtle" />
+        <LangIcon width="16" color="textSubtle" />
         <LangSelector currentLang={currentLang} langs={langs} setLang={setLang} />
       </SettingsEntry>
     </Container>

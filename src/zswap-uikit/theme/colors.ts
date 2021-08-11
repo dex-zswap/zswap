@@ -8,6 +8,7 @@ export const baseColors = {
   secondary: '#7645D9',
   success: '#31D0AA',
   warning: '#FFB237',
+  button: 'linear-gradient(to right, #f866ff 0%, #0050ff 100%)'
 }
 
 export const additionalColors = {
@@ -31,12 +32,13 @@ export const lightColors: Colors = {
   invertedContrast: '#1A1A1A',
   input: '#eeeaf4',
   inputSecondary: '#d7caec',
-  tertiary: '#353547',
+  tertiary: '#333333',
   text: '#fff',
   textDisabled: '#BDC2C4',
   textSubtle: '#fff',
   disabled: '#E9EAEB',
   gradients: {
+    button: 'linear-gradient(to right, #f866ff 0%, #0050ff 100%)',
     bubblegum: 'linear-gradient(139.73deg, #E5FDFF 0%, #F3EFFF 100%)',
     inverseBubblegum: 'linear-gradient(139.73deg, #F3EFFF 0%, #E5FDFF 100%)',
     cardHeader: 'linear-gradient(111.68deg, #F2ECF2 0%, #E8F2F6 100%)',
@@ -68,6 +70,7 @@ export const darkColors: Colors = {
   textSubtle: '#B8ADD2',
   disabled: '#524B63',
   gradients: {
+    button: 'linear-gradient(to right, #f866ff 0%, #0050ff 100%)',
     bubblegum: 'linear-gradient(139.73deg, #313D5C 0%, #3D2A54 100%)',
     inverseBubblegum: 'linear-gradient(139.73deg, #3D2A54 0%, #313D5C 100%)',
     cardHeader: 'linear-gradient(166.77deg, #3B4155 0%, #3A3045 100%)',

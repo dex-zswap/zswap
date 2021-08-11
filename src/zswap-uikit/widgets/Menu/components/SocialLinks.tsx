@@ -20,6 +20,7 @@ const SocialLinks: React.FC = () => (
           <Dropdown key={social.label} position="top" target={<Icon {...iconProps} mr={mr} />}>
             {social.items.map((item) => (
               <MenuButton
+                key={item.label}
                 fullWidth
                 onClick={() => window.open(item.href)}
                 // Safari fix
