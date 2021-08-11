@@ -9,16 +9,16 @@ import TransactionUpdater from './state/transactions/updater'
 import App from './App'
 import Providers from './Providers'
 
-// function Updaters() {
-//   return (
-//     <>
-//       <ListsUpdater />
-//       <ApplicationUpdater />
-//       <TransactionUpdater />
-//       {/* <MulticallUpdater /> */}
-//     </>
-//   )
-// }
+function Updaters() {
+  return (
+    <>
+      <ListsUpdater />
+      <ApplicationUpdater />
+      <TransactionUpdater />
+      <MulticallUpdater />
+    </>
+  )
+}
 
 function Blocklist({ children }: { children: ReactNode }) {
   // const { account } = useActiveWeb3React()

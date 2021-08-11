@@ -205,7 +205,7 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
     if (urlParam.toUpperCase() === 'BNB') return 'BNB'
     if (valid === false) return 'BNB'
   }
-  return 'BNB' ?? ''
+  return 'DEX' ?? ''
 }
 
 function parseTokenAmountURLParameter(urlParam: any): string {
