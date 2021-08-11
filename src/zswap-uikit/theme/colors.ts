@@ -8,7 +8,7 @@ export const baseColors = {
   secondary: '#7645D9',
   success: '#31D0AA',
   warning: '#FFB237',
-  button: 'linear-gradient(to right, #f866ff 0%, #0050ff 100%)'
+  button: 'linear-gradient(to right, #f866ff 0%, #0050ff 100%)',
 }
 
 export const additionalColors = {
