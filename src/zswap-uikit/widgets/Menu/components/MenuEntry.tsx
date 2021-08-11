@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { keyframes, DefaultTheme } from 'styled-components'
 import { Text } from '../../../components/Text'
 import { Colors } from '../../../theme/types'
-import { MENU_ENTRY_HEIGHT } from '../config'
+import { SUB_MENU_ENTRY_HEIGHT } from '../config'
 
 export interface Props {
   secondary?: boolean
@@ -30,8 +30,8 @@ const MenuEntry = styled.div<Props>`
   cursor: pointer;
   display: flex;
   align-items: center;
-  height: ${MENU_ENTRY_HEIGHT}px;
-  padding: ${({ secondary }) => (secondary ? '0 32px' : '0 16px')};
+  height: ${SUB_MENU_ENTRY_HEIGHT}px;
+  padding: ${({ secondary }) => (secondary ? '0 60px' : '0 16px')};
   font-size: ${({ secondary }) => (secondary ? '14px' : '16px')};
   background-color: ${({ secondary, theme }) => (secondary ? theme.colors.background : 'transparent')};
   color: ${({ theme }) => theme.colors.textSubtle};
@@ -42,6 +42,10 @@ const MenuEntry = styled.div<Props>`
     align-items: center;
     width: 100%;
     height: 100%;
+  }
+
+  a.active svg {
+    fill: ${({ theme }) => theme.colors.primary};
   }
 
   svg {

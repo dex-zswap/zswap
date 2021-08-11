@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { CogIcon } from '../../../components/Svg'
+import { ShareIcon } from '../../../components/Svg'
+import { LangIcon } from '../../../components/Svg'
 import IconButton from '../../../components/Button/IconButton'
 import { MENU_ENTRY_HEIGHT } from '../config'
 import { PanelProps, PushedProps } from '../types'
@@ -21,18 +23,31 @@ const Container = styled.div`
 const SettingsEntry = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: ${MENU_ENTRY_HEIGHT}px;
-  padding: 0 8px;
-`
-
-const SocialEntry = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   height: ${MENU_ENTRY_HEIGHT}px;
   padding: 0 16px;
+  > svg {
+    margin-right: 30px;
+  }
+  > div {
+    cursor: pointer;
+  }
 `
+
+// const SettingsEntry = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   height: ${MENU_ENTRY_HEIGHT}px;
+//   padding: 0 8px;
+// `
+
+// const SocialEntry = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   height: ${MENU_ENTRY_HEIGHT}px;
+//   padding: 0 16px;
+// `
 
 const PanelFooter: React.FC<Props> = ({
   isPushed,
@@ -53,19 +68,31 @@ const PanelFooter: React.FC<Props> = ({
       </Container>
     )
   }
-
   return (
     <Container>
-      <SocialEntry>
-        <CakePrice cakePriceUsd={cakePriceUsd} />
-        <SocialLinks />
-      </SocialEntry>
       <SettingsEntry>
-        <ThemeSwitcher isDark={isDark} toggleTheme={toggleTheme} />
+        <ShareIcon width="18" color="textSubtle" />
+        <SocialLinks />
+      </SettingsEntry>
+      <SettingsEntry>
+        <LangIcon width="18" color="textSubtle" />
         <LangSelector currentLang={currentLang} langs={langs} setLang={setLang} />
       </SettingsEntry>
     </Container>
   )
+
+  // return (
+  //   <Container>
+  //     <SocialEntry>
+  //       <CakePrice cakePriceUsd={cakePriceUsd} />
+  //       <SocialLinks />
+  //     </SocialEntry>
+  //     <SettingsEntry>
+  //       <ThemeSwitcher isDark={isDark} toggleTheme={toggleTheme} />
+  //       <LangSelector currentLang={currentLang} langs={langs} setLang={setLang} />
+  //     </SettingsEntry>
+  //   </Container>
+  // )
 }
 
 export default PanelFooter

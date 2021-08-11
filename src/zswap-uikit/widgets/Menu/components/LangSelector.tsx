@@ -13,14 +13,7 @@ interface Props {
 }
 
 const LangSelector: React.FC<Props> = ({ currentLang, langs, setLang }) => (
-  <Dropdown
-    position="top-right"
-    target={
-      <Button variant="text" startIcon={<LanguageIcon color="textSubtle" width="24px" />}>
-        <Text color="textSubtle">{currentLang?.toUpperCase()}</Text>
-      </Button>
-    }
-  >
+  <Dropdown position="top-right" target={<Text color="textSubtle">{currentLang?.toUpperCase()}</Text>}>
     {langs.map((lang) => (
       <MenuButton
         key={lang.locale}

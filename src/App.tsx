@@ -2,10 +2,10 @@ import React, { lazy } from 'react'
 import { Router, Redirect, Route, Switch } from 'react-router-dom'
 import { ResetCSS } from 'zswap-uikit'
 import BigNumber from 'bignumber.js'
-import useEagerConnect from 'hooks/useEagerConnect'
-import { usePollBlockNumber } from 'state/block/hooks'
-import { usePollCoreFarmData } from 'state/farms/hooks'
-import { useFetchProfile } from 'state/profile/hooks'
+// import useEagerConnect from 'hooks/useEagerConnect'
+// import { usePollBlockNumber } from 'state/block/hooks'
+// import { usePollCoreFarmData } from 'state/farms/hooks'
+// import { useFetchProfile } from 'state/profile/hooks'
 import { DatePickerPortal } from 'components/DatePicker'
 import GlobalStyle from './style/Global'
 import Menu from './components/Menu'
@@ -54,10 +54,10 @@ BigNumber.config({
 })
 
 const App: React.FC = () => {
-  usePollBlockNumber()
-  useEagerConnect()
-  useFetchProfile()
-  usePollCoreFarmData()
+  // usePollBlockNumber()
+  // useEagerConnect()
+  // useFetchProfile()
+  // usePollCoreFarmData()
 
   return (
     <Router history={history}>

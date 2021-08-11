@@ -9,51 +9,51 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
   },
   {
     label: t('Exchange'),
-    icon: 'TradeIcon',
-    href: '/',
+    icon: 'ExchangeIcon',
+    href: '/swap',
   },
   {
     label: t('Liquidity'),
-    icon: 'TradeIcon',
-    href: '/',
+    icon: 'LiquidityIcon',
+    href: '/pool',
   },
   {
     label: t('Pledge Mining'),
-    icon: 'TradeIcon',
+    icon: 'PledgeIcon',
     items: [
       {
         label: t('Single Currency Pledge Mining'),
-        href: '/swap',
+        href: '/',
       },
       {
         label: t('LP Pledge Mining'),
-        href: '/pool',
+        href: '/',
       },
     ],
   },
   {
     label: t('Bridge'),
-    icon: 'FarmIcon',
+    icon: 'BridgeIcon',
     href: '/farms',
   },
   {
     label: t('Lottery'),
-    icon: 'FarmIcon',
+    icon: 'LotteryIcon',
     href: '/farms',
   },
   {
     label: t('IFO'),
-    icon: 'FarmIcon',
+    icon: 'IfoIcon',
     href: '/farms',
   },
   {
     label: t('Data'),
-    icon: 'FarmIcon',
+    icon: 'DataIcon',
     href: '/farms',
   },
   {
     label: t('Help'),
-    icon: 'FarmIcon',
+    icon: 'HelpIcon',
     href: '/farms',
   },
   // {

@@ -5,6 +5,7 @@ import Dropdown from '../../../components/Dropdown/Dropdown'
 import Link from '../../../components/Link/Link'
 import * as IconModule from '../icons'
 import { socials } from '../config'
+import MenuButton from './MenuButton'
 
 const Icons = IconModule as unknown as { [key: string]: React.FC<SvgProps> }
 
@@ -18,9 +19,17 @@ const SocialLinks: React.FC = () => (
         return (
           <Dropdown key={social.label} position="top" target={<Icon {...iconProps} mr={mr} />}>
             {social.items.map((item) => (
-              <Link external key={item.label} href={item.href} aria-label={item.label} color="textSubtle">
+              <MenuButton
+                fullWidth
+                onClick={() => window.open(item.href)}
+                // Safari fix
+                style={{ minHeight: '32px', height: 'auto' }}
+              >
                 {item.label}
-              </Link>
+              </MenuButton>
+              // <Link external key={item.label} href={item.href} aria-label={item.label} color="textSubtle">
+              //   {item.label}
+              // </Link>
             ))}
           </Dropdown>
         )
