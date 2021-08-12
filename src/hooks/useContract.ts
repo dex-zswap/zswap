@@ -234,13 +234,18 @@ export function useFactoryContract(): Contract | null {
   return useContract(FACTORY_ADDRESS, FACTORY_ABI, false)
 }
 
-export function usePairContracts(pairAddresses?: Array<string>, withSignerIfPossible?: boolean): Array<Contract> | null {
+export function usePairContracts(
+  pairAddresses?: Array<string>,
+  withSignerIfPossible?: boolean,
+): Array<Contract> | null {
   const { library, account } = useActiveWeb3React()
 
   return useMemo(() => {
     if (!library) return null
     try {
-      return pairAddresses.map((address) => getContract(address, IUniswapV2PairABI, library, withSignerIfPossible && account ? account : undefined))
+      return pairAddresses.map((address) =>
+        getContract(address, IUniswapV2PairABI, library, withSignerIfPossible && account ? account : undefined),
+      )
     } catch (error) {
       return null
     }

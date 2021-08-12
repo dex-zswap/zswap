@@ -78,7 +78,9 @@ export abstract class Router {
     const amountIn: string = toHex(trade.maximumAmountIn(options.allowedSlippage))
     const amountOut: string = toHex(trade.minimumAmountOut(options.allowedSlippage))
     const path: string[] = trade.route.path.map((token) => token.address)
-    const deadline = options.ttl ? `0x${(Math.floor(new Date().getTime() / 1000) + options.ttl).toString(16)}` : options.deadline
+    const deadline = options.ttl
+      ? `0x${(Math.floor(new Date().getTime() / 1000) + options.ttl).toString(16)}`
+      : options.deadline
     const useFeeOnTransfer = Boolean(options.feeOnTransfer)
 
     let methodName: string

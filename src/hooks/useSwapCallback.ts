@@ -50,8 +50,8 @@ function useSwapCallArguments(
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
   const deadline = useTransactionDeadline()
-  const [ ttlSeconds ] = useUserTransactionTTL()
-  const ttl = ttlSeconds * 1E3
+  const [ttlSeconds] = useUserTransactionTTL()
+  const ttl = ttlSeconds * 1e3
 
   return useMemo(() => {
     if (!trade || !recipient || !library || !account || !chainId || !deadline) return []
@@ -69,7 +69,7 @@ function useSwapCallArguments(
         allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
         recipient,
         deadline: deadline.toNumber(),
-        ttl
+        ttl,
       }),
     )
 
@@ -80,7 +80,7 @@ function useSwapCallArguments(
           allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
           recipient,
           deadline: deadline.toNumber(),
-          ttl
+          ttl,
         }),
       )
     }

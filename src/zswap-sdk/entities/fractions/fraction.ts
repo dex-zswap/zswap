@@ -20,7 +20,7 @@ const toSignificantRounding = {
 const toFixedRounding = {
   [Rounding.ROUND_DOWN]: 0,
   [Rounding.ROUND_HALF_UP]: 2,
-  [Rounding.ROUND_UP]: 3
+  [Rounding.ROUND_UP]: 3,
 }
 
 export class Fraction {
@@ -122,7 +122,7 @@ export class Fraction {
     try {
       invariant(Number.isInteger(significantDigits), `${significantDigits} is not an integer.`)
       invariant(significantDigits > 0, `${significantDigits} is not positive.`)
-  
+
       Decimal.set({ precision: significantDigits + 1, rounding: toSignificantRounding[rounding] })
       const quotient = new Decimal(this.numerator.toString())
         .div(this.denominator.toString())
@@ -141,7 +141,7 @@ export class Fraction {
     try {
       invariant(Number.isInteger(decimalPlaces), `${decimalPlaces} is not an integer.`)
       invariant(decimalPlaces >= 0, `${decimalPlaces} is negative.`)
-  
+
       Big.DP = decimalPlaces
       Big.RM = toFixedRounding[rounding]
       return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format)
