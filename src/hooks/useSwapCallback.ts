@@ -95,7 +95,11 @@ export function useSwapCallback(
   trade: Trade | undefined, // trade to execute, required
   allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE, // in bips
   recipientAddressOrName: string | null, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender
-): { state: SwapCallbackState; callback: null | (() => Promise<string>); error: string | null } {
+): {
+  state: SwapCallbackState
+  callback: null | (() => Promise<string>)
+  error: string | null
+} {
   const { account, chainId, library } = useActiveWeb3React()
 
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddressOrName)
@@ -107,11 +111,19 @@ export function useSwapCallback(
 
   return useMemo(() => {
     if (!trade || !library || !account || !chainId) {
-      return { state: SwapCallbackState.INVALID, callback: null, error: 'Missing dependencies' }
+      return {
+        state: SwapCallbackState.INVALID,
+        callback: null,
+        error: 'Missing dependencies',
+      }
     }
     if (!recipient) {
       if (recipientAddressOrName !== null) {
-        return { state: SwapCallbackState.INVALID, callback: null, error: 'Invalid recipient' }
+        return {
+          state: SwapCallbackState.INVALID,
+          callback: null,
+          error: 'Invalid recipient',
+        }
       }
       return { state: SwapCallbackState.LOADING, callback: null, error: null }
     }
@@ -140,7 +152,10 @@ export function useSwapCallback(
                 return contract.callStatic[methodName](...args, options)
                   .then((result) => {
                     console.error('Unexpected successful call after failed estimate gas', call, gasError, result)
-                    return { call, error: new Error('Unexpected issue with estimating the gas. Please try again.') }
+                    return {
+                      call,
+                      error: new Error('Unexpected issue with estimating the gas. Please try again.'),
+                    }
                   })
                   .catch((callError) => {
                     console.error('Call threw error', call, callError)
@@ -197,6 +212,11 @@ export function useSwapCallback(
 
             addTransaction(response, {
               summary: withRecipient,
+              reportData: {
+                from: 'swap',
+                args,
+                gas: calculateGasMargin(gasEstimate)
+              }
             })
 
             return response.hash

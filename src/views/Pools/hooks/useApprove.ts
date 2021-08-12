@@ -27,7 +27,9 @@ export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol)
       if (receipt.status) {
         toastSuccess(
           t('Contract Enabled'),
-          t('You can now stake in the %symbol% pool!', { symbol: earningTokenSymbol }),
+          t('You can now stake in the %symbol% pool!', {
+            symbol: earningTokenSymbol,
+          }),
         )
         setRequestedApproval(false)
       } else {

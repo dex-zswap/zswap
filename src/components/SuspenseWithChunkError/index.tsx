@@ -26,7 +26,10 @@ class SuspenseWithChunkError extends React.Component<SuspenseProps, State> {
 
     // If was a chunk load error, refresh the page
     if (isChunkLoadError && !isRecoveringFromChunkError) {
-      const nextState = { ...window.history.state, isRecoveringFromChunkError: true }
+      const nextState = {
+        ...window.history.state,
+        isRecoveringFromChunkError: true,
+      }
       window.history.replaceState(nextState, '')
       window.location.reload()
       return

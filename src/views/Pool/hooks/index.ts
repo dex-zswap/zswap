@@ -32,7 +32,7 @@ export function useUserPairs(): UserPairs {
   const allPairsLength = useSingleCallResult(factoryContract, 'allPairsLength')
   const pairsIndexArgs = useMemo<Array<Array<number>>>(() => {
     const indexs: Array<Array<number>> = []
-    const length = allPairsLength.result ? (allPairsLength.result[0]).toNumber() : 0
+    const length = allPairsLength.result ? allPairsLength.result[0].toNumber() : 0
     for (let i = 0; i < length; i++) {
       indexs.push([i])
     }

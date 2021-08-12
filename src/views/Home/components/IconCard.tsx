@@ -2,7 +2,11 @@ import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Card, CardBody, Box, CardProps } from 'zswap-uikit'
 
-const StyledCard = styled(Card)<{ background: string; borderColor: string; rotation?: string }>`
+const StyledCard = styled(Card)<{
+  background: string
+  borderColor: string
+  rotation?: string
+}>`
   height: fit-content;
   background: ${({ background }) => background};
   border: 2px solid ${({ borderColor }) => borderColor};

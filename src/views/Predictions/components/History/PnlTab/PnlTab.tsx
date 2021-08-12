@@ -24,7 +24,10 @@ interface PnlCategory {
 }
 
 interface PnlSummary {
-  won: PnlCategory & { payout: number; bestRound: { id: string; payout: number; multiplier: number } }
+  won: PnlCategory & {
+    payout: number
+    bestRound: { id: string; payout: number; multiplier: number }
+  }
   lost: PnlCategory
   entered: PnlCategory
 }
@@ -152,7 +155,9 @@ const PnlTab: React.FC<PnlTabProps> = ({ hasBetHistory, bets }) => {
         {hasBestRound && (
           <>
             <Text mt="16px" bold color="textSubtle">
-              {t('Best round: #%roundId%', { roundId: summary.won.bestRound.id })}
+              {t('Best round: #%roundId%', {
+                roundId: summary.won.bestRound.id,
+              })}
             </Text>
             <Flex alignItems="flex-end">
               <Text bold color="success">{`+${formatBnb(summary.won.bestRound.payout)} BNB`}</Text>

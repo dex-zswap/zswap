@@ -60,7 +60,10 @@ export const StyledCard = styled.div<StyledCardProps>`
   ${space}
 `
 
-export const StyledCardInner = styled(Box)<{ background?: string; hasCustomBorder: boolean }>`
+export const StyledCardInner = styled(Box)<{
+  background?: string
+  hasCustomBorder: boolean
+}>`
   width: 100%;
   height: 100%;
   overflow: ${({ hasCustomBorder }) => (hasCustomBorder ? 'initial' : 'inherit')};

@@ -17,7 +17,10 @@ interface PromotedStyleCardProps {
   isDesktop: boolean
 }
 
-export const StyledCard = styled(Card)<{ isPromoted?: PromotedStyleCardProps; isFinished?: boolean }>`
+export const StyledCard = styled(Card)<{
+  isPromoted?: PromotedStyleCardProps
+  isFinished?: boolean
+}>`
   max-width: 352px;
   margin: 0 8px 24px;
   display: flex;

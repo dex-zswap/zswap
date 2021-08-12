@@ -27,7 +27,10 @@ const useAuctionHistory = (auctionId: number) => {
         const sortedBidders = sortAuctionBidders(auctionBidders, processedAuctionData)
         setAuctionHistory((prev) => ({
           ...prev,
-          [auctionId]: { auction: processedAuctionData, bidders: sortedBidders },
+          [auctionId]: {
+            auction: processedAuctionData,
+            bidders: sortedBidders,
+          },
         }))
       } catch (error) {
         console.error('Failed to fetch auction history', error)

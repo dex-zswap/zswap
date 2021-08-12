@@ -87,6 +87,14 @@ export function useApproveCallback(
         addTransaction(response, {
           summary: `Approve ${amountToApprove.currency.symbol}`,
           approval: { tokenAddress: token.address, spender },
+          reportData: {
+            from: 'approve',
+            args: {
+              spender,
+              amount: useExact ? amountToApprove.raw.toString() : MaxUint256,
+              gas: calculateGasMargin(estimatedGas)
+            }
+          }
         })
       })
       .catch((error: Error) => {

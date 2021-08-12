@@ -89,7 +89,10 @@ const reducer = (state: TicketsState, action: any) => {
       }
     }
     case 'reset':
-      return getInitialState({ amount: action.payload.amount, userCurrentTickets: action.payload.userCurrentTickets })
+      return getInitialState({
+        amount: action.payload.amount,
+        userCurrentTickets: action.payload.userCurrentTickets,
+      })
     default:
       throw new Error()
   }

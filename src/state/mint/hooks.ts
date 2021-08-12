@@ -16,13 +16,17 @@ const ZB_ADDRESS: string = process.env.REACT_APP_ZB_ADDRESS
 const DEX_ADDRESS: string = process.env.REACT_APP_DEX_ADDRESS
 
 type ExistZBPair = {
-  zbWithcurrencyA: boolean;
-  zbWithcurrencyB: boolean;
+  zbWithcurrencyA: boolean
+  zbWithcurrencyB: boolean
 }
 
 const ZERO = JSBI.BigInt(0)
 
-export function useCurrencyExistZBPair(currencyA: Currency | null, currencyB: Currency | null, noLiquidity: boolean): ExistZBPair {
+export function useCurrencyExistZBPair(
+  currencyA: Currency | null,
+  currencyB: Currency | null,
+  noLiquidity: boolean,
+): ExistZBPair {
   const ZB = useCurrency(ZB_ADDRESS)
   const DEX = useCurrency(DEX_ADDRESS)
 
@@ -34,19 +38,21 @@ export function useCurrencyExistZBPair(currencyA: Currency | null, currencyB: Cu
     currencyA = DEX
   }
 
-  const [ pairAState ] = usePair(ZB, currencyA)
-  const [ pairBState ] = usePair(ZB, currencyB)
+  const [pairAState] = usePair(ZB, currencyA)
+  const [pairBState] = usePair(ZB, currencyB)
 
   return useMemo<ExistZBPair>(() => {
     const allReadyZB = currencyEquals(ZB, currencyA) || currencyEquals(ZB, currencyB)
 
-    return noLiquidity ? {
-      zbWithcurrencyA: (!currencyA || allReadyZB) || pairAState === PairState.EXISTS,
-      zbWithcurrencyB: (!currencyB || allReadyZB) || pairAState === PairState.EXISTS
-    } : {
-      zbWithcurrencyA: true,
-      zbWithcurrencyB: true
-    }
+    return noLiquidity
+      ? {
+          zbWithcurrencyA: !currencyA || allReadyZB || pairAState === PairState.EXISTS,
+          zbWithcurrencyB: !currencyB || allReadyZB || pairAState === PairState.EXISTS,
+        }
+      : {
+          zbWithcurrencyA: true,
+          zbWithcurrencyB: true,
+        }
   }, [pairAState, pairBState, currencyA, currencyB, ZB])
 }
 
@@ -62,13 +68,25 @@ export function useMintActionHandlers(noLiquidity: boolean | undefined): {
 
   const onFieldAInput = useCallback(
     (typedValue: string) => {
-      dispatch(typeInput({ field: Field.CURRENCY_A, typedValue, noLiquidity: noLiquidity === true }))
+      dispatch(
+        typeInput({
+          field: Field.CURRENCY_A,
+          typedValue,
+          noLiquidity: noLiquidity === true,
+        }),
+      )
     },
     [dispatch, noLiquidity],
   )
   const onFieldBInput = useCallback(
     (typedValue: string) => {
-      dispatch(typeInput({ field: Field.CURRENCY_B, typedValue, noLiquidity: noLiquidity === true }))
+      dispatch(
+        typeInput({
+          field: Field.CURRENCY_B,
+          typedValue,
+          noLiquidity: noLiquidity === true,
+        }),
+      )
     },
     [dispatch, noLiquidity],
   )
@@ -112,9 +130,9 @@ export function useDerivedMintInfo(
     }),
     [currencyA, currencyB],
   )
-  
+
   const currencyId: {
-    currencyA: string | undefined,
+    currencyA: string | undefined
     currencyB: string | undefined
   } = {
     currencyA: currencyA === ETHER ? 'DEX' : currencyA ? (currencyA as WrappedTokenInfo).address : undefined,
@@ -130,10 +148,20 @@ export function useDerivedMintInfo(
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))
 
   //  check each token has a allready exist trad pair with ZB
-  const { zbWithcurrencyA, zbWithcurrencyB } = useCurrencyExistZBPair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B], noLiquidity)
-  const allExist = useMemo<boolean>(() => (zbWithcurrencyA && zbWithcurrencyB), [zbWithcurrencyA, zbWithcurrencyB])
-  const createZBPairLink = useMemo<string>(() => (allExist ? null : `/add/${ZB_ADDRESS}/${zbWithcurrencyA ? currencyId.currencyB : currencyId.currencyA}`), [currencyId, allExist])
-  const otherCurrencySymbol = useMemo<string>(() => (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol), [currencyA, currencyB, zbWithcurrencyA, allExist])
+  const { zbWithcurrencyA, zbWithcurrencyB } = useCurrencyExistZBPair(
+    currencies[Field.CURRENCY_A],
+    currencies[Field.CURRENCY_B],
+    noLiquidity,
+  )
+  const allExist = useMemo<boolean>(() => zbWithcurrencyA && zbWithcurrencyB, [zbWithcurrencyA, zbWithcurrencyB])
+  const createZBPairLink = useMemo<string>(
+    () => (allExist ? null : `/add/${ZB_ADDRESS}/${zbWithcurrencyA ? currencyId.currencyB : currencyId.currencyA}`),
+    [currencyId, allExist],
+  )
+  const otherCurrencySymbol = useMemo<string>(
+    () => (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol),
+    [currencyA, currencyB, zbWithcurrencyA, allExist],
+  )
 
   // balances
   const balances = useCurrencyBalances(account ?? undefined, [
@@ -252,6 +280,6 @@ export function useDerivedMintInfo(
     error,
     allExist,
     createZBPairLink,
-    otherCurrencySymbol
+    otherCurrencySymbol,
   }
 }

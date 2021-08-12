@@ -131,8 +131,15 @@ const useReclaimAuctionBid = (): [ReclaimableAuction | null, () => void] => {
           const sortedBidders = sortAuctionBidders(auctionBidders)
           const accountBidderData = sortedBidders.find((bidder) => bidder.account === account)
           const position = accountBidderData?.position
-          const auctionToReclaim = { id: auctionToCheck.id, amount: auctionToCheck.amount, position }
-          dispatch({ type: 'setAuctionToReclaim', payload: { auctionToReclaim } })
+          const auctionToReclaim = {
+            id: auctionToCheck.id,
+            amount: auctionToCheck.amount,
+            position,
+          }
+          dispatch({
+            type: 'setAuctionToReclaim',
+            payload: { auctionToReclaim },
+          })
         } else {
           dispatch({ type: 'checkNextAuction' })
         }

@@ -81,7 +81,13 @@ export default function Updater(): null {
                 </Flex>,
               )
             } else {
-              dispatch(checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber }))
+              dispatch(
+                checkedTransaction({
+                  chainId,
+                  hash,
+                  blockNumber: lastBlockNumber,
+                }),
+              )
             }
           })
           .catch((error) => {

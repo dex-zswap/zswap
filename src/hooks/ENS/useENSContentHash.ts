@@ -7,7 +7,10 @@ import { useENSRegistrarContract, useENSResolverContract } from 'hooks/useContra
 /**
  * Does a lookup for an ENS name to find its contenthash.
  */
-export default function useENSContentHash(ensName?: string | null): { loading: boolean; contenthash: string | null } {
+export default function useENSContentHash(ensName?: string | null): {
+  loading: boolean
+  contenthash: string | null
+} {
   const ensNodeArgument = useMemo(() => {
     if (!ensName) return [undefined]
     try {

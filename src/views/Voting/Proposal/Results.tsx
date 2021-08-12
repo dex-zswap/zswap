@@ -68,7 +68,11 @@ const Results: React.FC<ResultsProps> = ({ choices, votes }) => {
                 <Flex alignItems="center" justifyContent="space-between">
                   <Text color="textSubtle">{t('%total% Votes', { total: totalChoiceVote.toFormat(3) })}</Text>
                   <Text>
-                    {progress.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
+                    {progress.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                    %
                   </Text>
                 </Flex>
               </Box>

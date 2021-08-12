@@ -18,7 +18,9 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList | any = {
  * Addittional bases for specific tokens
  * @example { [WBTC.address]: [renBTC], [renBTC.address]: [WBTC] }
  */
-export const ADDITIONAL_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
+export const ADDITIONAL_BASES: {
+  [chainId in ChainId]?: { [tokenAddress: string]: Token[] }
+} = {
   [ChainId.MAINNET]: {},
 }
 
@@ -27,7 +29,9 @@ export const ADDITIONAL_BASES: { [chainId in ChainId]?: { [tokenAddress: string]
  * tokens.
  * @example [AMPL.address]: [DAI, WETH[ChainId.MAINNET]]
  */
-export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: Token[] } } = {
+export const CUSTOM_BASES: {
+  [chainId in ChainId]?: { [tokenAddress: string]: Token[] }
+} = {
   [ChainId.MAINNET]: {},
 }
 
@@ -43,7 +47,9 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], BUSD[ChainId.TESTNET]],
 }
 
-export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
+export const PINNED_PAIRS: {
+  readonly [chainId in ChainId]?: [Token, Token][]
+} = {
   [ChainId.MAINNET]: [
     [CAKE[ChainId.MAINNET], WBNB],
     [BUSD[ChainId.MAINNET], USDT],

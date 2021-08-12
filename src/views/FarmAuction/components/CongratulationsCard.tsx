@@ -13,7 +13,10 @@ const StyledReclaimBidCard = styled(Card)`
   flex: 1;
 `
 
-const CongratulationsCard: React.FC<{ currentAuction: Auction; bidders: Bidder[] }> = ({ currentAuction, bidders }) => {
+const CongratulationsCard: React.FC<{
+  currentAuction: Auction
+  bidders: Bidder[]
+}> = ({ currentAuction, bidders }) => {
   const { t } = useTranslation()
   const wonAuction = useCongratulateAuctionWinner(currentAuction, bidders)
 
@@ -29,7 +32,11 @@ const CongratulationsCard: React.FC<{ currentAuction: Auction; bidders: Bidder[]
         <Heading>{t('Congratulations!')}</Heading>
       </CardHeader>
       <CardBody>
-        <Text mb="16px">{t('Your bid in Auction #%auctionId% was successful.', { auctionId: auction.id })}</Text>
+        <Text mb="16px">
+          {t('Your bid in Auction #%auctionId% was successful.', {
+            auctionId: auction.id,
+          })}
+        </Text>
         <Text>{t('Your Farm will be launched as follows:')}</Text>
         <Flex flexDirection="column" mb="24px">
           <Flex justifyContent="space-between" width="100%" pt="8px">

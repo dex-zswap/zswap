@@ -69,7 +69,9 @@ const AuctionDetails: React.FC<AuctionDetailsProps> = ({ auction, conncetedBidde
       return (
         <>
           <Tag outline variant="success" startIcon={<CheckmarkCircleIcon />}>
-            {t('Connected as %projectName%', { projectName: conncetedBidder.bidderData.tokenName })}
+            {t('Connected as %projectName%', {
+              projectName: conncetedBidder.bidderData.tokenName,
+            })}
           </Tag>
           <Flex justifyContent="space-between" width="100%" pt="24px">
             <Text small color="textSubtle">

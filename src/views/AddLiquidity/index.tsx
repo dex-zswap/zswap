@@ -74,7 +74,7 @@ export default function AddLiquidity({
     error,
     allExist,
     createZBPairLink,
-    otherCurrencySymbol
+    otherCurrencySymbol,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
@@ -182,6 +182,13 @@ export default function AddLiquidity({
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencies[Field.CURRENCY_A]?.symbol
             } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+            reportData: {
+              from: 'addLiquidity',
+              args: {
+                args,
+                gas: calculateGasMargin(estimatedGasLimit)
+              }
+            }
           })
 
           setTxHash(response.hash)
@@ -400,9 +407,15 @@ export default function AddLiquidity({
                           width={approvalB !== ApprovalState.APPROVED ? '48%' : '100%'}
                         >
                           {approvalA === ApprovalState.PENDING ? (
-                            <Dots>{t('Enabling %asset%', { asset: currencies[Field.CURRENCY_A]?.symbol })}</Dots>
+                            <Dots>
+                              {t('Enabling %asset%', {
+                                asset: currencies[Field.CURRENCY_A]?.symbol,
+                              })}
+                            </Dots>
                           ) : (
-                            t('Enable %asset%', { asset: currencies[Field.CURRENCY_A]?.symbol })
+                            t('Enable %asset%', {
+                              asset: currencies[Field.CURRENCY_A]?.symbol,
+                            })
                           )}
                         </Button>
                       )}
@@ -413,46 +426,45 @@ export default function AddLiquidity({
                           width={approvalA !== ApprovalState.APPROVED ? '48%' : '100%'}
                         >
                           {approvalB === ApprovalState.PENDING ? (
-                            <Dots>{t('Enabling %asset%', { asset: currencies[Field.CURRENCY_B]?.symbol })}</Dots>
+                            <Dots>
+                              {t('Enabling %asset%', {
+                                asset: currencies[Field.CURRENCY_B]?.symbol,
+                              })}
+                            </Dots>
                           ) : (
-                            t('Enable %asset%', { asset: currencies[Field.CURRENCY_B]?.symbol })
+                            t('Enable %asset%', {
+                              asset: currencies[Field.CURRENCY_B]?.symbol,
+                            })
                           )}
                         </Button>
                       )}
                     </RowBetween>
                   )}
-                {
-                  allExist ?
-                  (
-                    <Button
-                      variant={
-                        !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]
-                          ? 'danger'
-                          : 'primary'
+                {allExist ? (
+                  <Button
+                    variant={
+                      !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]
+                        ? 'danger'
+                        : 'primary'
+                    }
+                    onClick={() => {
+                      if (expertMode) {
+                        onAdd()
+                      } else {
+                        onPresentAddLiquidityModal()
                       }
-                      onClick={() => {
-                        if (expertMode) {
-                          onAdd()
-                        } else {
-                          onPresentAddLiquidityModal()
-                        }
-                      }}
-                      disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
-                    >
-                      {error ?? t('Supply')}
-                    </Button>
-                  ) :
-                  (
-                    <Button
-                      as={Link}
-                      to={createZBPairLink}
-                    >
-                      {t(error, {
-                        symbol: otherCurrencySymbol
-                      })}
-                    </Button>
-                  )
-                }
+                    }}
+                    disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+                  >
+                    {error ?? t('Supply')}
+                  </Button>
+                ) : (
+                  <Button as={Link} to={createZBPairLink}>
+                    {t(error, {
+                      symbol: otherCurrencySymbol,
+                    })}
+                  </Button>
+                )}
               </AutoColumn>
             )}
           </AutoColumn>
@@ -460,7 +472,14 @@ export default function AddLiquidity({
       </AppBody>
       {!addIsUnsupported ? (
         pair && !noLiquidity && pairState !== PairState.INVALID ? (
-          <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
+          <AutoColumn
+            style={{
+              minWidth: '20rem',
+              width: '100%',
+              maxWidth: '400px',
+              marginTop: '1rem',
+            }}
+          >
             <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
           </AutoColumn>
         ) : null

@@ -47,7 +47,9 @@ interface PayoutRowProps extends FlexProps {
 
 export const PayoutRow: React.FC<PayoutRowProps> = ({ positionLabel, multiplier, amount, ...props }) => {
   const { t } = useTranslation()
-  const formattedMultiplier = `${multiplier.toLocaleString(undefined, { maximumFractionDigits: 2 })}x`
+  const formattedMultiplier = `${multiplier.toLocaleString(undefined, {
+    maximumFractionDigits: 2,
+  })}x`
 
   return (
     <Row height="18px" {...props}>
