@@ -61,7 +61,7 @@ export const USDC = new Token(
 
 const tokens = {
   bnb: {
-    symbol: 'BNB',
+    symbol: 'DEX',
     projectLink: 'https://www.binance.com/',
   },
   cake: {

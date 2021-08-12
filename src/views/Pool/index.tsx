@@ -12,6 +12,7 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
 import Dots from 'components/Loader/Dots'
 import { AppHeader, AppBody } from 'components/App'
 import Page from 'views/Page'
+import { useUserPairs } from './hooks'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.dropdownDeep};
@@ -20,6 +21,8 @@ const Body = styled(CardBody)`
 export default function Pool() {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
+
+  const userPairs = useUserPairs()
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()

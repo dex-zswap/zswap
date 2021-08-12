@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { BIPS_BASE, INITIAL_ALLOWED_SLIPPAGE } from 'config/constants'
 import { useTransactionAdder } from 'state/transactions/hooks'
+import { useUserTransactionTTL } from 'state/user/hooks'
 import { calculateGasMargin, getRouterContract, isAddress, shortenAddress } from 'utils'
 import isZero from 'utils/isZero'
 import useTransactionDeadline from './useTransactionDeadline'
@@ -49,6 +50,8 @@ function useSwapCallArguments(
   const { address: recipientAddress } = useENS(recipientAddressOrName)
   const recipient = recipientAddressOrName === null ? account : recipientAddress
   const deadline = useTransactionDeadline()
+  const [ ttlSeconds ] = useUserTransactionTTL()
+  const ttl = ttlSeconds * 1E3
 
   return useMemo(() => {
     if (!trade || !recipient || !library || !account || !chainId || !deadline) return []
@@ -66,6 +69,7 @@ function useSwapCallArguments(
         allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
         recipient,
         deadline: deadline.toNumber(),
+        ttl
       }),
     )
 
@@ -76,6 +80,7 @@ function useSwapCallArguments(
           allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
           recipient,
           deadline: deadline.toNumber(),
+          ttl
         }),
       )
     }
