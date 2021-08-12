@@ -23,15 +23,15 @@ const StyledPanel = styled.div<{ isPushed: boolean; showMenu: boolean }>`
   width: ${({ isPushed }) => (isPushed ? `${SIDEBAR_WIDTH_FULL}px` : 0)};
   height: 100%;
   transition: padding-top 0.2s, width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  border-right: ${({ isPushed }) => (isPushed ? '2px solid rgba(133, 133, 133, 0.1)' : 0)};
+  box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.3);
   z-index: 11;
   overflow: ${({ isPushed }) => (isPushed ? 'initial' : 'hidden')};
   transform: translate3d(0, 0, 0);
   ${({ isPushed }) => !isPushed && 'white-space: nowrap;'};
 
   ${({ theme }) => theme.mediaQueries.nav} {
-    border-right: 2px solid rgba(133, 133, 133, 0.1);
     width: ${({ isPushed }) => `${isPushed ? SIDEBAR_WIDTH_FULL : SIDEBAR_WIDTH_REDUCED}px`};
+    box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.3);
   }
 `
 

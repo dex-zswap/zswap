@@ -20,7 +20,7 @@ export const UserMenuItem = styled.button<UserMenuItemProps>`
   justify-content: space-between;
   outline: 0;
   padding-left: 16px;
-  padding-right: 16px;
+  padding-right: 50px;
   width: 100%;
 
   &:hover:not(:disabled) {

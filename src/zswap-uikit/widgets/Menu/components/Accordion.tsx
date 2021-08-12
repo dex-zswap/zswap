@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import styled from 'styled-components'
-import { MENU_ENTRY_HEIGHT } from '../config'
+import { SUB_MENU_ENTRY_HEIGHT } from '../config'
 import { LinkLabel, LinkStatus as LinkStatusComponent, MenuEntry } from './MenuEntry'
 import { LinkStatus, PushedProps } from '../types'
 import { ArrowDropDownIcon, ArrowDropUpIcon } from '../../../components/Svg'
@@ -67,7 +67,7 @@ const Accordion: React.FC<Props> = ({
       <AccordionContent
         isOpen={isOpen}
         isPushed={isPushed}
-        maxHeight={React.Children.count(children) * MENU_ENTRY_HEIGHT}
+        maxHeight={React.Children.count(children) * SUB_MENU_ENTRY_HEIGHT}
       >
         {children}
       </AccordionContent>

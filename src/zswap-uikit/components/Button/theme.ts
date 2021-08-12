@@ -1,4 +1,5 @@
 import { scales, variants } from './types'
+import { lightColors } from '../../theme/colors'
 
 export const scaleVariants = {
   [scales.MD]: {
@@ -18,7 +19,7 @@ export const scaleVariants = {
 
 export const styleVariants = {
   [variants.PRIMARY]: {
-    backgroundColor: 'primary',
+    background: lightColors.gradients.button,
     color: 'white',
   },
   [variants.SECONDARY]: {

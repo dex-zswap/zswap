@@ -8,9 +8,24 @@ declare module 'styled-components' {
 }
 
 const GlobalStyle = createGlobalStyle`
-  * {
-    font-family: 'Kanit', sans-serif;
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/public/font/poppins/Poppins-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
   }
+
+  @font-face {
+    font-family: 'Noto-Sans-SC';
+    src: url('/public/font/Noto-Sans-SC/Noto-Sans-SC-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * {
+    font-family: 'Poppins', 'Noto-Sans-SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  }
+
   body {
     background-color: ${({ theme }) => theme.colors.background};
 
