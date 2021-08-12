@@ -2,6 +2,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { LogoIcon } from '../../../components/Svg'
+import { Text } from 'zswap-uikit'
 import Flex from '../../../components/Box/Flex'
 import { HamburgerIcon, HamburgerCloseIcon, LogoIcon as LogoWithText } from '../icons'
 import MenuButton from './MenuButton'
@@ -50,16 +51,22 @@ const StyledLink = styled(Link)`
 
 const Logo: React.FC<Props> = ({ isPushed, togglePush, isDark, href }) => {
   const isAbsoluteUrl = href.startsWith('http')
+  // const innerLogo = (
+  //   <>
+  //     <LogoIcon className="mobile-icon" />
+  //     <LogoWithText className="desktop-icon" isDark={isDark} />
+  //   </>
+  // )
+
   const innerLogo = (
-    <>
-      <LogoIcon className="mobile-icon" />
-      <LogoWithText className="desktop-icon" isDark={isDark} />
-    </>
+    <Text fontSize="20px" fontWeight="bold">
+      ZSwap
+    </Text>
   )
 
   return (
     <Flex>
-      <MenuButton aria-label="Toggle menu" onClick={togglePush} mr="24px">
+      <MenuButton aria-label="Toggle menu" onClick={togglePush} mr="30px">
         {isPushed ? (
           <HamburgerCloseIcon width="24px" color="textSubtle" />
         ) : (

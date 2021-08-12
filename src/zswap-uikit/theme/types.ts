@@ -28,6 +28,7 @@ export type Shadows = {
 }
 
 export type Gradients = {
+  button: string
   bubblegum: string
   inverseBubblegum: string
   cardHeader: string
@@ -38,6 +39,7 @@ export type Gradients = {
 }
 
 export type Colors = {
+  button: string
   primary: string
   primaryBright: string
   primaryDark: string

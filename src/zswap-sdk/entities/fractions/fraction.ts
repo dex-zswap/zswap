@@ -18,9 +18,9 @@ const toSignificantRounding = {
 }
 
 const toFixedRounding = {
-  [Rounding.ROUND_DOWN]: _Big.RoundDown,
-  [Rounding.ROUND_HALF_UP]: _Big.RoundHalfUp,
-  [Rounding.ROUND_UP]: _Big.RoundUp,
+  [Rounding.ROUND_DOWN]: 0,
+  [Rounding.ROUND_HALF_UP]: 2,
+  [Rounding.ROUND_UP]: 3,
 }
 
 export class Fraction {
@@ -119,14 +119,18 @@ export class Fraction {
     format: object = { groupSeparator: '' },
     rounding: Rounding = Rounding.ROUND_HALF_UP,
   ): string {
-    invariant(Number.isInteger(significantDigits), `${significantDigits} is not an integer.`)
-    invariant(significantDigits > 0, `${significantDigits} is not positive.`)
+    try {
+      invariant(Number.isInteger(significantDigits), `${significantDigits} is not an integer.`)
+      invariant(significantDigits > 0, `${significantDigits} is not positive.`)
 
-    Decimal.set({ precision: significantDigits + 1, rounding: toSignificantRounding[rounding] })
-    const quotient = new Decimal(this.numerator.toString())
-      .div(this.denominator.toString())
-      .toSignificantDigits(significantDigits)
-    return quotient.toFormat(quotient.decimalPlaces(), format)
+      Decimal.set({ precision: significantDigits + 1, rounding: toSignificantRounding[rounding] })
+      const quotient = new Decimal(this.numerator.toString())
+        .div(this.denominator.toString())
+        .toSignificantDigits(significantDigits)
+      return quotient.toFormat(quotient.decimalPlaces(), format)
+    } catch (e) {
+      console.log(e, rounding, format, significantDigits)
+    }
   }
 
   public toFixed(
@@ -134,11 +138,15 @@ export class Fraction {
     format: object = { groupSeparator: '' },
     rounding: Rounding = Rounding.ROUND_HALF_UP,
   ): string {
-    invariant(Number.isInteger(decimalPlaces), `${decimalPlaces} is not an integer.`)
-    invariant(decimalPlaces >= 0, `${decimalPlaces} is negative.`)
+    try {
+      invariant(Number.isInteger(decimalPlaces), `${decimalPlaces} is not an integer.`)
+      invariant(decimalPlaces >= 0, `${decimalPlaces} is negative.`)
 
-    Big.DP = decimalPlaces
-    Big.RM = toFixedRounding[rounding]
-    return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format)
+      Big.DP = decimalPlaces
+      Big.RM = toFixedRounding[rounding]
+      return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format)
+    } catch (e) {
+      console.log(e, rounding, format, decimalPlaces)
+    }
   }
 }

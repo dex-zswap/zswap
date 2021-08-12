@@ -102,5 +102,8 @@ export { default as WalletConnectIcon } from './Icons/WalletConnect'
 export { default as WalletIcon } from './Icons/Wallet'
 export { default as WalletFilledIcon } from './Icons/WalletFilled'
 export { default as WaitIcon } from './Icons/Wait'
+
+export { default as ShareIcon } from './Icons/Share'
+export { default as LangIcon } from './Icons/Lang'
 export { default as Svg } from './Svg'
 export type { SvgProps } from './types'

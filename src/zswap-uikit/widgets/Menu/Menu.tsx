@@ -23,11 +23,10 @@ const StyledNav = styled.nav<{ showMenu: boolean }>`
   justify-content: space-between;
   align-items: center;
   padding-left: 8px;
-  padding-right: 16px;
+  padding-right: 50px;
   width: 100%;
   height: ${MENU_HEIGHT}px;
   background-color: ${({ theme }) => theme.nav.background};
-  border-bottom: solid 2px rgba(133, 133, 133, 0.1);
   z-index: 20;
   transform: translate3d(0, 0, 0);
 `

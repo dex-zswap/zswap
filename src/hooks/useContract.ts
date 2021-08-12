@@ -28,7 +28,7 @@ import {
 
 // Imports below migrated from Exchange useContract.ts
 import { Contract } from '@ethersproject/contracts'
-import { ChainId, WETH } from 'zswap-sdk'
+import { ChainId, WETH, FACTORY_ADDRESS } from 'zswap-sdk'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import ENS_PUBLIC_RESOLVER_ABI from 'config/abi/ens-public-resolver.json'
 import ENS_ABI from 'config/abi/ens-registrar.json'
@@ -37,6 +37,7 @@ import ERC20_ABI from 'config/abi/erc20.json'
 import WETH_ABI from 'config/abi/weth.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from 'config/constants/multicall'
 import { getContract } from 'utils'
+import { abi as FACTORY_ABI } from 'config/zswap-abis/ZswapFactory.json'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -227,4 +228,26 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 export function useMulticallContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
+}
+
+export function useFactoryContract(): Contract | null {
+  return useContract(FACTORY_ADDRESS, FACTORY_ABI, false)
+}
+
+export function usePairContracts(
+  pairAddresses?: Array<string>,
+  withSignerIfPossible?: boolean,
+): Array<Contract> | null {
+  const { library, account } = useActiveWeb3React()
+
+  return useMemo(() => {
+    if (!library) return null
+    try {
+      return pairAddresses.map((address) =>
+        getContract(address, IUniswapV2PairABI, library, withSignerIfPossible && account ? account : undefined),
+      )
+    } catch (error) {
+      return null
+    }
+  }, [pairAddresses, library, withSignerIfPossible, account])
 }

@@ -14,7 +14,7 @@ describe('hooks', () => {
         ),
       ).toEqual({
         [Field.OUTPUT]: { currencyId: '0x6B175474E89094C44Da98b954EedeAC495271d0F' },
-        [Field.INPUT]: { currencyId: 'BNB' },
+        [Field.INPUT]: { currencyId: 'DEX' },
         typedValue: '20.5',
         independentField: Field.OUTPUT,
         recipient: null,
@@ -26,7 +26,7 @@ describe('hooks', () => {
         queryParametersToSwapState(parse('?outputCurrency=invalid', { parseArrays: false, ignoreQueryPrefix: true })),
       ).toEqual({
         [Field.INPUT]: { currencyId: '' },
-        [Field.OUTPUT]: { currencyId: 'BNB' },
+        [Field.OUTPUT]: { currencyId: 'DEX' },
         typedValue: '',
         independentField: Field.INPUT,
         recipient: null,
@@ -39,7 +39,7 @@ describe('hooks', () => {
           parse('?outputCurrency=bnb&exactAmount=20.5', { parseArrays: false, ignoreQueryPrefix: true }),
         ),
       ).toEqual({
-        [Field.OUTPUT]: { currencyId: 'BNB' },
+        [Field.OUTPUT]: { currencyId: 'DEX' },
         [Field.INPUT]: { currencyId: '' },
         typedValue: '20.5',
         independentField: Field.INPUT,
@@ -53,7 +53,7 @@ describe('hooks', () => {
           parse('?outputCurrency=BNB&exactAmount=20.5&recipient=abc', { parseArrays: false, ignoreQueryPrefix: true }),
         ),
       ).toEqual({
-        [Field.OUTPUT]: { currencyId: 'BNB' },
+        [Field.OUTPUT]: { currencyId: 'DEX' },
         [Field.INPUT]: { currencyId: '' },
         typedValue: '20.5',
         independentField: Field.INPUT,
@@ -70,7 +70,7 @@ describe('hooks', () => {
           }),
         ),
       ).toEqual({
-        [Field.OUTPUT]: { currencyId: 'BNB' },
+        [Field.OUTPUT]: { currencyId: 'DEX' },
         [Field.INPUT]: { currencyId: '' },
         typedValue: '20.5',
         independentField: Field.INPUT,
@@ -86,7 +86,7 @@ describe('hooks', () => {
           }),
         ),
       ).toEqual({
-        [Field.OUTPUT]: { currencyId: 'BNB' },
+        [Field.OUTPUT]: { currencyId: 'DEX' },
         [Field.INPUT]: { currencyId: '' },
         typedValue: '20.5',
         independentField: Field.INPUT,
