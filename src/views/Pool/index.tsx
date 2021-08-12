@@ -43,7 +43,7 @@ export default function Pool() {
 
     if (pairs?.length > 0) {
       return pairs.map((pair, index) => (
-        <WrappedPositionCard key={pair.pair} pair={pair} mb={index < pairs.length ? '16px' : 0}/>
+        <WrappedPositionCard key={pair.pair} pair={pair} mb={index < pairs.length ? '16px' : 0} />
       ))
     }
     return (
@@ -59,7 +59,7 @@ export default function Pool() {
         <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
         <Body>
           {renderBody()}
-          {account && !loading && !(pairs?.length) && (
+          {account && !loading && !pairs?.length && (
             <Flex flexDirection="column" alignItems="center" mt="24px">
               <Text color="textSubtle" mb="8px">
                 {t("Don't see a pool you joined?")}

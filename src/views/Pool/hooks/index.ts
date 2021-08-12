@@ -15,14 +15,14 @@ import { ONE_HUNDRED_PERCENT } from 'config/constants'
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 
 type PairsInfo = {
-  pair: string;
-  token0: string;
-  token1: string;
+  pair: string
+  token0: string
+  token1: string
 }
 
 type UserPairs = {
-  loading: boolean;
-  pairs: Array<PairsInfo>;
+  loading: boolean
+  pairs: Array<PairsInfo>
 }
 
 export function useUserPairs(): UserPairs {
@@ -32,7 +32,7 @@ export function useUserPairs(): UserPairs {
   const allPairsLength = useSingleCallResult(factoryContract, 'allPairsLength')
   const pairsIndexArgs = useMemo<Array<Array<number>>>(() => {
     const indexs: Array<Array<number>> = []
-    const { length } = allPairsLength.result ?? []
+    const length = allPairsLength.result ? (allPairsLength.result[0]).toNumber() : 0
     for (let i = 0; i < length; i++) {
       indexs.push([i])
     }
@@ -49,7 +49,10 @@ export function useUserPairs(): UserPairs {
   const allToken0 = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'token0', [])
   const allToken1 = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'token1', [])
 
-  const loading: boolean = useMemo<boolean>(() => [allPairs, allBalanceOf, allToken0, allToken1].flat().some(({ loading }) => loading), [allPairs, allBalanceOf, allToken0, allToken1])
+  const loading: boolean = useMemo<boolean>(
+    () => [allPairs, allBalanceOf, allToken0, allToken1].flat().some(({ loading }) => loading),
+    [allPairs, allBalanceOf, allToken0, allToken1],
+  )
 
   return useMemo<UserPairs>(() => {
     const pairs = []
@@ -61,7 +64,12 @@ export function useUserPairs(): UserPairs {
       token0 = allToken0[idx].result ?? []
       token1 = allToken1[idx].result ?? []
 
-      if (Boolean(balanceOf.length) && Boolean(totalSupply.length) && Boolean(token0.length) && Boolean(token1.length)) {
+      if (
+        Boolean(balanceOf.length) &&
+        Boolean(totalSupply.length) &&
+        Boolean(token0.length) &&
+        Boolean(token1.length)
+      ) {
         if (balanceOf[0].gte(0)) {
           pairs.push({
             pair: allPairsIdArgs[idx],
@@ -74,7 +82,7 @@ export function useUserPairs(): UserPairs {
 
     return {
       loading,
-      pairs
+      pairs,
     }
   }, [allBalanceOf, allTotalSupply, allPairsIdArgs, allToken0, allToken1, loading])
 }

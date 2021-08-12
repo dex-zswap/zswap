@@ -105,14 +105,14 @@ export default function RemoveLiquidity({
     // try to gather a signature for permission
     const nonce = await pairContract.nonces(account)
 
-    const EIP712Domain = [
+    const Domain = [
       { name: 'name', type: 'string' },
       { name: 'version', type: 'string' },
       { name: 'chainId', type: 'uint256' },
       { name: 'verifyingContract', type: 'address' },
     ]
     const domain = {
-      name: 'Pancake LPs',
+      name: 'ZSwap LPs',
       version: '1',
       chainId,
       verifyingContract: pair.liquidityToken.address,
@@ -133,7 +133,7 @@ export default function RemoveLiquidity({
     }
     const data = JSON.stringify({
       types: {
-        EIP712Domain,
+        Domain,
         Permit,
       },
       domain,
@@ -142,7 +142,7 @@ export default function RemoveLiquidity({
     })
 
     library
-      .send('eth_signTypedData_v4', [account, data])
+      .send('signTypedData_v1', [account, data])
       .then(splitSignature)
       .then((signature) => {
         setSignatureData({

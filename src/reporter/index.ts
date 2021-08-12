@@ -49,10 +49,11 @@ interface ReporterInterface {
 class Reporter implements ReporterInterface {
   private hashMaps = {}
 
-  cacheHash(hash: string, transitionInfo: TransactionRecord) {
+  public cacheHash(hash: string, transitionInfo: TransactionRecord) {
     this.hashMaps[hash] = transitionInfo
   }
-  recordHash(hash: string, transitionInfo: TransactionRecord) {
+
+  public recordHash(hash: string, transitionInfo: TransactionRecord) {
     const storagedHash: TransactionRecord = this.hashMaps[hash]
     const postHashInfo: TransactionRecord = Object.assign(this.hashMaps[hash], transitionInfo)
 

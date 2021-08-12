@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from 'zswap-sdk'
@@ -71,6 +72,9 @@ export default function AddLiquidity({
     liquidityMinted,
     poolTokenPercentage,
     error,
+    allExist,
+    createZBPairLink,
+    otherCurrencySymbol
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
@@ -417,23 +421,38 @@ export default function AddLiquidity({
                       )}
                     </RowBetween>
                   )}
-                <Button
-                  variant={
-                    !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]
-                      ? 'danger'
-                      : 'primary'
-                  }
-                  onClick={() => {
-                    if (expertMode) {
-                      onAdd()
-                    } else {
-                      onPresentAddLiquidityModal()
-                    }
-                  }}
-                  disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
-                >
-                  {error ?? t('Supply')}
-                </Button>
+                {
+                  allExist ?
+                  (
+                    <Button
+                      variant={
+                        !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]
+                          ? 'danger'
+                          : 'primary'
+                      }
+                      onClick={() => {
+                        if (expertMode) {
+                          onAdd()
+                        } else {
+                          onPresentAddLiquidityModal()
+                        }
+                      }}
+                      disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+                    >
+                      {error ?? t('Supply')}
+                    </Button>
+                  ) :
+                  (
+                    <Button
+                      as={Link}
+                      to={createZBPairLink}
+                    >
+                      {t(error, {
+                        symbol: otherCurrencySymbol
+                      })}
+                    </Button>
+                  )
+                }
               </AutoColumn>
             )}
           </AutoColumn>
