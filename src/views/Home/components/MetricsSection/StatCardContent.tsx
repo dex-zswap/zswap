@@ -1,11 +1,11 @@
 import React from 'react'
 import { Heading, Flex, Text } from 'zswap-uikit'
 
-const StatCardContent: React.FC<{ headingText: string; bodyText: string; highlightColor: string }> = ({
-  headingText,
-  bodyText,
-  highlightColor,
-}) => {
+const StatCardContent: React.FC<{
+  headingText: string
+  bodyText: string
+  highlightColor: string
+}> = ({ headingText, bodyText, highlightColor }) => {
   const split = headingText.split(' ')
   const lastWord = split.pop()
   const remainingWords = split.slice(0, split.length).join(' ')

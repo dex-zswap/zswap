@@ -94,7 +94,12 @@ export default function RemoveLiquidity({
   const pairContract: Contract | null = usePairContract(pair?.liquidityToken?.address)
 
   // allowance handling
-  const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
+  const [signatureData, setSignatureData] = useState<{
+    v: number
+    r: string
+    s: string
+    deadline: number
+  } | null>(null)
   const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], ROUTER_ADDRESS)
 
   async function onAttemptToApprove() {
@@ -105,14 +110,14 @@ export default function RemoveLiquidity({
     // try to gather a signature for permission
     const nonce = await pairContract.nonces(account)
 
-    const EIP712Domain = [
+    const Domain = [
       { name: 'name', type: 'string' },
       { name: 'version', type: 'string' },
       { name: 'chainId', type: 'uint256' },
       { name: 'verifyingContract', type: 'address' },
     ]
     const domain = {
-      name: 'Pancake LPs',
+      name: 'ZSwap LPs',
       version: '1',
       chainId,
       verifyingContract: pair.liquidityToken.address,
@@ -133,7 +138,7 @@ export default function RemoveLiquidity({
     }
     const data = JSON.stringify({
       types: {
-        EIP712Domain,
+        Domain,
         Permit,
       },
       domain,
@@ -142,7 +147,7 @@ export default function RemoveLiquidity({
     })
 
     library
-      .send('eth_signTypedData_v4', [account, data])
+      .send('signTypedData_v1', [account, data])
       .then(splitSignature)
       .then((signature) => {
         setSignatureData({
@@ -299,6 +304,13 @@ export default function RemoveLiquidity({
             summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencyA?.symbol
             } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
+            reportData: {
+              from: 'removeLiquidity',
+              args: {
+                args,
+                gas: safeGasEstimate,
+              },
+            },
           })
 
           setTxHash(response.hash)
@@ -349,7 +361,10 @@ export default function RemoveLiquidity({
     return (
       <>
         <RowBetween>
-          {t('%assetA%/%assetB% Burned', { assetA: currencyA?.symbol ?? '', assetB: currencyB?.symbol ?? '' })}
+          {t('%assetA%/%assetB% Burned', {
+            assetA: currencyA?.symbol ?? '',
+            assetB: currencyB?.symbol ?? '',
+          })}
           <RowFixed>
             <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin />
             <Text>{parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}</Text>
@@ -664,7 +679,14 @@ export default function RemoveLiquidity({
       </AppBody>
 
       {pair ? (
-        <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
+        <AutoColumn
+          style={{
+            minWidth: '20rem',
+            width: '100%',
+            maxWidth: '400px',
+            marginTop: '1rem',
+          }}
+        >
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
         </AutoColumn>
       ) : null}

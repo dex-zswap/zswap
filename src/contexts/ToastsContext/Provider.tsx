@@ -48,7 +48,17 @@ export const ToastsProvider: React.FC = ({ children }) => {
   }
 
   return (
-    <ToastsContext.Provider value={{ toasts, clear, remove, toastError, toastInfo, toastSuccess, toastWarning }}>
+    <ToastsContext.Provider
+      value={{
+        toasts,
+        clear,
+        remove,
+        toastError,
+        toastInfo,
+        toastSuccess,
+        toastWarning,
+      }}
+    >
       {children}
     </ToastsContext.Provider>
   )

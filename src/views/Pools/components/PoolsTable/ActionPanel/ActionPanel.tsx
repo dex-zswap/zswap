@@ -157,9 +157,14 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
     targetRef: totalStakedTargetRef,
     tooltip: totalStakedTooltip,
     tooltipVisible: totalStakedTooltipVisible,
-  } = useTooltip(t('Total amount of %symbol% staked in this pool', { symbol: stakingToken.symbol }), {
-    placement: 'bottom',
-  })
+  } = useTooltip(
+    t('Total amount of %symbol% staked in this pool', {
+      symbol: stakingToken.symbol,
+    }),
+    {
+      placement: 'bottom',
+    },
+  )
 
   const manualTooltipText = t('You must harvest and compound your earnings from this pool manually.')
   const autoTooltipText = t(

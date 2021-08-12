@@ -125,7 +125,10 @@ const Row: React.FunctionComponent<RowPropsWithLoading> = (props) => {
                   <td key={key}>
                     <CellInner>
                       <CellLayout label={t(tableSchema[columnIndex].label)}>
-                        {React.createElement(cells[key], { ...props[key], userDataReady })}
+                        {React.createElement(cells[key], {
+                          ...props[key],
+                          userDataReady,
+                        })}
                       </CellLayout>
                     </CellInner>
                   </td>

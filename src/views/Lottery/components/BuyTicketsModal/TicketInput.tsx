@@ -89,7 +89,10 @@ const TicketContaier: React.FC<{
 
   const scrollInputIntoView = () => {
     if (containerRef.current) {
-      containerRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      containerRef.current.scrollIntoView({
+        block: 'center',
+        behavior: 'smooth',
+      })
     }
   }
 

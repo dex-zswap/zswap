@@ -20,10 +20,10 @@ const NextDrawWrapper = styled(Flex)`
   }
 `
 
-const PreviousRoundCardFooter: React.FC<{ lotteryData: LotteryRound; lotteryId: string }> = ({
-  lotteryData,
-  lotteryId,
-}) => {
+const PreviousRoundCardFooter: React.FC<{
+  lotteryData: LotteryRound
+  lotteryId: string
+}> = ({ lotteryData, lotteryId }) => {
   const { t } = useTranslation()
   const lotteryGraphData = useGetLotteryGraphDataById(lotteryId)
   const cakePriceBusd = usePriceCakeBusd()

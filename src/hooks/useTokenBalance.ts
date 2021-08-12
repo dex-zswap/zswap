@@ -32,7 +32,10 @@ const useTokenBalance = (tokenAddress: string) => {
       const contract = getBep20Contract(tokenAddress)
       try {
         const res = await contract.balanceOf(account)
-        setBalanceState({ balance: new BigNumber(res.toString()), fetchStatus: SUCCESS })
+        setBalanceState({
+          balance: new BigNumber(res.toString()),
+          fetchStatus: SUCCESS,
+        })
       } catch (e) {
         console.error(e)
         setBalanceState((prev) => ({

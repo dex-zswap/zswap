@@ -13,7 +13,11 @@ interface Props {
   onDismiss: () => void
 }
 
-const WalletButton = styled(Button).attrs({ width: '100%', variant: 'text', py: '16px' })`
+const WalletButton = styled(Button).attrs({
+  width: '100%',
+  variant: 'text',
+  py: '16px',
+})`
   align-items: center;
   display: flex;
   flex-direction: column;

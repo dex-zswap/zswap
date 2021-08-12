@@ -17,7 +17,10 @@ const InputRow = styled.div<{ selected: boolean }>`
   align-items: center;
   padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
 `
-const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' })`
+const CurrencySelectButton = styled(Button).attrs({
+  variant: 'text',
+  scale: 'sm',
+})`
   padding: 0 0.5rem;
 `
 const LabelRow = styled.div`
@@ -97,7 +100,9 @@ export default function CurrencyInputPanel({
               {account && (
                 <Text onClick={onMax} fontSize="14px" style={{ display: 'inline', cursor: 'pointer' }}>
                   {!hideBalance && !!currency && selectedCurrencyBalance
-                    ? t('Balance: %amount%', { amount: selectedCurrencyBalance?.toSignificant(6) ?? '' })
+                    ? t('Balance: %amount%', {
+                        amount: selectedCurrencyBalance?.toSignificant(6) ?? '',
+                      })
                     : ' -'}
                 </Text>
               )}

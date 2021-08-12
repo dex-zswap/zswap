@@ -1,17 +1,60 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount } from 'zswap-sdk'
+import { Currency, CurrencyAmount, ETHER, JSBI, Pair, Percent, Price, TokenAmount, currencyEquals } from 'zswap-sdk'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { PairState, usePair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
-
+import { useCurrency, useToken } from 'hooks/Tokens'
+import { WrappedTokenInfo } from 'state/lists/hooks'
 import { wrappedCurrency, wrappedCurrencyAmount } from 'utils/wrappedCurrency'
 import { AppDispatch, AppState } from 'state'
 import { tryParseAmount } from 'state/swap/hooks'
 import { useCurrencyBalances } from 'state/wallet/hooks'
 import { Field, typeInput } from './actions'
 
+const ZB_ADDRESS: string = process.env.REACT_APP_ZB_ADDRESS
+const DEX_ADDRESS: string = process.env.REACT_APP_DEX_ADDRESS
+
+type ExistZBPair = {
+  zbWithcurrencyA: boolean
+  zbWithcurrencyB: boolean
+}
+
 const ZERO = JSBI.BigInt(0)
+
+export function useCurrencyExistZBPair(
+  currencyA: Currency | null,
+  currencyB: Currency | null,
+  noLiquidity: boolean,
+): ExistZBPair {
+  const ZB = useCurrency(ZB_ADDRESS)
+  const DEX = useCurrency(DEX_ADDRESS)
+
+  if (currencyEquals(currencyA, ETHER)) {
+    currencyA = DEX
+  }
+
+  if (currencyEquals(currencyB, ETHER)) {
+    currencyA = DEX
+  }
+
+  const [pairAState] = usePair(ZB, currencyA)
+  const [pairBState] = usePair(ZB, currencyB)
+
+  return useMemo<ExistZBPair>(() => {
+    const allReadyZB = currencyEquals(ZB, currencyA) || currencyEquals(ZB, currencyB)
+
+    return noLiquidity
+      ? {
+          zbWithcurrencyA: !currencyA || allReadyZB || pairAState === PairState.EXISTS,
+          zbWithcurrencyB: !currencyB || allReadyZB || pairAState === PairState.EXISTS,
+        }
+      : {
+          zbWithcurrencyA: true,
+          zbWithcurrencyB: true,
+        }
+  }, [pairAState, pairBState, currencyA, currencyB, ZB])
+}
 
 export function useMintState(): AppState['mint'] {
   return useSelector<AppState, AppState['mint']>((state) => state.mint)
@@ -25,13 +68,25 @@ export function useMintActionHandlers(noLiquidity: boolean | undefined): {
 
   const onFieldAInput = useCallback(
     (typedValue: string) => {
-      dispatch(typeInput({ field: Field.CURRENCY_A, typedValue, noLiquidity: noLiquidity === true }))
+      dispatch(
+        typeInput({
+          field: Field.CURRENCY_A,
+          typedValue,
+          noLiquidity: noLiquidity === true,
+        }),
+      )
     },
     [dispatch, noLiquidity],
   )
   const onFieldBInput = useCallback(
     (typedValue: string) => {
-      dispatch(typeInput({ field: Field.CURRENCY_B, typedValue, noLiquidity: noLiquidity === true }))
+      dispatch(
+        typeInput({
+          field: Field.CURRENCY_B,
+          typedValue,
+          noLiquidity: noLiquidity === true,
+        }),
+      )
     },
     [dispatch, noLiquidity],
   )
@@ -57,6 +112,9 @@ export function useDerivedMintInfo(
   liquidityMinted?: TokenAmount
   poolTokenPercentage?: Percent
   error?: string
+  allExist: boolean
+  createZBPairLink: string
+  otherCurrencySymbol: string
 } {
   const { account, chainId } = useActiveWeb3React()
 
@@ -73,13 +131,37 @@ export function useDerivedMintInfo(
     [currencyA, currencyB],
   )
 
-  // pair
+  const currencyId: {
+    currencyA: string | undefined
+    currencyB: string | undefined
+  } = {
+    currencyA: currencyA === ETHER ? 'DEX' : currencyA ? (currencyA as WrappedTokenInfo).address : undefined,
+    currencyB: currencyB === ETHER ? 'DEX' : currencyB ? (currencyB as WrappedTokenInfo).address : undefined,
+  }
+
+  // get pair with state
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B])
 
   const totalSupply = useTotalSupply(pair?.liquidityToken)
 
   const noLiquidity: boolean =
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, ZERO))
+
+  //  check each token has a allready exist trad pair with ZB
+  const { zbWithcurrencyA, zbWithcurrencyB } = useCurrencyExistZBPair(
+    currencies[Field.CURRENCY_A],
+    currencies[Field.CURRENCY_B],
+    noLiquidity,
+  )
+  const allExist = useMemo<boolean>(() => zbWithcurrencyA && zbWithcurrencyB, [zbWithcurrencyA, zbWithcurrencyB])
+  const createZBPairLink = useMemo<string>(
+    () => (allExist ? null : `/add/${ZB_ADDRESS}/${zbWithcurrencyA ? currencyId.currencyB : currencyId.currencyA}`),
+    [currencyId, allExist],
+  )
+  const otherCurrencySymbol = useMemo<string>(
+    () => (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol),
+    [currencyA, currencyB, zbWithcurrencyA, allExist],
+  )
 
   // balances
   const balances = useCurrencyBalances(account ?? undefined, [
@@ -170,6 +252,10 @@ export function useDerivedMintInfo(
     error = error ?? 'Enter an amount'
   }
 
+  if (!allExist) {
+    error = 'Create ZB Pair'
+  }
+
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
 
   if (currencyAAmount && currencyBalances?.[Field.CURRENCY_A]?.lessThan(currencyAAmount)) {
@@ -192,5 +278,8 @@ export function useDerivedMintInfo(
     liquidityMinted,
     poolTokenPercentage,
     error,
+    allExist,
+    createZBPairLink,
+    otherCurrencySymbol,
   }
 }

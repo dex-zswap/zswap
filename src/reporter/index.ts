@@ -1,3 +1,5 @@
+const reportUrl = process.env.REACT_APP_REPORT_URL
+
 export enum TransactionType {
   TRANSFER_IN = 1,
   TRANSFER_OUT = 2,
@@ -8,21 +10,19 @@ export enum TransactionStatus {
   FAILURE = 2,
 }
 
-export enum TransactionCategory {
-  PLAIN = 1,
-  FINANCIAL = 2,
-  MINING = 3,
-  DIVIDENDS = 4,
-  FEE = 5,
-  REGISTRATION = 101,
-  CROSS_CHAIN_IN = 102,
-  CROSS_CHAIN_OUT = 103,
-  RECIVE_INCOME = 104,
-  REDEMPTION = 105,
-  PLEDGE = 106,
+enum TransactionCategory {
+  SWAP = 1,
+  LP_PLEDGE = 2,
+  SINGLE_PLEDGE = 3,
+  ADD_LIQUIDITY = 4,
+  REMOVE_LIQUIDITY = 5,
+  APPROVE = 6
 }
 
+export declare type ReportFrom = 'swap' | 'approve' | 'addLiquidity' | 'removeLiquidity' | 'LPPledge' | 'singlePledge'
+
 type TransactionRecord = Partial<{
+  retryCount: number
   txId: string
   srcAddr: string
   dstAddr: string
@@ -41,22 +41,109 @@ type TransactionRecord = Partial<{
   category: TransactionCategory
 }>
 
+type FreeType = {
+  [key: string]: any
+}
+
+type HashInfoBaseStructure = {
+  hash: string
+  from: string
+  chainId: number
+  summary: string
+  reportData?: {
+    from: ReportFrom
+  } & FreeType
+}
+
 interface ReporterInterface {
-  cacheHash(hash: string, transitionInfo: TransactionRecord): void
+  cacheHash(hash: string, hashInfo: HashInfoBaseStructure): void
   recordHash(hash: string, transitionInfo: TransactionRecord): void
 }
 
 class Reporter implements ReporterInterface {
-  private hashMaps = {}
+  private cachedHashMaps = {}
 
-  cacheHash(hash: string, transitionInfo: TransactionRecord) {
-    this.hashMaps[hash] = transitionInfo
+  private reportTransaction(hash: string) {
+    const body: TransactionRecord = this.cachedHashMaps[hash]
+    const { retryCount } = body
+    delete body.retryCount
+
+    fetch(reportUrl, {
+      mode: 'cors',
+      credentials: 'omit',
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }).then(
+      (response) => {
+        delete this.cachedHashMaps[hash]
+      },
+      () => {
+        if (retryCount > 3) {
+          this.cachedHashMaps[hash] = Object.assign({}, body, {
+            retryCount: retryCount + 1,
+          })
+          this.reportTransaction(hash)
+        }
+      },
+    )
   }
-  recordHash(hash: string, transitionInfo: TransactionRecord) {
-    const storagedHash: TransactionRecord = this.hashMaps[hash]
-    const postHashInfo: TransactionRecord = Object.assign(this.hashMaps[hash], transitionInfo)
 
-    //  TODO: 发送一步请求
+  private makeInfoFromReportData(hashInfo: HashInfoBaseStructure): TransactionRecord {
+    const { hash, from, chainId, summary, reportData } = hashInfo
+    const info: TransactionRecord = {
+      retryCount: 1,
+      txId: hash,
+      srcAddr: from,
+      createTime: Date.now(),
+      mainCoinType: `${chainId}`,
+      gasLimit: reportData.gas?.toString(),
+      gwei: '0',
+    }
+
+    switch (reportData.from) {
+      case 'approve':
+        info.tranType = TransactionType.TRANSFER_OUT
+        info.category = TransactionCategory.APPROVE
+        break
+      case 'addLiquidity':
+        info.tranType = TransactionType.TRANSFER_OUT
+        info.category = TransactionCategory.ADD_LIQUIDITY
+        break
+      case 'removeLiquidity':
+        info.tranType = TransactionType.TRANSFER_IN
+        info.category = TransactionCategory.REMOVE_LIQUIDITY
+        break
+      case 'LPPledge':
+        info.tranType = TransactionType.TRANSFER_OUT
+        info.category = TransactionCategory.LP_PLEDGE
+        break
+      case 'singlePledge':
+        info.tranType = TransactionType.TRANSFER_OUT
+        info.category = TransactionCategory.SINGLE_PLEDGE
+        break
+      case 'swap':
+        info.tranType = TransactionType.TRANSFER_OUT
+        info.category = TransactionCategory.SWAP
+        break
+    }
+
+    return info
+  }
+
+  public cacheHash(hash: string, hashInfo: HashInfoBaseStructure): void {
+    this.cachedHashMaps[hash] = this.makeInfoFromReportData(hashInfo)
+  }
+
+  public recordHash(hash: string, transitionInfo: TransactionRecord): void {
+    const storagedHash: TransactionRecord = this.cachedHashMaps[hash]
+    this.cachedHashMaps[hash] = Object.assign(storagedHash, transitionInfo, {
+      updateTime: Date.now(),
+    })
+    this.reportTransaction(hash)
   }
 }
 

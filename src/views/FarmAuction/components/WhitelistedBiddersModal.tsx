@@ -32,7 +32,10 @@ const AddressRowContainer = styled.div`
   }
 `
 
-const AddressRow: React.FC<{ bidder: FarmAuctionBidderConfig; isMobile: boolean }> = ({ bidder, isMobile }) => {
+const AddressRow: React.FC<{
+  bidder: FarmAuctionBidderConfig
+  isMobile: boolean
+}> = ({ bidder, isMobile }) => {
   const { farmName, tokenName, account, projectSite } = bidder
   return (
     <a href={projectSite} target="_blank" rel="noopener noreferrer">

@@ -216,7 +216,14 @@ const UserName: React.FC = () => {
               "Only reuse a name from other social media if you're OK with people viewing your wallet. You can't change your name once you click Confirm.",
             )}
           </Text>
-          <label htmlFor="checkbox" style={{ display: 'block', cursor: 'pointer', marginBottom: '24px' }}>
+          <label
+            htmlFor="checkbox"
+            style={{
+              display: 'block',
+              cursor: 'pointer',
+              marginBottom: '24px',
+            }}
+          >
             <Flex alignItems="center">
               <div style={{ flex: 'none' }}>
                 <Checkbox id="checkbox" scale="sm" checked={isAcknowledged} onChange={handleAcknowledge} />

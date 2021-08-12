@@ -60,7 +60,14 @@ const useEditProfile = (): UseEditProfileResponse => {
   const goToApprove = () => dispatch({ type: 'set_view', view: Views.APPROVE })
   const goPrevious = () => dispatch({ type: 'go_previous' })
 
-  return { ...state, goToStart, goToChange, goToRemove, goToApprove, goPrevious }
+  return {
+    ...state,
+    goToStart,
+    goToChange,
+    goToRemove,
+    goToApprove,
+    goPrevious,
+  }
 }
 
 export default useEditProfile

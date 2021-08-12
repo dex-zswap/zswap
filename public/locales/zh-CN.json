@@ -575,6 +575,7 @@
   "Insufficient BNB balance": "BNB 余额不足",
   "A minimum amount of %num% %token% is required": "最少需要 %num% %token% 金额",
   "Enter an amount": "输入金额",
+  "Create ZB Pair": "请创建ZB与%symbol%的交易对",
   "You won’t be able to remove or change your position once you enter it.": "输入后，您将无法移除或更改自己的头寸。",
   "Prize Pool": "奖金池",
   "Winnings collected!": "已收集奖金！",

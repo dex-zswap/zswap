@@ -60,7 +60,12 @@ const PreviousRoundTicketsInner: React.FC<{ roundId: string }> = ({ roundId }) =
     ticketsWithUnclaimedRewards: LotteryTicket[]
     isFetched: boolean
     claimData: LotteryTicketClaimData
-  }>({ allWinningTickets: null, ticketsWithUnclaimedRewards: null, isFetched: false, claimData: null })
+  }>({
+    allWinningTickets: null,
+    ticketsWithUnclaimedRewards: null,
+    isFetched: false,
+    claimData: null,
+  })
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { account } = useWeb3React()

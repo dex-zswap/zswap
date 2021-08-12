@@ -566,6 +566,7 @@
   "Insufficient BNB balance": "Insufficient BNB balance",
   "A minimum amount of %num% %token% is required": "A minimum amount of %num% %token% is required",
   "Enter an amount": "Enter an amount",
+  "Create ZB Pair": "Create ZB/%symbol% Pair",
   "You won’t be able to remove or change your position once you enter it.": "You won’t be able to remove or change your position once you enter it.",
   "Prize Pool": "Prize Pool",
   "Winnings collected!": "Winnings collected!",

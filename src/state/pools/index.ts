@@ -126,28 +126,52 @@ export const updateUserAllowance =
   (sousId: number, account: string): AppThunk =>
   async (dispatch) => {
     const allowances = await fetchPoolsAllowance(account)
-    dispatch(updatePoolsUserData({ sousId, field: 'allowance', value: allowances[sousId] }))
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: 'allowance',
+        value: allowances[sousId],
+      }),
+    )
   }
 
 export const updateUserBalance =
   (sousId: number, account: string): AppThunk =>
   async (dispatch) => {
     const tokenBalances = await fetchUserBalances(account)
-    dispatch(updatePoolsUserData({ sousId, field: 'stakingTokenBalance', value: tokenBalances[sousId] }))
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: 'stakingTokenBalance',
+        value: tokenBalances[sousId],
+      }),
+    )
   }
 
 export const updateUserStakedBalance =
   (sousId: number, account: string): AppThunk =>
   async (dispatch) => {
     const stakedBalances = await fetchUserStakeBalances(account)
-    dispatch(updatePoolsUserData({ sousId, field: 'stakedBalance', value: stakedBalances[sousId] }))
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: 'stakedBalance',
+        value: stakedBalances[sousId],
+      }),
+    )
   }
 
 export const updateUserPendingReward =
   (sousId: number, account: string): AppThunk =>
   async (dispatch) => {
     const pendingRewards = await fetchUserPendingRewards(account)
-    dispatch(updatePoolsUserData({ sousId, field: 'pendingReward', value: pendingRewards[sousId] }))
+    dispatch(
+      updatePoolsUserData({
+        sousId,
+        field: 'pendingReward',
+        value: pendingRewards[sousId],
+      }),
+    )
   }
 
 export const fetchCakeVaultPublicData = createAsyncThunk<CakeVault>('cakeVault/fetchPublicData', async () => {
@@ -192,7 +216,10 @@ export const PoolsSlice = createSlice({
       const index = state.data.findIndex((p) => p.sousId === sousId)
 
       if (index >= 0) {
-        state.data[index] = { ...state.data[index], userData: { ...state.data[index].userData, [field]: value } }
+        state.data[index] = {
+          ...state.data[index],
+          userData: { ...state.data[index].userData, [field]: value },
+        }
       }
     },
   },

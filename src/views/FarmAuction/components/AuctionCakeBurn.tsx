@@ -45,7 +45,8 @@ const AuctionCakeBurn: React.FC = () => {
         </Text>
         {!burnedAmountAsUSD.isNaN() && !burnedAmountAsUSD.isZero() ? (
           <Text color="textSubtle">
-            ~${burnedAmountAsUSD.toNumber().toLocaleString('en', { maximumFractionDigits: 0 })}
+            ~$
+            {burnedAmountAsUSD.toNumber().toLocaleString('en', { maximumFractionDigits: 0 })}
           </Text>
         ) : (
           <Skeleton width="128px" />

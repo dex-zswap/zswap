@@ -19,7 +19,10 @@ const lotteryAddress = getLotteryV2Address()
 
 const fetchCakeRewardsForTickets = async (
   winningTickets: LotteryTicket[],
-): Promise<{ ticketsWithUnclaimedRewards: LotteryTicket[]; cakeTotal: BigNumber }> => {
+): Promise<{
+  ticketsWithUnclaimedRewards: LotteryTicket[]
+  cakeTotal: BigNumber
+}> => {
   const calls = winningTickets.map((winningTicket) => {
     const { roundId, id, rewardBracket } = winningTicket
     return {
@@ -93,11 +96,21 @@ export const getWinningTickets = async (
 
   if (unclaimedWinningTickets.length > 0) {
     const { ticketsWithUnclaimedRewards, cakeTotal } = await fetchCakeRewardsForTickets(unclaimedWinningTickets)
-    return { ticketsWithUnclaimedRewards, allWinningTickets, cakeTotal, roundId }
+    return {
+      ticketsWithUnclaimedRewards,
+      allWinningTickets,
+      cakeTotal,
+      roundId,
+    }
   }
 
   if (allWinningTickets.length > 0) {
-    return { ticketsWithUnclaimedRewards: null, allWinningTickets, cakeTotal: null, roundId }
+    return {
+      ticketsWithUnclaimedRewards: null,
+      allWinningTickets,
+      cakeTotal: null,
+      roundId,
+    }
   }
 
   return null
@@ -144,7 +157,10 @@ const fetchUnclaimedUserRewards = async (
     const roundsWithTickets = userTicketData.filter((roundData) => roundData?.userTickets?.length > 0)
 
     const roundDataAndWinningTickets = roundsWithTickets.map((roundData) => {
-      return { ...roundData, finalNumber: getWinningNumbersForRound(roundData.roundId, lotteriesData) }
+      return {
+        ...roundData,
+        finalNumber: getWinningNumbersForRound(roundData.roundId, lotteriesData),
+      }
     })
 
     const winningTicketsForPastRounds = await Promise.all(
