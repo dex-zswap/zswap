@@ -14,7 +14,18 @@ import { ONE_HUNDRED_PERCENT } from 'config/constants'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 
-export function useUserPairs() {
+type PairsInfo = {
+  pair: string;
+  token0: string;
+  token1: string;
+}
+
+type UserPairs = {
+  loading: boolean;
+  pairs: Array<PairsInfo>;
+}
+
+export function useUserPairs(): UserPairs {
   const { account } = useActiveWeb3React()
   const factoryContract = useFactoryContract()
 
@@ -38,41 +49,32 @@ export function useUserPairs() {
   const allToken0 = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'token0', [])
   const allToken1 = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'token1', [])
 
-  console.log(allBalanceOf, allPairs, allPairsLength)
+  const loading: boolean = useMemo<boolean>(() => [allPairs, allBalanceOf, allToken0, allToken1].flat().some(({ loading }) => loading), [allPairs, allBalanceOf, allToken0, allToken1])
 
-  const pairsToken = useMemo(() => {
-    const tokens = []
+  return useMemo<UserPairs>(() => {
+    const pairs = []
+    const totalSupply = allTotalSupply.length ? allTotalSupply[0].result : []
 
-    let totalSupply, token0, token1
+    let token0, token1
 
-    allBalanceOf.forEach(({ result: balanceOf }, idx) => {
-      totalSupply = allTotalSupply[idx].result
-      token0 = allToken0[0].result
-      token1 = allToken1[0].result
+    allBalanceOf.forEach(({ result: balanceOf = [] }, idx) => {
+      token0 = allToken0[idx].result ?? []
+      token1 = allToken1[idx].result ?? []
 
-      if (balanceOf && balanceOf.length > 0) {
-        tokens.push({
-          balanceOf: new Percent(
-            JSBI.BigInt(balanceOf[0].toNumber()),
-            JSBI.BigInt(allTotalSupply[idx].result[0].toNumber()),
-          ),
-          // token0: alltoken0[idx].result[0],
-          // token1: alltoken1[idx].result[0],
-        })
+      if (Boolean(balanceOf.length) && Boolean(totalSupply.length) && Boolean(token0.length) && Boolean(token1.length)) {
+        if (balanceOf[0].gte(0)) {
+          pairs.push({
+            pair: allPairsIdArgs[idx],
+            token0: token0[0],
+            token1: token1[0],
+          })
+        }
       }
     })
 
-    return tokens
-  }, [allBalanceOf, allTotalSupply, allPairsIdArgs, allToken0, allToken1])
-
-  // const pairContracts = usePairContracts(allPairsIdArgs)
-
-  // const pairs = useSingleContractMultipleData(factoryContract, 'getPair', [['0x4Fba005c19b2f08Da85A29542311fFf0D6Cb1eA1']])
-
-  // console.log(allTotalSupply, allBalanceOf)
-
-  // const results = useMultipleContractSingleData(['0x1'], FACTORY_INTERFACE, 'allPairs')
-  // console.log(results)
-
-  return []
+    return {
+      loading,
+      pairs
+    }
+  }, [allBalanceOf, allTotalSupply, allPairsIdArgs, allToken0, allToken1, loading])
 }
