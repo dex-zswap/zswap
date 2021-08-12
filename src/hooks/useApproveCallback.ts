@@ -92,9 +92,9 @@ export function useApproveCallback(
             args: {
               spender,
               amount: useExact ? amountToApprove.raw.toString() : MaxUint256,
-              gas: calculateGasMargin(estimatedGas)
-            }
-          }
+              gas: calculateGasMargin(estimatedGas),
+            },
+          },
         })
       })
       .catch((error: Error) => {

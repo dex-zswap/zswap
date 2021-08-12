@@ -15,7 +15,8 @@ enum TransactionCategory {
   LP_PLEDGE = 2,
   SINGLE_PLEDGE = 3,
   ADD_LIQUIDITY = 4,
-  REMOVE_LIQUIDITY = 4,
+  REMOVE_LIQUIDITY = 5,
+  APPROVE = 6
 }
 
 export declare type ReportFrom = 'swap' | 'approve' | 'addLiquidity' | 'removeLiquidity' | 'LPPledge' | 'singlePledge'
@@ -100,28 +101,34 @@ class Reporter implements ReporterInterface {
       createTime: Date.now(),
       mainCoinType: `${chainId}`,
       gasLimit: reportData.gas?.toString(),
-      gwei: '0'
+      gwei: '0',
     }
 
     switch (reportData.from) {
       case 'approve':
         info.tranType = TransactionType.TRANSFER_OUT
-        break;
+        info.category = TransactionCategory.APPROVE
+        break
       case 'addLiquidity':
         info.tranType = TransactionType.TRANSFER_OUT
-        break;
+        info.category = TransactionCategory.ADD_LIQUIDITY
+        break
       case 'removeLiquidity':
         info.tranType = TransactionType.TRANSFER_IN
-        break;
+        info.category = TransactionCategory.REMOVE_LIQUIDITY
+        break
       case 'LPPledge':
         info.tranType = TransactionType.TRANSFER_OUT
-        break;
+        info.category = TransactionCategory.LP_PLEDGE
+        break
       case 'singlePledge':
         info.tranType = TransactionType.TRANSFER_OUT
-        break;
+        info.category = TransactionCategory.SINGLE_PLEDGE
+        break
       case 'swap':
         info.tranType = TransactionType.TRANSFER_OUT
-        break;
+        info.category = TransactionCategory.SWAP
+        break
     }
 
     return info
@@ -134,7 +141,7 @@ class Reporter implements ReporterInterface {
   public recordHash(hash: string, transitionInfo: TransactionRecord): void {
     const storagedHash: TransactionRecord = this.cachedHashMaps[hash]
     this.cachedHashMaps[hash] = Object.assign(storagedHash, transitionInfo, {
-      updateTime: Date.now()
+      updateTime: Date.now(),
     })
     this.reportTransaction(hash)
   }

@@ -186,9 +186,9 @@ export default function AddLiquidity({
               from: 'addLiquidity',
               args: {
                 args,
-                gas: calculateGasMargin(estimatedGasLimit)
-              }
-            }
+                gas: calculateGasMargin(estimatedGasLimit),
+              },
+            },
           })
 
           setTxHash(response.hash)

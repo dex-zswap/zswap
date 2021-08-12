@@ -308,9 +308,9 @@ export default function RemoveLiquidity({
               from: 'removeLiquidity',
               args: {
                 args,
-                gas: safeGasEstimate
-              }
-            }
+                gas: safeGasEstimate,
+              },
+            },
           })
 
           setTxHash(response.hash)

@@ -15,7 +15,7 @@ export function useTransactionAdder(): (
     approval?: { tokenAddress: string; spender: string }
     claim?: { recipient: string }
     reportData?: {
-      from: ReportFrom,
+      from: ReportFrom
       [key: string]: any
     }
   },
@@ -30,13 +30,13 @@ export function useTransactionAdder(): (
         summary,
         approval,
         claim,
-        reportData
+        reportData,
       }: {
         summary?: string
         claim?: { recipient: string }
         approval?: { tokenAddress: string; spender: string }
         reportData?: {
-          from: ReportFrom,
+          from: ReportFrom
           [key: string]: any
         }
       } = {},
@@ -48,14 +48,20 @@ export function useTransactionAdder(): (
       if (!hash) {
         throw Error('No transaction hash found.')
       }
-      TxRepoter.cacheHash(hash, Object.assign({
+      TxRepoter.cacheHash(
         hash,
-        from: account,
-        chainId,
-        summary,
-      }, {
-        reportData
-      }))
+        Object.assign(
+          {
+            hash,
+            from: account,
+            chainId,
+            summary,
+          },
+          {
+            reportData,
+          },
+        ),
+      )
 
       dispatch(
         addTransaction({

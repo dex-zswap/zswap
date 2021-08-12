@@ -215,8 +215,8 @@ export function useSwapCallback(
               reportData: {
                 from: 'swap',
                 args,
-                gas: calculateGasMargin(gasEstimate)
-              }
+                gas: calculateGasMargin(gasEstimate),
+              },
             })
 
             return response.hash
