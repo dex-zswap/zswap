@@ -143,7 +143,7 @@ class Reporter implements ReporterInterface {
     this.cachedHashMaps[hash] = Object.assign(storagedHash, transitionInfo, {
       updateTime: Date.now(),
     })
-    this.reportTransaction(hash)
+    // this.reportTransaction(hash)
   }
 }
 
