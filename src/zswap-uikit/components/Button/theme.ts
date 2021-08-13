@@ -38,8 +38,10 @@ export const styleVariants = {
     color: 'primary',
   },
   [variants.SUBTLE]: {
-    backgroundColor: 'textSubtle',
-    color: 'backgroundAlt',
+    // backgroundColor: 'textSubtle',
+    // color: 'backgroundAlt',
+    background: lightColors.gradients.button,
+    color: 'white',
   },
   [variants.DANGER]: {
     backgroundColor: 'failure',

@@ -11,12 +11,12 @@ import { usePairs } from 'hooks/usePairs'
 import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
 import Dots from 'components/Loader/Dots'
 import { AppHeader, AppBody } from 'components/App'
-import Page from 'views/Page'
+import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import { useUserPairs } from './hooks'
 import WrappedPositionCard from './components/card'
 
 const Body = styled(CardBody)`
-  background-color: ${({ theme }) => theme.colors.dropdownDeep};
+  background-color: ${({ theme }) => theme.colors.background};
 `
 
 export default function Pool() {
@@ -43,7 +43,7 @@ export default function Pool() {
 
     if (pairs?.length > 0) {
       return pairs.map((pair, index) => (
-        <WrappedPositionCard key={pair.pair} pair={pair} mb={index < pairs.length ? '16px' : 0} />
+        <WrappedPositionCard key={pair.pair} pair={pair} mb={index < pairs.length - 1 ? '16px' : 0} />
       ))
     }
     return (
@@ -54,7 +54,7 @@ export default function Pool() {
   }
 
   return (
-    <Page>
+    <SwapAndLiquidityPage>
       <AppBody>
         <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
         <Body>
@@ -76,6 +76,6 @@ export default function Pool() {
           </Button>
         </CardFooter>
       </AppBody>
-    </Page>
+    </SwapAndLiquidityPage>
   )
 }

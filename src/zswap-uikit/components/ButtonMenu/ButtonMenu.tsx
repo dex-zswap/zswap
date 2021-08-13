@@ -17,21 +17,24 @@ const getBorderColor = ({ theme, variant }: StyledButtonMenuProps) => {
 }
 
 const StyledButtonMenu = styled.div<StyledButtonMenuProps>`
+  width: 260px !important;
+  height: 50px;
+
   background-color: ${getBackgroundColor};
-  border-radius: 16px;
+  border-radius: 23px;
   display: ${({ fullWidth }) => (fullWidth ? 'flex' : 'inline-flex')};
-  border: 1px solid ${getBorderColor};
+  border: 2px solid ${getBorderColor};
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
+
+  & > a {
+    width: 50%;
+    height: 100%;
+    border-radius: 21px;
+  }
 
   & > button,
   & > a {
-    margin-left: ${({ fullWidth }) => (fullWidth ? '0px' : '2px')}; // To avoid focus shadow overlap
     flex: ${({ fullWidth }) => (fullWidth ? 1 : 'auto')};
-  }
-
-  & > button + button,
-  & > a + a {
-    margin-left: 2px; // To avoid focus shadow overlap
   }
 
   & > button,

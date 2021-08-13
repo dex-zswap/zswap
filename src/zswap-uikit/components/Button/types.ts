@@ -9,6 +9,7 @@ export const scales = {
 } as const
 
 export const variants = {
+  BLUE: 'blue',
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
   TERTIARY: 'tertiary',
