@@ -70,7 +70,7 @@ export default function Updater(): null {
               )
 
               TxRepoter.recordHash(hash, {
-                tranState: receipt.status === 1 ? TransactionStatus.SUCCESS : TransactionStatus.FAILURE
+                tranState: receipt.status === 1 ? TransactionStatus.SUCCESS : TransactionStatus.FAILURE,
               })
 
               const toast = receipt.status === 1 ? toastSuccess : toastError
