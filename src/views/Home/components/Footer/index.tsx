@@ -9,10 +9,24 @@ const Wrap = styled(Flex)`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  @keyframes rotateX {
+    0% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+    50% {
+      transform: translate3d(10px, 20px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+  }
+
   .banner_ab-img {
     position: absolute;
     left: 10%;
     top: 80px;
+    animation: 6s rotateX linear infinite both;
   }
 `
 

@@ -15,6 +15,22 @@ export const HomeWrap = styled.div`
   .home_icon {
     position: absolute !important;
   }
+  .home_icon1 {
+    left: 40px;
+    top: 50px;
+  }
+  .home_icon2 {
+    right: 90px;
+    bottom: 23%;
+  }
+  .home_icon3 {
+    right: 90px;
+    bottom: 80px;
+  }
+  .home_icon4 {
+    left: 50px;
+    bottom: 26%;
+  }
 `
 
 const BlueBg = styled.div`
@@ -49,8 +65,10 @@ const Home: React.FC = () => {
       <Footer />
       <BlueBg />
       <PinkBg />
-      {/* <Image className="home_icon home_icon-top" width={47} height={46} src="/images/home/banner/obj_4_1.png" />
-      <Image className="home_icon home_icon-bottom" width={47} height={46} src="/images/home/banner/obj_4_1.png" /> */}
+      <Image className="home_icon home_icon1" width={35} height={158} src="/images/home/obj_1.png" />
+      <Image className="home_icon home_icon2" width={85} height={85} src="/images/home/obj_2.png" />
+      <Image className="home_icon home_icon3" width={405} height={34} src="/images/home/obj_3.png" />
+      <Image className="home_icon home_icon4" width={158} height={59} src="/images/home/obj_4.png" />
     </HomeWrap>
   )
 }

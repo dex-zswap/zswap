@@ -12,10 +12,24 @@ const ImgWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+
+  @keyframes rotateX {
+    0% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+    50% {
+      transform: translate3d(5px, 8px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+  }
+
   .banner_ab-img {
     position: absolute;
     top: -57px;
     left: -66px;
+    animation: 6s rotateX linear infinite both;
   }
 `
 
