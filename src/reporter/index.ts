@@ -16,7 +16,7 @@ enum TransactionCategory {
   SINGLE_PLEDGE = 3,
   ADD_LIQUIDITY = 4,
   REMOVE_LIQUIDITY = 5,
-  APPROVE = 6
+  APPROVE = 6,
 }
 
 export declare type ReportFrom = 'swap' | 'approve' | 'addLiquidity' | 'removeLiquidity' | 'LPPledge' | 'singlePledge'
@@ -143,7 +143,7 @@ class Reporter implements ReporterInterface {
     this.cachedHashMaps[hash] = Object.assign(storagedHash, transitionInfo, {
       updateTime: Date.now(),
     })
-    this.reportTransaction(hash)
+    // this.reportTransaction(hash)
   }
 }
 
