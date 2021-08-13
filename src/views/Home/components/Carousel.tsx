@@ -10,21 +10,52 @@ const Wrap = styled(Flex)`
   justify-content: center;
   padding-top: 150px;
   margin-bottom: 200px;
+
+  @keyframes rotateX {
+    0% {
+      transform: translate3d(0, 0, 0) perspective(100px) rotateX(0) rotateY(-8deg) scale3d(1, 1, 1);
+    }
+    50% {
+      transform: translate3d(0, 5px, 0) perspective(100px) rotateX(0) rotateY(8deg) scale3d(1, 1, 1);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) perspective(100px) rotateX(0) rotateY(-8deg) scale3d(1, 1, 1);
+    }
+  }
+
   @keyframes circle {
     0% {
       transform: translate3d(0, 0, 0) scale(0.98);
     }
     25% {
-      transform: translate3d(10px, 0, 0) scale(1.02);
+      transform: translate3d(5px, 0, 0) scale(1.02);
     }
     50% {
-      transform: translate3d(10px, 15px, 0) scale(1.02);
+      transform: translate3d(5px, 10px, 0) scale(1.02);
     }
     75% {
-      transform: translate3d(0, 15px, 0) scale(1.02);
+      transform: translate3d(0, 10px, 0) scale(1.02);
     }
     100% {
       transform: translate3d(0, 0, 0) scale(0.98);
+    }
+  }
+
+  @keyframes ball {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.9);
+    }
+    25% {
+      transform: translate3d(-10px, 0, 0) scale(1.05);
+    }
+    50% {
+      transform: translate3d(-10px, 15px, 0) scale(1.05);
+    }
+    75% {
+      transform: translate3d(0, 15px, 0) scale(1.05);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(0.9);
     }
   }
 `
@@ -88,13 +119,14 @@ const AbsoluteImgPlus = styled.div`
   position: absolute;
   top: 10px;
   left: 60px;
+  animation: 5s rotateX linear infinite both;
 `
 
 const AbsoluteImgCircle = styled.div`
   width: 57px;
   position: absolute;
   top: 180px;
-  left: -25px;
+  left: -5px;
   animation: 9s circle linear infinite both;
 `
 

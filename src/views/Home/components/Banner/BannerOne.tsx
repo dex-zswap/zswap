@@ -11,6 +11,49 @@ const ImgWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
+
+  @keyframes rotateX {
+    0% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-1deg) scale3d(1, 1, 1);
+    }
+    50% {
+      transform: translate3d(0, 5px, 0) perspective(50px) rotateX(0) rotateY(1deg) scale3d(1, 1, 1);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-1deg) scale3d(1, 1, 1);
+    }
+  }
+
+  @keyframes rotateX2 {
+    0% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+    50% {
+      transform: translate3d(10px, 0, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+  }
+
+  @keyframes circle {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.98);
+    }
+    25% {
+      transform: translate3d(5px, 0, 0) scale(1.02);
+    }
+    50% {
+      transform: translate3d(5px, 10px, 0) scale(1.02);
+    }
+    75% {
+      transform: translate3d(0, 10px, 0) scale(1.02);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(0.98);
+    }
+  }
+
   .banner_ab-img {
     position: absolute;
     z-index: 99;
@@ -18,6 +61,7 @@ const ImgWrap = styled.div`
   .banner_ab-img1 {
     top: 0;
     left: 20px;
+    animation: 5s rotateX linear infinite both;
   }
   .banner_ab-img2 {
     right: -54px;
@@ -34,14 +78,17 @@ const ImgWrap = styled.div`
   .banner_ab-img4 {
     left: 60px;
     bottom: 200px;
+    animation: 5s circle linear infinite both;
   }
   .banner_ab-img5 {
     top: 90px;
     right: 84px;
+    animation: 9s circle linear infinite both;
   }
   .banner_ab-img6 {
     right: 0;
     bottom: 200px;
+    animation: 8s rotateX2 linear infinite both;
   }
 `
 

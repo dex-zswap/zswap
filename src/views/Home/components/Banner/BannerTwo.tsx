@@ -9,6 +9,19 @@ const ImgWrap = styled.div`
   width: 322px;
   height: 618px;
   position: relative;
+
+  @keyframes rotateX {
+    0% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+    50% {
+      transform: translate3d(0, 6px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
+    }
+  }
+
   .banner_ab-img {
     position: absolute;
   }
@@ -19,6 +32,7 @@ const ImgWrap = styled.div`
   .banner_ab-img2 {
     right: -90px;
     bottom: 63px;
+    animation: 5s rotateX linear infinite both;
   }
 `
 
