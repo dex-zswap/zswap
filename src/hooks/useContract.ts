@@ -35,9 +35,11 @@ import ENS_ABI from 'config/abi/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from 'config/abi/erc20'
 import ERC20_ABI from 'config/abi/erc20.json'
 import WETH_ABI from 'config/abi/weth.json'
+import { abi as ZSWAP_LP_ABI } from 'config/zswap-abis/ZswapLpStaking.json'
 import { MULTICALL_ABI, MULTICALL_NETWORKS } from 'config/constants/multicall'
 import { getContract } from 'utils'
 import { abi as FACTORY_ABI } from 'config/zswap-abis/ZswapFactory.json'
+import { ZSWAP_LP_ADDRESS } from 'config/constants/lpAddress'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -250,4 +252,8 @@ export function usePairContracts(
       return null
     }
   }, [pairAddresses, library, withSignerIfPossible, account])
+}
+
+export function useZSwapLPContract(): Contract | null {
+  return useContract(ZSWAP_LP_ADDRESS, ZSWAP_LP_ABI, false)
 }

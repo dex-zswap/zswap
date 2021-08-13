@@ -70,7 +70,7 @@ export function useUserPairs(): UserPairs {
         Boolean(token0.length) &&
         Boolean(token1.length)
       ) {
-        if (balanceOf[0].gte(0)) {
+        if (!balanceOf[0].eq(0)) {
           pairs.push({
             pair: allPairsIdArgs[idx],
             token0: token0[0],

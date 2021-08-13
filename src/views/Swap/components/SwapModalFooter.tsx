@@ -102,7 +102,7 @@ export default function SwapModalFooter({
             <QuestionHelper
               text={
                 <>
-                  <Text mb="12px">For each trade a 0.25% fee is paid</Text>
+                  <Text mb="12px">For each trade a 0.20% fee is paid</Text>
                   <Text>- 0.17% to LP token holders</Text>
                   <Text>- 0.03% to the Treasury</Text>
                   <Text>- 0.05% towards CAKE buyback and burn</Text>
@@ -112,7 +112,7 @@ export default function SwapModalFooter({
             />
           </RowFixed>
           <Text fontSize="14px">
-            {realizedLPFee ? `${realizedLPFee?.toSignificant(6)} ${trade.inputAmount.currency.symbol}` : '-'}
+            {realizedLPFee ? `${realizedLPFee.toSignificant(6)} DEX` : '-'}
           </Text>
         </RowBetween>
       </SwapModalFooterContainer>

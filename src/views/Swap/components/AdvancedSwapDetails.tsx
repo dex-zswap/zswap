@@ -57,7 +57,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
           <QuestionHelper
             text={
               <>
-                <Text mb="12px">For each trade a 0.25% fee is paid</Text>
+                <Text mb="12px">For each trade a 0.20% fee is paid</Text>
                 <Text>- 0.17% to LP token holders</Text>
                 <Text>- 0.03% to the Treasury</Text>
                 <Text>- 0.05% towards CAKE buyback and burn</Text>
@@ -67,7 +67,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
           />
         </RowFixed>
         <Text fontSize="14px">
-          {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
+          {realizedLPFee ? `${realizedLPFee.toSignificant(4)} DEX` : '-'}
         </Text>
       </RowBetween>
     </AutoColumn>
