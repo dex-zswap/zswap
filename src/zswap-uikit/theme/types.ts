@@ -39,6 +39,7 @@ export type Gradients = {
 }
 
 export type Colors = {
+  blue: string
   button: string
   primary: string
   primaryBright: string

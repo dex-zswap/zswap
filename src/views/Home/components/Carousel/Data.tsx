@@ -1,4 +1,5 @@
-import React from 'react'
+import { BASE_URL } from 'config'
+import { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
 import { Flex, Text, Image } from 'zswap-uikit'
@@ -138,43 +139,71 @@ const AbsoluteImgBall = styled.div`
   animation: 5s circle linear infinite both;
 `
 
+const useCarouselData = () => {
+  const [carouselData, setCarouselData] = useState([1])
+  const getCarouselData = async () => {
+    const res = await fetch(`${BASE_URL}/information/queryList`, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
+    })
+    console.log(res)
+    return
+  }
+  useEffect(() => {
+    getCarouselData()
+    // setCarouselData(getCarouselData())
+  }, [])
+  return carouselData
+}
+
 const Carousel = () => {
+  const carouselData = useCarouselData()
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const WalletButton = !account && <ConnectWalletButton scale="sm" />
 
   return (
-    <Wrap>
-      <TextWrap>
-        <Text lineHeight="52px" color="primary" fontSize="48px" bold>
-          ZSwap
-        </Text>
-        <Text lineHeight="52px" color="text" fontSize="48px" marginTop="10px" bold>
-          The Most Advanced Decentralized Platform in the Universe
-        </Text>
-        <Text color="text" fontSize="18px" margin="40px 0 30px">
-          More advanced and more convenient, easily complete the cryptocurrency exchange and win high bonuses
-        </Text>
-        {WalletButton}
-        <BlueBg />
-      </TextWrap>
-      <ImgWrap>
-        <Image width={490} height={371} src="/images/home/carousel/obj_1.png" />
-        <AbsoluteImgZ>
-          <Image width={647} height={375} src="/images/home/carousel/obj_2.png" />
-        </AbsoluteImgZ>
-        <AbsoluteImgPlus>
-          <Image width={74} height={74} src="/images/home/carousel/obj_3.png" />
-        </AbsoluteImgPlus>
-        <AbsoluteImgCircle>
-          <Image width={57} height={56} src="/images/home/carousel/obj_4.png" />
-        </AbsoluteImgCircle>
-        <AbsoluteImgBall>
-          <Image width={63} height={64} src="/images/home/carousel/obj_5.png" />
-        </AbsoluteImgBall>
-        <PinkBg />
-      </ImgWrap>
-    </Wrap>
+    <>
+      {carouselData.map((data, index) => {
+        return (
+          <Wrap key={index}>
+            <TextWrap>
+              <Text lineHeight="52px" color="primary" fontSize="48px" bold>
+                ZSwap
+              </Text>
+              <Text lineHeight="52px" color="text" fontSize="48px" marginTop="10px" bold>
+                The Most Advanced Decentralized Platform in the Universe
+              </Text>
+              <Text color="text" fontSize="18px" margin="40px 0 30px">
+                More advanced and more convenient, easily complete the cryptocurrency exchange and win high bonuses
+              </Text>
+              {WalletButton}
+              <BlueBg />
+            </TextWrap>
+            <ImgWrap>
+              <Image width={490} height={371} src="/images/home/carousel/obj_1.png" />
+              <AbsoluteImgZ>
+                <Image width={647} height={375} src="/images/home/carousel/obj_2.png" />
+              </AbsoluteImgZ>
+              <AbsoluteImgPlus>
+                <Image width={74} height={74} src="/images/home/carousel/obj_3.png" />
+              </AbsoluteImgPlus>
+              <AbsoluteImgCircle>
+                <Image width={57} height={56} src="/images/home/carousel/obj_4.png" />
+              </AbsoluteImgCircle>
+              <AbsoluteImgBall>
+                <Image width={63} height={64} src="/images/home/carousel/obj_5.png" />
+              </AbsoluteImgBall>
+              <PinkBg />
+            </ImgWrap>
+          </Wrap>
+        )
+      })}
+    </>
   )
 }
 

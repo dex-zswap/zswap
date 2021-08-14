@@ -2,13 +2,13 @@ import BannerOne from './BannerOne'
 import BannerTwo from './BannerTwo'
 import BannerThree from './BannerThree'
 
-const banner = () => {
+const Banner = () => {
   return (
     <>
-      <BannerOne></BannerOne>
-      <BannerTwo></BannerTwo>
-      <BannerThree></BannerThree>
+      <BannerOne />
+      <BannerTwo />
+      <BannerThree />
     </>
   )
 }
-export default banner
+export default Banner

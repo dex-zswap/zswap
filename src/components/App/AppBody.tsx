@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Card } from 'zswap-uikit'
 
 export const BodyWrapper = styled(Card)`
-  border-radius: 24px;
+  border-radius: 30px;
   max-width: 436px;
   width: 100%;
   z-index: 1;

@@ -34,7 +34,7 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import Dots from 'components/Loader/Dots'
 import { currencyId } from 'utils/currencyId'
-import Page from 'views/Page'
+import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import ConfirmAddModalBottom from './ConfirmAddModalBottom'
 import PoolPriceBar from './PoolPriceBar'
 
@@ -314,7 +314,7 @@ export default function AddLiquidity({
   )
 
   return (
-    <Page>
+    <SwapAndLiquidityPage>
       <AppBody>
         <AppHeader
           title={t('Add Liquidity')}
@@ -486,6 +486,6 @@ export default function AddLiquidity({
       ) : (
         <UnsupportedCurrencyFooter currencies={[currencies.CURRENCY_A, currencies.CURRENCY_B]} />
       )}
-    </Page>
+    </SwapAndLiquidityPage>
   )
 }

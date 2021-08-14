@@ -24,7 +24,7 @@ const WrappedPositionCard: React.FC<WrappedPositionCardType> = ({ pair, mb }: Wr
 
   return poolPair ? (
     <div>
-      <FullPositionCard pair={poolPair} />
+      <FullPositionCard marginBottom={mb} background="#313030" pair={poolPair} />
     </div>
   ) : null
 }
