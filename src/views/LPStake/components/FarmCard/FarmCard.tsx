@@ -12,7 +12,6 @@ import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import DetailsSection from './DetailsSection'
 import CardHeading from './CardHeading'
 import CardActionsContainer from './CardActionsContainer'
-import ApyButton from './ApyButton'
 
 export interface FarmWithStakedValue extends Farm {
   apr?: number
@@ -115,13 +114,6 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
           <Text bold style={{ display: 'flex', alignItems: 'center' }}>
             {farm.apr ? (
               <>
-                <ApyButton
-                  lpLabel={lpLabel}
-                  addLiquidityUrl={addLiquidityUrl}
-                  cakePrice={cakePrice}
-                  apr={farm.apr}
-                  displayApr={displayApr}
-                />
                 {displayApr}%
               </>
             ) : (

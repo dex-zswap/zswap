@@ -23,11 +23,10 @@ import Select, { OptionProps } from 'components/Select/Select'
 import Loading from 'components/Loading'
 import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 import Table from './components/FarmTable/FarmTable'
+import WrapperedCard from './components/FarmCard/WrappedCard'
 import FarmTabButtons from './components/FarmTabButtons'
-import { RowProps } from './components/FarmTable/Row'
-import ToggleView from './components/ToggleView/ToggleView'
 import { DesktopColumnSchema, ViewMode } from './components/types'
-import { useLPPairs } from './hooks/useLPPairs'
+import { useAllPairs } from './hooks/useAllPairs'
 
 const ControlContainer = styled.div`
   display: flex;
@@ -122,14 +121,14 @@ const Farms: React.FC = () => {
   const { data: farmsLP, userDataLoaded } = useFarms()
   const cakePrice = usePriceCakeBusd()
   const [query, setQuery] = useState('')
-  const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, {
+  const [viewMode, setViewMode] = usePersistState(ViewMode.CARD, {
     localStorageKey: 'pancake_farm_view',
   })
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
   const chosenFarmsLength = useRef(0)
 
-  const lpPairs = useLPPairs()
+  const { loading, pairs } = useAllPairs()
 
   const isArchived = pathname.includes('archived')
   const isInactive = pathname.includes('history')
@@ -276,110 +275,60 @@ const Farms: React.FC = () => {
     }
   }, [chosenFarmsMemoized, observerIsSet])
 
-  const rowData = chosenFarmsMemoized.map((farm) => {
-    const { token, quoteToken } = farm
-    const tokenAddress = token.address
-    const quoteTokenAddress = quoteToken.address
-    const lpLabel = farm.lpSymbol && farm.lpSymbol.split(' ')[0].toUpperCase().replace('PANCAKE', '')
-
-    const row: RowProps = {
-      apr: {
-        value: getDisplayApr(farm.apr, farm.lpRewardsApr),
-        multiplier: farm.multiplier,
-        lpLabel,
-        tokenAddress,
-        quoteTokenAddress,
-        cakePrice,
-        originalValue: farm.apr,
-      },
-      farm: {
-        label: lpLabel,
-        pid: farm.pid,
-        token: farm.token,
-        quoteToken: farm.quoteToken,
-      },
-      earned: {
-        earnings: getBalanceNumber(new BigNumber(farm.userData.earnings)),
-        pid: farm.pid,
-      },
-      liquidity: {
-        liquidity: farm.liquidity,
-      },
-      multiplier: {
-        multiplier: farm.multiplier,
-      },
-      details: farm,
-    }
-
-    return row
-  })
-
   const renderContent = (): JSX.Element => {
-    if (viewMode === ViewMode.TABLE && rowData.length) {
-      const columnSchema = DesktopColumnSchema
-
-      const columns = columnSchema.map((column) => ({
-        id: column.id,
-        name: column.name,
-        label: column.label,
-        sort: (a: RowType<RowProps>, b: RowType<RowProps>) => {
-          switch (column.name) {
-            case 'farm':
-              return b.id - a.id
-            case 'apr':
-              if (a.original.apr.value && b.original.apr.value) {
-                return Number(a.original.apr.value) - Number(b.original.apr.value)
-              }
-
-              return 0
-            case 'earned':
-              return a.original.earned.earnings - b.original.earned.earnings
-            default:
-              return 1
-          }
-        },
-        sortable: column.sortable,
-      }))
-
-      return <Table data={rowData} columns={columns} userDataReady={userDataReady} />
-    }
-
     return (
       <FlexLayout>
         <Route exact path={`${path}`}>
-          {chosenFarmsMemoized.map((farm) => (
-            <FarmCard
-              key={farm.pid}
-              farm={farm}
-              displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-              cakePrice={cakePrice}
-              account={account}
-              removed={false}
-            />
-          ))}
+          <div>
+            {pairs.map((pair) => (
+              <WrapperedCard key={pair.pair} pair={pair} />
+              // <FarmCard
+              //   key={farm.pid}
+              //   farm={farm}
+              //   displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
+              //   cakePrice={cakePrice}
+              //   account={account}
+              //   removed={false}
+              // />
+            ))}
+          {
+            chosenFarmsMemoized.map((farm) => (
+              <FarmCard
+                key={farm.pid}
+                farm={farm}
+                displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
+                cakePrice={cakePrice}
+                account={account}
+                removed={false}
+              />
+            ))
+          }
+          </div>
         </Route>
         <Route exact path={`${path}/history`}>
-          {chosenFarmsMemoized.map((farm) => (
-            <FarmCard
-              key={farm.pid}
-              farm={farm}
-              displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-              cakePrice={cakePrice}
-              account={account}
-              removed
-            />
+          {pairs.map((pair) => (
+            <WrapperedCard key={pair.pair} pair={pair} />
+            // <FarmCard
+            //   key={farm.pid}
+            //   farm={farm}
+            //   displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
+            //   cakePrice={cakePrice}
+            //   account={account}
+            //   removed
+            // />
           ))}
         </Route>
         <Route exact path={`${path}/archived`}>
-          {chosenFarmsMemoized.map((farm) => (
-            <FarmCard
-              key={farm.pid}
-              farm={farm}
-              displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-              cakePrice={cakePrice}
-              account={account}
-              removed
-            />
+          {pairs.map((pair) => (
+            <WrapperedCard key={pair.pair} pair={pair} />
+            // <FarmCard
+            //   key={farm.pid}
+            //   farm={farm}
+            //   displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
+            //   cakePrice={cakePrice}
+            //   account={account}
+            //   removed
+            // />
           ))}
         </Route>
       </FlexLayout>
@@ -411,7 +360,6 @@ const Farms: React.FC = () => {
       <Page>
         <ControlContainer>
           <ViewControls>
-            <ToggleView viewMode={viewMode} onToggle={(mode: ViewMode) => setViewMode(mode)} />
             <ToggleWrapper>
               <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
               <Text> {t('Staked only')}</Text>
@@ -454,7 +402,7 @@ const Farms: React.FC = () => {
           </FilterContainer>
         </ControlContainer>
         {renderContent()}
-        {account && !userDataLoaded && stakedOnly && (
+        {account && loading && (
           <Flex justifyContent="center">
             <Loading />
           </Flex>

@@ -16,20 +16,20 @@ export const CAKE: { [chainId: number]: Token } = {
     'PancakeSwap Token',
   ),
 }
-export const BUSD: { [chainId: number]: Token } = {
+export const ZUSD: { [chainId: number]: Token } = {
   [ChainId.MAINNET]: new Token(
-    ChainId.MAINNET,
-    '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+    ChainId.TESTNET,
+    '0x0F4E59f4A14C340f7579cBae609f8b44Ed97a8Dd',
     18,
-    'BUSD',
-    'Binance USD',
+    'ZUSD',
+    'ZSwap USD',
   ),
   [ChainId.TESTNET]: new Token(
     ChainId.TESTNET,
-    '0xeD24FC36d5Ee211Ea25A80239Fb8C4Cfd80f12Ee',
+    '0x0F4E59f4A14C340f7579cBae609f8b44Ed97a8Dd',
     18,
-    'BUSD',
-    'Binance USD',
+    'ZUSD',
+    'ZSwap USD',
   ),
 }
 

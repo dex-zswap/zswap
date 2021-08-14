@@ -1,7 +1,7 @@
 import { ChainId, JSBI, Percent, Token, WETH } from 'zswap-sdk'
-import { BUSD, DAI, USDT, BTCB, CAKE, WBNB, UST, ETH, USDC } from './tokens'
+import { ZUSD, DAI, USDT, BTCB, CAKE, WBNB, UST, ETH, USDC } from './tokens'
 
-export const ROUTER_ADDRESS = '0xc64D0362c8F64894bdb1c18E232d9A4ea88ef377'
+export const ROUTER_ADDRESS = '0xa4A6D307984562691800cE2e08cbc29b9de3C79F'
 
 // a list of tokens by chain
 type ChainTokenList = {
@@ -10,8 +10,8 @@ type ChainTokenList = {
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList | any = {
-  [ChainId.MAINNET]: [WETH[ChainId.MAINNET], CAKE[ChainId.MAINNET], BUSD[ChainId.MAINNET], USDT, BTCB, UST, ETH, USDC],
-  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], BUSD[ChainId.TESTNET]],
+  [ChainId.MAINNET]: [WETH[ChainId.MAINNET], CAKE[ChainId.MAINNET], ZUSD[ChainId.MAINNET], USDT, BTCB, UST, ETH, USDC],
+  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
 }
 
 /**
@@ -37,14 +37,14 @@ export const CUSTOM_BASES: {
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-  [ChainId.MAINNET]: [BUSD[ChainId.MAINNET], CAKE[ChainId.MAINNET], BTCB],
-  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], BUSD[ChainId.TESTNET]],
+  [ChainId.MAINNET]: [ZUSD[ChainId.MAINNET], CAKE[ChainId.MAINNET], BTCB],
+  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  [ChainId.MAINNET]: [WETH[ChainId.MAINNET], DAI, BUSD[ChainId.MAINNET], USDT],
-  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], BUSD[ChainId.TESTNET]],
+  [ChainId.MAINNET]: [WETH[ChainId.MAINNET], DAI, ZUSD[ChainId.MAINNET], USDT],
+  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
 }
 
 export const PINNED_PAIRS: {
@@ -52,7 +52,7 @@ export const PINNED_PAIRS: {
 } = {
   [ChainId.MAINNET]: [
     [CAKE[ChainId.MAINNET], WBNB],
-    [BUSD[ChainId.MAINNET], USDT],
+    [ZUSD[ChainId.MAINNET], USDT],
     [DAI, USDT],
   ],
 }

@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 import { Interface } from '@ethersproject/abi'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
-import { useFactoryContract } from 'hooks/useContract'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useFactoryContract, useZSwapLPContract } from 'hooks/useContract'
 import {
   useSingleCallResult,
   useSingleContractMultipleData,
@@ -13,20 +12,22 @@ const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 
 type PairsInfo = {
   pair: string
+  weight: number
   token0: string
   token1: string
 }
 
-type UserPairs = {
+type AllPairs = {
   loading: boolean
   pairs: Array<PairsInfo>
 }
 
-export function useUserPairs(): UserPairs {
-  const { account } = useActiveWeb3React()
+export function useAllPairs(): AllPairs {
   const factoryContract = useFactoryContract()
+  const lpContract = useZSwapLPContract()
 
   const allPairsLength = useSingleCallResult(factoryContract, 'allPairsLength')
+
   const pairsIndexArgs = useMemo<Array<Array<number>>>(() => {
     const indexs: Array<Array<number>> = []
     const length = allPairsLength.result ? allPairsLength.result[0].toNumber() : 0
@@ -38,40 +39,52 @@ export function useUserPairs(): UserPairs {
 
   const allPairs = useSingleContractMultipleData(factoryContract, 'allPairs', pairsIndexArgs)
   const allPairsIdArgs = useMemo(() => {
-    return allPairs.map((pairResult) => pairResult.result?.[0] ?? null)
+    return allPairs.map((pairResult) => pairResult.result?.[0] ?? undefined)
+  }, [allPairs])
+  const allPairsWeightArgs = useMemo(() => {
+    const ids = []
+    allPairs.forEach(({ result, loading }) => {
+      if (!loading) {
+        ids.push(result)
+      }
+    })
+    return ids
   }, [allPairs])
 
-  const allBalanceOf = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'balanceOf', [account])
   const allToken0 = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'token0', [])
   const allToken1 = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'token1', [])
 
+  const allLPWeights = useSingleContractMultipleData(lpContract, 'lp_weight', allPairsWeightArgs)
+
   const loading: boolean = useMemo<boolean>(
-    () => [allPairs, allBalanceOf, allToken0, allToken1].flat().some(({ loading }) => loading),
-    [allPairs, allBalanceOf, allToken0, allToken1],
+    () => [allPairs, allToken0, allToken1, allLPWeights].flat().some(({ loading }) => loading),
+    [allPairs, allToken0, allToken1, allLPWeights],
   )
 
-  return useMemo<UserPairs>(() => {
+  return useMemo<AllPairs>(() => {
     const pairs = []
-    let token0, token1
+    let token0, token1, weight
 
-    allBalanceOf.forEach(({ result: balanceOf = [] }, idx) => {
-      token0 = allToken0[idx].result ?? []
-      token1 = allToken1[idx].result ?? []
+    if (!loading) {
+      allPairsIdArgs.forEach((id, idx) => {
+        weight = allLPWeights[idx].result
+        token0 = allToken0[idx].result ?? []
+        token1 = allToken1[idx].result ?? []
 
-      if (!loading) {
-        if (!balanceOf[0].eq(0)) {
+        if (!weight[0].eq(0)) {
           pairs.push({
-            pair: allPairsIdArgs[idx],
+            pair: id,
+            weight: weight[0].toNumber(),
             token0: token0[0],
             token1: token1[0],
           })
         }
-      }
-    })
+      })
+    }
 
     return {
       loading,
       pairs,
     }
-  }, [allBalanceOf, allPairsIdArgs, allToken0, allToken1, loading])
+  }, [allPairsIdArgs, allToken0, allToken1, allLPWeights])
 }

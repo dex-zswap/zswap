@@ -35,7 +35,7 @@ export function useCurrencyExistZBPair(
   }
 
   if (currencyEquals(currencyB, ETHER)) {
-    currencyA = DEX
+    currencyB = DEX
   }
 
   const [pairAState] = usePair(ZB, currencyA)
