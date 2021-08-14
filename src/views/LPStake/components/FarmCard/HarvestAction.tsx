@@ -10,7 +10,7 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import { useWeb3React } from '@web3-react/core'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import Balance from 'components/Balance'
-import useHarvestFarm from 'views/Farms/hooks/useHarvestFarm'
+import useHarvestFarm from 'views/LPStake/hooks/useHarvestFarm'
 
 interface FarmCardActionsProps {
   earnings?: BigNumber

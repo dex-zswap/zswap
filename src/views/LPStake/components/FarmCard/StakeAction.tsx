@@ -10,10 +10,10 @@ import { useAppDispatch } from 'state'
 import { fetchFarmUserDataAsync } from 'state/farms'
 import { useLpTokenPrice } from 'state/farms/hooks'
 import { getBalanceAmount, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
-import DepositModal from 'views/Farms/components/DepositModal'
-import WithdrawModal from 'views/Farms/components/WithdrawModal'
-import useUnstakeFarms from 'views/Farms/hooks/useUnstakeFarms'
-import useStakeFarms from 'views/Farms/hooks/useStakeFarms'
+import DepositModal from 'views/LPStake/components/DepositModal'
+import WithdrawModal from 'views/LPStake/components/WithdrawModal'
+import useUnstakeFarms from 'views/LPStake/hooks/useUnstakeFarms'
+import useStakeFarms from 'views/LPStake/hooks/useStakeFarms'
 
 interface FarmCardActionsProps {
   stakedBalance?: BigNumber

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { FarmWithStakedValue } from 'views/Farms/components/FarmCard/FarmCard'
+import { FarmWithStakedValue } from 'views/LPStake/components/FarmCard/FarmCard'
 import { useMatchBreakpoints } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import useDelayedUnmount from 'hooks/useDelayedUnmount'
 import { useFarmUser } from 'state/farms/hooks'
-import { DesktopColumnSchema, MobileColumnSchema } from 'views/Farms/components/types'
+import { DesktopColumnSchema, MobileColumnSchema } from 'views/LPStake/components/types'
 
 import Apr, { AprProps } from './Apr'
 import Farm, { FarmProps } from './Farm'

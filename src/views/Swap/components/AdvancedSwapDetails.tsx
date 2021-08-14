@@ -66,9 +66,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             ml="4px"
           />
         </RowFixed>
-        <Text fontSize="14px">
-          {realizedLPFee ? `${realizedLPFee.toSignificant(4)} DEX` : '-'}
-        </Text>
+        <Text fontSize="14px">{realizedLPFee ? `${realizedLPFee.toSignificant(4)} DEX` : '-'}</Text>
       </RowBetween>
     </AutoColumn>
   )

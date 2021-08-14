@@ -111,9 +111,7 @@ export default function SwapModalFooter({
               ml="4px"
             />
           </RowFixed>
-          <Text fontSize="14px">
-            {realizedLPFee ? `${realizedLPFee.toSignificant(6)} DEX` : '-'}
-          </Text>
+          <Text fontSize="14px">{realizedLPFee ? `${realizedLPFee.toSignificant(6)} DEX` : '-'}</Text>
         </RowBetween>
       </SwapModalFooterContainer>
 

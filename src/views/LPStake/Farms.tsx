@@ -27,6 +27,7 @@ import FarmTabButtons from './components/FarmTabButtons'
 import { RowProps } from './components/FarmTable/Row'
 import ToggleView from './components/ToggleView/ToggleView'
 import { DesktopColumnSchema, ViewMode } from './components/types'
+import { useLPPairs } from './hooks/useLPPairs'
 
 const ControlContainer = styled.div`
   display: flex;
@@ -127,6 +128,8 @@ const Farms: React.FC = () => {
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
   const chosenFarmsLength = useRef(0)
+
+  const lpPairs = useLPPairs()
 
   const isArchived = pathname.includes('archived')
   const isInactive = pathname.includes('history')
