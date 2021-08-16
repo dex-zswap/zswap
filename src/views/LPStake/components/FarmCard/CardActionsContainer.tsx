@@ -3,13 +3,11 @@ import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
 import { Button, Flex, Text } from 'zswap-uikit'
 import { getAddress } from 'utils/addressHelpers'
-import { useAppDispatch } from 'state'
-import { fetchFarmUserDataAsync } from 'state/farms'
 import { Farm } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 import { useERC20 } from 'hooks/useContract'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import useApproveFarm from 'views/LPStake/hooks/useApproveFarm'
+import useApproveLp from 'views/LPStake/hooks/useApprove'
 import StakeAction from './StakeAction'
 import HarvestAction from './HarvestAction'
 
@@ -18,6 +16,7 @@ const Action = styled.div`
 `
 export interface FarmWithStakedValue extends Farm {
   apr?: number
+  [key: string]: any
 }
 
 interface FarmCardActionsProps {
@@ -41,23 +40,20 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
   const stakedBalance = new BigNumber(stakedBalanceAsString)
   const earnings = new BigNumber(earningsAsString)
   const lpAddress = getAddress(lpAddresses)
-  const isApproved = account && allowance && allowance.isGreaterThan(0)
-  const dispatch = useAppDispatch()
+  const isApproved = account && allowance.isGreaterThan(0)
 
   const lpContract = useERC20(lpAddress)
-
-  const { onApprove } = useApproveFarm(lpContract)
+  const { onApprove } = useApproveLp(lpContract)
 
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)
       await onApprove()
-      dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
       setRequestedApproval(false)
     } catch (e) {
       console.error(e)
     }
-  }, [onApprove, dispatch, account, pid])
+  }, [onApprove, account, pid])
 
   const renderApprovalOrStakeButton = () => {
     return isApproved ? (
@@ -65,6 +61,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
         stakedBalance={stakedBalance}
         tokenBalance={tokenBalance}
         tokenName={farm.lpSymbol}
+        lpAddress={lpAddress}
+        pair={farm.pair.pair}
         pid={pid}
         addLiquidityUrl={addLiquidityUrl}
       />

@@ -255,5 +255,5 @@ export function usePairContracts(
 }
 
 export function useZSwapLPContract(): Contract | null {
-  return useContract(ZSWAP_LP_ADDRESS, ZSWAP_LP_ABI, false)
+  return useContract(ZSWAP_LP_ADDRESS, ZSWAP_LP_ABI, true)
 }

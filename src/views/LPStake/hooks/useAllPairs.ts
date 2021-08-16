@@ -3,10 +3,10 @@ import { Interface } from '@ethersproject/abi'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { useFactoryContract, useZSwapLPContract } from 'hooks/useContract'
 import {
-  useSingleCallResult,
   useSingleContractMultipleData,
   useMultipleContractSingleData,
 } from 'state/multicall/hooks'
+import { useContractCall } from 'hooks/useContractCall'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 
@@ -26,11 +26,11 @@ export function useAllPairs(): AllPairs {
   const factoryContract = useFactoryContract()
   const lpContract = useZSwapLPContract()
 
-  const allPairsLength = useSingleCallResult(factoryContract, 'allPairsLength')
+  const allPairsLength = useContractCall(factoryContract, 'allPairsLength')
 
   const pairsIndexArgs = useMemo<Array<Array<number>>>(() => {
     const indexs: Array<Array<number>> = []
-    const length = allPairsLength.result ? allPairsLength.result[0].toNumber() : 0
+    const length = allPairsLength.result ? allPairsLength.result.toNumber() : 0
     for (let i = 0; i < length; i++) {
       indexs.push([i])
     }

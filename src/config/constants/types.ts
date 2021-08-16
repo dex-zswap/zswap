@@ -56,7 +56,9 @@ export interface FarmConfig {
   lpSymbol: string
   lpAddresses: Address
   token: Token
-  quoteToken: Token
+  quoteToken: Token & {
+    [key: string]: any
+  }
   multiplier?: string
   isCommunity?: boolean
   dual?: {

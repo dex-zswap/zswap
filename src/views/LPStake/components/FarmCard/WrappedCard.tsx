@@ -22,12 +22,7 @@ const WrapperedCard: React.FC<WrapperedCardProps> = ({ pair }: WrapperedCardProp
 
   return (
     <div>
-      <FarmCard
-        farm={pairInfo}
-        displayApr={'10'}
-        account={account}
-        removed={false}
-      />
+      <FarmCard farm={pairInfo} displayApr={pairInfo.displayApr} account={account} removed={false} />
     </div>
   )
 }

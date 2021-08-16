@@ -1,11 +1,21 @@
 import { useMemo } from 'react'
-import { Price } from 'zswap-sdk'
-
+import BigNumber from 'bignumber.js'
+import { JSBI, Percent } from 'zswap-sdk'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { formatUnits } from '@ethersproject/units'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useToken } from 'hooks/Tokens'
 import { useLPTokenBalance } from 'hooks/useTokenBalance'
+import { useZSwapLPContract, usePairContract } from 'hooks/useContract'
+import { useContractCall } from 'hooks/useContractCall'
+import { usePair } from 'hooks/usePairs'
 import useZUSDPrice from 'hooks/useZUSDPrice'
+import useTotalSupply from 'hooks/useTotalSupply'
+import { useTokenBalance } from 'state/wallet/hooks'
+import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
+
+import { ZERO_PERCENT } from 'config/constants'
+import { ONE_YEAR_BLOCK_COUNT } from 'config'
 
 type PairsInfo = {
   pair: string
@@ -15,10 +25,16 @@ type PairsInfo = {
 }
 
 export function usePairInfo(pair: PairsInfo): any {
-  const { chainId } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
+  const lpContract = useZSwapLPContract()
+
+  const pairContract = usePairContract(pair.pair, true)
 
   const token0 = useToken(pair.token0)
   const token1 = useToken(pair.token1)
+
+  const currency0 = wrappedCurrency(token0, chainId)
+  const currency1 = wrappedCurrency(token1, chainId)
 
   const currency0USDTPrice = useZUSDPrice(token0)
   const currency1USDTPrice = useZUSDPrice(token1)
@@ -26,39 +42,98 @@ export function usePairInfo(pair: PairsInfo): any {
   const token0Amount = useLPTokenBalance(pair.token0, pair.pair)
   const token1Amount = useLPTokenBalance(pair.token1, pair.pair)
 
-  const totalAmount = useMemo(() => {
-    const total0Balance = token0Amount.balance?.div(Math.pow(1, token0.decimals))
-    
-  }, [token0, token1, token0Amount, token1Amount])
+  const lpShareReward = useContractCall(lpContract, 'lp_pershare_reward', [pair.pair])
+  const userShares = useContractCall(lpContract, 'getUserShare', [pair.pair, account])
 
-  console.log(token0Amount.balance?.integerValue())
+  const allowance = useContractCall(pairContract, 'allowance', [account, pair.pair])
 
-  // return new Price(currencyAAmount.currency, currencyBAmount.currency, currencyAAmount.raw, currencyBAmount.raw)
+  const [, pairInfo] = usePair(currency0, currency1)
+
+  const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
+
+  const [token0Deposited, token1Deposited] =
+    !!totalPoolTokens &&
+    !!userPoolBalance &&
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+      ? [
+          pairInfo.getLiquidityValue(pairInfo.token0, totalPoolTokens, userPoolBalance, false),
+          pairInfo.getLiquidityValue(pairInfo.token1, totalPoolTokens, userPoolBalance, false),
+        ]
+      : [undefined, undefined]
+
+  const tokenLpAmount = useMemo(() => {
+    return {
+      token0: token0Amount.balance ? token0Amount.balance.div(BIG_TEN.pow(token0.decimals)) : BIG_ZERO,
+      token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token0.decimals)) : BIG_ZERO
+    }
+  }, [token0Amount, token1Amount, token0, token1])
+
+  const tokenPrice = useMemo(() => {
+    return {
+      token0: currency0USDTPrice ? new BigNumber(currency0USDTPrice.toSignificant(4)) : BIG_ZERO,
+      token1: currency1USDTPrice ? new BigNumber(currency1USDTPrice.toSignificant(4)) : BIG_ZERO,
+    }
+  }, [currency0USDTPrice, currency1USDTPrice])
+
+  const lpTotalTokens = useMemo(() => {
+    return tokenLpAmount.token0.multipliedBy(tokenPrice.token0).plus(tokenLpAmount.token1.multipliedBy(tokenPrice.token1)).toFixed(4)
+  }, [tokenLpAmount, tokenPrice])
+
+  const tokenBalance = useMemo(() => {
+    if (!userPoolBalance || !userShares.result) {
+      return BIG_ZERO
+    }
+
+    const userPoolBalanceBigNumber = new BigNumber(userPoolBalance.toFixed(4))
+    const userSharesBigNumber = new BigNumber(userShares.result.toNumber())
+
+    return userPoolBalanceBigNumber.minus(userSharesBigNumber)
+  }, [userPoolBalance, userShares])
+
+  const apr = useMemo(() => {
+    if (!lpShareReward.result || !pairInfo) {
+      return ZERO_PERCENT
+    }
+
+    const rewardPerblock = new BigNumber(formatUnits(lpShareReward.result, pairInfo.liquidityToken.decimals))
+    const aprRate = JSBI.BigInt(parseInt(`${ONE_YEAR_BLOCK_COUNT.multipliedBy(rewardPerblock).toNumber()}`))
+
+    return new Percent(aprRate, JSBI.BigInt(100))
+  }, [userShares, lpShareReward, pairInfo])
 
   return {
     pid: 100,
     lpSymbol: `${token0.symbol}-${token1.symbol} LP`,
-    apr: 1000,
+    displayApr: apr.toSignificant(4),
+    pair,
+    pairInfo,
+    lpTotalTokens: `$${lpTotalTokens}`,
     lpAddresses: {
-      [chainId]: pair.pair
+      [chainId]: pair.pair,
     },
+    userData: {
+      allowance: allowance.result?.toString(),
+      tokenBalance: tokenBalance.toFixed(4),
+      stakedBalance: userShares.result?.toString(),
+    },
+    tokenAmount: token0Deposited?.toSignificant(4),
+    quoteTokenAmount: token1Deposited?.toSignificant(4),
     token: {
       symbol: token0.symbol,
       address: {
-        [chainId]: token0.address
+        [chainId]: token0.address,
       },
       decimals: token0.decimals,
-      projectLink: "https://pancakeswap.finance/"
+      projectLink: 'https://pancakeswap.finance/',
     },
     quoteToken: {
       symbol: token1.symbol,
       address: {
-        [chainId]: token1.address
+        [chainId]: token1.address,
       },
       decimals: token1.decimals,
-      projectLink: "https://pancakeswap.finance/"
-    }
+      projectLink: 'https://pancakeswap.finance/',
+    },
   }
 }
-
-

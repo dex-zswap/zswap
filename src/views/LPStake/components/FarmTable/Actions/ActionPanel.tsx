@@ -184,8 +184,8 @@ const ActionPanel: React.FunctionComponent<ActionPanelProps> = ({
         </ValueWrapper>
       </ValueContainer>
       <ActionContainer>
-        <HarvestAction {...farm} userDataReady={userDataReady} />
-        <StakedAction {...farm} userDataReady={userDataReady} />
+        {/* <HarvestAction {...farm} userDataReady={userDataReady} /> */}
+        {/* <StakedAction {...farm} userDataReady={userDataReady} /> */}
       </ActionContainer>
     </Container>
   )

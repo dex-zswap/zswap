@@ -17,6 +17,7 @@ export interface FarmWithStakedValue extends Farm {
   apr?: number
   lpRewardsApr?: number
   liquidity?: BigNumber
+  [key: string]: any
 }
 
 const AccentGradient = keyframes`  
@@ -82,11 +83,6 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
-  const totalValueFormatted =
-    farm.liquidity && farm.liquidity.gt(0)
-      ? `$${farm.liquidity.toNumber().toLocaleString(undefined, { maximumFractionDigits: 0 })}`
-      : ''
-
   const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('PANCAKE', '')
   const earnLabel = farm.dual ? farm.dual.earnLabel : t('CAKE + Fees')
 
@@ -103,7 +99,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
       {isPromotedFarm && <StyledCardAccent />}
       <CardHeading
         lpLabel={lpLabel}
-        multiplier={farm.multiplier}
+        multiplier={farm.pair.weight}
         isCommunityFarm={farm.isCommunity}
         token={farm.token}
         quoteToken={farm.quoteToken}
@@ -112,19 +108,17 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
         <Flex justifyContent="space-between" alignItems="center">
           <Text>{t('APR')}:</Text>
           <Text bold style={{ display: 'flex', alignItems: 'center' }}>
-            {farm.apr ? (
-              <>
-                {displayApr}%
-              </>
-            ) : (
-              <Skeleton height={24} width={80} />
-            )}
+            {farm.displayApr ? <>{displayApr}%</> : <Skeleton height={24} width={80} />}
           </Text>
         </Flex>
       )}
       <Flex justifyContent="space-between">
         <Text>{t('Earn')}:</Text>
         <Text bold>{earnLabel}</Text>
+      </Flex>
+      <Flex justifyContent="space-between">
+        <Text>{t('Remain')}:</Text>
+        <Text bold>{farm.tokenAmount}{farm.token.symbol}/{farm.quoteTokenAmount}{farm.quoteToken.symbol}</Text>
       </Flex>
       <CardActionsContainer farm={farm} account={account} addLiquidityUrl={addLiquidityUrl} />
       <Divider />
@@ -137,7 +131,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
           removed={removed}
           bscScanAddress={getBscScanLink(lpAddress, 'address')}
           infoAddress={`https://pancakeswap.info/pool/${lpAddress}`}
-          totalValueFormatted={totalValueFormatted}
+          totalValueFormatted={farm.lpTotalTokens}
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}
         />

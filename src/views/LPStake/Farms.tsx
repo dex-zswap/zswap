@@ -11,7 +11,7 @@ import { useFarms, usePollFarmsData, usePriceCakeBusd } from 'state/farms/hooks'
 import usePersistState from 'hooks/usePersistState'
 import { Farm } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
-import { getBalanceNumber } from 'utils/formatBalance'
+// import { getBalanceNumber } from 'utils/formatBalance'
 import { getFarmApr } from 'utils/apr'
 import { orderBy } from 'lodash'
 import isArchivedPid from 'utils/farmHelpers'
@@ -21,11 +21,11 @@ import PageHeader from 'components/PageHeader'
 import SearchInput from 'components/SearchInput'
 import Select, { OptionProps } from 'components/Select/Select'
 import Loading from 'components/Loading'
-import FarmCard, { FarmWithStakedValue } from './components/FarmCard/FarmCard'
-import Table from './components/FarmTable/FarmTable'
+import { FarmWithStakedValue } from './components/FarmCard/FarmCard'
+// import Table from './components/FarmTable/FarmTable'
 import WrapperedCard from './components/FarmCard/WrappedCard'
 import FarmTabButtons from './components/FarmTabButtons'
-import { DesktopColumnSchema, ViewMode } from './components/types'
+import { ViewMode } from './components/types'
 import { useAllPairs } from './hooks/useAllPairs'
 
 const ControlContainer = styled.div`
@@ -127,7 +127,6 @@ const Farms: React.FC = () => {
   const { account } = useWeb3React()
   const [sortOption, setSortOption] = useState('hot')
   const chosenFarmsLength = useRef(0)
-
   const { loading, pairs } = useAllPairs()
 
   const isArchived = pathname.includes('archived')
@@ -282,53 +281,17 @@ const Farms: React.FC = () => {
           <div>
             {pairs.map((pair) => (
               <WrapperedCard key={pair.pair} pair={pair} />
-              // <FarmCard
-              //   key={farm.pid}
-              //   farm={farm}
-              //   displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-              //   cakePrice={cakePrice}
-              //   account={account}
-              //   removed={false}
-              // />
             ))}
-          {
-            chosenFarmsMemoized.map((farm) => (
-              <FarmCard
-                key={farm.pid}
-                farm={farm}
-                displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-                cakePrice={cakePrice}
-                account={account}
-                removed={false}
-              />
-            ))
-          }
           </div>
         </Route>
         <Route exact path={`${path}/history`}>
           {pairs.map((pair) => (
             <WrapperedCard key={pair.pair} pair={pair} />
-            // <FarmCard
-            //   key={farm.pid}
-            //   farm={farm}
-            //   displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-            //   cakePrice={cakePrice}
-            //   account={account}
-            //   removed
-            // />
           ))}
         </Route>
         <Route exact path={`${path}/archived`}>
           {pairs.map((pair) => (
             <WrapperedCard key={pair.pair} pair={pair} />
-            // <FarmCard
-            //   key={farm.pid}
-            //   farm={farm}
-            //   displayApr={getDisplayApr(farm.apr, farm.lpRewardsApr)}
-            //   cakePrice={cakePrice}
-            //   account={account}
-            //   removed
-            // />
           ))}
         </Route>
       </FlexLayout>
@@ -408,7 +371,10 @@ const Farms: React.FC = () => {
           </Flex>
         )}
         <div ref={loadMoreRef} />
-        <StyledImage src="/images/decorations/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+        {
+          pairs.length === 0 &&
+          <StyledImage src="/images/decorations/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+        }
       </Page>
     </>
   )

@@ -17,20 +17,8 @@ export const CAKE: { [chainId: number]: Token } = {
   ),
 }
 export const ZUSD: { [chainId: number]: Token } = {
-  [ChainId.MAINNET]: new Token(
-    ChainId.TESTNET,
-    '0x0F4E59f4A14C340f7579cBae609f8b44Ed97a8Dd',
-    18,
-    'ZUSD',
-    'ZSwap USD',
-  ),
-  [ChainId.TESTNET]: new Token(
-    ChainId.TESTNET,
-    '0x0F4E59f4A14C340f7579cBae609f8b44Ed97a8Dd',
-    18,
-    'ZUSD',
-    'ZSwap USD',
-  ),
+  [ChainId.MAINNET]: new Token(ChainId.TESTNET, '0x0F4E59f4A14C340f7579cBae609f8b44Ed97a8Dd', 18, 'ZUSD', 'ZSwap USD'),
+  [ChainId.TESTNET]: new Token(ChainId.TESTNET, '0x0F4E59f4A14C340f7579cBae609f8b44Ed97a8Dd', 18, 'ZUSD', 'ZSwap USD'),
 }
 
 export const WBNB = new Token(ChainId.MAINNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB')

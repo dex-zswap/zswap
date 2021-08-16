@@ -9,11 +9,13 @@ import { useTranslation } from 'contexts/Localization'
 import { useAppDispatch } from 'state'
 import { fetchFarmUserDataAsync } from 'state/farms'
 import { useLpTokenPrice } from 'state/farms/hooks'
+import { useZSwapLPContract } from 'hooks/useContract'
 import { getBalanceAmount, getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
+import { useERC20 } from 'hooks/useContract'
 import DepositModal from 'views/LPStake/components/DepositModal'
 import WithdrawModal from 'views/LPStake/components/WithdrawModal'
-import useUnstakeFarms from 'views/LPStake/hooks/useUnstakeFarms'
-import useStakeFarms from 'views/LPStake/hooks/useStakeFarms'
+import useUnstake from 'views/LPStake/hooks/useUnstake'
+import useStake from 'views/LPStake/hooks/useStake'
 
 interface FarmCardActionsProps {
   stakedBalance?: BigNumber
@@ -21,6 +23,7 @@ interface FarmCardActionsProps {
   tokenName?: string
   pid?: number
   addLiquidityUrl?: string
+  [key: string]: any
 }
 
 const IconButtonWrapper = styled.div`
@@ -35,28 +38,26 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   tokenBalance,
   tokenName,
   pid,
+  pair,
   addLiquidityUrl,
 }) => {
   const { t } = useTranslation()
-  const { onStake } = useStakeFarms(pid)
-  const { onUnstake } = useUnstakeFarms(pid)
+  const lpContract = useZSwapLPContract()
+  const { onStake } = useStake(pair, lpContract)
+  const { onUnstake } = useUnstake(pair, lpContract)
   const location = useLocation()
-  const dispatch = useAppDispatch()
-  const { account } = useWeb3React()
-  const lpPrice = useLpTokenPrice(tokenName)
+  // const lpPrice = useLpTokenPrice(tokenName)
 
   const handleStake = async (amount: string) => {
     await onStake(amount)
-    dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
   }
 
   const handleUnstake = async (amount: string) => {
     await onUnstake(amount)
-    dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
   }
 
   const displayBalance = useCallback(() => {
-    const stakedBalanceBigNumber = getBalanceAmount(stakedBalance)
+    const stakedBalanceBigNumber = getBalanceAmount(stakedBalance, 0)
     if (stakedBalanceBigNumber.gt(0) && stakedBalanceBigNumber.lt(0.0000001)) {
       return stakedBalanceBigNumber.toFixed(10, BigNumber.ROUND_DOWN)
     }
@@ -101,7 +102,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     <Flex justifyContent="space-between" alignItems="center">
       <Flex flexDirection="column" alignItems="flex-start">
         <Heading color={stakedBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance()}</Heading>
-        {stakedBalance.gt(0) && lpPrice.gt(0) && (
+        {/* {stakedBalance.gt(0) && lpPrice.gt(0) && (
           <Balance
             fontSize="12px"
             color="textSubtle"
@@ -110,7 +111,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
             unit=" USD"
             prefix="~"
           />
-        )}
+        )} */}
       </Flex>
       {renderStakingButtons()}
     </Flex>
