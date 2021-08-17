@@ -118,7 +118,11 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
       </Flex>
       <Flex justifyContent="space-between">
         <Text>{t('Remain')}:</Text>
-        <Text bold>{farm.tokenAmount}{farm.token.symbol}/{farm.quoteTokenAmount}{farm.quoteToken.symbol}</Text>
+        <Text bold>
+          {farm.tokenAmount}
+          {farm.token.symbol}/{farm.quoteTokenAmount}
+          {farm.quoteToken.symbol}
+        </Text>
       </Flex>
       <CardActionsContainer farm={farm} account={account} addLiquidityUrl={addLiquidityUrl} />
       <Divider />

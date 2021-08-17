@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import BigNumber from 'bignumber.js'
-import pools from 'config/constants/pools'
+import pools from 'config/constants/zswap/pools'
 import sousChefV2 from 'config/abi/sousChefV2.json'
 import multicall from 'utils/multicall'
 import { simpleRpcProvider } from 'utils/providers'

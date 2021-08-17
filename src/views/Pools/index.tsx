@@ -25,6 +25,8 @@ import BountyCard from './components/BountyCard'
 import HelpButton from './components/HelpButton'
 import PoolsTable from './components/PoolsTable/PoolsTable'
 import { ViewMode } from './components/ToggleView/ToggleView'
+import WrapperedCard from './components/WrappedCard'
+import useAllPools from './hooks/usePools'
 import { getAprData, getCakeVaultEarnings } from './helpers'
 
 const CardLayout = styled(FlexLayout)`
@@ -79,14 +81,14 @@ const Pools: React.FC = () => {
   const location = useLocation()
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const { pools: poolsWithoutAutoVault, userDataLoaded } = usePools(account)
+  const allPools = useAllPools()
   const [stakedOnly, setStakedOnly] = usePersistState(false, {
     localStorageKey: 'pancake_pool_staked',
   })
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(NUMBER_OF_POOLS_VISIBLE)
   const [observerIsSet, setObserverIsSet] = useState(false)
   const loadMoreRef = useRef<HTMLDivElement>(null)
-  const [viewMode, setViewMode] = usePersistState(ViewMode.TABLE, {
+  const [viewMode, setViewMode] = usePersistState(ViewMode.CARD, {
     localStorageKey: 'pancake_pool_view',
   })
   const [searchQuery, setSearchQuery] = useState('')
@@ -100,40 +102,6 @@ const Pools: React.FC = () => {
   } = useCakeVault()
   const accountHasVaultShares = userShares && userShares.gt(0)
   const performanceFeeAsDecimal = performanceFee && performanceFee / 100
-
-  const pools = useMemo(() => {
-    const cakePool = poolsWithoutAutoVault.find((pool) => pool.sousId === 0)
-    const cakeAutoVault = { ...cakePool, isAutoVault: true }
-    return [cakeAutoVault, ...poolsWithoutAutoVault]
-  }, [poolsWithoutAutoVault])
-
-  // TODO aren't arrays in dep array checked just by reference, i.e. it will rerender every time reference changes?
-  const [finishedPools, openPools] = useMemo(() => partition(pools, (pool) => pool.isFinished), [pools])
-  const stakedOnlyFinishedPools = useMemo(
-    () =>
-      finishedPools.filter((pool) => {
-        if (pool.isAutoVault) {
-          return accountHasVaultShares
-        }
-        return pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
-      }),
-    [finishedPools, accountHasVaultShares],
-  )
-  const stakedOnlyOpenPools = useMemo(
-    () =>
-      openPools.filter((pool) => {
-        if (pool.isAutoVault) {
-          return accountHasVaultShares
-        }
-        return pool.userData && new BigNumber(pool.userData.stakedBalance).isGreaterThan(0)
-      }),
-    [openPools, accountHasVaultShares],
-  )
-  const hasStakeInFinishedPools = stakedOnlyFinishedPools.length > 0
-
-  usePollFarmsData()
-  useFetchCakeVault()
-  useFetchPublicPoolsData()
 
   useEffect(() => {
     const showMorePools = (entries) => {
@@ -207,37 +175,6 @@ const Pools: React.FC = () => {
     }
   }
 
-  let chosenPools
-  if (showFinishedPools) {
-    chosenPools = stakedOnly ? stakedOnlyFinishedPools : finishedPools
-  } else {
-    chosenPools = stakedOnly ? stakedOnlyOpenPools : openPools
-  }
-
-  if (searchQuery) {
-    const lowercaseQuery = latinise(searchQuery.toLowerCase())
-    chosenPools = chosenPools.filter((pool) =>
-      latinise(pool.earningToken.symbol.toLowerCase()).includes(lowercaseQuery),
-    )
-  }
-
-  chosenPools = sortPools(chosenPools).slice(0, numberOfPoolsVisible)
-  chosenPoolsLength.current = chosenPools.length
-
-  const cardLayout = (
-    <CardLayout>
-      {chosenPools.map((pool) =>
-        pool.isAutoVault ? (
-          <CakeVaultCard key="auto-cake" pool={pool} showStakedOnly={stakedOnly} />
-        ) : (
-          <PoolCard key={pool.sousId} pool={pool} account={account} />
-        ),
-      )}
-    </CardLayout>
-  )
-
-  const tableLayout = <PoolsTable pools={chosenPools} account={account} userDataLoaded={userDataLoaded} />
-
   return (
     <>
       <PageHeader>
@@ -261,14 +198,14 @@ const Pools: React.FC = () => {
       </PageHeader>
       <Page>
         <PoolControls>
-          <PoolTabButtons
+          {/* <PoolTabButtons
             stakedOnly={stakedOnly}
             setStakedOnly={setStakedOnly}
             hasStakeInFinishedPools={hasStakeInFinishedPools}
             viewMode={viewMode}
             setViewMode={setViewMode}
-          />
-          <FilterContainer>
+          /> */}
+          {/* <FilterContainer>
             <LabelWrapper>
               <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
                 {t('Sort by')}
@@ -303,19 +240,16 @@ const Pools: React.FC = () => {
               </Text>
               <SearchInput onChange={handleChangeSearchQuery} placeholder="Search Pools" />
             </LabelWrapper>
-          </FilterContainer>
+          </FilterContainer> */}
         </PoolControls>
         {showFinishedPools && (
           <Text fontSize="20px" color="failure" pb="32px">
             {t('These pools are no longer distributing rewards. Please unstake your tokens.')}
           </Text>
         )}
-        {account && !userDataLoaded && stakedOnly && (
-          <Flex justifyContent="center" mb="4px">
-            <Loading />
-          </Flex>
-        )}
-        {viewMode === ViewMode.CARD ? cardLayout : tableLayout}
+        <CardLayout>
+          {allPools.map((pool) => (<WrapperedCard key={pool.sousId} pool={pool} account={account} />))}
+        </CardLayout>
         <div ref={loadMoreRef} />
         <Image
           mx="auto"

@@ -8,7 +8,7 @@ export function useContractCall(contract: Contract | null, methodName: string, i
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const call = async() => {
+    const call = async () => {
       const method = contract?.[methodName]
       try {
         if (typeof method === 'function') {

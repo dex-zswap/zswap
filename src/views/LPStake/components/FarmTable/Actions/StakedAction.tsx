@@ -212,7 +212,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({
   //   </ActionContainer>
   // )
 
-  return (<div></div>)
+  return <div></div>
 }
 
 export default Staked
