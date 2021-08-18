@@ -58,17 +58,17 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
   hasEarnings = isAutoVault ? hasAutoEarnings : hasEarnings
   earningTokenDollarBalance = isAutoVault ? autoUsdToDisplay : earningTokenDollarBalance
 
-  const [onPresentCollect] = useModal(
-    <CollectModal
-      formattedBalance={formattedBalance}
-      fullBalance={fullBalance}
-      earningToken={earningToken}
-      earningsDollarValue={earningTokenDollarBalance}
-      sousId={sousId}
-      isBnbPool={isBnbPool}
-      isCompoundPool={isCompoundPool}
-    />,
-  )
+  // const [onPresentCollect] = useModal(
+  //   <CollectModal
+  //     formattedBalance={formattedBalance}
+  //     fullBalance={fullBalance}
+  //     earningToken={earningToken}
+  //     earningsDollarValue={earningTokenDollarBalance}
+  //     sousId={sousId}
+  //     isBnbPool={isBnbPool}
+  //     isCompoundPool={isCompoundPool}
+  //   />,
+  // )
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t('Subtracted automatically from each yield harvest and burned.'),
@@ -160,9 +160,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
             </Flex>
           </Flex>
         ) : (
-          <Button disabled={!hasEarnings} onClick={onPresentCollect}>
-            {isCompoundPool ? t('Collect') : t('Harvest')}
-          </Button>
+          null
         )}
       </ActionContent>
     </ActionContainer>

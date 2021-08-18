@@ -4,6 +4,8 @@ import { useWeb3React } from '@web3-react/core'
 import { getERC20Contract, getCakeContract } from 'utils/contractHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { simpleRpcProvider } from 'utils/providers'
+import { useMulticallContract } from 'hooks/useContract'
+import { useSingleContractMultipleData, useSingleCallResult } from 'state/multicall/hooks'
 import useRefresh from './useRefresh'
 import useLastUpdated from './useLastUpdated'
 
@@ -37,7 +39,6 @@ const useTokenBalance = (tokenAddress: string) => {
           fetchStatus: SUCCESS,
         })
       } catch (e) {
-        console.error(e)
         setBalanceState((prev) => ({
           ...prev,
           fetchStatus: FAILED,
@@ -71,7 +72,6 @@ export const useLPTokenBalance = (tokenAddress: string, lpAddress: string) => {
           fetchStatus: SUCCESS,
         })
       } catch (e) {
-        console.error(e)
         setBalanceState((prev) => ({
           ...prev,
           fetchStatus: FAILED,
@@ -83,6 +83,53 @@ export const useLPTokenBalance = (tokenAddress: string, lpAddress: string) => {
       fetchBalance()
     }
   }, [lpAddress, tokenAddress, fastRefresh, SUCCESS, FAILED])
+
+  return balanceState
+}
+
+export const useStakedTokenBalance = (tokenAddress: string, lpAddress: string, isDEX: boolean) => {
+  const { NOT_FETCHED, SUCCESS, FAILED } = FetchStatus
+  const [balanceState, setBalanceState] = useState<UseTokenBalanceState>({
+    balance: BIG_ZERO,
+    fetchStatus: NOT_FETCHED,
+  })
+  const { fastRefresh } = useRefresh()
+  const multicall = useMulticallContract()
+  let dexBalance
+  if (isDEX) {
+    dexBalance = useSingleCallResult(multicall, 'getEthBalance', [lpAddress])
+  } 
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const contract = getERC20Contract(tokenAddress)
+      try {
+        if (isDEX) {
+          if (!dexBalance.loading) {
+            setBalanceState({
+              balance: new BigNumber(dexBalance.result.balance.toString()),
+              fetchStatus: SUCCESS,
+            })            
+          }
+        } else {
+          const res = await contract.balanceOf(lpAddress)
+          setBalanceState({
+            balance: new BigNumber(res.toString()),
+            fetchStatus: SUCCESS,
+          })
+        }
+      } catch (e) {
+        setBalanceState((prev) => ({
+          ...prev,
+          fetchStatus: FAILED,
+        }))
+      }
+    }
+
+    if (lpAddress) {
+      fetchBalance()
+    }
+  }, [lpAddress, tokenAddress, isDEX, dexBalance, fastRefresh, SUCCESS, FAILED])
 
   return balanceState
 }

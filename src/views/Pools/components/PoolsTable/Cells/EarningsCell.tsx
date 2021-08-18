@@ -77,21 +77,21 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
     { placement: 'bottom' },
   )
 
-  const [onPresentCollect] = useModal(
-    <CollectModal
-      formattedBalance={formattedBalance}
-      fullBalance={fullBalance}
-      earningToken={earningToken}
-      earningsDollarValue={earningTokenDollarBalance}
-      sousId={sousId}
-      isBnbPool={isBnbPool}
-      isCompoundPool={isManualCakePool}
-    />,
-  )
+  // const [onPresentCollect] = useModal(
+  //   <CollectModal
+  //     formattedBalance={formattedBalance}
+  //     fullBalance={fullBalance}
+  //     earningToken={earningToken}
+  //     earningsDollarValue={earningTokenDollarBalance}
+  //     sousId={sousId}
+  //     isBnbPool={isBnbPool}
+  //     isCompoundPool={isManualCakePool}
+  //   />,
+  // )
 
   const handleEarningsClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation()
-    onPresentCollect()
+    
   }
 
   return (

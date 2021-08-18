@@ -23,6 +23,7 @@ interface CollectModalProps {
   formattedBalance: string
   fullBalance: string
   earningToken: Token
+  stakingToken: Token
   earningsDollarValue: number
   sousId: number
   isBnbPool: boolean
@@ -34,6 +35,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
   formattedBalance,
   fullBalance,
   earningToken,
+  stakingToken,
   earningsDollarValue,
   sousId,
   isBnbPool,
@@ -44,7 +46,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
   const { theme } = useTheme()
   const { toastSuccess, toastError } = useToast()
   const { onReward } = useHarvestPool(sousId, isBnbPool)
-  const { onStake } = useStakePool(sousId, isBnbPool)
+  const { onStake } = useStakePool(stakingToken)
   const [pendingTx, setPendingTx] = useState(false)
   const [shouldCompound, setShouldCompound] = useState(isCompoundPool)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(

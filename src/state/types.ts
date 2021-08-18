@@ -50,7 +50,7 @@ export interface Pool extends PoolConfig {
   isAutoVault?: boolean
   userData?: {
     allowance: BigNumber
-    stakingTokenBalance: BigNumber
+    stakingTokenBalance: BigNumber | any
     stakedBalance: BigNumber
     pendingReward: BigNumber
   }
