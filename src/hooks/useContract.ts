@@ -261,4 +261,3 @@ export function useZSwapLPContract(): Contract | null {
 export function useZSwapStakeContract(): Contract | null {
   return useContract(ZSWAP_STAKE_ADDRESS, ZSWAP_STAKE_ABI, true)
 }
-

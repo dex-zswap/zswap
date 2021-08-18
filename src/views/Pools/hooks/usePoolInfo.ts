@@ -39,7 +39,7 @@ const usePoolInfo = (pool: Pool) => {
       stakingTokenBalance: stakingTokenBalance,
       stakedBalance: stakedBalance.balance ?? BIG_ZERO,
       pendingReward: BIG_ZERO,
-    }
+    },
   }
 }
 

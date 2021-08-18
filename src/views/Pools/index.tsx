@@ -248,7 +248,9 @@ const Pools: React.FC = () => {
           </Text>
         )}
         <CardLayout>
-          {allPools.map((pool) => (<WrapperedCard key={pool.sousId} pool={pool} account={account} />))}
+          {allPools.map((pool) => (
+            <WrapperedCard key={pool.sousId} pool={pool} account={account} />
+          ))}
         </CardLayout>
         <div ref={loadMoreRef} />
         <Image
