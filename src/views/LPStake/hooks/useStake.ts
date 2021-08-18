@@ -13,4 +13,3 @@ const useStake = (pair: string, lpContract: Contract | null | any) => {
 }
 
 export default useStake
-

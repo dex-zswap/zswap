@@ -371,10 +371,9 @@ const Farms: React.FC = () => {
           </Flex>
         )}
         <div ref={loadMoreRef} />
-        {
-          pairs.length === 0 &&
+        {pairs.length === 0 && (
           <StyledImage src="/images/decorations/3dpan.png" alt="Pancake illustration" width={120} height={103} />
-        }
+        )}
       </Page>
     </>
   )

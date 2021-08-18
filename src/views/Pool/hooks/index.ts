@@ -3,10 +3,7 @@ import { Interface } from '@ethersproject/abi'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { useFactoryContract } from 'hooks/useContract'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import {
-  useSingleContractMultipleData,
-  useMultipleContractSingleData,
-} from 'state/multicall/hooks'
+import { useSingleContractMultipleData, useMultipleContractSingleData } from 'state/multicall/hooks'
 import { useContractCall } from 'hooks/useContractCall'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)

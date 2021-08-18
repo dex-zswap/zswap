@@ -53,9 +53,7 @@ export function usePairInfo(pair: PairsInfo): any {
   const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
 
   const [token0Deposited, token1Deposited] =
-    !!totalPoolTokens &&
-    !!userPoolBalance &&
-    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    !!totalPoolTokens && !!userPoolBalance && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
           pairInfo.getLiquidityValue(pairInfo.token0, totalPoolTokens, userPoolBalance, false),
           pairInfo.getLiquidityValue(pairInfo.token1, totalPoolTokens, userPoolBalance, false),
@@ -65,7 +63,7 @@ export function usePairInfo(pair: PairsInfo): any {
   const tokenLpAmount = useMemo(() => {
     return {
       token0: token0Amount.balance ? token0Amount.balance.div(BIG_TEN.pow(token0.decimals)) : BIG_ZERO,
-      token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token0.decimals)) : BIG_ZERO
+      token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token0.decimals)) : BIG_ZERO,
     }
   }, [token0Amount, token1Amount, token0, token1])
 
@@ -77,7 +75,10 @@ export function usePairInfo(pair: PairsInfo): any {
   }, [currency0USDTPrice, currency1USDTPrice])
 
   const lpTotalTokens = useMemo(() => {
-    return tokenLpAmount.token0.multipliedBy(tokenPrice.token0).plus(tokenLpAmount.token1.multipliedBy(tokenPrice.token1)).toFixed(4)
+    return tokenLpAmount.token0
+      .multipliedBy(tokenPrice.token0)
+      .plus(tokenLpAmount.token1.multipliedBy(tokenPrice.token1))
+      .toFixed(4)
   }, [tokenLpAmount, tokenPrice])
 
   const tokenBalance = useMemo(() => {
