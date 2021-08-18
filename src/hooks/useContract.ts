@@ -40,7 +40,7 @@ import { getContract } from 'utils'
 import { abi as FACTORY_ABI } from 'config/zswap-abis/ZswapFactory.json'
 import { abi as ZSWAP_LP_ABI } from 'config/zswap-abis/ZswapLpStaking.json'
 import { abi as ZSWAP_STAKE_ABI } from 'config/zswap-abis/staking.json'
-import { ZSWAP_LP_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_MUTLICALL_ADDRESS } from 'config/constants/zswap'
+import { ZSWAP_LP_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_MUTLICALL_ADDRESS } from 'config/constants/zswap/address'
 
 /**
  * Helper hooks to get specific contracts (by ABI)

@@ -16,7 +16,7 @@ import {
   Link,
   HelpIcon,
 } from 'zswap-uikit'
-import { ZSWAP_EXPLORE } from 'config/constants/zswap'
+import { ZSWAP_EXPLORE } from 'config/constants/zswap/address'
 import { useBlock } from 'state/block/hooks'
 import { useCakeVault } from 'state/pools/hooks'
 import { Pool } from 'state/types'

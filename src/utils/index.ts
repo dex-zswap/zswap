@@ -6,7 +6,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from 'zswap-sdk'
 import { ROUTER_ADDRESS } from 'config/constants'
-import { ZSWAP_EXPLORE } from 'config/constants/zswap'
+import { ZSWAP_EXPLORE } from 'config/constants/zswap/address'
 import { TokenAddressMap } from 'state/lists/hooks'
 
 // returns the checksummed address if the address is valid, otherwise returns false

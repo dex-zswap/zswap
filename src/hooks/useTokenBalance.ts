@@ -5,7 +5,6 @@ import { getERC20Contract, getCakeContract } from 'utils/contractHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { simpleRpcProvider } from 'utils/providers'
 import { useMulticallContract } from 'hooks/useContract'
-import { useSingleContractMultipleData, useSingleCallResult } from 'state/multicall/hooks'
 import useRefresh from './useRefresh'
 import useLastUpdated from './useLastUpdated'
 
@@ -95,22 +94,17 @@ export const useStakedTokenBalance = (tokenAddress: string, lpAddress: string, i
   })
   const { fastRefresh } = useRefresh()
   const multicall = useMulticallContract()
-  let dexBalance
-  if (isDEX) {
-    dexBalance = useSingleCallResult(multicall, 'getEthBalance', [lpAddress])
-  } 
 
   useEffect(() => {
     const fetchBalance = async () => {
       const contract = getERC20Contract(tokenAddress)
       try {
         if (isDEX) {
-          if (!dexBalance.loading) {
-            setBalanceState({
-              balance: new BigNumber(dexBalance.result.balance.toString()),
-              fetchStatus: SUCCESS,
-            })            
-          }
+          const res = await multicall.getEthBalance(lpAddress)
+          setBalanceState({
+            balance: new BigNumber(res.toString()),
+            fetchStatus: SUCCESS,
+          })
         } else {
           const res = await contract.balanceOf(lpAddress)
           setBalanceState({
@@ -129,7 +123,7 @@ export const useStakedTokenBalance = (tokenAddress: string, lpAddress: string, i
     if (lpAddress) {
       fetchBalance()
     }
-  }, [lpAddress, tokenAddress, isDEX, dexBalance, fastRefresh, SUCCESS, FAILED])
+  }, [lpAddress, tokenAddress, isDEX, multicall, fastRefresh, SUCCESS, FAILED])
 
   return balanceState
 }

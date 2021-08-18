@@ -159,9 +159,7 @@ const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
               </Flex>
             </Flex>
           </Flex>
-        ) : (
-          null
-        )}
+        ) : null}
       </ActionContent>
     </ActionContainer>
   )

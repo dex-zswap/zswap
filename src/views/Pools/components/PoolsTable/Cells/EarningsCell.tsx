@@ -91,7 +91,6 @@ const EarningsCell: React.FC<EarningsCellProps> = ({ pool, account, userDataLoad
 
   const handleEarningsClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation()
-    
   }
 
   return (

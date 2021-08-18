@@ -1,6 +1,6 @@
 import { PoolConfig, PoolCategory } from 'config/constants/types'
 
-import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_STAKE_ADDRESS } from './index'
+import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_STAKE_ADDRESS } from './address'
 
 const tokens = {
   dex: {

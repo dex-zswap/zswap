@@ -1,6 +1,6 @@
 import { ChainId, JSBI, Percent, Token, WETH } from 'zswap-sdk'
 import { ZUSD, DAI, USDT, BTCB, CAKE, WBNB, UST, ETH, USDC } from './tokens'
-import { ZSWAP_ROUTER_ADDRESS } from './zswap'
+import { ZSWAP_ROUTER_ADDRESS } from './zswap/address'
 
 export const ROUTER_ADDRESS = ZSWAP_ROUTER_ADDRESS
 

@@ -1,6 +1,6 @@
 import JSBI from 'jsbi'
 
-import { ZSWAP_INIT_CODE_HASH, ZSWAP_FACTORY_ADDRESS } from 'config/constants/zswap'
+import { ZSWAP_INIT_CODE_HASH, ZSWAP_FACTORY_ADDRESS } from 'config/constants/zswap/address'
 
 // exports for external consumption
 export type BigintIsh = JSBI | bigint | string

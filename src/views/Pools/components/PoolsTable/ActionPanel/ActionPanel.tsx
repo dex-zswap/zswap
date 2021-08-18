@@ -13,7 +13,7 @@ import {
   TimerIcon,
   useTooltip,
 } from 'zswap-uikit'
-import { ZSWAP_EXPLORE } from 'config/constants/zswap'
+import { ZSWAP_EXPLORE } from 'config/constants/zswap/address'
 import { getBscScanLink } from 'utils'
 import { useBlock } from 'state/block/hooks'
 import { useCakeVault } from 'state/pools/hooks'

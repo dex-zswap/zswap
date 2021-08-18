@@ -1,7 +1,7 @@
 // Set of helper functions to facilitate wallet setup
 
 import { BASE_URL } from 'config'
-import { ZSWAP_EXPLORE } from 'config/constants/zswap'
+import { ZSWAP_EXPLORE } from 'config/constants/zswap/address'
 import { nodes } from './getRpcUrl'
 
 /**
