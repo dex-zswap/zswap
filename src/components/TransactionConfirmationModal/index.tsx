@@ -5,7 +5,7 @@ import {
   Button,
   Text,
   ErrorIcon,
-  ArrowUpIcon,
+  ArrowIconRoundIcon,
   MetamaskIcon,
   Flex,
   Box,
@@ -30,7 +30,7 @@ const Section = styled(AutoColumn)`
 `
 
 const ConfirmedIcon = styled(ColumnCenter)`
-  padding: 24px 0;
+  padding: 0 0 30px 0;
 `
 
 function ConfirmationPendingContent({ pendingText }: { pendingText: string }) {
@@ -40,17 +40,15 @@ function ConfirmationPendingContent({ pendingText }: { pendingText: string }) {
       <ConfirmedIcon>
         <Spinner />
       </ConfirmedIcon>
-      <AutoColumn gap="12px" justify="center">
-        <Text fontSize="20px">{t('Waiting For Confirmation')}</Text>
-        <AutoColumn gap="12px" justify="center">
-          <Text bold small textAlign="center">
-            {pendingText}
-          </Text>
-        </AutoColumn>
-        <Text small color="textSubtle" textAlign="center">
-          {t('Confirm this transaction in your wallet')}
-        </Text>
-      </AutoColumn>
+      <Text fontSize="18px" textAlign="center" marginBottom="10px" bold>
+        {t('Waiting for Confirmation')}
+      </Text>
+      <Text marginBottom="50px" bold small textAlign="center">
+        {pendingText}
+      </Text>
+      <Text width="175px" margin="auto" small color="#999999" textAlign="center" bold>
+        {t('Confirm this transaction in your wallet')}
+      </Text>
     </Wrapper>
   )
 }
@@ -74,18 +72,19 @@ function TransactionSubmittedContent({
 
   return (
     <Wrapper>
-      <Section>
-        <ConfirmedIcon>
-          <ArrowUpIcon strokeWidth={0.5} width="90px" color="primary" />
-        </ConfirmedIcon>
-        <AutoColumn gap="12px" justify="center">
-          <Text fontSize="20px">{t('Transaction Submitted')}</Text>
-          {chainId && hash && (
-            <Link external small href={getBscScanLink(hash, 'transaction', chainId)}>
-              {t('View on BscScan')}
-            </Link>
-          )}
-          {currencyToAdd && library?.provider?.isMetaMask && (
+      <ConfirmedIcon>
+        <ArrowIconRoundIcon strokeWidth={0.5} width="85px" color="pink" />
+      </ConfirmedIcon>
+      <AutoColumn gap="10px" justify="center">
+        <Text fontSize="18px" bold>
+          {t('Transaction Submitted')}
+        </Text>
+        {chainId && hash && (
+          <Link color="#999999" fontWeight="bold" external small href={getBscScanLink(hash, 'transaction', chainId)}>
+            {t('View on DEX Browser')}
+          </Link>
+        )}
+        {/* {currencyToAdd && library?.provider?.isMetaMask && (
             <Button
               variant="tertiary"
               mt="12px"
@@ -97,12 +96,11 @@ function TransactionSubmittedContent({
                 <MetamaskIcon width="16px" ml="6px" />
               </RowFixed>
             </Button>
-          )}
-          <Button onClick={onDismiss} mt="20px">
-            {t('Close')}
-          </Button>
-        </AutoColumn>
-      </Section>
+          )} */}
+        <Button width="100%" onClick={onDismiss} mt="50px">
+          {t('Close')}
+        </Button>
+      </AutoColumn>
     </Wrapper>
   )
 }
@@ -148,9 +146,11 @@ interface ConfirmationModalProps {
   attemptingTxn: boolean
   pendingText: string
   currencyToAdd?: Currency | undefined
+  minWidth?: string
 }
 
 const TransactionConfirmationModal: React.FC<InjectedModalProps & ConfirmationModalProps> = ({
+  minWidth,
   title,
   onDismiss,
   customOnDismiss,
@@ -172,7 +172,12 @@ const TransactionConfirmationModal: React.FC<InjectedModalProps & ConfirmationMo
   if (!chainId) return null
 
   return (
-    <Modal title={title} headerBackground="gradients.cardHeader" onDismiss={handleDismiss}>
+    <Modal
+      minWidth={minWidth ? minWidth : attemptingTxn ? '440px' : hash ? '320px' : ''}
+      title={title}
+      headerBackground="gradients.cardHeader"
+      onDismiss={handleDismiss}
+    >
       {attemptingTxn ? (
         <ConfirmationPendingContent pendingText={pendingText} />
       ) : hash ? (

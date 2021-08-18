@@ -76,8 +76,8 @@ export const LockPriceRow: React.FC<LockPriceRowProps> = ({ lockPrice, ...props 
 
   return (
     <Row {...props}>
-      <Text fontSize="14px">{t('Locked Price')}:</Text>
-      <Text fontSize="14px">{formatUsdv2(lockPrice)}</Text>
+      <Text>{t('Locked Price')}:</Text>
+      <Text>{formatUsdv2(lockPrice)}</Text>
     </Row>
   )
 }
@@ -179,8 +179,8 @@ export const LockPriceHistoryRow: React.FC<LockPriceHistoryRowProps> = ({ lockPr
 
   return (
     <Row {...props}>
-      <Text fontSize="14px">{t('Locked Price')}:</Text>
-      <Text fontSize="14px">{formatUsd(lockPrice)}</Text>
+      <Text>{t('Locked Price')}:</Text>
+      <Text>{formatUsd(lockPrice)}</Text>
     </Row>
   )
 }

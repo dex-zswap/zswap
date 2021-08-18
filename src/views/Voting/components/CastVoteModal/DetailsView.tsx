@@ -25,12 +25,12 @@ const DetailsView: React.FC<DetailsViewProps> = ({
 
   return (
     <ModalInner mb="0">
-      <Text as="p" mb="24px" fontSize="14px" color="textSubtle">
+      <Text as="p" mb="24px" color="textSubtle">
         {t(
           'Your voting power is determined by the amount of CAKE you held at the block detailed below. CAKE held in other places does not contribute to your voting power.',
         )}
       </Text>
-      <Text color="secondary" textTransform="uppercase" mb="4px" bold fontSize="14px">
+      <Text color="secondary" textTransform="uppercase" mb="4px" bold>
         {t('Overview')}
       </Text>
       <VotingBox>
@@ -39,7 +39,7 @@ const DetailsView: React.FC<DetailsViewProps> = ({
           {total.toFormat(3)}
         </Text>
       </VotingBox>
-      <Text color="secondary" textTransform="uppercase" mb="4px" bold fontSize="14px">
+      <Text color="secondary" textTransform="uppercase" mb="4px" bold>
         {t('Your Cake Held Now')}
       </Text>
       <Flex alignItems="center" justifyContent="space-between" mb="4px">

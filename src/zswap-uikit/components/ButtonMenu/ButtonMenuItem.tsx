@@ -9,8 +9,9 @@ interface InactiveButtonProps extends BaseButtonProps {
 }
 
 const InactiveButton: PolymorphicComponent<InactiveButtonProps, 'button'> = styled(Button)<InactiveButtonProps>`
-  background: transparent;
-  color: ${({ theme, variant }) => (variant === variants.PRIMARY ? theme.colors.primary : theme.colors.blue)};
+  background: transparent !important;
+  color: ${({ theme, variant }) =>
+    variant === variants.PRIMARY ? theme.colors.primary : theme.colors.blue} !important;
   &:hover:not(:disabled):not(:active) {
     background-color: transparent;
   }

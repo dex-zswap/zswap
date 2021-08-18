@@ -159,7 +159,7 @@ const CardUserInfo: React.FC<YourScoreProps> = ({
       <Heading scale="lg" textAlign="center">
         {headingText}
       </Heading>
-      <Text textAlign="center" fontSize="14px" color="textSubtle" mt="4px">
+      <Text textAlign="center" color="textSubtle" mt="4px">
         {subHeadingText}
       </Text>
       {shouldShowUserRanks && (

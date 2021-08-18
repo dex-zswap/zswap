@@ -48,7 +48,6 @@ const PreviousRoundCardFooter: React.FC<{
           <Skeleton my="2px" height={14} width={90} />
         ) : (
           <Balance
-            fontSize="14px"
             color="textSubtle"
             unit=" CAKE"
             value={getBalanceNumber(lotteryData?.amountCollectedInCake)}
@@ -68,7 +67,7 @@ const PreviousRoundCardFooter: React.FC<{
         </Box>
         <Box mb="24px">
           <Flex>
-            <Text fontSize="14px" display="inline">
+            <Text display="inline">
               {t('Total players this round')}:{' '}
               {lotteryData && lotteryGraphData.totalUsers ? (
                 lotteryGraphData.totalUsers.toLocaleString()

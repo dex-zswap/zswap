@@ -208,7 +208,7 @@ const UserName: React.FC = () => {
               </Indicator>
             </InputWrap>
           )}
-          <Text color="textSubtle" fontSize="14px" py="4px" mb="16px" style={{ minHeight: '30px' }}>
+          <Text color="textSubtle" py="4px" mb="16px" style={{ minHeight: '30px' }}>
             {message}
           </Text>
           <Text as="p" color="failure" mb="8px">

@@ -56,9 +56,7 @@ const TopTradersCard: React.FC<TeamRanksProps> = ({
           <Heading color="secondary" scale="lg">
             {t('Top Traders')}
           </Heading>
-          <Text fontSize="14px" color="textSubtle">
-            {t('Since start of the competition')}
-          </Text>
+          <Text color="textSubtle">{t('Since start of the competition')}</Text>
         </CardHeader>
         <Box mt="16px">
           <TabMenu activeIndex={activeTab} onItemClick={handleItemClick}>

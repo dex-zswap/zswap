@@ -133,11 +133,12 @@ function CurrencySearch({
               ref={inputRef as RefObject<HTMLInputElement>}
               onChange={handleInput}
               onKeyDown={handleEnter}
+              hasBg
             />
           </Row>
-          {showCommonBases && (
+          {/* {showCommonBases && (
             <CommonBases chainId={chainId} onSelect={handleCurrencySelect} selectedCurrency={selectedCurrency} />
-          )}
+          )} */}
         </AutoColumn>
         {searchToken && !searchTokenIsAdded ? (
           <Column style={{ padding: '20px 0', height: '100%' }}>

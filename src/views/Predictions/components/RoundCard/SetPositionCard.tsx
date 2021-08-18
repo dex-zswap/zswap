@@ -269,6 +269,7 @@ const SetPositionCard: React.FC<SetPositionCardProps> = ({ position, togglePosit
         <Box mb="8px">
           {account ? (
             <Button
+              style={{ borderRadius: '14px' }}
               width="100%"
               disabled={!account || disabled}
               onClick={handleEnterPosition}

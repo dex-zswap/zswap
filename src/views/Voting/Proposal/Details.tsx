@@ -53,15 +53,11 @@ const Details: React.FC<DetailsProps> = ({ proposal }) => {
         <DetailBox p="16px">
           <ProposalStateTag proposalState={proposal.state} mb="8px" />
           <Flex alignItems="center">
-            <Text color="textSubtle" fontSize="14px">
-              {t('Start Date')}
-            </Text>
+            <Text color="textSubtle">{t('Start Date')}</Text>
             <Text ml="8px">{format(startDate, 'yyyy-MM-dd HH:mm')}</Text>
           </Flex>
           <Flex alignItems="center">
-            <Text color="textSubtle" fontSize="14px">
-              {t('End Date')}
-            </Text>
+            <Text color="textSubtle">{t('End Date')}</Text>
             <Text ml="8px">{format(endDate, 'yyyy-MM-dd HH:mm')}</Text>
           </Flex>
         </DetailBox>

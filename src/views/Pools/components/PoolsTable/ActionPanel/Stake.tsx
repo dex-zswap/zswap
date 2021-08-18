@@ -225,7 +225,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
                 onClick={stakingTokenBalance.gt(0) ? onStake : onPresentTokenRequired}
                 disabled={isFinished}
               >
-                <AddIcon color="primary" width="14px" />
+                <AddIcon color="primary" width="18px" />
               </IconButton>
             )}
           </IconButtonWrapper>

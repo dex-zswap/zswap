@@ -6,7 +6,13 @@ export const scaleVariants = {
     height: '48px',
     padding: '0 24px',
   },
+  [scales.MEDIUM]: {
+    fontSize: '14px',
+    height: '40px',
+    padding: '0 16px',
+  },
   [scales.SM]: {
+    fontSize: '14px',
     height: '32px',
     padding: '0 16px',
   },
@@ -35,7 +41,7 @@ export const styleVariants = {
   [variants.TERTIARY]: {
     backgroundColor: 'tertiary',
     boxShadow: 'none',
-    color: 'primary',
+    color: 'text',
   },
   [variants.SUBTLE]: {
     // backgroundColor: 'textSubtle',
@@ -44,7 +50,8 @@ export const styleVariants = {
     color: 'white',
   },
   [variants.DANGER]: {
-    backgroundColor: 'failure',
+    background: lightColors.gradients.button,
+    // backgroundColor: 'failure',
     color: 'white',
   },
   [variants.SUCCESS]: {
@@ -53,7 +60,7 @@ export const styleVariants = {
   },
   [variants.TEXT]: {
     backgroundColor: 'transparent',
-    color: 'primary',
+    color: 'text',
     boxShadow: 'none',
   },
 }

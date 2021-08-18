@@ -19,6 +19,7 @@ const TransactionState = styled.div<{ pending: boolean; success?: boolean }>`
 `
 
 const IconWrapper = styled.div<{ pending: boolean; success?: boolean }>`
+  margin-left: 20px;
   color: ${({ pending, success, theme }) =>
     pending ? theme.colors.primary : success ? theme.colors.success : theme.colors.failure};
 `

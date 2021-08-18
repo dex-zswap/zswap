@@ -61,11 +61,7 @@ const Accordion: React.FC<Props> = ({
       <MenuEntry onClick={handleClick} className={className} isActive={isActive} role="button">
         {icon}
         <LinkLabel isPushed={isPushed}>{label}</LinkLabel>
-        {status && (
-          <LinkStatusComponent color={status.color} fontSize="14px">
-            {status.text}
-          </LinkStatusComponent>
-        )}
+        {status && <LinkStatusComponent color={status.color}>{status.text}</LinkStatusComponent>}
         {isOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </MenuEntry>
       <AccordionContent

@@ -31,7 +31,7 @@ export const MoreWalletCard: React.FC<ButtonProps> = (props) => {
   return (
     <WalletButton variant="tertiary" {...props}>
       <MoreHorizontal width="40px" mb="8px" color="textSubtle" />
-      <Text fontSize="14px">More</Text>
+      <Text>More</Text>
     </WalletButton>
   )
 }
@@ -59,7 +59,7 @@ const WalletCard: React.FC<Props> = ({ login, walletConfig, onDismiss }) => {
       id={`wallet-connect-${title.toLocaleLowerCase()}`}
     >
       <Icon width="40px" mb="8px" />
-      <Text fontSize="14px">{title}</Text>
+      <Text>{title}</Text>
     </WalletButton>
   )
 }

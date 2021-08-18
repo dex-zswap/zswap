@@ -28,9 +28,15 @@ const Nav = () => {
 
   return (
     <StyledNav>
-      <ButtonMenu activeIndex={getActiveIndex(location.pathname)} scale="sm" variant="subtle">
+      <ButtonMenu
+        activeIndex={getActiveIndex(location.pathname)}
+        scale="sm"
+        variant="subtle"
+        width="260px"
+        height="50px"
+      >
         <ButtonMenuItem id="swap-nav-link" to="/swap" as={Link}>
-          {t('Swap')}
+          {t('Exchange')}
         </ButtonMenuItem>
         <ButtonMenuItem id="pool-nav-link" to="/pool" as={Link}>
           {t('Liquidity')}

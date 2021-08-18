@@ -102,7 +102,7 @@ const AllHistoryCard = () => {
         />
         <Box mt="8px">
           {selectedLotteryInfo?.endTime ? (
-            <Text fontSize="14px">
+            <Text>
               {t('Drawn')} {getDrawnDate(selectedLotteryInfo.endTime)}
             </Text>
           ) : (

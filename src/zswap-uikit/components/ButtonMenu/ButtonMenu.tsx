@@ -17,14 +17,13 @@ const getBorderColor = ({ theme, variant }: StyledButtonMenuProps) => {
 }
 
 const StyledButtonMenu = styled.div<StyledButtonMenuProps>`
-  width: 260px !important;
-  height: 50px;
+  width: ${({ width, fullWidth }) => width || (fullWidth ? '100%' : 'auto')};
+  height: ${({ height }) => height || '100%'};
 
   background-color: ${getBackgroundColor};
   border-radius: 23px;
   display: ${({ fullWidth }) => (fullWidth ? 'flex' : 'inline-flex')};
-  border: 2px solid ${getBorderColor};
-  width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
+  border: 2px solid #0050ff;
 
   & > a {
     width: 50%;

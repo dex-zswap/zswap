@@ -9,6 +9,7 @@ export const scales = {
 export type Scales = typeof scales[keyof typeof scales]
 
 export interface InputProps extends SpaceProps {
+  hasBg?: boolean
   scale?: Scales
   isSuccess?: boolean
   isWarning?: boolean

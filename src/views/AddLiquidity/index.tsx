@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useMemo } from 'react'
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
@@ -37,6 +38,13 @@ import { currencyId } from 'utils/currencyId'
 import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import ConfirmAddModalBottom from './ConfirmAddModalBottom'
 import PoolPriceBar from './PoolPriceBar'
+
+const RowWrap = styled.div`
+  padding: 15px 20px;
+  background: #2b2b2b;
+  border-radius: 20px;
+  margin-bottom: 40px;
+`
 
 export default function AddLiquidity({
   match: {
@@ -216,28 +224,33 @@ export default function AddLiquidity({
         />
       </Flex>
     ) : (
-      <AutoColumn>
-        <Flex alignItems="center">
-          <Text fontSize="48px" marginRight="10px">
-            {liquidityMinted?.toSignificant(6)}
+      <RowWrap>
+        <AutoColumn>
+          <Text fontSize="16px" marginBottom="15px">
+            {t('You will receive')}
           </Text>
-          <DoubleCurrencyLogo
-            currency0={currencies[Field.CURRENCY_A]}
-            currency1={currencies[Field.CURRENCY_B]}
-            size={30}
-          />
-        </Flex>
-        <Row>
-          <Text fontSize="24px">
-            {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} Pool Tokens`}
-          </Text>
-        </Row>
-        <Text small textAlign="left" my="24px">
+          <Flex alignItems="center">
+            <Text fontSize="32px" marginRight="10px">
+              {liquidityMinted?.toSignificant(6)}
+            </Text>
+            <DoubleCurrencyLogo
+              currency0={currencies[Field.CURRENCY_A]}
+              currency1={currencies[Field.CURRENCY_B]}
+              size={30}
+            />
+          </Flex>
+          <Row>
+            <Text fontSize="16px" bold>
+              {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} Pool Tokens`}
+            </Text>
+          </Row>
+          {/* <Text small textAlign="left" my="24px">
           {t('Output is estimated. If the price changes by more than %slippage%% your transaction will revert.', {
             slippage: allowedSlippage / 100,
           })}
-        </Text>
-      </AutoColumn>
+        </Text> */}
+        </AutoColumn>
+      </RowWrap>
     )
   }
 
@@ -300,7 +313,8 @@ export default function AddLiquidity({
 
   const [onPresentAddLiquidityModal] = useModal(
     <TransactionConfirmationModal
-      title={noLiquidity ? t('You are creating a pool') : t('You will receive')}
+      minWidth="440px"
+      title={noLiquidity ? t('You are creating a pool') : t('Confirm Supply')}
       customOnDismiss={handleDismissConfirmation}
       attemptingTxn={attemptingTxn}
       hash={txHash}
@@ -316,14 +330,14 @@ export default function AddLiquidity({
   return (
     <SwapAndLiquidityPage>
       <AppBody>
-        <AppHeader
+        {/* <AppHeader
           title={t('Add Liquidity')}
           subtitle={t('Add liquidity to receive LP tokens')}
           helper={t(
             'Liquidity providers earn a 0.17% trading fee on all trades made for that token pair, proportional to their share of the liquidity pool.',
           )}
           backTo="/pool"
-        />
+        /> */}
         <CardBody>
           <AutoColumn gap="20px">
             {noLiquidity && (
@@ -368,9 +382,9 @@ export default function AddLiquidity({
             />
             {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
               <>
-                <LightCard padding="0px" borderRadius="20px">
-                  <RowBetween padding="1rem">
-                    <Text fontSize="14px">
+                <LightCard padding="0px" borderRadius="20px" border="2px solid #4D4D4D !important">
+                  <RowBetween padding="1rem 1rem 0">
+                    <Text fontWeight="bold">
                       {noLiquidity ? t('Initial prices and pool share') : t('Prices and pool share')}
                     </Text>
                   </RowBetween>{' '}

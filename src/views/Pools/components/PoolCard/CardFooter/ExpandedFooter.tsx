@@ -180,9 +180,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
             height="auto"
             onClick={() => registerToken(tokenAddress, earningToken.symbol, earningToken.decimals)}
           >
-            <Text color="primary" fontSize="14px">
-              {t('Add to Metamask')}
-            </Text>
+            <Text color="primary">{t('Add to Metamask')}</Text>
             <MetamaskIcon ml="4px" />
           </Button>
         </Flex>

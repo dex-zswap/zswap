@@ -25,7 +25,7 @@ const AchievementDescription: React.FC<AchievementDescriptionProps> = ({ descrip
 
   if (typeof description === 'string') {
     return (
-      <Text as="p" color="textSubtle" fontSize="14px" {...props}>
+      <Text as="p" color="textSubtle" {...props}>
         {description}
       </Text>
     )

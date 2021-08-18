@@ -85,6 +85,7 @@ export default function ImportRow({
       </AutoColumn>
       {!isActive && !isAdded ? (
         <Button
+          scale="sm"
           width="fit-content"
           onClick={() => {
             if (setImportToken) {

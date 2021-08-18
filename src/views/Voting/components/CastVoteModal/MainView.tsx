@@ -54,7 +54,7 @@ const MainView: React.FC<MainViewProps> = ({
             </IconButton>
           </VotingBox>
         )}
-        <Text as="p" color="textSubtle" fontSize="14px">
+        <Text as="p" color="textSubtle">
           {t('Are you sure you want to vote for the above choice? This action cannot be undone.')}
         </Text>
       </ModalInner>

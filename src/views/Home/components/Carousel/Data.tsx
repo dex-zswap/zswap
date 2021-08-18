@@ -150,7 +150,16 @@ const useCarouselData = () => {
       },
       body: JSON.stringify({}),
     })
-    console.log(res)
+    if (res.ok) {
+      const data = await res.json()
+      if (200 == data.code) {
+        console.log(data.data)
+      } else {
+        throw new Error(data.msg)
+      }
+    } else {
+      throw new Error(res.statusText)
+    }
     return
   }
   useEffect(() => {

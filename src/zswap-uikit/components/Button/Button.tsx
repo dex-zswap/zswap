@@ -14,7 +14,7 @@ const Button = <E extends ElementType = 'button'>(props: ButtonProps<E>): JSX.El
   }
 
   if (isDisabled && !isLoading) {
-    classNames.push('pancake-button--disabled')
+    classNames.push('zswap-button--disabled')
   }
 
   return (

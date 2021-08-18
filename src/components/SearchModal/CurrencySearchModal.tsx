@@ -115,17 +115,10 @@ export default function CurrencySearchModal({
           <ImportToken tokens={[importToken]} handleCurrencySelect={handleCurrencySelect} />
         ) : modalView === CurrencyModalView.importList && importList && listURL ? (
           <ImportList list={importList} listURL={listURL} onImport={() => setModalView(CurrencyModalView.manage)} />
-        ) : modalView === CurrencyModalView.manage ? (
-          <Manage
-            setModalView={setModalView}
-            setImportToken={setImportToken}
-            setImportList={setImportList}
-            setListUrl={setListUrl}
-          />
         ) : (
           ''
         )}
-        {modalView === CurrencyModalView.search && (
+        {/* {modalView === CurrencyModalView.search && (
           <Footer>
             <Button
               scale="sm"
@@ -136,7 +129,7 @@ export default function CurrencySearchModal({
               {t('Manage Tokens')}
             </Button>
           </Footer>
-        )}
+        )} */}
       </StyledModalBody>
     </StyledModalContainer>
   )

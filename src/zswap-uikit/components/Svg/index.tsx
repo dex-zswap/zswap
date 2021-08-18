@@ -105,5 +105,7 @@ export { default as WaitIcon } from './Icons/Wait'
 
 export { default as ShareIcon } from './Icons/Share'
 export { default as LangIcon } from './Icons/Lang'
+export { default as ArrowIconRoundIcon } from './Icons/ArrowIconRound'
+
 export { default as Svg } from './Svg'
 export type { SvgProps } from './types'

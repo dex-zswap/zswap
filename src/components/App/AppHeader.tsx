@@ -8,7 +8,7 @@ import Transactions from './Transactions'
 
 interface Props {
   title: string
-  subtitle: string
+  subtitle?: string
   helper?: string
   backTo?: string
   noConfig?: boolean
@@ -37,9 +37,7 @@ const AppHeader: React.FC<Props> = ({ title, subtitle, helper, backTo, noConfig 
           </Heading>
           <Flex alignItems="center">
             {helper && <QuestionHelper text={helper} mr="4px" />}
-            <Text color="textSubtle" fontSize="14px">
-              {subtitle}
-            </Text>
+            <Text color="textSubtle">{subtitle}</Text>
           </Flex>
         </Flex>
       </Flex>

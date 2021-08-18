@@ -86,8 +86,8 @@ const ModalInput: React.FC<ModalInputProps> = ({
     <div style={{ position: 'relative' }}>
       <StyledTokenInput isWarning={isBalanceZero}>
         <Flex justifyContent="space-between" pl="16px">
-          <Text fontSize="14px">{inputTitle}</Text>
-          <Text fontSize="14px">{t('Balance: %balance%', { balance: displayBalance(max) })}</Text>
+          <Text>{inputTitle}</Text>
+          <Text>{t('Balance: %balance%', { balance: displayBalance(max) })}</Text>
         </Flex>
         <Flex alignItems="flex-end" justifyContent="space-around">
           <StyledInput
@@ -106,9 +106,9 @@ const ModalInput: React.FC<ModalInputProps> = ({
         </Flex>
       </StyledTokenInput>
       {isBalanceZero && (
-        <StyledErrorMessage fontSize="14px" color="failure">
+        <StyledErrorMessage color="failure">
           {t('No tokens to stake')}:{' '}
-          <Link fontSize="14px" bold={false} href={addLiquidityUrl} external color="failure">
+          <Link bold={false} href={addLiquidityUrl} external color="failure">
             {t('Get %symbol%', { symbol })}
           </Link>
         </StyledErrorMessage>

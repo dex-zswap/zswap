@@ -80,15 +80,24 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
     <AutoColumn gap="md">
       <AutoColumn gap="sm">
         <RowFixed>
-          <Text fontSize="14px">{t('Slippage Tolerance')}</Text>
-          <QuestionHelper
+          <Text fontSize="16px" bold>
+            {t('Slippage Tolerance')}
+          </Text>
+          {/* <QuestionHelper
             text={t('Your transaction will revert if the price changes unfavorably by more than this percentage.')}
             ml="4px"
-          />
+          /> */}
+        </RowFixed>
+        <RowFixed>
+          <Text fontSize="16px" margin="13px 0 25px" bold>
+            {t('if the price changes disadvantageously by more than this percentage, your transaction will revert.')}
+          </Text>
         </RowFixed>
         <Flex flexWrap={['wrap', 'wrap', 'nowrap']}>
-          <Grid gridTemplateColumns="1fr 1fr 1fr" gridGap="8px" mb={['8px', '8px', 0]} mr={[0, 0, '8px']}>
+          <Grid gridTemplateColumns="1fr 1fr 1fr" gridGap="10px" mb={['8px', '8px', 0]} mr={[0, 0, '8px']}>
             <Button
+              width="75px"
+              height="33px"
               onClick={() => {
                 setSlippageInput('')
                 setRawSlippage(10)
@@ -98,6 +107,8 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               0.1%
             </Button>
             <Button
+              width="75px"
+              height="33px"
               onClick={() => {
                 setSlippageInput('')
                 setRawSlippage(50)
@@ -107,6 +118,8 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               0.5%
             </Button>
             <Button
+              width="75px"
+              height="33px"
               onClick={() => {
                 setSlippageInput('')
                 setRawSlippage(100)
@@ -116,9 +129,11 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               1%
             </Button>
           </Grid>
-          <RowBetween>
+          <RowBetween paddingRight="8px !important">
             <Input
-              scale="lg"
+              width="104px"
+              height="32px"
+              scale="sm"
               placeholder={(rawSlippage / 100).toFixed(2)}
               value={slippageInput}
               onBlur={() => {
@@ -128,7 +143,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               isWarning={!slippageInputIsValid}
               isSuccess={![10, 50, 100].includes(rawSlippage)}
             />
-            <Text color="primary" bold ml="8px">
+            <Text color="text" bold>
               %
             </Text>
           </RowBetween>
@@ -152,11 +167,20 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
 
       <AutoColumn gap="sm">
         <RowFixed>
-          <Text fontSize="14px">{t('Transaction deadline')}</Text>
-          <QuestionHelper text={t('Your transaction will revert if it is pending for more than this long.')} ml="4px" />
+          <Text fontSize="16px" marginTop="34px" bold>
+            {t('Transaction Deadline')}
+          </Text>
+          {/* <QuestionHelper text={t('Your transaction will revert if it is pending for more than this long.')} ml="4px" /> */}
+        </RowFixed>
+        <RowFixed>
+          <Text fontSize="16px" margin="13px 0 25px" bold>
+            {t('if the transaction is pending for longer than this time, your transaction will revert.')}
+          </Text>
         </RowFixed>
         <RowFixed>
           <Input
+            width="90px"
+            scale="sm"
             color={deadlineError ? 'red' : undefined}
             onBlur={() => {
               parseCustomDeadline((deadline / 60).toString())
@@ -165,7 +189,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
             value={deadlineInput}
             onChange={(e) => parseCustomDeadline(e.target.value)}
           />
-          <Text pl="8px" fontSize="14px">
+          <Text pl="8px" bold>
             {t('minutes')}
           </Text>
         </RowFixed>
