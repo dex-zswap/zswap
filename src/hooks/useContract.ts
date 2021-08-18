@@ -35,11 +35,12 @@ import ENS_ABI from 'config/abi/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from 'config/abi/erc20'
 import ERC20_ABI from 'config/abi/erc20.json'
 import WETH_ABI from 'config/abi/weth.json'
-import { abi as ZSWAP_LP_ABI } from 'config/zswap-abis/ZswapLpStaking.json'
-import { MULTICALL_ABI, MULTICALL_NETWORKS } from 'config/constants/multicall'
+import { MULTICALL_ABI } from 'config/constants/multicall'
 import { getContract } from 'utils'
 import { abi as FACTORY_ABI } from 'config/zswap-abis/ZswapFactory.json'
-import { ZSWAP_LP_ADDRESS } from 'config/constants/lpAddress'
+import { abi as ZSWAP_LP_ABI } from 'config/zswap-abis/ZswapLpStaking.json'
+import { abi as ZSWAP_STAKE_ABI } from 'config/zswap-abis/staking.json'
+import { ZSWAP_LP_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_MUTLICALL_ADDRESS } from 'config/constants/zswap/address'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -228,8 +229,7 @@ export function usePairContract(pairAddress?: string, withSignerIfPossible?: boo
 }
 
 export function useMulticallContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
-  return useContract(chainId && MULTICALL_NETWORKS[chainId], MULTICALL_ABI, false)
+  return useContract(ZSWAP_MUTLICALL_ADDRESS, MULTICALL_ABI, false)
 }
 
 export function useFactoryContract(): Contract | null {
@@ -256,4 +256,8 @@ export function usePairContracts(
 
 export function useZSwapLPContract(): Contract | null {
   return useContract(ZSWAP_LP_ADDRESS, ZSWAP_LP_ABI, true)
+}
+
+export function useZSwapStakeContract(): Contract | null {
+  return useContract(ZSWAP_STAKE_ADDRESS, ZSWAP_STAKE_ABI, true)
 }

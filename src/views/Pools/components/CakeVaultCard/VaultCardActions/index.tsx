@@ -5,7 +5,6 @@ import { Flex, Text, Box } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { Pool } from 'state/types'
 import { BIG_ZERO } from 'utils/bigNumber'
-import { useCheckVaultApprovalStatus } from 'views/Pools/hooks/useApprove'
 import VaultApprovalAction from './VaultApprovalAction'
 import VaultStakeActions from './VaultStakeActions'
 
@@ -21,8 +20,6 @@ const CakeVaultCardActions: React.FC<{
   const { stakingToken, userData } = pool
   const { t } = useTranslation()
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
-
-  const { isVaultApproved, setLastUpdated } = useCheckVaultApprovalStatus()
 
   return (
     <Flex flexDirection="column">
@@ -45,7 +42,7 @@ const CakeVaultCardActions: React.FC<{
             {accountHasSharesStaked ? t('Staked (compounding)') : `${stakingToken.symbol}`}
           </InlineText>
         </Box>
-        {isVaultApproved ? (
+        {/* {isVaultApproved ? (
           <VaultStakeActions
             isLoading={isLoading}
             pool={pool}
@@ -54,7 +51,7 @@ const CakeVaultCardActions: React.FC<{
           />
         ) : (
           <VaultApprovalAction isLoading={isLoading} setLastUpdated={setLastUpdated} />
-        )}
+        )} */}
       </Flex>
     </Flex>
   )

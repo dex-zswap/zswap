@@ -34,17 +34,17 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
   const hasEarnings = earnings.toNumber() > 0
   const isCompoundPool = sousId === 0
 
-  const [onPresentCollect] = useModal(
-    <CollectModal
-      formattedBalance={formattedBalance}
-      fullBalance={fullBalance}
-      earningToken={earningToken}
-      earningsDollarValue={earningTokenDollarBalance}
-      sousId={sousId}
-      isBnbPool={isBnbPool}
-      isCompoundPool={isCompoundPool}
-    />,
-  )
+  // const [onPresentCollect] = useModal(
+  //   <CollectModal
+  //     formattedBalance={formattedBalance}
+  //     fullBalance={fullBalance}
+  //     earningToken={earningToken}
+  //     earningsDollarValue={earningTokenDollarBalance}
+  //     sousId={sousId}
+  //     isBnbPool={isBnbPool}
+  //     isCompoundPool={isCompoundPool}
+  //   />,
+  // )
 
   return (
     <Flex justifyContent="space-between" alignItems="center" mb="16px">
@@ -79,9 +79,9 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
           </>
         )}
       </Flex>
-      <Button disabled={!hasEarnings} onClick={onPresentCollect}>
+      {/* <Button disabled={!hasEarnings} onClick={onPresentCollect}>
         {isCompoundPool ? t('Collect') : t('Harvest')}
-      </Button>
+      </Button> */}
     </Flex>
   )
 }

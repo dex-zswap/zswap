@@ -1,6 +1,7 @@
 // Set of helper functions to facilitate wallet setup
 
-import { BASE_BSC_SCAN_URL, BASE_URL } from 'config'
+import { BASE_URL } from 'config'
+import { ZSWAP_EXPLORE } from 'config/constants/zswap/address'
 import { nodes } from './getRpcUrl'
 
 /**
@@ -24,7 +25,7 @@ export const setupNetwork = async () => {
               decimals: 18,
             },
             rpcUrls: nodes,
-            blockExplorerUrls: [`${BASE_BSC_SCAN_URL}/`],
+            blockExplorerUrls: [`${ZSWAP_EXPLORE}/`],
           },
         ],
       })

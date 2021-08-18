@@ -4,16 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { PairState, usePair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
-import { useCurrency, useToken } from 'hooks/Tokens'
+import { useCurrency } from 'hooks/Tokens'
 import { WrappedTokenInfo } from 'state/lists/hooks'
 import { wrappedCurrency, wrappedCurrencyAmount } from 'utils/wrappedCurrency'
+import { ZSWAP_ZB_ADDRESS as ZB_ADDRESS, ZSWAP_DEX_ADDRESS as DEX_ADDRESS } from 'config/constants/zswap/address'
 import { AppDispatch, AppState } from 'state'
 import { tryParseAmount } from 'state/swap/hooks'
 import { useCurrencyBalances } from 'state/wallet/hooks'
 import { Field, typeInput } from './actions'
-
-const ZB_ADDRESS: string = process.env.REACT_APP_ZB_ADDRESS
-const DEX_ADDRESS: string = process.env.REACT_APP_DEX_ADDRESS
 
 type ExistZBPair = {
   zbWithcurrencyA: boolean

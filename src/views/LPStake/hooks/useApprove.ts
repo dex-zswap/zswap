@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { ethers, Contract } from 'ethers'
 
-import { ZSWAP_LP_ADDRESS } from 'config/constants/lpAddress'
+import { ZSWAP_LP_ADDRESS } from 'config/constants/zswap/address'
 
 const useApproveLp = (lpContract: Contract) => {
   const handleApprove = useCallback(async () => {

@@ -12,7 +12,7 @@ import { usePair } from 'hooks/usePairs'
 import useZUSDPrice from 'hooks/useZUSDPrice'
 import useTotalSupply from 'hooks/useTotalSupply'
 import { useTokenBalance } from 'state/wallet/hooks'
-import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
+import { BIG_TEN, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
 
 import { ZERO_PERCENT } from 'config/constants'
 import { ONE_YEAR_BLOCK_COUNT } from 'config'
@@ -100,7 +100,7 @@ export function usePairInfo(pair: PairsInfo): any {
     const rewardPerblock = new BigNumber(formatUnits(lpShareReward.result, pairInfo.liquidityToken.decimals))
     const aprRate = JSBI.BigInt(parseInt(`${ONE_YEAR_BLOCK_COUNT.multipliedBy(rewardPerblock).toNumber()}`))
 
-    return new Percent(aprRate, JSBI.BigInt(100))
+    return new Percent(aprRate, JSBI.BigInt(BIG_HUNDERED.pow(30 - pairInfo.liquidityToken.decimals)))
   }, [userShares, lpShareReward, pairInfo])
 
   return {

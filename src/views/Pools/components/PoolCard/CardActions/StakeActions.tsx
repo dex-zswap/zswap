@@ -27,12 +27,8 @@ const StakeAction: React.FC<StakeActionsProps> = ({
 }) => {
   const { stakingToken, stakingTokenPrice, stakingLimit, isFinished, userData } = pool
   const { t } = useTranslation()
-  const stakedTokenBalance = getBalanceNumber(stakedBalance, stakingToken.decimals)
-  const stakedTokenDollarBalance = getBalanceNumber(
-    stakedBalance.multipliedBy(stakingTokenPrice),
-    stakingToken.decimals,
-  )
-
+  const stakedTokenBalance = getBalanceNumber(stakedBalance, 0)
+  const stakedTokenDollarBalance = getBalanceNumber(stakedBalance.multipliedBy(stakingTokenPrice), 0)
   const [onPresentTokenRequired] = useModal(<NotEnoughTokensModal tokenSymbol={stakingToken.symbol} />)
 
   const [onPresentStake] = useModal(
@@ -59,7 +55,8 @@ const StakeAction: React.FC<StakeActionsProps> = ({
     { placement: 'bottom' },
   )
 
-  const reachStakingLimit = stakingLimit.gt(0) && userData.stakedBalance.gte(stakingLimit)
+  // const reachStakingLimit = stakingLimit.gt(0) && userData.stakedBalance.gte(stakingLimit)
+  const reachStakingLimit = false
 
   const renderStakeAction = () => {
     return isStaked ? (
