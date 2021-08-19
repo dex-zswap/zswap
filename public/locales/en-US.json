@@ -1235,7 +1235,6 @@
   "Win big with PancakeSwap.": "Win big with PancakeSwap.",
   "Copied": "Copied",
   "Make a Profile": "Make a Profile",
-  "Your Address": "Your Address",
   "Your Wallet": "Your Wallet",
   "Transactions": "Transactions",
   "BNB Balance Low": "BNB Balance Low",
@@ -1357,5 +1356,7 @@
   "Exchange Rate": "Exchange Rate",
   "Your pool share": "Your pool share",
   "Your pool tokens": "Your pool tokens",
-  "Confirm Remove": "Confirm Remove"
+  "Confirm Remove": "Confirm Remove",
+  "Your Address": "Your Address",
+  "Connect to a wallet": "Connect to a wallet"
 }

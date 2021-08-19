@@ -1,52 +1,56 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import PanIcon from './PanIcon'
-import PancakeIcon from './PancakeIcon'
+import SpinCircle from './SpinCircle'
 import { SpinnerProps } from './types'
 
-const rotate = keyframes`
+const rotateOut = keyframes`
   from {
-    transform: rotate(0deg);
+    transform: rotate(0);
   }
   to {
     transform: rotate(360deg);
   }
 `
-
-const float = keyframes`
-	0% {
-		transform: translatey(0px);
-	}
-	50% {
-		transform: translatey(10px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
+const rotateIn = keyframes`
+  from {
+    transform: rotate(120deg);
+  }
+  to {
+    transform: rotate(-240deg);
+  }
 `
 
 const Container = styled.div`
   position: relative;
+  width: 100px;
+  height: 100px;
 `
 
-const RotatingPancakeIcon = styled(PancakeIcon)`
+const SpinCircleOut = styled(SpinCircle)`
   position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
-  animation: ${rotate} 2s linear infinite;
-  transform: translate3d(0, 0, 0);
+  right: 0;
+  margin: auto;
+  animation: ${rotateOut} 2s linear infinite;
 `
 
-const FloatingPanIcon = styled(PanIcon)`
-  animation: ${float} 6s ease-in-out infinite;
-  transform: translate3d(0, 0, 0);
+const SpinCircleIn = styled(SpinCircle)`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  animation: ${rotateIn} 2s linear infinite;
 `
 
-const Spinner: React.FC<SpinnerProps> = ({ size = 128 }) => {
+const Spinner: React.FC<SpinnerProps> = ({ size = 85 }) => {
   return (
     <Container>
-      <RotatingPancakeIcon width={`${size * 0.5}px`} />
-      <FloatingPanIcon width={`${size}px`} />
+      <SpinCircleOut width={`${size}px`} />
+      <SpinCircleIn width={`${size * 0.7}px`} />
     </Container>
   )
 }

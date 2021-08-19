@@ -15,16 +15,16 @@ export const UserMenuItem = styled.button<UserMenuItemProps>`
   color: ${({ theme, disabled }) => theme.colors[disabled ? 'textDisabled' : 'textSubtle']};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   display: flex;
-  font-size: 16px;
-  height: 48px;
+  font-size: 14px;
+  font-weight: bold;
+  height: 44px;
   justify-content: space-between;
   outline: 0;
-  padding-left: 16px;
-  padding-right: 50px;
+  padding: 0 20px;
   width: 100%;
 
   &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.tertiary};
+    background-color: #4d4d4d;
   }
 
   &:active:not(:disabled) {

@@ -32,9 +32,9 @@ const UserMenu = () => {
       <UserMenuItem as="button" onClick={onPresentTransactionModal}>
         {t('Transactions')}
       </UserMenuItem>
-      <UserMenuDivider />
-      <ProfileUserMenuItem isLoading={isLoading} hasProfile={hasProfile} />
-      <UserMenuDivider />
+      {/* <UserMenuDivider /> */}
+      {/* <ProfileUserMenuItem isLoading={isLoading} hasProfile={hasProfile} /> */}
+      {/* <UserMenuDivider /> */}
       <UserMenuItem as="button" onClick={logout}>
         <Flex alignItems="center" justifyContent="space-between" width="100%">
           {t('Disconnect')}
