@@ -152,7 +152,7 @@ export default function CurrencyInputPanel({
                         currency.symbol.length - 5,
                         currency.symbol.length,
                       )}`
-                    : currency?.symbol) || t('Select a currency')}
+                    : currency?.symbol) || t('Select a token')}
                 </Text>
               )}
               {!disableCurrencySelect && <ChevronDownIcon />}

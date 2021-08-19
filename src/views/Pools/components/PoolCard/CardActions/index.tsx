@@ -6,6 +6,7 @@ import { Flex, Text, Box } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { PoolCategory } from 'config/constants/types'
 import { Pool } from 'state/types'
+import { TokenPairImage } from 'components/TokenImage'
 import ApprovalAction from './ApprovalAction'
 import StakeActions from './StakeActions'
 import HarvestActions from './HarvestActions'
@@ -36,6 +37,10 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
       <Flex flexDirection="column">
         {harvest && (
           <>
+            <Flex justifyContent="space-between">
+              <Text>{t('Reward Token')}</Text>
+              <TokenPairImage secondaryToken={earningToken} width={46} height={46} />
+            </Flex>
             <Box display="inline">
               <InlineText color="secondary" textTransform="uppercase" bold fontSize="12px">
                 {`${earningToken.symbol} `}

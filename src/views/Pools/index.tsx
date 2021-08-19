@@ -74,6 +74,42 @@ const ControlStretch = styled(Flex)`
     flex: 1;
   }
 `
+const HeaderWrap = styled(PageHeader)`
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    width: 350px;
+    height: 150px;
+    border-radius: 50%;
+    background: #0050fe;
+    filter: blur(200px);
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    width: 350px;
+    height: 150px;
+    border-radius: 50%;
+    background: #f866ff;
+    filter: blur(140px);
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transform: translateX(50%);
+    z-index: 0;
+  }
+`
 
 const NUMBER_OF_POOLS_VISIBLE = 12
 
@@ -177,35 +213,36 @@ const Pools: React.FC = () => {
 
   return (
     <>
-      <PageHeader>
+      <HeaderWrap>
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
-            <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-              {t('Syrup Pools')}
+            <Heading as="h1" scale="lg" color="secondary" mb="10px">
+              {t('Earn ZBst by staking assets for market making')}
+              <HelpButton />
+            </Heading>
+            <Heading scale="xxl" color="pink">
+              $72,593,369.39
             </Heading>
             <Heading scale="md" color="text">
-              {t('Just stake some tokens to earn.')}
-            </Heading>
-            <Heading scale="md" color="text">
-              {t('High APR, low risk.')}
+              {t('Total Value Locked (TVL)')}
             </Heading>
           </Flex>
-          <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
+          {/* <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
             <HelpButton />
             <BountyCard />
-          </Flex>
+          </Flex> */}
         </Flex>
-      </PageHeader>
+      </HeaderWrap>
       <Page>
-        <PoolControls>
-          {/* <PoolTabButtons
+        {/* <PoolControls>
+          <PoolTabButtons
             stakedOnly={stakedOnly}
             setStakedOnly={setStakedOnly}
             hasStakeInFinishedPools={hasStakeInFinishedPools}
             viewMode={viewMode}
             setViewMode={setViewMode}
-          /> */}
-          {/* <FilterContainer>
+          />
+          <FilterContainer>
             <LabelWrapper>
               <Text fontSize="12px" bold color="textSubtle" textTransform="uppercase">
                 {t('Sort by')}
@@ -240,27 +277,27 @@ const Pools: React.FC = () => {
               </Text>
               <SearchInput onChange={handleChangeSearchQuery} placeholder="Search Pools" />
             </LabelWrapper>
-          </FilterContainer> */}
-        </PoolControls>
-        {showFinishedPools && (
+          </FilterContainer>
+        </PoolControls> */}
+        {/* {showFinishedPools && (
           <Text fontSize="20px" color="failure" pb="32px">
             {t('These pools are no longer distributing rewards. Please unstake your tokens.')}
           </Text>
-        )}
+        )} */}
         <CardLayout>
           {allPools.map((pool) => (
             <WrapperedCard key={pool.sousId} pool={pool} account={account} />
           ))}
         </CardLayout>
         <div ref={loadMoreRef} />
-        <Image
+        {/* <Image
           mx="auto"
           mt="12px"
           src="/images/decorations/3d-syrup-bunnies.png"
           alt="Pancake illustration"
           width={192}
           height={184.5}
-        />
+        /> */}
       </Page>
     </>
   )

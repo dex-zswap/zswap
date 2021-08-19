@@ -371,7 +371,6 @@
   "Win": "Win",
   "Opening Block": "Opening Block",
   "Closing Block": "Closing Block",
-  "Total Value Locked (TVL)": "Total Value Locked (TVL)",
   "Automatic restaking": "Automatic restaking",
   "Manual CAKE": "Manual CAKE",
   "Auto CAKE": "Auto CAKE",
@@ -1177,7 +1176,6 @@
   "Settings": "Settings",
   "Convert ERC-20 to BEP-20": "Convert ERC-20 to BEP-20",
   "Need help ?": "Need help ?",
-  "Select a token": "Select a token",
   "Enter a recipient": "Enter a recipient",
   "Invalid recipient": "Invalid recipient",
   "Supply": "Supply",
@@ -1358,5 +1356,9 @@
   "Your pool tokens": "Your pool tokens",
   "Confirm Remove": "Confirm Remove",
   "Your Address": "Your Address",
-  "Connect to a wallet": "Connect to a wallet"
+  "Connect to a wallet": "Connect to a wallet",
+  "Earn ZBst by staking assets for market making": "Earn ZBst by staking assets for market making",
+  "Select a token": "Select a token",
+  "Total Value Locked (TVL)": "Total Value Locked (TVL)",
+  "Reward Token": "Reward Token"
 }

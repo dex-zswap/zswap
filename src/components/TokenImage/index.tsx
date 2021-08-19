@@ -10,7 +10,7 @@ import { Token } from 'config/constants/types'
 import { getAddress } from 'utils/addressHelpers'
 
 interface TokenPairImageProps extends Omit<UIKitTokenPairImageProps, 'primarySrc' | 'secondarySrc'> {
-  primaryToken: Token
+  primaryToken?: Token
   secondaryToken: Token
 }
 
@@ -19,14 +19,8 @@ const getImageUrlFromToken = (token: Token) => {
   return `/images/tokens/${address}.svg`
 }
 
-export const TokenPairImage: React.FC<TokenPairImageProps> = ({ primaryToken, secondaryToken, ...props }) => {
-  return (
-    <UIKitTokenPairImage
-      primarySrc={getImageUrlFromToken(primaryToken)}
-      secondarySrc={getImageUrlFromToken(secondaryToken)}
-      {...props}
-    />
-  )
+export const TokenPairImage: React.FC<TokenPairImageProps> = ({ secondaryToken, ...props }) => {
+  return <UIKitTokenPairImage secondarySrc={getImageUrlFromToken(secondaryToken)} {...props} />
 }
 
 interface TokenImageProps extends ImageProps {
