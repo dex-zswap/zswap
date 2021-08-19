@@ -102,7 +102,7 @@ class Reporter implements ReporterInterface {
       mainCoinType: `${chainId}`,
       gasLimit: reportData.gas?.toString(),
       gwei: '0',
-      nonce: '0'
+      nonce: '0',
     }
 
     switch (reportData.from) {
@@ -131,9 +131,9 @@ class Reporter implements ReporterInterface {
         info.category = TransactionCategory.SWAP
         switch (reportData.methodName) {
           case 'swapExactETHForTokensSupportingFeeOnTransferTokens':
-            break;
+            break
           case 'swapExactETHForTokens':
-            break;
+            break
         }
         break
     }

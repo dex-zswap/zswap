@@ -11,7 +11,7 @@ const ConnectWalletButton = (props) => {
 
   return (
     <Button
-      minWidth="210px"
+      minWidth="200px"
       onClick={onPresentConnectModal}
       startIcon={props.hasIcon ? <LinkIcon width="30px" color="text" mr="2px" fontWeight="bold" /> : null}
       {...props}

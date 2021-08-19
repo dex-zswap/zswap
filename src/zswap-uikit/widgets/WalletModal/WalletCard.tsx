@@ -6,6 +6,7 @@ import MoreHorizontal from '../../components/Svg/Icons/MoreHorizontal'
 import { ButtonProps } from '../../components/Button'
 import { connectorLocalStorageKey, walletLocalStorageKey } from './config'
 import { Login, Config, ConnectorNames } from './types'
+import { Flex } from '@pancakeswap/uikit'
 
 interface Props {
   walletConfig: Config
@@ -14,17 +15,18 @@ interface Props {
 }
 
 const WalletButton = styled(Button).attrs({
-  width: '100%',
+  width: 'calc(100% - 48px)',
   variant: 'text',
   py: '16px',
 })`
-  align-items: center;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   height: auto;
-  justify-content: center;
+  justify-content: space-between;
   margin-left: auto;
   margin-right: auto;
+  background: #2b2b2b;
+  margin-bottom: 12px;
 `
 
 export const MoreWalletCard: React.FC<ButtonProps> = (props) => {

@@ -1,7 +1,7 @@
 import { Colors } from './types'
 
 export const baseColors = {
-  failure: '#f866ff',
+  failure: '#FF66FF',
   // primary: '#f866ff',
   primary: '#0050FF',
   blue: '#0050FF',
@@ -9,7 +9,7 @@ export const baseColors = {
   primaryBright: '#53DEE9',
   primaryDark: '#0098A1',
   secondary: '#fff',
-  success: '#31D0AA',
+  success: '#22B573',
   warning: '#FFB237',
   button: 'linear-gradient(to right, #f866ff 0%, #0050ff 100%)',
 }
