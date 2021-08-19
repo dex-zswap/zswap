@@ -10,14 +10,9 @@ const useHarvestPool = (token: Token) => {
   const tokenAddress = getAddress(token.address)
   const isUsingDEX = token.symbol === 'DEX'
   const stakeContract = useZSwapStakeContract()
-  const handleHarvest = useCallback(
-    async () => {
-      await stakeContract.harvest(
-        isUsingDEX ? ZSWAP_ZERO_ADDRESS : tokenAddress
-      )
-    },
-    [isUsingDEX, stakeContract],
-  )
+  const handleHarvest = useCallback(async () => {
+    await stakeContract.harvest(isUsingDEX ? ZSWAP_ZERO_ADDRESS : tokenAddress)
+  }, [isUsingDEX, stakeContract])
 
   return { onReward: handleHarvest }
 }

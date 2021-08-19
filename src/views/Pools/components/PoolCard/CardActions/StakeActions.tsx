@@ -90,7 +90,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
           </Text>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
-        <Text>Your Share</Text>
+          <Text>Your Share</Text>
           <Text>
             <Balance
               fontSize="12px"

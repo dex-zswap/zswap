@@ -37,33 +37,34 @@ const usePoolInfo = (pool: Pool) => {
 
   const stakingTokenPrice = useZUSDPrice(stakedToken)
 
-  const userShare = useSingleCallResult(stakeContract, 'getUserShare', [isDEX ? ZSWAP_ZERO_ADDRESS : stakingTokenAddress, account])
+  const userShare = useSingleCallResult(stakeContract, 'getUserShare', [
+    isDEX ? ZSWAP_ZERO_ADDRESS : stakingTokenAddress,
+    account,
+  ])
 
-  const [ pendingReward, setPendingReward ] = useState({
+  const [pendingReward, setPendingReward] = useState({
     loading: true,
-    result: BIG_ZERO
+    result: BIG_ZERO,
   })
 
   // FIXME: 不知道为啥checkReward总是调用不起来所以用这种方式先完成功能
   useEffect(() => {
-    const fetchReward = async() => {
+    const fetchReward = async () => {
       try {
         const address = isDEX ? ZSWAP_ZERO_ADDRESS : stakingTokenAddress
         const res = await stakeContract.checkReward(address)
 
-        setPendingReward(() => (
-          {
-            loading: false,
-            result: new BigNumber(res.toString()).dividedBy(BIG_TEN.pow(earningToken?.decimals)).integerValue(BigNumber.ROUND_DOWN)
-          }
-        ))
+        setPendingReward(() => ({
+          loading: false,
+          result: new BigNumber(res.toString())
+            .dividedBy(BIG_TEN.pow(earningToken?.decimals))
+            .integerValue(BigNumber.ROUND_DOWN),
+        }))
       } catch (e) {
-        setPendingReward(() => (
-          {
-            loading: false,
-            result: BIG_ZERO
-          }
-        ))
+        setPendingReward(() => ({
+          loading: false,
+          result: BIG_ZERO,
+        }))
       }
     }
 
@@ -88,20 +89,26 @@ const usePoolInfo = (pool: Pool) => {
     return stakingBalance.balance.multipliedBy(userSharePercent).dividedBy(BIG_TEN.pow(stakedToken?.decimals))
   }, [stakedToken, stakingBalance, userSharePercent])
 
-  const anyLoading = useMemo(() => [userShare, pendingReward].some(({ loading }) => loading), [userShare, pendingReward])
+  const anyLoading = useMemo(
+    () => [userShare, pendingReward].some(({ loading }) => loading),
+    [userShare, pendingReward],
+  )
 
   return {
     ...pool,
     stakingTokenPrice: new BigNumber(stakingTokenPrice?.toSignificant(6) ?? 0).toNumber(),
     earningTokenBalance: new BigNumber(earningTokenBalance?.toSignificant(6) ?? 0).toNumber(),
-    userData: anyLoading ? null : {
-      totalStakedBalance: (stakingBalance.balance ?? BIG_ZERO).dividedBy(BIG_TEN.pow(stakedToken?.decimals)),
-      allowance: allowance ? new BigNumber(allowance.toSignificant(4)) : BIG_ZERO,
-      stakedBalance: userStakedBalance,
-      stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toSignificant(4)) : BIG_ZERO,
-      pendingReward: pendingReward.result,
-      stakedPercent: `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`
-    },
+    apr: 100,
+    userData: anyLoading
+      ? null
+      : {
+          totalStakedBalance: (stakingBalance.balance ?? BIG_ZERO).dividedBy(BIG_TEN.pow(stakedToken?.decimals)),
+          allowance: allowance ? new BigNumber(allowance.toSignificant(4)) : BIG_ZERO,
+          stakedBalance: userStakedBalance,
+          stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toSignificant(4)) : BIG_ZERO,
+          pendingReward: pendingReward.result,
+          stakedPercent: `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
+        },
   }
 }
 
