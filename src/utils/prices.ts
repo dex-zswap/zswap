@@ -34,7 +34,7 @@ export function computeTradePriceBreakdown(trade?: Trade | null): {
 
   // the x*y=k impact
   const priceImpactWithoutFeePercent = priceImpactWithoutFeeFraction
-    ? new Percent(priceImpactWithoutFeeFraction?.numerator, priceImpactWithoutFeeFraction?.denominator)
+    ? new Percent(priceImpactWithoutFeeFraction.numerator, priceImpactWithoutFeeFraction.denominator)
     : undefined
 
   // the amount of the input that accrues to LPs

@@ -173,6 +173,7 @@ export default createReducer(initialState, (builder) =>
       }
 
       state.lastInitializedDefaultListOfLists = DEFAULT_LIST_OF_LISTS
+      state.activeListUrls = DEFAULT_LIST_OF_LISTS
 
       // if no active lists, activate defaults
       if (!state.activeListUrls) {

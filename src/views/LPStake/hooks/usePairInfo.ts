@@ -52,9 +52,9 @@ export function usePairInfo(pair: PairsInfo): any {
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
   const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
 
-  const [ reward, setReward ] = useState({
+  const [reward, setReward] = useState({
     loading: true,
-    result: BIG_ZERO
+    result: BIG_ZERO,
   })
 
   // const reward = useContractCall(lpContract, 'predReward', [pair.pair])
