@@ -214,6 +214,7 @@ export function useSwapCallback(
               summary: withRecipient,
               reportData: {
                 from: 'swap',
+                methodName,
                 args,
                 gas: calculateGasMargin(gasEstimate),
               },

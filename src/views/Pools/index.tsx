@@ -27,6 +27,7 @@ import PoolsTable from './components/PoolsTable/PoolsTable'
 import { ViewMode } from './components/ToggleView/ToggleView'
 import WrapperedCard from './components/WrappedCard'
 import useAllPools from './hooks/usePools'
+import useTotalLocked from './hooks/useTotalLocked'
 import { getAprData, getCakeVaultEarnings } from './helpers'
 
 const CardLayout = styled(FlexLayout)`
@@ -138,6 +139,8 @@ const Pools: React.FC = () => {
   } = useCakeVault()
   const accountHasVaultShares = userShares && userShares.gt(0)
   const performanceFeeAsDecimal = performanceFee && performanceFee / 100
+
+  const totalLocked = useTotalLocked()
 
   useEffect(() => {
     const showMorePools = (entries) => {

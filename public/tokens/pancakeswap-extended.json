@@ -4,7 +4,7 @@
   "version": {
     "major": 2,
     "minor": 16,
-    "patch": 30
+    "patch": 31
   },
   "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82/logo.png",
   "keywords": [
@@ -17,7 +17,7 @@
       "symbol": "ZBST",
       "address": "0xBcEfD686DF3309ab3787041f3b2067898be2E217",
       "chainId": 3603102,
-      "decimals": 18,
+      "decimals": 31,
       "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47/logo.png"
     }
   ]

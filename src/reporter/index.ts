@@ -102,6 +102,7 @@ class Reporter implements ReporterInterface {
       mainCoinType: `${chainId}`,
       gasLimit: reportData.gas?.toString(),
       gwei: '0',
+      nonce: '0',
     }
 
     switch (reportData.from) {
@@ -128,6 +129,12 @@ class Reporter implements ReporterInterface {
       case 'swap':
         info.tranType = TransactionType.TRANSFER_OUT
         info.category = TransactionCategory.SWAP
+        switch (reportData.methodName) {
+          case 'swapExactETHForTokensSupportingFeeOnTransferTokens':
+            break
+          case 'swapExactETHForTokens':
+            break
+        }
         break
     }
 
@@ -143,7 +150,7 @@ class Reporter implements ReporterInterface {
     this.cachedHashMaps[hash] = Object.assign(storagedHash, transitionInfo, {
       updateTime: Date.now(),
     })
-    this.reportTransaction(hash)
+    // this.reportTransaction(hash)
   }
 }
 
