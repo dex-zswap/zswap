@@ -14,15 +14,23 @@ import { BIG_TEN, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
 import { Pool } from 'state/types'
 import { ZSWAP_DEX_ADDRESS, ZSWAP_ZERO_ADDRESS } from 'config/constants/zswap/address'
 
-import pools from 'config/constants/zswap/pools'
-
-const useTotalLocked = () => {
+const useLocked = (tokenAddress: string) => {
   const stakeContract = useZSwapStakeContract()
-  const address = useMemo(() => {
-    return pools.map((pool) => getAddress(pool.stakingToken.address))
-  }, [pools])
+  const isDEX = tokenAddress === ZSWAP_DEX_ADDRESS
 
-  console.log(stakeContract)
+  const token = useToken(tokenAddress)
+
+  const tokenBalance = useStakedTokenBalance(tokenAddress, stakeContract.address, isDEX)
+  const tokenPrice = useZUSDPrice(token)
+
+  return useMemo(() => {
+    if (!tokenBalance.balance || !tokenPrice || !token) {
+      return BIG_ZERO
+    }
+
+    const priceBigNumber = new BigNumber(tokenPrice.toSignificant(6))
+    return tokenBalance.balance.dividedBy(BIG_TEN.pow(token.decimals)).multipliedBy(priceBigNumber)
+  }, [tokenBalance, tokenPrice, token])
 }
 
-export default useTotalLocked
+export default useLocked

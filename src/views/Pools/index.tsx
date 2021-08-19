@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useContext, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
@@ -24,10 +24,11 @@ import PoolTabButtons from './components/PoolTabButtons'
 import BountyCard from './components/BountyCard'
 import HelpButton from './components/HelpButton'
 import PoolsTable from './components/PoolsTable/PoolsTable'
+import TotalLocked from './components/TotalLocked'
 import { ViewMode } from './components/ToggleView/ToggleView'
 import WrapperedCard from './components/WrappedCard'
 import useAllPools from './hooks/usePools'
-import useTotalLocked from './hooks/useTotalLocked'
+import TotalLockedWrapper from './hooks/useTotalLocked/component'
 import { getAprData, getCakeVaultEarnings } from './helpers'
 
 const CardLayout = styled(FlexLayout)`
@@ -104,8 +105,6 @@ const Pools: React.FC = () => {
   const accountHasVaultShares = userShares && userShares.gt(0)
   const performanceFeeAsDecimal = performanceFee && performanceFee / 100
 
-  const totalLocked = useTotalLocked()
-
   useEffect(() => {
     const showMorePools = (entries) => {
       const [entry] = entries
@@ -180,25 +179,28 @@ const Pools: React.FC = () => {
 
   return (
     <>
-      <PageHeader>
-        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
-          <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
-            <Heading as="h1" scale="xxl" color="secondary" mb="24px">
-              {t('Syrup Pools')}
-            </Heading>
-            <Heading scale="md" color="text">
-              {t('Just stake some tokens to earn.')}
-            </Heading>
-            <Heading scale="md" color="text">
-              {t('High APR, low risk.')}
-            </Heading>
+      <TotalLockedWrapper>
+        <PageHeader>
+          <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
+            <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
+              <Heading as="h1" scale="xxl" color="secondary" mb="24px">
+                {t('Syrup Pools')}
+              </Heading>
+              <Heading scale="md" color="text">
+                {t('Just stake some tokens to earn.')}
+              </Heading>
+              <Heading scale="md" color="text">
+                {t('High APR, low risk.')}
+              </Heading>
+            </Flex>
+            <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
+              <HelpButton />
+              <BountyCard />
+            </Flex>
           </Flex>
-          <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
-            <HelpButton />
-            <BountyCard />
-          </Flex>
-        </Flex>
-      </PageHeader>
+          <TotalLocked />
+        </PageHeader>
+      </TotalLockedWrapper>
       <Page>
         <PoolControls>
           {/* <PoolTabButtons
