@@ -5,21 +5,22 @@ import { Contract } from '@ethersproject/contracts'
 export function useContractCall(contract: Contract | null, methodName: string, inputs: Array<unknown> = []) {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const call = async () => {
       const method = contract?.[methodName]
+      if (typeof method !== 'function') {
+        throw new Error(`contract.${methodName} is not a function!`)
+      }
       try {
-        if (typeof method === 'function') {
-          setLoading(true)
-          const res = await method(...inputs)
-          setResult(res)
-          setLoading(false)
-        }
+        setLoading(true)
+        const res = await method(...inputs)
+        setResult(() => res)
+        setLoading(() => false)
       } catch (e) {
-        setError(error)
-        setLoading(false)
+        setError(() => error)
+        setLoading(() => false)
       }
     }
 

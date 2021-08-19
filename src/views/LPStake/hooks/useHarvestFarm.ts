@@ -1,13 +1,11 @@
 import { useCallback } from 'react'
-import { harvestFarm } from 'utils/calls'
-import { useMasterchef } from 'hooks/useContract'
+import { useZSwapLPContract } from 'hooks/useContract'
 
-const useHarvestFarm = (farmPid: number) => {
-  const masterChefContract = useMasterchef()
-
+const useHarvestFarm = (farmPid: string | number) => {
+  const lpContract = useZSwapLPContract()
   const handleHarvest = useCallback(async () => {
-    await harvestFarm(masterChefContract, farmPid)
-  }, [farmPid, masterChefContract])
+    await lpContract.getlpReward(farmPid)
+  }, [farmPid, lpContract])
 
   return { onReward: handleHarvest }
 }

@@ -47,9 +47,7 @@ export function usePairInfo(pair: PairsInfo): any {
 
   const allowance = useContractCall(pairContract, 'allowance', [account, pair.pair])
 
-  const reward = useContractCall(pairContract, 'predReward', [pair.pair])
-
-  console.log(reward)
+  const reward = useContractCall(lpContract, 'predReward', [pair.pair])
 
   const [, pairInfo] = usePair(currency0, currency1)
 
@@ -78,6 +76,14 @@ export function usePairInfo(pair: PairsInfo): any {
     }
   }, [currency0USDTPrice, currency1USDTPrice])
 
+  const pandingReward = useMemo(() => {
+    if (!reward.result || !pairInfo) {
+      return BIG_ZERO;
+    }
+
+    return new BigNumber(reward.result.toString()).dividedBy(BIG_TEN.pow(pairInfo.liquidityToken.decimals))
+  }, [reward, pairInfo])
+
   const lpTotalTokens = useMemo(() => {
     return tokenLpAmount.token0
       .multipliedBy(tokenPrice.token0)
@@ -104,11 +110,10 @@ export function usePairInfo(pair: PairsInfo): any {
     const rewardPerblock = new BigNumber(formatUnits(lpShareReward.result, pairInfo.liquidityToken.decimals))
     const aprRate = JSBI.BigInt(parseInt(`${ONE_YEAR_BLOCK_COUNT.multipliedBy(rewardPerblock).toNumber()}`))
 
-    return new Percent(aprRate, JSBI.BigInt(BIG_HUNDERED.pow(30 - pairInfo.liquidityToken.decimals)))
+    return new Percent(aprRate, JSBI.BigInt(BIG_HUNDERED))
   }, [userShares, lpShareReward, pairInfo])
 
   return {
-    pid: 100,
     lpSymbol: `${token0.symbol}-${token1.symbol} LP`,
     displayApr: apr.toSignificant(4),
     pair,
@@ -118,6 +123,7 @@ export function usePairInfo(pair: PairsInfo): any {
       [chainId]: pair.pair,
     },
     userData: {
+      earnings: pandingReward.toString(),
       allowance: allowance.result?.toString(),
       tokenBalance: tokenBalance.toFixed(4),
       stakedBalance: userShares.result?.toString(),
