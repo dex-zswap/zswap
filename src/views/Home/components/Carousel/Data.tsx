@@ -141,26 +141,29 @@ const AbsoluteImgBall = styled.div`
 
 const useCarouselData = () => {
   const [carouselData, setCarouselData] = useState([1])
-  const getCarouselData = async () => {
-    const res = await fetch(`${BASE_URL}/information/queryList`, {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({}),
-    })
-    if (res.ok) {
-      const data = await res.json()
-      if (200 == data.code) {
-        console.log(data.data)
-      } else {
-        throw new Error(data.msg)
-      }
-    } else {
-      throw new Error(res.statusText)
-    }
-    return
+  // const getCarouselData = async () => {
+  //   const res = await fetch(`${BASE_URL}/information/queryList`, {
+  //     method: 'post',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({}),
+  //   })
+  //   if (res.ok) {
+  //     const data = await res.json()
+  //     if (200 == data.code) {
+  //       console.log(data.data)
+  //     } else {
+  //       throw new Error(data.msg)
+  //     }
+  //   } else {
+  //     throw new Error(res.statusText)
+  //   }
+  //   return
+  // }
+  const getCarouselData = () => {
+    return []
   }
   useEffect(() => {
     getCarouselData()

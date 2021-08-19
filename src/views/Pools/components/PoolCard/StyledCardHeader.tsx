@@ -10,9 +10,8 @@ const Wrapper = styled(CardHeader)<{
   isFinished?: boolean
   background?: string
 }>`
-  background: ${({ isFinished, background, theme }) =>
-    isFinished ? theme.colors.backgroundDisabled : theme.colors.gradients[background]};
-  border-radius: ${({ theme }) => `${theme.radii.card} ${theme.radii.card} 0 0`};
+  background: #292929;
+  border-radius: 30px 0 0;
 `
 
 const StyledCardHeader: React.FC<{
@@ -52,17 +51,24 @@ const StyledCardHeader: React.FC<{
   return (
     <Wrapper isFinished={isFinished} background={background}>
       <Flex alignItems="center" justifyContent="space-between">
-        <Flex flexDirection="column">
+        <Flex>
+          <TokenPairImage
+            style={{ marginRight: '10px' }}
+            primaryToken={earningToken}
+            secondaryToken={stakingToken}
+            width={46}
+            height={46}
+          />
           <Heading color={isFinished ? 'textDisabled' : 'body'} scale="lg">
-            {`${getHeadingPrefix()} ${earningToken.symbol}`}
+            {stakingToken.symbol}
           </Heading>
-          <Text color={isFinished ? 'textDisabled' : 'textSubtle'}>{getSubHeading()}</Text>
+          {/* <Text color={isFinished ? 'textDisabled' : 'textSubtle'}>{getSubHeading()}</Text> */}
         </Flex>
-        {isAutoVault ? (
+        {/* {isAutoVault ? (
           <CakeVaultTokenPairImage width={64} height={64} />
         ) : (
           <TokenPairImage primaryToken={earningToken} secondaryToken={stakingToken} width={64} height={64} />
-        )}
+        )} */}
       </Flex>
     </Wrapper>
   )
