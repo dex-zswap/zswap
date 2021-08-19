@@ -43,8 +43,8 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 }) => {
   const { t } = useTranslation()
   const lpContract = useZSwapLPContract()
-  const { onStake } = useStake(pair, lpContract, pair.pairInfo.liquidityToken.decimals)
-  const { onUnstake } = useUnstake(pair, lpContract, pair.pairInfo.liquidityToken.decimals)
+  const { onStake } = useStake(pair, lpContract, pair.pairInfo?.liquidityToken?.decimals)
+  const { onUnstake } = useUnstake(pair, lpContract, pair.pairInfo?.liquidityToken?.decimals)
   const location = useLocation()
   // const lpPrice = useLpTokenPrice(tokenName)
 
@@ -102,16 +102,6 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     <Flex justifyContent="space-between" alignItems="center">
       <Flex flexDirection="column" alignItems="flex-start">
         <Heading color={stakedBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance()}</Heading>
-        {/* {stakedBalance.gt(0) && lpPrice.gt(0) && (
-          <Balance
-            fontSize="12px"
-            color="textSubtle"
-            decimals={2}
-            value={getBalanceNumber(lpPrice.times(stakedBalance))}
-            unit=" USD"
-            prefix="~"
-          />
-        )} */}
       </Flex>
       {renderStakingButtons()}
     </Flex>

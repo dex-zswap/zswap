@@ -47,6 +47,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
             <HarvestActions
               earnings={earnings}
               earningToken={earningToken}
+              stakingToken={stakingToken}
               sousId={sousId}
               earningTokenPrice={earningTokenPrice}
               isBnbPool={isBnbPool}
