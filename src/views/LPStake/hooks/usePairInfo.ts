@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import { JSBI, Percent } from 'zswap-sdk'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -47,12 +47,41 @@ export function usePairInfo(pair: PairsInfo): any {
 
   const allowance = useContractCall(pairContract, 'allowance', [account, pair.pair])
 
-  const reward = useContractCall(lpContract, 'predReward', [pair.pair])
-
   const [, pairInfo] = usePair(currency0, currency1)
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
   const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
+
+  const [ reward, setReward ] = useState({
+    loading: true,
+    result: BIG_ZERO
+  })
+
+  // const reward = useContractCall(lpContract, 'predReward', [pair.pair])
+
+  // FIXME: 不知道为啥checkReward总是调用不起来所以用这种方式先完成功能
+  useEffect(() => {
+    const fetchReward = async () => {
+      try {
+        const res = await lpContract.predReward(pair.pair)
+        setReward(() => ({
+          loading: false,
+          result: new BigNumber(res.toString())
+            .dividedBy(BIG_TEN.pow(pairInfo?.liquidityToken?.decimals))
+            .integerValue(BigNumber.ROUND_DOWN),
+        }))
+      } catch (e) {
+        setReward(() => ({
+          loading: false,
+          result: BIG_ZERO,
+        }))
+      }
+    }
+
+    if (pair) {
+      fetchReward()
+    }
+  }, [pair])
 
   const [token0Deposited, token1Deposited] =
     !!totalPoolTokens && !!userPoolBalance && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
@@ -76,13 +105,13 @@ export function usePairInfo(pair: PairsInfo): any {
     }
   }, [currency0USDTPrice, currency1USDTPrice])
 
-  const pandingReward = useMemo(() => {
-    if (!reward.result || !pairInfo) {
-      return BIG_ZERO;
+  const userSharesBigNumber = useMemo(() => {
+    if (!userShares.result || !pairInfo) {
+      return BIG_ZERO
     }
 
-    return new BigNumber(reward.result.toString()).dividedBy(BIG_TEN.pow(pairInfo.liquidityToken.decimals))
-  }, [reward, pairInfo])
+    return new BigNumber(formatUnits(userShares.result, pairInfo.liquidityToken.decimals))
+  }, [userShares, pairInfo])
 
   const lpTotalTokens = useMemo(() => {
     return tokenLpAmount.token0
@@ -92,15 +121,13 @@ export function usePairInfo(pair: PairsInfo): any {
   }, [tokenLpAmount, tokenPrice])
 
   const tokenBalance = useMemo(() => {
-    if (!userPoolBalance || !userShares.result) {
+    if (!userPoolBalance) {
       return BIG_ZERO
     }
 
     const userPoolBalanceBigNumber = new BigNumber(userPoolBalance.toFixed(4))
-    const userSharesBigNumber = new BigNumber(userShares.result.toNumber())
-
     return userPoolBalanceBigNumber.minus(userSharesBigNumber)
-  }, [userPoolBalance, userShares])
+  }, [userPoolBalance, userSharesBigNumber])
 
   const apr = useMemo(() => {
     if (!lpShareReward.result || !pairInfo) {
@@ -123,10 +150,10 @@ export function usePairInfo(pair: PairsInfo): any {
       [chainId]: pair.pair,
     },
     userData: {
-      earnings: pandingReward.toString(),
+      earnings: reward.result,
       allowance: allowance.result?.toString(),
       tokenBalance: tokenBalance.toFixed(4),
-      stakedBalance: userShares.result?.toString(),
+      stakedBalance: userSharesBigNumber.toString(),
     },
     tokenAmount: token0Deposited?.toSignificant(4),
     quoteTokenAmount: token1Deposited?.toSignificant(4),
