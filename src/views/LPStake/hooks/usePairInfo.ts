@@ -47,6 +47,10 @@ export function usePairInfo(pair: PairsInfo): any {
 
   const allowance = useContractCall(pairContract, 'allowance', [account, pair.pair])
 
+  const reward = useContractCall(pairContract, 'predReward', [pair.pair])
+
+  console.log(reward)
+
   const [, pairInfo] = usePair(currency0, currency1)
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)

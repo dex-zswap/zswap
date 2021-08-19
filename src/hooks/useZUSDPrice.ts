@@ -20,7 +20,7 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
         chainId && wrapped && currencyEquals(WETH[chainId], wrapped) ? undefined : currency,
         chainId ? WETH[chainId] : undefined,
       ],
-      [wrapped?.equals(ZUSD_MAINNET) ? undefined : wrapped, chainId === ChainId.MAINNET ? ZUSD_MAINNET : undefined],
+      [wrapped?.equals(ZUSD_MAINNET) ? undefined : wrapped, ZUSD[chainId]],
       [chainId ? WETH[chainId] : undefined, ZUSD[chainId]],
     ],
     [chainId, currency, wrapped],

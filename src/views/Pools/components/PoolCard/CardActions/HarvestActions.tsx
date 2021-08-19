@@ -9,6 +9,7 @@ import CollectModal from 'views/Pools/components/PoolCard/Modals/CollectModal'
 
 interface HarvestActionsProps {
   earnings: BigNumber
+  stakingToken: Token
   earningToken: Token
   sousId: number
   earningTokenPrice: number
@@ -19,32 +20,34 @@ interface HarvestActionsProps {
 const HarvestActions: React.FC<HarvestActionsProps> = ({
   earnings,
   earningToken,
+  stakingToken,
   sousId,
   isBnbPool,
   earningTokenPrice,
   isLoading = false,
 }) => {
   const { t } = useTranslation()
-  const earningTokenBalance = getBalanceNumber(earnings, earningToken.decimals)
+  const earningTokenBalance = getBalanceNumber(earnings, 0)
   const formattedBalance = formatNumber(earningTokenBalance, 3, 3)
 
   const earningTokenDollarBalance = getBalanceNumber(earnings.multipliedBy(earningTokenPrice), earningToken.decimals)
 
-  const fullBalance = getFullDisplayBalance(earnings, earningToken.decimals)
+  const fullBalance = getFullDisplayBalance(earnings, 0)
   const hasEarnings = earnings.toNumber() > 0
   const isCompoundPool = sousId === 0
 
-  // const [onPresentCollect] = useModal(
-  //   <CollectModal
-  //     formattedBalance={formattedBalance}
-  //     fullBalance={fullBalance}
-  //     earningToken={earningToken}
-  //     earningsDollarValue={earningTokenDollarBalance}
-  //     sousId={sousId}
-  //     isBnbPool={isBnbPool}
-  //     isCompoundPool={isCompoundPool}
-  //   />,
-  // )
+  const [onPresentCollect] = useModal(
+    <CollectModal
+      formattedBalance={formattedBalance}
+      fullBalance={fullBalance}
+      earningToken={earningToken}
+      stakingToken={stakingToken}
+      earningsDollarValue={earningTokenDollarBalance}
+      sousId={sousId}
+      isBnbPool={isBnbPool}
+      isCompoundPool={isCompoundPool}
+    />,
+  )
 
   return (
     <Flex justifyContent="space-between" alignItems="center" mb="16px">
@@ -79,9 +82,9 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
           </>
         )}
       </Flex>
-      {/* <Button disabled={!hasEarnings} onClick={onPresentCollect}>
-        {isCompoundPool ? t('Collect') : t('Harvest')}
-      </Button> */}
+      <Button disabled={!hasEarnings} onClick={onPresentCollect}>
+        {t('Harvest')}
+      </Button>
     </Flex>
   )
 }

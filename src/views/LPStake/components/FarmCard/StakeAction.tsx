@@ -43,8 +43,8 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 }) => {
   const { t } = useTranslation()
   const lpContract = useZSwapLPContract()
-  const { onStake } = useStake(pair, lpContract, pair.pairInfo.liquidityToken.decimals)
-  const { onUnstake } = useUnstake(pair, lpContract, pair.pairInfo.liquidityToken.decimals)
+  const { onStake } = useStake(pair, lpContract, pair.pairInfo?.liquidityToken?.decimals)
+  const { onUnstake } = useUnstake(pair, lpContract, pair.pairInfo?.liquidityToken?.decimals)
   const location = useLocation()
   // const lpPrice = useLpTokenPrice(tokenName)
 
