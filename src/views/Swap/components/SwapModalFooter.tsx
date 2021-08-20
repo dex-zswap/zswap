@@ -16,6 +16,7 @@ import FormattedPriceImpact from './FormattedPriceImpact'
 import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
 
 const SwapModalFooterContainer = styled(AutoColumn)`
+  max-width: 480px;
   margin: 35px 0;
   padding: 19px 23px;
   background: #2b2b2b;

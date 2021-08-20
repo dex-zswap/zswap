@@ -4,7 +4,7 @@ import { Card } from 'zswap-uikit'
 
 export const BodyWrapper = styled(Card)`
   border-radius: 30px;
-  max-width: 436px;
+  max-width: 480px;
   width: 100%;
   z-index: 1;
 `

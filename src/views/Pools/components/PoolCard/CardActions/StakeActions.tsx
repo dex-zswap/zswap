@@ -64,7 +64,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   const renderStakeAction = () => {
     return isStaked ? (
       <>
-        <Flex justifyContent="space-between" alignItems="center">
+        {/* <Flex justifyContent="space-between" alignItems="center">
           <Text>Value Locked</Text>
           <Text>
             <Balance
@@ -140,7 +140,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
             )}
           </Flex>
           {tooltipVisible && tooltip}
-        </Flex>
+        </Flex> */}
       </>
     ) : (
       <Button disabled={isFinished} onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}>

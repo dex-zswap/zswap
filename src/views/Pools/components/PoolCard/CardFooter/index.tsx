@@ -36,8 +36,8 @@ const Footer: React.FC<FooterProps> = ({ pool, account }) => {
   })
 
   return (
-    <CardFooter>
-      <ExpandableButtonWrapper>
+    <CardFooter style={{ paddingTop: 0 }}>
+      {/* <ExpandableButtonWrapper>
         <Flex alignItems="center">
           {isAutoVault ? <CompoundingPoolTag /> : <ManualPoolTag />}
           {tooltipVisible && tooltip}
@@ -49,7 +49,8 @@ const Footer: React.FC<FooterProps> = ({ pool, account }) => {
           {isExpanded ? t('Hide') : t('Details')}
         </ExpandableLabel>
       </ExpandableButtonWrapper>
-      {isExpanded && <ExpandedFooter pool={pool} account={account} />}
+      {isExpanded && <ExpandedFooter pool={pool} account={account} />} */}
+      <ExpandedFooter pool={pool} account={account} />
     </CardFooter>
   )
 }

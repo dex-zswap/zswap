@@ -21,7 +21,7 @@ function PoolPriceBar({
   const { t } = useTranslation()
   return (
     <AutoColumn gap="md">
-      <AutoRow justify="space-around" gap="4px">
+      <AutoRow justify="space-between" gap="4px">
         <AutoColumn justify="flex-start">
           <Text color="primary" fontWeight="bold">
             {price?.toSignificant(6) ?? '-'}

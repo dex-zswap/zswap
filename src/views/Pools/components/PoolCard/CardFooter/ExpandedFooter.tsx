@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
+import { ArrowRightIcon } from 'zswap-uikit/components/Svg'
 import { getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import { useTranslation } from 'contexts/Localization'
 import {
@@ -104,7 +105,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
 
   return (
     <ExpandedWrapper flexDirection="column">
-      <Flex mb="2px" justifyContent="space-between" alignItems="center">
+      {/* <Flex mb="2px" justifyContent="space-between" alignItems="center">
         <Text small>{t('Total staked')}:</Text>
         <Flex alignItems="flex-start">
           {totalStaked && totalStaked.gte(0) ? (
@@ -145,7 +146,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
         </Flex>
       )}
       {isAutoVault && (
-        <Flex mb="2px" justifyContent="space-between" alignItems="center">
+        <Flex mb="5px" justifyContent="space-between" alignItems="center">
           {tooltipVisible && tooltip}
           <TooltipText ref={targetRef} small>
             {t('Performance Fee')}
@@ -156,24 +157,32 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
             </Text>
           </Flex>
         </Flex>
-      )}
-      <Flex mb="2px" justifyContent="flex-end">
+      )} */}
+      <Flex mb="5px">
         <LinkExternal href={swapLink} bold={false} small>
           {/* {t('View Project Site')} */}
-          获取 {stakingToken.symbol}
+          {t('Get')} {stakingToken.symbol}
+          <ArrowRightIcon width="10px" marginLeft="6px" type="blue" />
         </LinkExternal>
       </Flex>
       {poolContractAddress && (
-        <Flex mb="2px" justifyContent="flex-end">
+        <Flex mb="5px">
           <LinkExternal
             href={`${ZSWAP_EXPLORE}/address/${isAutoVault ? cakeVaultContractAddress : poolContractAddress}`}
             bold={false}
             small
           >
             {t('View Contract')}
+            <ArrowRightIcon width="10px" marginLeft="6px" type="blue" />
           </LinkExternal>
         </Flex>
       )}
+      {/* <Flex mb="5px">
+        <LinkExternal href={swapLink} bold={false} small>
+          {t('View Token Info')}
+          <ArrowRightIcon width="10px" marginLeft="6px" type="blue" />
+        </LinkExternal>
+      </Flex> */}
     </ExpandedWrapper>
   )
 }

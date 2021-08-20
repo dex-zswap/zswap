@@ -21,11 +21,12 @@ export const StyledCard = styled(Card)<{
   isPromoted?: PromotedStyleCardProps
   isFinished?: boolean
 }>`
-  max-width: 360px;
+  width: 360px;
+  min-height: 490px;
   margin: 0 8px 24px;
   display: flex;
   flex-direction: column;
-  align-self: baseline;
+  align-self: flex-start;
   position: relative;
   background: #292929;
   color: ${({ isFinished, theme }) => theme.colors[isFinished ? 'textDisabled' : 'secondary']};
@@ -33,7 +34,10 @@ export const StyledCard = styled(Card)<{
   border-radius: 30px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    margin: 0 12px 46px;
+    margin: 0 15px 30px;
+  }
+  > div {
+    background: #292929;
   }
 `
 

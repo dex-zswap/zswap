@@ -21,6 +21,8 @@ interface CardActionsProps {
 }
 
 const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
+  console.log(pool)
+
   const { sousId, stakingToken, earningToken, harvest, poolCategory, userData, earningTokenPrice } = pool
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE
@@ -37,18 +39,44 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
       <Flex flexDirection="column">
         {harvest && (
           <>
-            <Flex justifyContent="space-between">
-              <Text>{t('Reward Token')}</Text>
+            <Flex mb="7px" justifyContent="space-between">
+              <Text fontSize="14px">{t('Reward Token')}</Text>
               <TokenPairImage secondaryToken={earningToken} width={46} height={46} />
             </Flex>
-            <Box display="inline">
+
+            <Flex mb="7px" justifyContent="space-between">
+              <Text fontSize="14px">{t('Value Locked')}</Text>
+              <Text fontSize="14px">${pool?.userData?.totalStakedBalance.toString()}</Text>
+            </Flex>
+
+            <Flex mb="7px" justifyContent="space-between">
+              <Text fontSize="14px">{t('Your Share')}</Text>
+              <Text fontSize="14px">
+                ${pool?.userData?.stakedBalance.toString()}（{pool?.userData?.stakedPercent.toString()}）
+              </Text>
+            </Flex>
+
+            <Flex mb="7px" justifyContent="space-between">
+              <Text fontSize="14px">{t('Available Balance')}</Text>
+              <Text fontSize="14px">
+                {pool?.userData?.stakingTokenBalance.toString()}
+                {' ' + stakingToken.symbol}
+              </Text>
+            </Flex>
+
+            <Flex mb="25px" justifyContent="space-between">
+              <Text fontSize="14px">{t('Your Reward')}</Text>
+              <Text fontSize="14px">{pool?.userData?.pendingReward.toString()}</Text>
+            </Flex>
+
+            {/* <Box display="inline">
               <InlineText color="secondary" textTransform="uppercase" bold fontSize="12px">
                 {`${earningToken.symbol} `}
               </InlineText>
               <InlineText color="textSubtle" textTransform="uppercase" bold fontSize="12px">
                 {t('Earned')}
               </InlineText>
-            </Box>
+            </Box> */}
             <HarvestActions
               earnings={earnings}
               earningToken={earningToken}
@@ -60,15 +88,16 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
             />
           </>
         )}
-        <Box display="inline">
+        {/* <Box display="inline">
           <InlineText color={isStaked ? 'secondary' : 'textSubtle'} textTransform="uppercase" bold fontSize="12px">
             {isStaked ? stakingToken.symbol : t('Stake')}{' '}
           </InlineText>
           <InlineText color={isStaked ? 'textSubtle' : 'secondary'} textTransform="uppercase" bold fontSize="12px">
             {isStaked ? t('Staked') : `${stakingToken.symbol}`}
           </InlineText>
-        </Box>
-        {needsApproval ? (
+        </Box> */}
+        {needsApproval ? <ApprovalAction pool={pool} isLoading={isLoading} /> : null}
+        {/* {needsApproval ? (
           <ApprovalAction pool={pool} isLoading={isLoading} />
         ) : (
           <StakeActions
@@ -79,7 +108,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
             isBnbPool={isBnbPool}
             isStaked={isStaked}
           />
-        )}
+        )} */}
       </Flex>
     </Flex>
   )

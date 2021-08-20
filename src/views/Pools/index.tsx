@@ -31,8 +31,8 @@ import useAllPools from './hooks/usePools'
 import TotalLockedWrapper from './hooks/useTotalLocked/component'
 import { getAprData, getCakeVaultEarnings } from './helpers'
 
-const CardLayout = styled(FlexLayout)`
-  justify-content: center;
+const CardLayout = styled(Flex)`
+  flex-wrap: wrap;
 `
 
 const PoolControls = styled.div`
@@ -224,7 +224,7 @@ const Pools: React.FC = () => {
                 <HelpButton />
               </Heading>
               <Heading scale="xxl" color="pink">
-                $72,593,369.39
+                <TotalLocked />
               </Heading>
               <Heading scale="md" color="text">
                 {t('Total Value Locked (TVL)')}

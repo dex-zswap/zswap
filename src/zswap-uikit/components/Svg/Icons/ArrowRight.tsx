@@ -4,11 +4,11 @@ import { SvgProps } from '../types'
 
 const Icon: React.FC<SvgProps> = (props) => {
   return (
-    <Svg viewBox="0 0 16 18" {...props}>
+    <Svg style={{ width: 'blue' == props.type ? '10px' : props.width }} viewBox="0 0 16 18" {...props}>
       <polyline
         style={{
           fill: 'none',
-          stroke: '#fff',
+          stroke: 'blue' == props.type ? '#0050FF' : '#fff',
           strokeWidth: 1.891,
           strokeLinecap: 'round',
           strokeLinejoin: 'round',
@@ -19,7 +19,7 @@ const Icon: React.FC<SvgProps> = (props) => {
       <line
         style={{
           fill: 'none',
-          stroke: '#fff',
+          stroke: 'blue' == props.type ? '#0050FF' : '#fff',
           strokeWidth: 1.891,
           strokeLinecap: 'round',
           strokeLinejoin: 'round',
