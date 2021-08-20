@@ -10,7 +10,11 @@ export const fetchFarmUserAllowances = async (account: string, farmsToFetch: Far
 
   const calls = farmsToFetch.map((farm) => {
     const lpContractAddress = getAddress(farm.lpAddresses)
-    return { address: lpContractAddress, name: 'allowance', params: [account, masterChefAddress] }
+    return {
+      address: lpContractAddress,
+      name: 'allowance',
+      params: [account, masterChefAddress],
+    }
   })
 
   const rawLpAllowances = await multicall(erc20ABI, calls)

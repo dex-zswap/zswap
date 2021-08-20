@@ -71,7 +71,14 @@ export const getClaimableIfoData = async (account: string): Promise<Achievement[
       const [claimStatus] = claimStatusArr
 
       if (claimStatus === true) {
-        return [...accum, { address: getPointCenterIfoAddress(), name: 'ifos', params: [index] }]
+        return [
+          ...accum,
+          {
+            address: getPointCenterIfoAddress(),
+            name: 'ifos',
+            params: [index],
+          },
+        ]
       }
 
       return accum

@@ -21,7 +21,9 @@ import { sqrt, parseBigintIsh } from '../utils'
 import { InsufficientReservesError, InsufficientInputAmountError } from '../errors'
 import { Token } from './token'
 
-let PAIR_ADDRESS_CACHE: { [token0Address: string]: { [token1Address: string]: string } } = {}
+let PAIR_ADDRESS_CACHE: {
+  [token0Address: string]: { [token1Address: string]: string }
+} = {}
 
 export class Pair {
   public readonly liquidityToken: Token
@@ -55,8 +57,8 @@ export class Pair {
       tokenAmounts[0].token.chainId,
       Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token),
       18,
-      'UNI-V2',
-      'Uniswap V2',
+      'ZSWAP',
+      'ZSWAP LP',
     )
     this.tokenAmounts = tokenAmounts as [TokenAmount, TokenAmount]
   }

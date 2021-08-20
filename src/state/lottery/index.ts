@@ -110,7 +110,13 @@ export const LotterySlice = createSlice({
     })
     builder.addCase(
       fetchUserTicketsAndLotteries.fulfilled,
-      (state, action: PayloadAction<{ userTickets: LotteryTicket[]; userLotteries: LotteryUserGraphEntity }>) => {
+      (
+        state,
+        action: PayloadAction<{
+          userTickets: LotteryTicket[]
+          userLotteries: LotteryUserGraphEntity
+        }>,
+      ) => {
         state.currentRound.userTickets.isLoading = false
         state.currentRound.userTickets.tickets = action.payload.userTickets
         state.userLotteryData = action.payload.userLotteries

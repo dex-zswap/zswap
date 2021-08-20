@@ -135,7 +135,7 @@ const BetResult: React.FC<BetResultProps> = ({ bet, result }) => {
         {bet.claimed && (
           <Flex justifyContent="center">
             <LinkExternal href={getBscScanLink(bet.claimedHash, 'transaction')} mb="16px">
-              {t('View on BscScan')}
+              {t('View on DEX Browser')}
             </LinkExternal>
           </Flex>
         )}
@@ -165,11 +165,9 @@ const BetResult: React.FC<BetResultProps> = ({ bet, result }) => {
           <>
             <Divider />
             <Flex alignItems="start" justifyContent="space-between">
-              <Text fontSize="14px" color="textSubtle">
-                {t('Amount to collect')}:
-              </Text>
+              <Text color="textSubtle">{t('Amount to collect')}:</Text>
               <Flex justifyContent="end">
-                <Text fontSize="14px" color="textSubtle">{`${formatBnb(returned)} BNB`}</Text>
+                <Text color="textSubtle">{`${formatBnb(returned)} BNB`}</Text>
                 <span ref={targetRef}>
                   <InfoIcon color="textSubtle" ml="4px" />
                 </span>

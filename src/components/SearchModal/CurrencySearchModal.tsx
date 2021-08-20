@@ -73,14 +73,23 @@ export default function CurrencySearchModal({
   const { t } = useTranslation()
 
   const config = {
-    [CurrencyModalView.search]: { title: t('Select a Token'), onBack: undefined },
-    [CurrencyModalView.manage]: { title: t('Manage'), onBack: () => setModalView(CurrencyModalView.search) },
+    [CurrencyModalView.search]: {
+      title: t('Select a Token'),
+      onBack: undefined,
+    },
+    [CurrencyModalView.manage]: {
+      title: t('Manage'),
+      onBack: () => setModalView(CurrencyModalView.search),
+    },
     [CurrencyModalView.importToken]: {
       title: t('Import Tokens'),
       onBack: () =>
         setModalView(prevView && prevView !== CurrencyModalView.importToken ? prevView : CurrencyModalView.search),
     },
-    [CurrencyModalView.importList]: { title: t('Import List'), onBack: () => setModalView(CurrencyModalView.search) },
+    [CurrencyModalView.importList]: {
+      title: t('Import List'),
+      onBack: () => setModalView(CurrencyModalView.search),
+    },
   }
 
   return (
@@ -106,17 +115,10 @@ export default function CurrencySearchModal({
           <ImportToken tokens={[importToken]} handleCurrencySelect={handleCurrencySelect} />
         ) : modalView === CurrencyModalView.importList && importList && listURL ? (
           <ImportList list={importList} listURL={listURL} onImport={() => setModalView(CurrencyModalView.manage)} />
-        ) : modalView === CurrencyModalView.manage ? (
-          <Manage
-            setModalView={setModalView}
-            setImportToken={setImportToken}
-            setImportList={setImportList}
-            setListUrl={setListUrl}
-          />
         ) : (
           ''
         )}
-        {modalView === CurrencyModalView.search && (
+        {/* {modalView === CurrencyModalView.search && (
           <Footer>
             <Button
               scale="sm"
@@ -127,7 +129,7 @@ export default function CurrencySearchModal({
               {t('Manage Tokens')}
             </Button>
           </Footer>
-        )}
+        )} */}
       </StyledModalBody>
     </StyledModalContainer>
   )

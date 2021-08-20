@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { AppDispatch, AppState } from 'state'
+import TxRepoter, { ReportFrom } from 'reporter'
 import { addTransaction } from './actions'
 import { TransactionDetails } from './reducer'
 
@@ -13,6 +14,10 @@ export function useTransactionAdder(): (
     summary?: string
     approval?: { tokenAddress: string; spender: string }
     claim?: { recipient: string }
+    reportData?: {
+      from: ReportFrom
+      [key: string]: any
+    }
   },
 ) => void {
   const { chainId, account } = useActiveWeb3React()
@@ -25,7 +30,16 @@ export function useTransactionAdder(): (
         summary,
         approval,
         claim,
-      }: { summary?: string; claim?: { recipient: string }; approval?: { tokenAddress: string; spender: string } } = {},
+        reportData,
+      }: {
+        summary?: string
+        claim?: { recipient: string }
+        approval?: { tokenAddress: string; spender: string }
+        reportData?: {
+          from: ReportFrom
+          [key: string]: any
+        }
+      } = {},
     ) => {
       if (!account) return
       if (!chainId) return
@@ -34,7 +48,31 @@ export function useTransactionAdder(): (
       if (!hash) {
         throw Error('No transaction hash found.')
       }
-      dispatch(addTransaction({ hash, from: account, chainId, approval, summary, claim }))
+      TxRepoter.cacheHash(
+        hash,
+        Object.assign(
+          {
+            hash,
+            from: account,
+            chainId,
+            summary,
+          },
+          {
+            reportData,
+          },
+        ),
+      )
+
+      dispatch(
+        addTransaction({
+          hash,
+          from: account,
+          chainId,
+          approval,
+          summary,
+          claim,
+        }),
+      )
     },
     [dispatch, chainId, account],
   )

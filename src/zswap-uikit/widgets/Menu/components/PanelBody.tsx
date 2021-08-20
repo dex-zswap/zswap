@@ -56,11 +56,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links }) => {
                   <MenuEntry key={item.href} secondary isActive={item.href === location.pathname} onClick={handleClick}>
                     <MenuLink href={item.href}>
                       <LinkLabel isPushed={isPushed}>{item.label}</LinkLabel>
-                      {item.status && (
-                        <LinkStatus color={item.status.color} fontSize="14px">
-                          {item.status.text}
-                        </LinkStatus>
-                      )}
+                      {item.status && <LinkStatus color={item.status.color}>{item.status.text}</LinkStatus>}
                     </MenuLink>
                   </MenuEntry>
                 ))}
@@ -72,11 +68,7 @@ const PanelBody: React.FC<Props> = ({ isPushed, pushNav, isMobile, links }) => {
             <MenuLink href={entry.href} onClick={handleClick}>
               {iconElement}
               <LinkLabel isPushed={isPushed}>{entry.label}</LinkLabel>
-              {entry.status && (
-                <LinkStatus color={entry.status.color} fontSize="14px">
-                  {entry.status.text}
-                </LinkStatus>
-              )}
+              {entry.status && <LinkStatus color={entry.status.color}>{entry.status.text}</LinkStatus>}
             </MenuLink>
           </MenuEntry>
         )

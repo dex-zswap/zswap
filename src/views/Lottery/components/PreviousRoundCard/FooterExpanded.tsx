@@ -20,10 +20,10 @@ const NextDrawWrapper = styled(Flex)`
   }
 `
 
-const PreviousRoundCardFooter: React.FC<{ lotteryData: LotteryRound; lotteryId: string }> = ({
-  lotteryData,
-  lotteryId,
-}) => {
+const PreviousRoundCardFooter: React.FC<{
+  lotteryData: LotteryRound
+  lotteryId: string
+}> = ({ lotteryData, lotteryId }) => {
   const { t } = useTranslation()
   const lotteryGraphData = useGetLotteryGraphDataById(lotteryId)
   const cakePriceBusd = usePriceCakeBusd()
@@ -48,7 +48,6 @@ const PreviousRoundCardFooter: React.FC<{ lotteryData: LotteryRound; lotteryId: 
           <Skeleton my="2px" height={14} width={90} />
         ) : (
           <Balance
-            fontSize="14px"
             color="textSubtle"
             unit=" CAKE"
             value={getBalanceNumber(lotteryData?.amountCollectedInCake)}
@@ -68,7 +67,7 @@ const PreviousRoundCardFooter: React.FC<{ lotteryData: LotteryRound; lotteryId: 
         </Box>
         <Box mb="24px">
           <Flex>
-            <Text fontSize="14px" display="inline">
+            <Text display="inline">
               {t('Total players this round')}:{' '}
               {lotteryData && lotteryGraphData.totalUsers ? (
                 lotteryGraphData.totalUsers.toLocaleString()

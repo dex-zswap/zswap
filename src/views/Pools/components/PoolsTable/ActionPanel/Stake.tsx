@@ -45,11 +45,8 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
   const { account } = useWeb3React()
 
   const stakingTokenContract = useERC20(stakingToken.address ? getAddress(stakingToken.address) : '')
-  const { handleApprove: handlePoolApprove, requestedApproval: requestedPoolApproval } = useApprovePool(
-    stakingTokenContract,
-    sousId,
-    earningToken.symbol,
-  )
+  const { handleApprove: handlePoolApprove, requestedApproval: requestedPoolApproval } =
+    useApprovePool(stakingTokenContract)
 
   const { isVaultApproved, setLastUpdated } = useCheckVaultApprovalStatus()
   const { handleApprove: handleVaultApprove, requestedApproval: requestedVaultApproval } =
@@ -225,7 +222,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
                 onClick={stakingTokenBalance.gt(0) ? onStake : onPresentTokenRequired}
                 disabled={isFinished}
               >
-                <AddIcon color="primary" width="14px" />
+                <AddIcon color="primary" width="18px" />
               </IconButton>
             )}
           </IconButtonWrapper>

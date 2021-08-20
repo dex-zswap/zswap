@@ -47,7 +47,9 @@ interface PayoutRowProps extends FlexProps {
 
 export const PayoutRow: React.FC<PayoutRowProps> = ({ positionLabel, multiplier, amount, ...props }) => {
   const { t } = useTranslation()
-  const formattedMultiplier = `${multiplier.toLocaleString(undefined, { maximumFractionDigits: 2 })}x`
+  const formattedMultiplier = `${multiplier.toLocaleString(undefined, {
+    maximumFractionDigits: 2,
+  })}x`
 
   return (
     <Row height="18px" {...props}>
@@ -74,8 +76,8 @@ export const LockPriceRow: React.FC<LockPriceRowProps> = ({ lockPrice, ...props 
 
   return (
     <Row {...props}>
-      <Text fontSize="14px">{t('Locked Price')}:</Text>
-      <Text fontSize="14px">{formatUsdv2(lockPrice)}</Text>
+      <Text>{t('Locked Price')}:</Text>
+      <Text>{formatUsdv2(lockPrice)}</Text>
     </Row>
   )
 }
@@ -177,8 +179,8 @@ export const LockPriceHistoryRow: React.FC<LockPriceHistoryRowProps> = ({ lockPr
 
   return (
     <Row {...props}>
-      <Text fontSize="14px">{t('Locked Price')}:</Text>
-      <Text fontSize="14px">{formatUsd(lockPrice)}</Text>
+      <Text>{t('Locked Price')}:</Text>
+      <Text>{formatUsd(lockPrice)}</Text>
     </Row>
   )
 }

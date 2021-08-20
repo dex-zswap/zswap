@@ -41,7 +41,11 @@ interface CallResult {
   readonly blockNumber: number | undefined
 }
 
-const INVALID_RESULT: CallResult = { valid: false, blockNumber: undefined, data: undefined }
+const INVALID_RESULT: CallResult = {
+  valid: false,
+  blockNumber: undefined,
+  data: undefined,
+}
 
 // use this options object
 export const NEVER_RELOAD: ListenerOptions = {
@@ -122,8 +126,20 @@ interface CallState {
   readonly error: boolean
 }
 
-const INVALID_CALL_STATE: CallState = { valid: false, result: undefined, loading: false, syncing: false, error: false }
-const LOADING_CALL_STATE: CallState = { valid: true, result: undefined, loading: true, syncing: true, error: false }
+const INVALID_CALL_STATE: CallState = {
+  valid: false,
+  result: undefined,
+  loading: false,
+  syncing: false,
+  error: false,
+}
+const LOADING_CALL_STATE: CallState = {
+  valid: true,
+  result: undefined,
+  loading: true,
+  syncing: true,
+  error: false,
+}
 
 function toCallState(
   callResult: CallResult | undefined,

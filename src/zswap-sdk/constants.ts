@@ -1,5 +1,7 @@
 import JSBI from 'jsbi'
 
+import { ZSWAP_INIT_CODE_HASH, ZSWAP_FACTORY_ADDRESS } from 'config/constants/zswap/address'
+
 // exports for external consumption
 export type BigintIsh = JSBI | bigint | string
 
@@ -21,10 +23,10 @@ export enum Rounding {
 }
 
 // export const FACTORY_ADDRESS = '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73'
-export const FACTORY_ADDRESS = '0x49bb3eaf79243EB490c37DBD8e93e4062A8776fF'
+export const FACTORY_ADDRESS = ZSWAP_FACTORY_ADDRESS
 
 // export const INIT_CODE_HASH = '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5'
-export const INIT_CODE_HASH = '0x090def511dcc2c6d35b5efa7d3bad24d607aaa87602cc8bcd268e096941e70fd'
+export const INIT_CODE_HASH = ZSWAP_INIT_CODE_HASH
 
 export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000)
 

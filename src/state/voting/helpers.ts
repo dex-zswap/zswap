@@ -131,7 +131,9 @@ export const getAllVotes = async (proposalId: string, block?: number, votesPerCh
 
     const fetchVoteChunk = async (newSkip: number) => {
       try {
-        const voteChunk = await getVotes(votesPerChunk, newSkip, { proposal: proposalId })
+        const voteChunk = await getVotes(votesPerChunk, newSkip, {
+          proposal: proposalId,
+        })
 
         if (voteChunk.length === 0) {
           resolve(votes)

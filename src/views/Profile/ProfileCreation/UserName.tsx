@@ -208,7 +208,7 @@ const UserName: React.FC = () => {
               </Indicator>
             </InputWrap>
           )}
-          <Text color="textSubtle" fontSize="14px" py="4px" mb="16px" style={{ minHeight: '30px' }}>
+          <Text color="textSubtle" py="4px" mb="16px" style={{ minHeight: '30px' }}>
             {message}
           </Text>
           <Text as="p" color="failure" mb="8px">
@@ -216,7 +216,14 @@ const UserName: React.FC = () => {
               "Only reuse a name from other social media if you're OK with people viewing your wallet. You can't change your name once you click Confirm.",
             )}
           </Text>
-          <label htmlFor="checkbox" style={{ display: 'block', cursor: 'pointer', marginBottom: '24px' }}>
+          <label
+            htmlFor="checkbox"
+            style={{
+              display: 'block',
+              cursor: 'pointer',
+              marginBottom: '24px',
+            }}
+          >
             <Flex alignItems="center">
               <div style={{ flex: 'none' }}>
                 <Checkbox id="checkbox" scale="sm" checked={isAcknowledged} onChange={handleAcknowledge} />

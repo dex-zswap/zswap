@@ -143,7 +143,10 @@ const FarmAuction = () => {
           index={2}
           innerProps={{ style: { width: '100%' } }}
           dividerPosition="top"
-          dividerFill={{ light: CAKE_BURN_TOP_FILL_LIGHT, dark: CAKE_BURN_TOP_FILL_DARK }}
+          dividerFill={{
+            light: CAKE_BURN_TOP_FILL_LIGHT,
+            dark: CAKE_BURN_TOP_FILL_DARK,
+          }}
         >
           <AuctionCakeBurn />
         </PageSection>

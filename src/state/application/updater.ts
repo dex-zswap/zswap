@@ -11,7 +11,10 @@ export default function Updater(): null {
 
   const windowVisible = useIsWindowVisible()
 
-  const [state, setState] = useState<{ chainId: number | undefined; blockNumber: number | null }>({
+  const [state, setState] = useState<{
+    chainId: number | undefined
+    blockNumber: number | null
+  }>({
     chainId,
     blockNumber: null,
   })
@@ -21,7 +24,10 @@ export default function Updater(): null {
       setState((prev) => {
         if (chainId === prev.chainId) {
           if (typeof prev.blockNumber !== 'number') return { chainId, blockNumber }
-          return { chainId, blockNumber: Math.max(blockNumber, prev.blockNumber) }
+          return {
+            chainId,
+            blockNumber: Math.max(blockNumber, prev.blockNumber),
+          }
         }
         return prev
       })
@@ -50,7 +56,12 @@ export default function Updater(): null {
 
   useEffect(() => {
     if (!debouncedState.chainId || !debouncedState.blockNumber || !windowVisible) return
-    dispatch(updateBlockNumber({ chainId: debouncedState.chainId, blockNumber: debouncedState.blockNumber }))
+    dispatch(
+      updateBlockNumber({
+        chainId: debouncedState.chainId,
+        blockNumber: debouncedState.blockNumber,
+      }),
+    )
   }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId])
 
   return null

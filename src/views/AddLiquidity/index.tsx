@@ -1,4 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useMemo } from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from 'zswap-sdk'
@@ -33,9 +35,16 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import Dots from 'components/Loader/Dots'
 import { currencyId } from 'utils/currencyId'
-import Page from 'views/Page'
+import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import ConfirmAddModalBottom from './ConfirmAddModalBottom'
 import PoolPriceBar from './PoolPriceBar'
+
+const RowWrap = styled.div`
+  padding: 15px 20px;
+  background: #2b2b2b;
+  border-radius: 20px;
+  margin-bottom: 40px;
+`
 
 export default function AddLiquidity({
   match: {
@@ -71,6 +80,9 @@ export default function AddLiquidity({
     liquidityMinted,
     poolTokenPercentage,
     error,
+    allExist,
+    createZBPairLink,
+    otherCurrencySymbol,
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
@@ -178,6 +190,13 @@ export default function AddLiquidity({
             summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencies[Field.CURRENCY_A]?.symbol
             } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+            reportData: {
+              from: 'addLiquidity',
+              args: {
+                args,
+                gas: calculateGasMargin(estimatedGasLimit),
+              },
+            },
           })
 
           setTxHash(response.hash)
@@ -205,28 +224,33 @@ export default function AddLiquidity({
         />
       </Flex>
     ) : (
-      <AutoColumn>
-        <Flex alignItems="center">
-          <Text fontSize="48px" marginRight="10px">
-            {liquidityMinted?.toSignificant(6)}
+      <RowWrap>
+        <AutoColumn>
+          <Text fontSize="16px" marginBottom="15px">
+            {t('You will receive')}
           </Text>
-          <DoubleCurrencyLogo
-            currency0={currencies[Field.CURRENCY_A]}
-            currency1={currencies[Field.CURRENCY_B]}
-            size={30}
-          />
-        </Flex>
-        <Row>
-          <Text fontSize="24px">
-            {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} Pool Tokens`}
-          </Text>
-        </Row>
-        <Text small textAlign="left" my="24px">
+          <Flex alignItems="center">
+            <Text fontSize="32px" marginRight="10px">
+              {liquidityMinted?.toSignificant(6)}
+            </Text>
+            <DoubleCurrencyLogo
+              currency0={currencies[Field.CURRENCY_A]}
+              currency1={currencies[Field.CURRENCY_B]}
+              size={30}
+            />
+          </Flex>
+          <Row>
+            <Text fontSize="16px" bold>
+              {`${currencies[Field.CURRENCY_A]?.symbol}/${currencies[Field.CURRENCY_B]?.symbol} Pool Tokens`}
+            </Text>
+          </Row>
+          {/* <Text small textAlign="left" my="24px">
           {t('Output is estimated. If the price changes by more than %slippage%% your transaction will revert.', {
             slippage: allowedSlippage / 100,
           })}
-        </Text>
-      </AutoColumn>
+        </Text> */}
+        </AutoColumn>
+      </RowWrap>
     )
   }
 
@@ -289,7 +313,8 @@ export default function AddLiquidity({
 
   const [onPresentAddLiquidityModal] = useModal(
     <TransactionConfirmationModal
-      title={noLiquidity ? t('You are creating a pool') : t('You will receive')}
+      minWidth="440px"
+      title={noLiquidity ? t('You are creating a pool') : t('Confirm Supply')}
       customOnDismiss={handleDismissConfirmation}
       attemptingTxn={attemptingTxn}
       hash={txHash}
@@ -303,16 +328,16 @@ export default function AddLiquidity({
   )
 
   return (
-    <Page>
+    <SwapAndLiquidityPage>
       <AppBody>
-        <AppHeader
+        {/* <AppHeader
           title={t('Add Liquidity')}
           subtitle={t('Add liquidity to receive LP tokens')}
           helper={t(
             'Liquidity providers earn a 0.17% trading fee on all trades made for that token pair, proportional to their share of the liquidity pool.',
           )}
           backTo="/pool"
-        />
+        /> */}
         <CardBody>
           <AutoColumn gap="20px">
             {noLiquidity && (
@@ -357,9 +382,9 @@ export default function AddLiquidity({
             />
             {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
               <>
-                <LightCard padding="0px" borderRadius="20px">
-                  <RowBetween padding="1rem">
-                    <Text fontSize="14px">
+                <LightCard padding="0px" borderRadius="20px" border="2px solid #4D4D4D !important">
+                  <RowBetween padding="1rem 1rem 0">
+                    <Text fontWeight="bold">
                       {noLiquidity ? t('Initial prices and pool share') : t('Prices and pool share')}
                     </Text>
                   </RowBetween>{' '}
@@ -396,9 +421,15 @@ export default function AddLiquidity({
                           width={approvalB !== ApprovalState.APPROVED ? '48%' : '100%'}
                         >
                           {approvalA === ApprovalState.PENDING ? (
-                            <Dots>{t('Enabling %asset%', { asset: currencies[Field.CURRENCY_A]?.symbol })}</Dots>
+                            <Dots>
+                              {t('Enabling %asset%', {
+                                asset: currencies[Field.CURRENCY_A]?.symbol,
+                              })}
+                            </Dots>
                           ) : (
-                            t('Enable %asset%', { asset: currencies[Field.CURRENCY_A]?.symbol })
+                            t('Enable %asset%', {
+                              asset: currencies[Field.CURRENCY_A]?.symbol,
+                            })
                           )}
                         </Button>
                       )}
@@ -409,31 +440,45 @@ export default function AddLiquidity({
                           width={approvalA !== ApprovalState.APPROVED ? '48%' : '100%'}
                         >
                           {approvalB === ApprovalState.PENDING ? (
-                            <Dots>{t('Enabling %asset%', { asset: currencies[Field.CURRENCY_B]?.symbol })}</Dots>
+                            <Dots>
+                              {t('Enabling %asset%', {
+                                asset: currencies[Field.CURRENCY_B]?.symbol,
+                              })}
+                            </Dots>
                           ) : (
-                            t('Enable %asset%', { asset: currencies[Field.CURRENCY_B]?.symbol })
+                            t('Enable %asset%', {
+                              asset: currencies[Field.CURRENCY_B]?.symbol,
+                            })
                           )}
                         </Button>
                       )}
                     </RowBetween>
                   )}
-                <Button
-                  variant={
-                    !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]
-                      ? 'danger'
-                      : 'primary'
-                  }
-                  onClick={() => {
-                    if (expertMode) {
-                      onAdd()
-                    } else {
-                      onPresentAddLiquidityModal()
+                {allExist ? (
+                  <Button
+                    variant={
+                      !isValid && !!parsedAmounts[Field.CURRENCY_A] && !!parsedAmounts[Field.CURRENCY_B]
+                        ? 'danger'
+                        : 'primary'
                     }
-                  }}
-                  disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
-                >
-                  {error ?? t('Supply')}
-                </Button>
+                    onClick={() => {
+                      if (expertMode) {
+                        onAdd()
+                      } else {
+                        onPresentAddLiquidityModal()
+                      }
+                    }}
+                    disabled={!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED}
+                  >
+                    {error ?? t('Supply')}
+                  </Button>
+                ) : (
+                  <Button as={Link} to={createZBPairLink}>
+                    {t(error, {
+                      symbol: otherCurrencySymbol,
+                    })}
+                  </Button>
+                )}
               </AutoColumn>
             )}
           </AutoColumn>
@@ -441,13 +486,24 @@ export default function AddLiquidity({
       </AppBody>
       {!addIsUnsupported ? (
         pair && !noLiquidity && pairState !== PairState.INVALID ? (
-          <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
+          <AutoColumn
+            style={{
+              padding: '24px',
+              minWidth: '20rem',
+              width: '100%',
+              maxWidth: '480px',
+              marginTop: '1rem',
+              background: '#1A1A1A',
+              zIndex: 99,
+              borderRadius: '30px',
+            }}
+          >
             <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
           </AutoColumn>
         ) : null
       ) : (
         <UnsupportedCurrencyFooter currencies={[currencies.CURRENCY_A, currencies.CURRENCY_B]} />
       )}
-    </Page>
+    </SwapAndLiquidityPage>
   )
 }

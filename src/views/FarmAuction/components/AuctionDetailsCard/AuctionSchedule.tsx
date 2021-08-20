@@ -35,7 +35,11 @@ export const AuctionSchedule: React.FC<ScheduleProps> = ({ auction }) => {
             <Text small color="textSubtle">
               {t('Auction duration')}
             </Text>
-            <Text small>{t('%numHours% hours', { numHours: `~${auctionDuration.toString()}` })}</Text>
+            <Text small>
+              {t('%numHours% hours', {
+                numHours: `~${auctionDuration.toString()}`,
+              })}
+            </Text>
           </Flex>
         )}
         <Flex justifyContent="space-between" mb="8px">

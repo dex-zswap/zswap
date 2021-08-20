@@ -18,23 +18,22 @@ interface DisabledProp {
 }
 
 const getCursorStyle = ({ disabled = false }: DisabledProp) => {
-  return disabled ? 'not-allowed' : 'cursor'
+  return disabled ? 'not-allowed' : 'pointer'
 }
 
 const getBaseThumbStyles = ({ isMax, disabled }: StyledInputProps) => `
   -webkit-appearance: none;
-  background-image: url(${isMax ? bunnyHeadMax : bunnyHeadMain});
-  background-color: transparent;
+  width: 21px;
+  height: 21px;
+  background: #004FFF;
+  border-radius: 50%;
   border: 0;
   cursor: ${getCursorStyle};
-  width: 24px;
-  height: 32px;
   filter: ${disabled ? 'grayscale(100%)' : 'none'};
-  transform: translate(-2px, -2px);
   transition: 200ms transform;
 
   &:hover {
-    transform: ${disabled ? 'scale(1) translate(-2px, -2px)' : 'scale(1.1) translate(-3px, -3px)'};
+    transform: ${disabled ? 'scale(1)' : 'scale(1.1)'};
   }
 `
 
@@ -64,8 +63,7 @@ export const BunnyButt = styled.div<DisabledProp>`
 
 export const BunnySlider = styled.div`
   position: absolute;
-  left: 14px;
-  width: calc(100% - 14px);
+  width: 100%;
 `
 
 export const StyledInput = styled.input<StyledInputProps>`
@@ -97,7 +95,7 @@ export const BarBackground = styled.div<DisabledProp>`
 export const BarProgress = styled.div<DisabledProp>`
   background-color: ${({ theme }) => theme.colors.primary};
   filter: ${({ disabled }) => (disabled ? 'grayscale(100%)' : 'none')};
-  height: 10px;
+  height: 6px;
   position: absolute;
-  top: 18px;
+  top: 16px;
 `

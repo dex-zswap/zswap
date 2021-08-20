@@ -159,7 +159,7 @@ const CardUserInfo: React.FC<YourScoreProps> = ({
       <Heading scale="lg" textAlign="center">
         {headingText}
       </Heading>
-      <Text textAlign="center" fontSize="14px" color="textSubtle" mt="4px">
+      <Text textAlign="center" color="textSubtle" mt="4px">
         {subHeadingText}
       </Text>
       {shouldShowUserRanks && (
@@ -175,7 +175,13 @@ const CardUserInfo: React.FC<YourScoreProps> = ({
                 <UserRankBox
                   flex="1"
                   title={t('Rank in team').toUpperCase()}
-                  footer={userLeaderboardInformation ? t('#%global% Overall', { global: global.toLocaleString() }) : ''}
+                  footer={
+                    userLeaderboardInformation
+                      ? t('#%global% Overall', {
+                          global: global.toLocaleString(),
+                        })
+                      : ''
+                  }
                   mr={[0, '8px']}
                   mb={['8px', 0]}
                 >
@@ -224,11 +230,16 @@ const CardUserInfo: React.FC<YourScoreProps> = ({
                 <NextRankBox
                   flex="2"
                   title={`${t('Next tier').toUpperCase()}: ${nextTier.color}`}
-                  footer={t('to become #%rank% in team', { rank: nextTier.rank })}
+                  footer={t('to become #%rank% in team', {
+                    rank: nextTier.rank,
+                  })}
                   currentMedal={medal.current}
                   nextMedal={medal.next}
                 >
-                  <Heading scale="lg">+${userLeaderboardInformation && localiseTradingVolume(nextRank)}</Heading>
+                  <Heading scale="lg">
+                    +$
+                    {userLeaderboardInformation && localiseTradingVolume(nextRank)}
+                  </Heading>
                 </NextRankBox>
               ))}
           </RanksWrapper>

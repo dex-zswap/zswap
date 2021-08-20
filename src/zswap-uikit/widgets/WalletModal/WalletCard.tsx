@@ -6,6 +6,7 @@ import MoreHorizontal from '../../components/Svg/Icons/MoreHorizontal'
 import { ButtonProps } from '../../components/Button'
 import { connectorLocalStorageKey, walletLocalStorageKey } from './config'
 import { Login, Config, ConnectorNames } from './types'
+import { Flex } from '@pancakeswap/uikit'
 
 interface Props {
   walletConfig: Config
@@ -13,21 +14,26 @@ interface Props {
   onDismiss: () => void
 }
 
-const WalletButton = styled(Button).attrs({ width: '100%', variant: 'text', py: '16px' })`
-  align-items: center;
+const WalletButton = styled(Button).attrs({
+  width: 'calc(100% - 48px)',
+  variant: 'text',
+  py: '16px',
+})`
   display: flex;
-  flex-direction: column;
+  align-items: center;
   height: auto;
-  justify-content: center;
+  justify-content: space-between;
   margin-left: auto;
   margin-right: auto;
+  background: #2b2b2b;
+  margin-bottom: 12px;
 `
 
 export const MoreWalletCard: React.FC<ButtonProps> = (props) => {
   return (
     <WalletButton variant="tertiary" {...props}>
       <MoreHorizontal width="40px" mb="8px" color="textSubtle" />
-      <Text fontSize="14px">More</Text>
+      <Text>More</Text>
     </WalletButton>
   )
 }
@@ -55,7 +61,7 @@ const WalletCard: React.FC<Props> = ({ login, walletConfig, onDismiss }) => {
       id={`wallet-connect-${title.toLocaleLowerCase()}`}
     >
       <Icon width="40px" mb="8px" />
-      <Text fontSize="14px">{title}</Text>
+      <Text>{title}</Text>
     </WalletButton>
   )
 }

@@ -70,10 +70,10 @@ const MultiplierArrow: React.FC<MultiplierArrowProps> = ({
   const multiplierText = (
     <Box>
       <Flex justifyContent="center" height="14px">
-        <Text fontSize="14px" color={textColor} bold lineHeight="14x">
+        <Text color={textColor} bold lineHeight="14x">
           {multiplier !== undefined ? `${multiplier}x` : '-'}
         </Text>
-        <Text fontSize="14px" color={textColor} lineHeight="14x" ml="4px">
+        <Text color={textColor} lineHeight="14x" ml="4px">
           {t('Payout')}
         </Text>
       </Flex>

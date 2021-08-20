@@ -92,18 +92,12 @@ const BountyModal: React.FC<BountyModalProps> = ({ onDismiss, TooltipComponent }
       </Flex>
       <Divider />
       <Flex alignItems="center" justifyContent="space-between">
-        <Text fontSize="14px" color="textSubtle">
-          {t('Pool total pending yield')}
-        </Text>
+        <Text color="textSubtle">{t('Pool total pending yield')}</Text>
         <Balance color="textSubtle" value={totalYieldToDisplay} unit=" CAKE" />
       </Flex>
       <Flex alignItems="center" justifyContent="space-between" mb="24px">
-        <Text fontSize="14px" color="textSubtle">
-          {t('Bounty')}
-        </Text>
-        <Text fontSize="14px" color="textSubtle">
-          {callFeeAsDecimal}%
-        </Text>
+        <Text color="textSubtle">{t('Bounty')}</Text>
+        <Text color="textSubtle">{callFeeAsDecimal}%</Text>
       </Flex>
       {account ? (
         <Button

@@ -98,7 +98,6 @@ const NextDrawCard = () => {
           <Skeleton my="2px" height={14} width={90} />
         ) : (
           <Balance
-            fontSize="14px"
             color="textSubtle"
             textAlign={['center', null, null, 'left']}
             unit=" CAKE"

@@ -38,10 +38,53 @@ import { Field } from 'state/burn/actions'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import Page from 'views/Page'
 
+const RemoveLiquidityPage = styled(Page)`
+  position: relative;
+
+  &::before {
+    content: '';
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: #0050fe;
+    filter: blur(200px);
+    position: absolute;
+    left: 20%;
+    top: 30%;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #f866ff;
+    filter: blur(150px);
+    position: absolute;
+    right: 30%;
+    top: 20%;
+    z-index: 0;
+  }
+`
+
 const BorderCard = styled.div`
   border: solid 1px ${({ theme }) => theme.colors.cardBorder};
   border-radius: 16px;
   padding: 16px;
+`
+
+const TokenWrap = styled.div`
+  padding: 18px 23px;
+  background: #2f2f2f;
+  border-radius: 20px;
+  margin-bottom: 45px;
+`
+
+const ModalWrap = styled.div`
+  padding: 18px 23px;
+  background: #2f2f2f;
+  border-radius: 20px;
 `
 
 export default function RemoveLiquidity({
@@ -94,7 +137,12 @@ export default function RemoveLiquidity({
   const pairContract: Contract | null = usePairContract(pair?.liquidityToken?.address)
 
   // allowance handling
-  const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
+  const [signatureData, setSignatureData] = useState<{
+    v: number
+    r: string
+    s: string
+    deadline: number
+  } | null>(null)
   const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.LIQUIDITY], ROUTER_ADDRESS)
 
   async function onAttemptToApprove() {
@@ -105,14 +153,14 @@ export default function RemoveLiquidity({
     // try to gather a signature for permission
     const nonce = await pairContract.nonces(account)
 
-    const EIP712Domain = [
+    const Domain = [
       { name: 'name', type: 'string' },
       { name: 'version', type: 'string' },
       { name: 'chainId', type: 'uint256' },
       { name: 'verifyingContract', type: 'address' },
     ]
     const domain = {
-      name: 'Pancake LPs',
+      name: 'ZSwap LPs',
       version: '1',
       chainId,
       verifyingContract: pair.liquidityToken.address,
@@ -133,7 +181,7 @@ export default function RemoveLiquidity({
     }
     const data = JSON.stringify({
       types: {
-        EIP712Domain,
+        Domain,
         Permit,
       },
       domain,
@@ -142,7 +190,7 @@ export default function RemoveLiquidity({
     })
 
     library
-      .send('eth_signTypedData_v4', [account, data])
+      .send('signTypedData_v1', [account, data])
       .then(splitSignature)
       .then((signature) => {
         setSignatureData({
@@ -299,6 +347,13 @@ export default function RemoveLiquidity({
             summary: `Remove ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
               currencyA?.symbol
             } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencyB?.symbol}`,
+            reportData: {
+              from: 'removeLiquidity',
+              args: {
+                args,
+                gas: safeGasEstimate,
+              },
+            },
           })
 
           setTxHash(response.hash)
@@ -313,66 +368,81 @@ export default function RemoveLiquidity({
 
   function modalHeader() {
     return (
-      <AutoColumn gap="md">
-        <RowBetween align="flex-end">
-          <Text fontSize="24px">{parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}</Text>
-          <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyA} size="24px" />
-            <Text fontSize="24px" ml="10px">
-              {currencyA?.symbol}
+      <ModalWrap style={{ marginBottom: '25px' }}>
+        <AutoColumn gap="md">
+          <Text>{t('You will receive')}</Text>
+          <RowBetween align="flex-end">
+            <Text fontSize="32px" bold>
+              {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
             </Text>
+            <RowFixed gap="4px">
+              <CurrencyLogo currency={currencyA} size="32px" />
+              <Text fontSize="32px" ml="10px" bold>
+                {currencyA?.symbol}
+              </Text>
+            </RowFixed>
+          </RowBetween>
+          <RowFixed margin="auto">
+            <AddIcon width="18px" />
           </RowFixed>
-        </RowBetween>
-        <RowFixed>
-          <AddIcon width="16px" />
-        </RowFixed>
-        <RowBetween align="flex-end">
-          <Text fontSize="24px">{parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}</Text>
-          <RowFixed gap="4px">
-            <CurrencyLogo currency={currencyB} size="24px" />
-            <Text fontSize="24px" ml="10px">
-              {currencyB?.symbol}
+          <RowBetween align="flex-end">
+            <Text fontSize="32px" bold>
+              {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
             </Text>
-          </RowFixed>
-        </RowBetween>
+            <RowFixed gap="4px">
+              <CurrencyLogo currency={currencyB} size="32px" />
+              <Text fontSize="32px" ml="10px" bold>
+                {currencyB?.symbol}
+              </Text>
+            </RowFixed>
+          </RowBetween>
 
-        <Text small textAlign="left" pt="12px">
+          {/* <Text small textAlign="left" pt="12px">
           {t('Output is estimated. If the price changes by more than %slippage%% your transaction will revert.', {
             slippage: allowedSlippage / 100,
           })}
-        </Text>
-      </AutoColumn>
+        </Text> */}
+        </AutoColumn>
+      </ModalWrap>
     )
   }
 
   function modalBottom() {
     return (
       <>
-        <RowBetween>
-          {t('%assetA%/%assetB% Burned', { assetA: currencyA?.symbol ?? '', assetB: currencyB?.symbol ?? '' })}
-          <RowFixed>
-            <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin />
-            <Text>{parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}</Text>
-          </RowFixed>
-        </RowBetween>
+        {/* <RowBetween>
+            {t('%assetA%/%assetB% Burned', {
+              assetA: currencyA?.symbol ?? '',
+              assetB: currencyB?.symbol ?? '',
+            })}
+            <RowFixed>
+              <DoubleCurrencyLogo currency0={currencyA} currency1={currencyB} margin />
+              <Text>{parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}</Text>
+            </RowFixed>
+          </RowBetween> */}
         {pair && (
           <>
-            <RowBetween>
-              <Text>{t('Price')}</Text>
-              <Text>
-                1 {currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
+            <RowBetween style={{ padding: '0 23px' }}>
+              <Text bold>{t('Exchange Rate')}</Text>
+              <Text bold>
+                1{currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
               </Text>
             </RowBetween>
-            <RowBetween>
+            <RowBetween style={{ padding: '0 23px' }}>
               <div />
-              <Text>
-                1 {currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
+              <Text bold>
+                1{currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
               </Text>
             </RowBetween>
           </>
         )}
-        <Button disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)} onClick={onRemove}>
-          {t('Confirm')}
+        <Button
+          mt="35px"
+          width="100%"
+          disabled={!(approval === ApprovalState.APPROVED || signatureData !== null)}
+          onClick={onRemove}
+        >
+          {t('Confirm Remove')}
         </Button>
       </>
     )
@@ -436,7 +506,8 @@ export default function RemoveLiquidity({
 
   const [onPresentRemoveLiquidity] = useModal(
     <TransactionConfirmationModal
-      title={t('You will receive')}
+      minWidth="440px"
+      title={t('Confirm Remove')}
       customOnDismiss={handleDismissConfirmation}
       attemptingTxn={attemptingTxn}
       hash={txHash || ''}
@@ -449,28 +520,41 @@ export default function RemoveLiquidity({
   )
 
   return (
-    <Page>
+    <RemoveLiquidityPage>
       <AppBody>
-        <AppHeader
-          backTo="/pool"
-          title={t('Remove %assetA%-%assetB% liquidity', {
-            assetA: currencyA?.symbol ?? '',
-            assetB: currencyB?.symbol ?? '',
-          })}
-          subtitle={`To receive ${currencyA?.symbol} and ${currencyB?.symbol}`}
-          noConfig
-        />
+        {/* <AppHeader
+            backTo="/pool"
+            title={t('Remove %assetA%-%assetB% liquidity', {
+              assetA: currencyA?.symbol ?? '',
+              assetB: currencyB?.symbol ?? '',
+            })}
+            subtitle={`To receive ${currencyA?.symbol} and ${currencyB?.symbol}`}
+            noConfig
+          /> */}
+        <AppHeader backTo="/pool" title={t('Remove liquidity')} noConfig />
 
-        <CardBody>
-          <AutoColumn gap="20px">
+        <CardBody style={{ paddingTop: 0 }}>
+          <Text marginBottom="30px" bold>
+            {t(
+              'Reminder: Removing pool tokens converts your position back into underlying tokens at the current exchange rate, proportional to your share of the pool.',
+            )}
+          </Text>
+          <AutoColumn>
             <RowBetween>
-              <Text>{t('Amount')}</Text>
-              <Button variant="text" scale="sm" onClick={() => setShowDetailed(!showDetailed)}>
+              <Text fontSize="14px" bold>
+                {t('Amount')}
+              </Text>
+              <Button
+                style={{ color: '#FF66FF' }}
+                variant="text"
+                scale="sm"
+                onClick={() => setShowDetailed(!showDetailed)}
+              >
                 {showDetailed ? t('Simple') : t('Detailed')}
               </Button>
             </RowBetween>
             {!showDetailed && (
-              <BorderCard>
+              <BorderCard style={{ padding: 0 }}>
                 <Text fontSize="40px" bold mb="16px" style={{ lineHeight: 1 }}>
                   {formattedAmounts[Field.LIQUIDITY_PERCENT]}%
                 </Text>
@@ -480,9 +564,9 @@ export default function RemoveLiquidity({
                   max={100}
                   value={innerLiquidityPercentage}
                   onValueChanged={(value) => setInnerLiquidityPercentage(Math.ceil(value))}
-                  mb="16px"
+                  mb="10px"
                 />
-                <Flex flexWrap="wrap" justifyContent="space-evenly">
+                <Flex flexWrap="wrap" justifyContent="space-between">
                   <Button variant="tertiary" scale="sm" onClick={() => onUserInput(Field.LIQUIDITY_PERCENT, '25')}>
                     25%
                   </Button>
@@ -502,9 +586,9 @@ export default function RemoveLiquidity({
           {!showDetailed && (
             <>
               <ColumnCenter>
-                <ArrowDownIcon color="textSubtle" width="24px" my="16px" />
+                <ArrowDownIcon color="textSubtle" width="24px" my="40px" />
               </ColumnCenter>
-              <AutoColumn gap="10px">
+              {/* <AutoColumn gap="10px">
                 <Text bold color="secondary" fontSize="12px" textTransform="uppercase">
                   {t('You will receive')}
                 </Text>
@@ -549,12 +633,11 @@ export default function RemoveLiquidity({
                     </RowBetween>
                   ) : null}
                 </LightGreyCard>
-              </AutoColumn>
+              </AutoColumn> */}
             </>
           )}
-
           {showDetailed && (
-            <Box my="16px">
+            <Box margin="10px 0 30px 0">
               <CurrencyInputPanel
                 value={formattedAmounts[Field.LIQUIDITY]}
                 onUserInput={onLiquidityInput}
@@ -599,30 +682,49 @@ export default function RemoveLiquidity({
             </Box>
           )}
           {pair && (
-            <AutoColumn gap="10px" style={{ marginTop: '16px' }}>
-              <Text bold color="secondary" fontSize="12px" textTransform="uppercase">
-                {t('Prices')}
-              </Text>
-              <LightGreyCard>
-                <Flex justifyContent="space-between">
-                  <Text small color="textSubtle">
-                    1 {currencyA?.symbol} =
+            // <AutoColumn gap="10px" style={{ marginTop: '16px' }}>
+            //   <Text bold color="secondary" fontSize="12px" textTransform="uppercase">
+            //     {t('Prices')}
+            //   </Text>
+            //   <LightGreyCard>
+            //     <Flex justifyContent="space-between">
+            //       <Text small color="textSubtle">
+            //         1 {currencyA?.symbol} =
+            //       </Text>
+            //       <Text small>
+            //         {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
+            //       </Text>
+            //     </Flex>
+            //     <Flex justifyContent="space-between">
+            //       <Text small color="textSubtle">
+            //         1 {currencyB?.symbol} =
+            //       </Text>
+            //       <Text small>
+            //         {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
+            //       </Text>
+            //     </Flex>
+            //   </LightGreyCard>
+            // </AutoColumn>
+            <AutoColumn style={{ padding: '0 23px', marginBottom: '25px' }}>
+              <Flex justifyContent="space-between">
+                <Text bold>{t('Exchange Rate')}</Text>
+                <Flex flexDirection="column">
+                  <Text color="textSubtle" bold>
+                    1{currencyA?.symbol} = {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
                   </Text>
-                  <Text small>
-                    {tokenA ? pair.priceOf(tokenA).toSignificant(6) : '-'} {currencyB?.symbol}
+                  <Text color="textSubtle" bold>
+                    1{currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
+                    {currencyB?.symbol}
                   </Text>
                 </Flex>
-                <Flex justifyContent="space-between">
-                  <Text small color="textSubtle">
-                    1 {currencyB?.symbol} =
-                  </Text>
-                  <Text small>
-                    {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
-                  </Text>
-                </Flex>
-              </LightGreyCard>
+              </Flex>
             </AutoColumn>
           )}
+          {pair ? (
+            <TokenWrap>
+              <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+            </TokenWrap>
+          ) : null}
           <Box position="relative" mt="16px">
             {!account ? (
               <ConnectWalletButton />
@@ -663,11 +765,18 @@ export default function RemoveLiquidity({
         </CardBody>
       </AppBody>
 
-      {pair ? (
-        <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
+      {/* {pair ? (
+        <AutoColumn
+          style={{
+            minWidth: '20rem',
+            width: '100%',
+            maxWidth: '400px',
+            marginTop: '1rem',
+          }}
+        >
           <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
         </AutoColumn>
-      ) : null}
-    </Page>
+      ) : null} */}
+    </RemoveLiquidityPage>
   )
 }

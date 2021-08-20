@@ -57,7 +57,12 @@ export const getAprData = (pool: Pool, performanceFee: number) => {
       amountEarned: tokenEarnedPerThousand365D,
       amountInvested: oneThousandDollarsWorthOfToken,
     })
-    return { apr: autoApr, isHighValueToken, roundingDecimals, compoundFrequency }
+    return {
+      apr: autoApr,
+      isHighValueToken,
+      roundingDecimals,
+      compoundFrequency,
+    }
   }
   return { apr, isHighValueToken, roundingDecimals, compoundFrequency }
 }
@@ -87,5 +92,11 @@ export const getPoolBlockInfo = (pool: Pool, currentBlock: number) => {
   const blocksRemaining = Math.max(endBlock - currentBlock, 0)
   const hasPoolStarted = blocksUntilStart === 0 && blocksRemaining > 0
   const blocksToDisplay = hasPoolStarted ? blocksRemaining : blocksUntilStart
-  return { shouldShowBlockCountdown, blocksUntilStart, blocksRemaining, hasPoolStarted, blocksToDisplay }
+  return {
+    shouldShowBlockCountdown,
+    blocksUntilStart,
+    blocksRemaining,
+    hasPoolStarted,
+    blocksToDisplay,
+  }
 }

@@ -6,6 +6,7 @@ import { getBscScanLink } from 'utils'
 import useToast from 'hooks/useToast'
 import { useBlockNumber } from 'state/application/hooks'
 import { AppDispatch, AppState } from 'state'
+import TxRepoter, { TransactionStatus } from 'reporter'
 import { checkedTransaction, finalizeTransaction } from './actions'
 
 export function shouldCheck(
@@ -68,6 +69,10 @@ export default function Updater(): null {
                 }),
               )
 
+              TxRepoter.recordHash(hash, {
+                tranState: receipt.status === 1 ? TransactionStatus.SUCCESS : TransactionStatus.FAILURE,
+              })
+
               const toast = receipt.status === 1 ? toastSuccess : toastError
               toast(
                 'Transaction receipt',
@@ -75,13 +80,19 @@ export default function Updater(): null {
                   <Text>{transactions[hash]?.summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}</Text>
                   {chainId && (
                     <Link external href={getBscScanLink(hash, 'transaction', chainId)}>
-                      View on BscScan
+                      View on DEX Browser
                     </Link>
                   )}
                 </Flex>,
               )
             } else {
-              dispatch(checkedTransaction({ chainId, hash, blockNumber: lastBlockNumber }))
+              dispatch(
+                checkedTransaction({
+                  chainId,
+                  hash,
+                  blockNumber: lastBlockNumber,
+                }),
+              )
             }
           })
           .catch((error) => {

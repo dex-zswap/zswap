@@ -23,6 +23,7 @@ interface CollectModalProps {
   formattedBalance: string
   fullBalance: string
   earningToken: Token
+  stakingToken?: Token
   earningsDollarValue: number
   sousId: number
   isBnbPool: boolean
@@ -34,6 +35,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
   formattedBalance,
   fullBalance,
   earningToken,
+  stakingToken,
   earningsDollarValue,
   sousId,
   isBnbPool,
@@ -43,8 +45,8 @@ const CollectModal: React.FC<CollectModalProps> = ({
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { toastSuccess, toastError } = useToast()
-  const { onReward } = useHarvestPool(sousId, isBnbPool)
-  const { onStake } = useStakePool(sousId, isBnbPool)
+  const { onReward } = useHarvestPool(stakingToken)
+  const { onStake } = useStakePool(stakingToken)
   const [pendingTx, setPendingTx] = useState(false)
   const [shouldCompound, setShouldCompound] = useState(isCompoundPool)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
@@ -63,7 +65,9 @@ const CollectModal: React.FC<CollectModalProps> = ({
         await onStake(fullBalance, earningToken.decimals)
         toastSuccess(
           `${t('Compounded')}!`,
-          t('Your %symbol% earnings have been re-invested into the pool!', { symbol: earningToken.symbol }),
+          t('Your %symbol% earnings have been re-invested into the pool!', {
+            symbol: earningToken.symbol,
+          }),
         )
         setPendingTx(false)
         onDismiss()
@@ -78,7 +82,9 @@ const CollectModal: React.FC<CollectModalProps> = ({
         await onReward()
         toastSuccess(
           `${t('Harvested')}!`,
-          t('Your %symbol% earnings have been sent to your wallet!', { symbol: earningToken.symbol }),
+          t('Your %symbol% earnings have been sent to your wallet!', {
+            symbol: earningToken.symbol,
+          }),
         )
         setPendingTx(false)
         onDismiss()

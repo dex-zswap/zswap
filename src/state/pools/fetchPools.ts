@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js'
-import poolsConfig from 'config/constants/pools'
+import poolsConfig from 'config/constants/zswap/pools'
 import sousChefABI from 'config/abi/sousChef.json'
 import cakeABI from 'config/abi/cake.json'
 import wbnbABI from 'config/abi/weth.json'
+import { abi as stakingABI } from 'config/zswap-abis/staking.json'
 import multicall from 'utils/multicall'
 import { getAddress, getWbnbAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -23,16 +24,16 @@ export const fetchPoolsBlockLimits = async () => {
     }
   })
 
-  const starts = await multicall(sousChefABI, callsStartBlock)
-  const ends = await multicall(sousChefABI, callsEndBlock)
+  // const starts = await multicall(sousChefABI, callsStartBlock)
+  // const ends = await multicall(sousChefABI, callsEndBlock)
 
   return poolsWithEnd.map((cakePoolConfig, index) => {
-    const startBlock = starts[index]
-    const endBlock = ends[index]
+    // const startBlock = starts[index]
+    // const endBlock = ends[index]
     return {
       sousId: cakePoolConfig.sousId,
-      startBlock: new BigNumber(startBlock).toJSON(),
-      endBlock: new BigNumber(endBlock).toJSON(),
+      // startBlock: new BigNumber(startBlock).toJSON(),
+      // endBlock: new BigNumber(endBlock).toJSON(),
     }
   })
 }
@@ -57,18 +58,20 @@ export const fetchPoolsTotalStaking = async () => {
     }
   })
 
-  const nonBnbPoolsTotalStaked = await multicall(cakeABI, callsNonBnbPools)
-  const bnbPoolsTotalStaked = await multicall(wbnbABI, callsBnbPools)
+  console.log(callsNonBnbPools)
+
+  // const nonBnbPoolsTotalStaked = await multicall(stakingABI, callsNonBnbPools)
+  // const bnbPoolsTotalStaked = await multicall(wbnbABI, callsBnbPools)
 
   return [
-    ...nonBnbPools.map((p, index) => ({
-      sousId: p.sousId,
-      totalStaked: new BigNumber(nonBnbPoolsTotalStaked[index]).toJSON(),
-    })),
-    ...bnbPool.map((p, index) => ({
-      sousId: p.sousId,
-      totalStaked: new BigNumber(bnbPoolsTotalStaked[index]).toJSON(),
-    })),
+    // ...nonBnbPools.map((p, index) => ({
+    //   sousId: p.sousId,
+    //   totalStaked: new BigNumber(nonBnbPoolsTotalStaked[index]).toJSON(),
+    // })),
+    // ...bnbPool.map((p, index) => ({
+    //   sousId: p.sousId,
+    //   totalStaked: new BigNumber(bnbPoolsTotalStaked[index]).toJSON(),
+    // })),
   ]
 }
 

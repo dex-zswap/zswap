@@ -92,7 +92,9 @@ export const fetchMultipleLotteries = async (lotteryIds: string[]): Promise<Lott
     params: [id],
   }))
   try {
-    const multicallRes = await multicallv2(lotteryV2Abi, calls, { requireSuccess: false })
+    const multicallRes = await multicallv2(lotteryV2Abi, calls, {
+      requireSuccess: false,
+    })
     const processedResponses = multicallRes.map((res, index) =>
       processViewLotterySuccessResponse(res[0], lotteryIds[index]),
     )

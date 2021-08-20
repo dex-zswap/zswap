@@ -373,28 +373,24 @@ const BuyTicketsModal: React.FC<BuyTicketsModalProps> = ({ onDismiss }) => {
       )}
       <Flex flexDirection="column">
         <Flex mb="8px" justifyContent="space-between">
-          <Text color="textSubtle" fontSize="14px">
-            {t('Cost')} (CAKE)
-          </Text>
-          <Text color="textSubtle" fontSize="14px">
+          <Text color="textSubtle">{t('Cost')} (CAKE)</Text>
+          <Text color="textSubtle">
             {priceTicketInCake && getFullDisplayBalance(priceTicketInCake.times(ticketsToBuy || 0))} CAKE
           </Text>
         </Flex>
         <Flex mb="8px" justifyContent="space-between">
           <Flex>
-            <Text display="inline" bold fontSize="14px" mr="4px">
+            <Text display="inline" bold mr="4px">
               {discountValue && totalCost ? percentageDiscount() : 0}%
             </Text>
-            <Text display="inline" color="textSubtle" fontSize="14px">
+            <Text display="inline" color="textSubtle">
               {t('Bulk discount')}
             </Text>
             <Flex alignItems="center" justifyContent="center" ref={targetRef}>
               <HelpIcon ml="4px" width="14px" height="14px" color="textSubtle" />
             </Flex>
           </Flex>
-          <Text fontSize="14px" color="textSubtle">
-            ~{discountValue} CAKE
-          </Text>
+          <Text color="textSubtle">~{discountValue} CAKE</Text>
         </Flex>
         <Flex borderTop={`1px solid ${theme.colors.cardBorder}`} pt="8px" mb="24px" justifyContent="space-between">
           <Text color="textSubtle" fontSize="16px">

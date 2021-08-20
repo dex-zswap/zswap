@@ -25,7 +25,7 @@ export const variants = {
 export type Variant = typeof variants[keyof typeof variants]
 
 export interface TokenPairImageProps extends BoxProps {
-  primarySrc: string
+  primarySrc?: string
   secondarySrc: string
   variant?: Variant
   height: number

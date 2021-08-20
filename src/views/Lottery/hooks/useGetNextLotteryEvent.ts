@@ -13,7 +13,11 @@ const useGetNextLotteryEvent = (endTime: number, status: LotteryStatus): Lottery
   const vrfRequestTime = 180 // 3 mins
   const secondsBetweenRounds = 300 // 5 mins
   const transactionResolvingBuffer = 30 // Delay countdown by 30s to ensure contract transactions have been calculated and broadcast
-  const [nextEvent, setNextEvent] = useState({ nextEventTime: null, preCountdownText: null, postCountdownText: null })
+  const [nextEvent, setNextEvent] = useState({
+    nextEventTime: null,
+    preCountdownText: null,
+    postCountdownText: null,
+  })
 
   useEffect(() => {
     // Current lottery is active

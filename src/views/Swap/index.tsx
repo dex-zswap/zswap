@@ -14,7 +14,6 @@ import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { AutoRow, RowBetween } from 'components/Layout/Row'
 import { AppHeader, AppBody } from 'components/App'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-
 import { INITIAL_ALLOWED_SLIPPAGE } from 'config/constants'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from 'hooks/Tokens'
@@ -27,7 +26,7 @@ import { useExpertModeManager, useUserSlippageTolerance, useUserSingleHopOnly } 
 import { maxAmountSpend } from 'utils/maxAmountSpend'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
 import CircleLoader from 'components/Loader/CircleLoader'
-import Page from 'views/Page'
+import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import AddressInputPanel from './components/AddressInputPanel'
 import ConfirmSwapModal from './components/ConfirmSwapModal'
 import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
@@ -170,10 +169,20 @@ export default function Swap({ history }: RouteComponentProps) {
     if (!swapCallback) {
       return
     }
-    setSwapState({ attemptingTxn: true, tradeToConfirm, swapErrorMessage: undefined, txHash: undefined })
+    setSwapState({
+      attemptingTxn: true,
+      tradeToConfirm,
+      swapErrorMessage: undefined,
+      txHash: undefined,
+    })
     swapCallback()
       .then((hash) => {
-        setSwapState({ attemptingTxn: false, tradeToConfirm, swapErrorMessage: undefined, txHash: hash })
+        setSwapState({
+          attemptingTxn: false,
+          tradeToConfirm,
+          swapErrorMessage: undefined,
+          txHash: hash,
+        })
       })
       .catch((error) => {
         setSwapState({
@@ -209,7 +218,12 @@ export default function Swap({ history }: RouteComponentProps) {
   }, [attemptingTxn, onUserInput, swapErrorMessage, tradeToConfirm, txHash])
 
   const handleAcceptChanges = useCallback(() => {
-    setSwapState({ tradeToConfirm: trade, swapErrorMessage, txHash, attemptingTxn })
+    setSwapState({
+      tradeToConfirm: trade,
+      swapErrorMessage,
+      txHash,
+      attemptingTxn,
+    })
   }, [attemptingTxn, swapErrorMessage, trade, txHash])
 
   // swap warning state
@@ -298,9 +312,9 @@ export default function Swap({ history }: RouteComponentProps) {
   )
 
   return (
-    <Page>
+    <SwapAndLiquidityPage>
       <AppBody>
-        <AppHeader title={t('Exchange')} subtitle={t('Trade tokens in an instant')} />
+        <AppHeader title={t('Swap')} subtitle={t('Trade tokens in an instant')} />
         <Wrapper id="swap-page">
           <AutoColumn gap="md">
             <CurrencyInputPanel
@@ -419,7 +433,9 @@ export default function Swap({ history }: RouteComponentProps) {
                   ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                     t('Enabled')
                   ) : (
-                    t('Enable %asset%', { asset: currencies[Field.INPUT]?.symbol ?? '' })
+                    t('Enable %asset%', {
+                      asset: currencies[Field.INPUT]?.symbol ?? '',
+                    })
                   )}
                 </Button>
                 <Button
@@ -492,6 +508,6 @@ export default function Swap({ history }: RouteComponentProps) {
       ) : (
         <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
       )}
-    </Page>
+    </SwapAndLiquidityPage>
   )
 }

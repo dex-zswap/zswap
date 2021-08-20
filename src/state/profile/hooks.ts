@@ -16,5 +16,10 @@ export const useFetchProfile = () => {
 
 export const useProfile = () => {
   const { isInitialized, isLoading, data, hasRegistered }: ProfileState = useSelector((state: State) => state.profile)
-  return { profile: data, hasProfile: isInitialized && hasRegistered, isInitialized, isLoading }
+  return {
+    profile: data,
+    hasProfile: isInitialized && hasRegistered,
+    isInitialized,
+    isLoading,
+  }
 }

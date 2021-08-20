@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom'
 import { LayoutProps, SpaceProps } from 'styled-system'
 
 export const scales = {
+  MEDIUM: 'medium',
   MD: 'md',
   SM: 'sm',
   XS: 'xs',
 } as const
 
 export const variants = {
+  PINK: 'pink',
+  BLUE: 'blue',
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
   TERTIARY: 'tertiary',

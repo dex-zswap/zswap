@@ -1,5 +1,5 @@
 import React from 'react'
-import { BlockIcon, CheckmarkCircleIcon, Flex, Link, OpenNewIcon, RefreshIcon } from 'zswap-uikit'
+import { BlockIcon, CheckmarkCircleIcon, Flex, Link, ArrowRightIcon, RefreshIcon } from 'zswap-uikit'
 import styled from 'styled-components'
 import { TransactionDetails } from 'state/transactions/reducer'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -12,12 +12,11 @@ interface TransactionRowProps {
 const TxnIcon = styled(Flex)`
   align-items: center;
   flex: none;
-  width: 24px;
 `
 
 const Summary = styled.div`
   flex: 1;
-  padding: 0 8px;
+  padding-right: 20px;
 `
 
 const TxnLink = styled(Link)`
@@ -25,7 +24,7 @@ const TxnLink = styled(Link)`
   color: ${({ theme }) => theme.colors.text};
   display: flex;
   margin-bottom: 16px;
-  width: 100%;
+  width: 100% !important;
 
   &:hover {
     text-decoration: none;
@@ -40,7 +39,7 @@ const renderIcon = (txn: TransactionDetails) => {
   return txn.receipt?.status === 1 || typeof txn.receipt?.status === 'undefined' ? (
     <CheckmarkCircleIcon color="success" width="24px" />
   ) : (
-    <BlockIcon color="failure" width="24px" />
+    <BlockIcon color="failure" width="20px" />
   )
 }
 
@@ -53,10 +52,10 @@ const TransactionRow: React.FC<TransactionRowProps> = ({ txn }) => {
 
   return (
     <TxnLink href={getBscScanLink(txn.hash, 'transaction', chainId)} external>
-      <TxnIcon>{renderIcon(txn)}</TxnIcon>
       <Summary>{txn.summary ?? txn.hash}</Summary>
       <TxnIcon>
-        <OpenNewIcon width="24px" color="primary" />
+        <TxnIcon>{renderIcon(txn)}</TxnIcon>
+        <ArrowRightIcon marginLeft="10px" width="15px" color="text" />
       </TxnIcon>
     </TxnLink>
   )

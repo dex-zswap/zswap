@@ -33,21 +33,6 @@ const Address = styled.div`
       outline: 0;
     }
   }
-
-  &:after {
-    background: linear-gradient(
-      to right,
-      ${({ theme }) => theme.colors.background}00,
-      ${({ theme }) => theme.colors.background}E6
-    );
-    content: '';
-    height: 100%;
-    pointer-events: none;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 40px;
-  }
 `
 
 const Tooltip = styled.div<{ isTooltipDisplayed: boolean }>`
@@ -91,12 +76,12 @@ const CopyAddress: React.FC<CopyAddressProps> = ({ account, ...props }) => {
 
   return (
     <Box position="relative" {...props}>
-      <Wrapper>
+      <Wrapper style={{ background: '#333333', padding: '2px' }}>
         <Address title={account}>
           <input type="text" readOnly value={account} />
         </Address>
         <IconButton variant="text" onClick={copyAddress}>
-          <CopyIcon color="primary" width="24px" />
+          <CopyIcon width="20px" />
         </IconButton>
       </Wrapper>
       <Tooltip isTooltipDisplayed={isTooltipDisplayed}>{t('Copied')}</Tooltip>

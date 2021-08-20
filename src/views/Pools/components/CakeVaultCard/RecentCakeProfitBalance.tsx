@@ -32,7 +32,7 @@ const RecentCakeProfitBalance: React.FC<RecentCakeProfitBalanceProps> = ({
     <>
       {tooltipVisible && tooltip}
       <TooltipText ref={targetRef} small>
-        <Balance fontSize="14px" value={cakeToDisplay} />
+        <Balance value={cakeToDisplay} />
       </TooltipText>
     </>
   )

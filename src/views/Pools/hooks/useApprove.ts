@@ -3,31 +3,33 @@ import { useWeb3React } from '@web3-react/core'
 import { ethers, Contract } from 'ethers'
 import BigNumber from 'bignumber.js'
 import { useAppDispatch } from 'state'
-import { updateUserAllowance } from 'state/actions'
 import { useTranslation } from 'contexts/Localization'
-import { useCake, useSousChef, useCakeVaultContract } from 'hooks/useContract'
+import { useCake, useCakeVaultContract } from 'hooks/useContract'
+import { ZSWAP_STAKE_ADDRESS } from 'config/constants/zswap/address'
 import useToast from 'hooks/useToast'
 import useLastUpdated from 'hooks/useLastUpdated'
 
-export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol) => {
+export const useApprovePool = (lpContract: Contract) => {
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const sousChefContract = useSousChef(sousId)
+  // const sousChefContract = useSousChef(sousId)
 
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true)
-      const tx = await lpContract.approve(sousChefContract.address, ethers.constants.MaxUint256)
+      const tx = await lpContract.approve(ZSWAP_STAKE_ADDRESS, ethers.constants.MaxUint256)
       const receipt = await tx.wait()
 
-      dispatch(updateUserAllowance(sousId, account))
+      // dispatch(updateUserAllowance(sousId, account))
       if (receipt.status) {
         toastSuccess(
           t('Contract Enabled'),
-          t('You can now stake in the %symbol% pool!', { symbol: earningTokenSymbol }),
+          // t('You can now stake in the %symbol% pool!', {
+          //   symbol: earningTokenSymbol,
+          // }),
         )
         setRequestedApproval(false)
       } else {
@@ -39,7 +41,7 @@ export const useApprovePool = (lpContract: Contract, sousId, earningTokenSymbol)
       console.error(e)
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
     }
-  }, [account, dispatch, lpContract, sousChefContract, sousId, earningTokenSymbol, t, toastError, toastSuccess])
+  }, [account, dispatch, lpContract, t, toastError, toastSuccess])
 
   return { handleApprove, requestedApproval }
 }

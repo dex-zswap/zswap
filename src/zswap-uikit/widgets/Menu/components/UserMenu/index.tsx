@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { usePopper } from 'react-popper'
 import styled from 'styled-components'
 import Flex from '../../../../components/Box/Flex'
+import LinkIcon from 'zswap-uikit/components/Svg/Icons/Link'
 import { ChevronDownIcon } from '../../../../components/Svg'
 import isTouchDevice from '../../../../util/isTouchDevice'
 import { UserMenuProps, variants } from './types'
@@ -10,14 +11,13 @@ import { UserMenuItem } from './styles'
 
 const StyledUserMenu = styled(Flex)`
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.tertiary};
+  background: ${({ theme }) => theme.colors.button};
   border-radius: 16px;
   box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: inline-flex;
   height: 32px;
-  padding-left: 40px;
-  padding-right: 8px;
+  padding: 0 35px 0 28px;
   position: relative;
 
   &:hover {
@@ -38,13 +38,10 @@ const LabelText = styled.div`
 `
 
 const Menu = styled.div<{ isOpen: boolean }>`
-  background-color: ${({ theme }) => theme.card.background};
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  border-radius: 16px;
-  padding-bottom: 4px;
-  padding-top: 4px;
-  pointer-events: auto;
-  width: 280px;
+  width: 200px;
+  background: #313131;
+  box-shadow: 0px 0px 32px 0px rgba(19, 53, 93, 0.51);
+  border-radius: 14px;
   visibility: visible;
   z-index: 1001;
 
@@ -56,11 +53,11 @@ const Menu = styled.div<{ isOpen: boolean }>`
   `}
 
   ${UserMenuItem}:first-child {
-    border-radius: 8px 8px 0 0;
+    border-radius: 14px 14px 0 0;
   }
 
   ${UserMenuItem}:last-child {
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 14px 14px;
   }
 `
 
@@ -158,7 +155,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
   return (
     <>
       <StyledUserMenu ref={setTargetRef} {...props}>
-        <MenuIcon avatarSrc={avatarSrc} variant={variant} />
+        {/* <MenuIcon avatarSrc={avatarSrc} variant={variant} /> */}
+        <LinkIcon width="30px" color="text" mr="2px" fontWeight="bold" />
         <LabelText title={text || account}>{text || accountEllipsis}</LabelText>
         <ChevronDownIcon color="text" width="24px" />
       </StyledUserMenu>

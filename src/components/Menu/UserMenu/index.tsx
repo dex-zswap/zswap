@@ -23,7 +23,7 @@ const UserMenu = () => {
   const hasLowBnbBalance = fetchStatus === FetchStatus.SUCCESS && balance.lte(LOW_BNB_BALANCE)
 
   if (!account) {
-    return <ConnectWalletButton scale="sm" />
+    return <ConnectWalletButton hasIcon={true} scale="sm" />
   }
 
   return (
@@ -32,9 +32,9 @@ const UserMenu = () => {
       <UserMenuItem as="button" onClick={onPresentTransactionModal}>
         {t('Transactions')}
       </UserMenuItem>
-      <UserMenuDivider />
-      <ProfileUserMenuItem isLoading={isLoading} hasProfile={hasProfile} />
-      <UserMenuDivider />
+      {/* <UserMenuDivider /> */}
+      {/* <ProfileUserMenuItem isLoading={isLoading} hasProfile={hasProfile} /> */}
+      {/* <UserMenuDivider /> */}
       <UserMenuItem as="button" onClick={logout}>
         <Flex alignItems="center" justifyContent="space-between" width="100%">
           {t('Disconnect')}

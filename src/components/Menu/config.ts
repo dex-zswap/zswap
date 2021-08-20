@@ -23,7 +23,7 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
     items: [
       {
         label: t('Single Currency Pledge Mining'),
-        href: '/pledge',
+        href: '/pools',
       },
       {
         label: t('LP Pledge Mining'),
@@ -44,7 +44,7 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
   {
     label: t('IFO'),
     icon: 'IfoIcon',
-    href: '/ifo',
+    href: '/pools',
   },
   {
     label: t('Data'),

@@ -2,7 +2,11 @@ import { Language } from 'zswap-uikit'
 
 // export const AR: Language = { locale: 'ar-SA', language: 'العربية', code: 'ar' }
 // export const BN: Language = { locale: 'bn-BD', language: 'বাংলা', code: 'bn' }
-export const EN: Language = { locale: 'en-US', language: 'English', code: 'en' }
+export const EN: Language = {
+  locale: 'en-US',
+  language: 'English',
+  code: 'en',
+}
 // export const DE: Language = { locale: 'de-DE', language: 'Deutsch', code: 'de' }
 // export const EL: Language = { locale: 'el-GR', language: 'Ελληνικά', code: 'el' }
 // export const ESES: Language = { locale: 'es-ES', language: 'Español', code: 'es-ES' }
@@ -26,8 +30,16 @@ export const EN: Language = { locale: 'en-US', language: 'English', code: 'en' }
 // export const TR: Language = { locale: 'tr-TR', language: 'Türkçe', code: 'tr' }
 // export const UK: Language = { locale: 'uk-UA', language: 'Українська', code: 'uk' }
 // export const VI: Language = { locale: 'vi-VN', language: 'Tiếng Việt', code: 'vi' }
-export const ZHCN: Language = { locale: 'zh-CN', language: '简体中文', code: 'zh-cn' }
-export const ZHTW: Language = { locale: 'zh-TW', language: '繁體中文', code: 'zh-tw' }
+export const ZHCN: Language = {
+  locale: 'zh-CN',
+  language: '简体中文',
+  code: 'zh-cn',
+}
+export const ZHTW: Language = {
+  locale: 'zh-TW',
+  language: '繁體中文',
+  code: 'zh-tw',
+}
 
 export const languages = {
   // 'ar-SA': AR,

@@ -17,40 +17,33 @@ interface PromotedStyleCardProps {
   isDesktop: boolean
 }
 
-export const StyledCard = styled(Card)<{ isPromoted?: PromotedStyleCardProps; isFinished?: boolean }>`
-  max-width: 352px;
+export const StyledCard = styled(Card)<{
+  isPromoted?: PromotedStyleCardProps
+  isFinished?: boolean
+}>`
+  width: 360px;
+  min-height: 490px;
   margin: 0 8px 24px;
   display: flex;
   flex-direction: column;
-  align-self: baseline;
+  align-self: flex-start;
   position: relative;
+  background: #292929;
   color: ${({ isFinished, theme }) => theme.colors[isFinished ? 'textDisabled' : 'secondary']};
-  box-shadow: 0px 1px 4px rgba(25, 19, 38, 0.15);
-
-  ${({ isPromoted, theme }) =>
-    isPromoted
-      ? css`
-          background: linear-gradient(180deg, ${theme.colors.primaryBright}, ${theme.colors.secondary});
-          padding: 1px 1px 3px 1px;
-          background-size: 400% 400%;
-        `
-      : `background: ${(props) => props.theme.card.background};`}
-
-  ${({ isPromoted }) =>
-    isPromoted &&
-    isPromoted.isDesktop &&
-    css`
-      animation: ${PromotedGradient} 3s ease infinite;
-    `}
+  box-shadow: 0px 0px 32px 0px rgba(19, 53, 93, 0.51);
+  border-radius: 30px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    margin: 0 12px 46px;
+    margin: 0 15px 30px;
+  }
+  > div {
+    background: #292929;
   }
 `
 
 export const StyledCardInner = styled(Box)`
-  background: ${({ theme }) => theme.card.background};
-  border-radius: ${({ theme }) => theme.radii.card};
+  background: #292929;
+  border-radius: 30px;
 `
 
 export default StyledCard

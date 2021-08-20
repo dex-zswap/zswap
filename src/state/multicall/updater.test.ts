@@ -136,7 +136,10 @@ describe('multicall updater', () => {
       expect(
         outdatedListeningKeys(
           {
-            1: { abc: { data: '0x', blockNumber: 2 }, def: { fetchingBlockNumber: 2 } },
+            1: {
+              abc: { data: '0x', blockNumber: 2 },
+              def: { fetchingBlockNumber: 2 },
+            },
           },
           { abc: 1, def: 1 },
           1,
@@ -147,7 +150,12 @@ describe('multicall updater', () => {
     it('returns keys being fetched for old blocks', () => {
       expect(
         outdatedListeningKeys(
-          { 1: { abc: { data: '0x', blockNumber: 2 }, def: { fetchingBlockNumber: 1 } } },
+          {
+            1: {
+              abc: { data: '0x', blockNumber: 2 },
+              def: { fetchingBlockNumber: 1 },
+            },
+          },
           { abc: 1, def: 1 },
           1,
           2,
@@ -157,7 +165,12 @@ describe('multicall updater', () => {
     it('respects blocks per fetch', () => {
       expect(
         outdatedListeningKeys(
-          { 1: { abc: { data: '0x', blockNumber: 2 }, def: { data: '0x', fetchingBlockNumber: 1 } } },
+          {
+            1: {
+              abc: { data: '0x', blockNumber: 2 },
+              def: { data: '0x', fetchingBlockNumber: 1 },
+            },
+          },
           { abc: 2, def: 2 },
           1,
           3,

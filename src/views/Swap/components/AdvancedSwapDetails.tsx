@@ -16,19 +16,17 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
 
   return (
-    <AutoColumn style={{ padding: '0 16px' }}>
-      <RowBetween>
+    <AutoColumn style={{ padding: '0 1rem' }}>
+      <RowBetween marginY="3px">
         <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
-            {isExactIn ? 'Minimum received' : 'Maximum sold'}
-          </Text>
-          <QuestionHelper
+          <Text color="textSubtle">{isExactIn ? 'Minimum received' : 'Maximum sold'}</Text>
+          {/* <QuestionHelper
             text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
             ml="4px"
-          />
+          /> */}
         </RowFixed>
         <RowFixed>
-          <Text fontSize="14px">
+          <Text>
             {isExactIn
               ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ??
                 '-'
@@ -36,39 +34,33 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
           </Text>
         </RowFixed>
       </RowBetween>
-      <RowBetween>
+      <RowBetween marginY="3px">
         <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
-            Price Impact
-          </Text>
-          <QuestionHelper
+          <Text color="textSubtle">Price Impact</Text>
+          {/* <QuestionHelper
             text="The difference between the market price and estimated price due to trade size."
             ml="4px"
-          />
+          /> */}
         </RowFixed>
         <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
       </RowBetween>
 
-      <RowBetween>
+      <RowBetween marginY="3px">
         <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
-            Liquidity Provider Fee
-          </Text>
-          <QuestionHelper
+          <Text color="textSubtle">Liquidity Provider Fee</Text>
+          {/* <QuestionHelper
             text={
               <>
-                <Text mb="12px">For each trade a 0.25% fee is paid</Text>
+                <Text mb="12px">For each trade a 0.20% fee is paid</Text>
                 <Text>- 0.17% to LP token holders</Text>
                 <Text>- 0.03% to the Treasury</Text>
                 <Text>- 0.05% towards CAKE buyback and burn</Text>
               </>
             }
             ml="4px"
-          />
+          /> */}
         </RowFixed>
-        <Text fontSize="14px">
-          {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
-        </Text>
+        <Text>{realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade?.inputAmount?.currency?.symbol}` : '-'}</Text>
       </RowBetween>
     </AutoColumn>
   )
@@ -81,20 +73,18 @@ export interface AdvancedSwapDetailsProps {
 export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const [allowedSlippage] = useUserSlippageTolerance()
 
-  const showRoute = Boolean(trade && trade.route.path.length > 2)
+  const showRoute = Boolean(trade && trade.route.path.length > 1)
 
   return (
     <AutoColumn gap="0px">
       {trade && (
         <>
           <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
-          {showRoute && (
+          {/* {showRoute && (
             <>
               <RowBetween style={{ padding: '0 16px' }}>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Text fontSize="14px" color="textSubtle">
-                    Route
-                  </Text>
+                  <Text color="textSubtle">Route</Text>
                   <QuestionHelper
                     text="Routing through these tokens resulted in the best price for your trade."
                     ml="4px"
@@ -103,7 +93,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
                 <SwapRoute trade={trade} />
               </RowBetween>
             </>
-          )}
+          )} */}
         </>
       )}
     </AutoColumn>

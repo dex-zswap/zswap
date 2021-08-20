@@ -37,7 +37,7 @@ const MenuEntry = styled.div<Props>`
   line-height: 18px;
   background-color: ${({ secondary, theme }) => (secondary ? theme.colors.background : 'transparent')};
   color: ${({ theme }) => theme.colors.textSubtle};
-  box-shadow: ${({ isActive, theme }) => (isActive ? `inset 4px 0px 0px ${theme.colors.primary}` : 'none')};
+  box-shadow: ${({ isActive, theme }) => (isActive ? `inset 4px 0px 0px ${theme.colors.pink}` : 'none')};
 
   a {
     display: flex;
@@ -47,7 +47,7 @@ const MenuEntry = styled.div<Props>`
   }
 
   svg {
-    fill: ${({ isActive, theme }) => (isActive ? theme.colors.primary : theme.colors.textSubtle)};
+    fill: ${({ isActive, theme }) => (isActive ? theme.colors.pink : theme.colors.textSubtle)};
   }
 
   &:hover {

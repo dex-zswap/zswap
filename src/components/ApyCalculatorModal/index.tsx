@@ -150,9 +150,10 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         <GridItem>
           <Text textAlign="right" mr="12px" ml="12px">
-            {getRoi({ amountEarned: tokenEarnedPerThousand1D, amountInvested: oneThousandDollarsWorthOfToken }).toFixed(
-              roundingDecimals,
-            )}
+            {getRoi({
+              amountEarned: tokenEarnedPerThousand1D,
+              amountInvested: oneThousandDollarsWorthOfToken,
+            }).toFixed(roundingDecimals)}
             %
           </Text>
         </GridItem>
@@ -165,9 +166,10 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
         </GridItem>
         <GridItem>
           <Text textAlign="right" mr="12px" ml="12px">
-            {getRoi({ amountEarned: tokenEarnedPerThousand7D, amountInvested: oneThousandDollarsWorthOfToken }).toFixed(
-              roundingDecimals,
-            )}
+            {getRoi({
+              amountEarned: tokenEarnedPerThousand7D,
+              amountInvested: oneThousandDollarsWorthOfToken,
+            }).toFixed(roundingDecimals)}
             %
           </Text>
         </GridItem>
@@ -217,7 +219,9 @@ const ApyCalculatorModal: React.FC<ApyCalculatorModalProps> = ({
             </li>
             <li>
               <Text fontSize="12px" textAlign="center" color="textSubtle" display="inline">
-                {t('Compounding %freq%x daily.', { freq: compoundFrequency.toLocaleString() })}
+                {t('Compounding %freq%x daily.', {
+                  freq: compoundFrequency.toLocaleString(),
+                })}
               </Text>
             </li>
             {isFarm && (

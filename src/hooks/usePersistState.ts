@@ -16,7 +16,10 @@ const defaultOptions = {
  * Same as "useState" but saves the value to local storage each time it changes
  */
 const usePersistState = (initialValue: any, userOptions: UsePersistStateOptions) => {
-  const { localStorageKey, hydrate, dehydrate } = { ...defaultOptions, ...userOptions }
+  const { localStorageKey, hydrate, dehydrate } = {
+    ...defaultOptions,
+    ...userOptions,
+  }
   const [value, setValue] = useState(() => {
     try {
       const valueFromLS = localStorage.getItem(localStorageKey)

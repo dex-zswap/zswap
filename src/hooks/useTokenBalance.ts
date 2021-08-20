@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { getBep20Contract, getCakeContract } from 'utils/contractHelpers'
+import { getERC20Contract, getCakeContract } from 'utils/contractHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { simpleRpcProvider } from 'utils/providers'
+import { useMulticallContract } from 'hooks/useContract'
 import useRefresh from './useRefresh'
 import useLastUpdated from './useLastUpdated'
 
@@ -29,12 +30,14 @@ const useTokenBalance = (tokenAddress: string) => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getBep20Contract(tokenAddress)
+      const contract = getERC20Contract(tokenAddress)
       try {
         const res = await contract.balanceOf(account)
-        setBalanceState({ balance: new BigNumber(res.toString()), fetchStatus: SUCCESS })
+        setBalanceState({
+          balance: new BigNumber(res.toString()),
+          fetchStatus: SUCCESS,
+        })
       } catch (e) {
-        console.error(e)
         setBalanceState((prev) => ({
           ...prev,
           fetchStatus: FAILED,
@@ -46,6 +49,81 @@ const useTokenBalance = (tokenAddress: string) => {
       fetchBalance()
     }
   }, [account, tokenAddress, fastRefresh, SUCCESS, FAILED])
+
+  return balanceState
+}
+
+export const useLPTokenBalance = (tokenAddress: string, lpAddress: string) => {
+  const { NOT_FETCHED, SUCCESS, FAILED } = FetchStatus
+  const [balanceState, setBalanceState] = useState<UseTokenBalanceState>({
+    balance: BIG_ZERO,
+    fetchStatus: NOT_FETCHED,
+  })
+  const { fastRefresh } = useRefresh()
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const contract = getERC20Contract(tokenAddress)
+      try {
+        const res = await contract.balanceOf(lpAddress)
+        setBalanceState({
+          balance: new BigNumber(res.toString()),
+          fetchStatus: SUCCESS,
+        })
+      } catch (e) {
+        setBalanceState((prev) => ({
+          ...prev,
+          fetchStatus: FAILED,
+        }))
+      }
+    }
+
+    if (lpAddress) {
+      fetchBalance()
+    }
+  }, [lpAddress, tokenAddress, fastRefresh, SUCCESS, FAILED])
+
+  return balanceState
+}
+
+export const useStakedTokenBalance = (tokenAddress: string, lpAddress: string, isDEX: boolean) => {
+  const { NOT_FETCHED, SUCCESS, FAILED } = FetchStatus
+  const [balanceState, setBalanceState] = useState<UseTokenBalanceState>({
+    balance: BIG_ZERO,
+    fetchStatus: NOT_FETCHED,
+  })
+  const { fastRefresh } = useRefresh()
+  const multicall = useMulticallContract()
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      const contract = getERC20Contract(tokenAddress)
+      try {
+        if (isDEX) {
+          const res = await multicall.getEthBalance(lpAddress)
+          setBalanceState({
+            balance: new BigNumber(res.toString()),
+            fetchStatus: SUCCESS,
+          })
+        } else {
+          const res = await contract.balanceOf(lpAddress)
+          setBalanceState({
+            balance: new BigNumber(res.toString()),
+            fetchStatus: SUCCESS,
+          })
+        }
+      } catch (e) {
+        setBalanceState((prev) => ({
+          ...prev,
+          fetchStatus: FAILED,
+        }))
+      }
+    }
+
+    if (lpAddress) {
+      fetchBalance()
+    }
+  }, [lpAddress, tokenAddress, isDEX, multicall, fastRefresh, SUCCESS, FAILED])
 
   return balanceState
 }
@@ -73,7 +151,7 @@ export const useBurnedBalance = (tokenAddress: string) => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const contract = getBep20Contract(tokenAddress)
+      const contract = getERC20Contract(tokenAddress)
       const res = await contract.balanceOf('0x000000000000000000000000000000000000dEaD')
       setBalance(new BigNumber(res.toString()))
     }

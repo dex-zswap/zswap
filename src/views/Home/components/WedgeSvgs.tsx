@@ -12,7 +12,11 @@ export const OuterWedgeWrapper = styled.div`
   top: 0px;
 `
 
-export const InnerWedgeWrapper = styled.div<{ fill: string; top?: boolean; width?: string }>`
+export const InnerWedgeWrapper = styled.div<{
+  fill: string
+  top?: boolean
+  width?: string
+}>`
   position: absolute;
   display: flex;
   width: 100%;

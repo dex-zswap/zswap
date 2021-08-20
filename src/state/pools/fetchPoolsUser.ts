@@ -1,4 +1,4 @@
-import poolsConfig from 'config/constants/pools'
+import poolsConfig from 'config/constants/zswap/pools'
 import sousChefABI from 'config/abi/sousChef.json'
 import erc20ABI from 'config/abi/erc20.json'
 import multicall from 'utils/multicall'
@@ -23,7 +23,10 @@ export const fetchPoolsAllowance = async (account) => {
 
   const allowances = await multicall(erc20ABI, calls)
   return nonBnbPools.reduce(
-    (acc, pool, index) => ({ ...acc, [pool.sousId]: new BigNumber(allowances[index]).toJSON() }),
+    (acc, pool, index) => ({
+      ...acc,
+      [pool.sousId]: new BigNumber(allowances[index]).toJSON(),
+    }),
     {},
   )
 }
@@ -37,14 +40,20 @@ export const fetchUserBalances = async (account) => {
   }))
   const tokenBalancesRaw = await multicall(erc20ABI, calls)
   const tokenBalances = nonBnbPools.reduce(
-    (acc, pool, index) => ({ ...acc, [pool.sousId]: new BigNumber(tokenBalancesRaw[index]).toJSON() }),
+    (acc, pool, index) => ({
+      ...acc,
+      [pool.sousId]: new BigNumber(tokenBalancesRaw[index]).toJSON(),
+    }),
     {},
   )
 
   // BNB pools
   const bnbBalance = await simpleRpcProvider.getBalance(account)
   const bnbBalances = bnbPools.reduce(
-    (acc, pool) => ({ ...acc, [pool.sousId]: new BigNumber(bnbBalance.toString()).toJSON() }),
+    (acc, pool) => ({
+      ...acc,
+      [pool.sousId]: new BigNumber(bnbBalance.toString()).toJSON(),
+    }),
     {},
   )
 
@@ -69,7 +78,10 @@ export const fetchUserStakeBalances = async (account) => {
   // Cake / Cake pool
   const { amount: masterPoolAmount } = await masterChefContract.userInfo('0', account)
 
-  return { ...stakedBalances, 0: new BigNumber(masterPoolAmount.toString()).toJSON() }
+  return {
+    ...stakedBalances,
+    0: new BigNumber(masterPoolAmount.toString()).toJSON(),
+  }
 }
 
 export const fetchUserPendingRewards = async (account) => {
@@ -90,5 +102,8 @@ export const fetchUserPendingRewards = async (account) => {
   // Cake / Cake pool
   const pendingReward = await masterChefContract.pendingCake('0', account)
 
-  return { ...pendingRewards, 0: new BigNumber(pendingReward.toString()).toJSON() }
+  return {
+    ...pendingRewards,
+    0: new BigNumber(pendingReward.toString()).toJSON(),
+  }
 }

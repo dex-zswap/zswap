@@ -60,7 +60,14 @@ const RiskDisclaimer: React.FC<RiskDisclaimerProps> = ({ onSuccess, onDismiss })
             {t('Once you enter a position, you cannot cancel or adjust it.')}
           </Text>
 
-          <label htmlFor="checkbox" style={{ display: 'block', cursor: 'pointer', marginBottom: '24px' }}>
+          <label
+            htmlFor="checkbox"
+            style={{
+              display: 'block',
+              cursor: 'pointer',
+              marginBottom: '24px',
+            }}
+          >
             <Flex alignItems="center">
               <div style={{ flex: 'none' }}>
                 <Checkbox id="checkbox" scale="sm" checked={acknowledgeRisk} onChange={handleSetAcknowledgeRisk} />
@@ -72,7 +79,14 @@ const RiskDisclaimer: React.FC<RiskDisclaimerProps> = ({ onSuccess, onDismiss })
               </Text>
             </Flex>
           </label>
-          <label htmlFor="checkbox1" style={{ display: 'block', cursor: 'pointer', marginBottom: '24px' }}>
+          <label
+            htmlFor="checkbox1"
+            style={{
+              display: 'block',
+              cursor: 'pointer',
+              marginBottom: '24px',
+            }}
+          >
             <Flex alignItems="center">
               <div style={{ flex: 'none' }}>
                 <Checkbox id="checkbox1" scale="sm" checked={acknowledgeBeta} onChange={handleSetAcknowledgeBeta} />

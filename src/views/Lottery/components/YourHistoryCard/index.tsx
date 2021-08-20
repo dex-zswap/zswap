@@ -69,7 +69,7 @@ const YourHistoryCard = () => {
               {t('Round')} {selectedLotteryId || ''}
             </Heading>
             {selectedLotteryInfo?.endTime ? (
-              <Text fontSize="14px">
+              <Text>
                 {t('Drawn')} {getDrawnDate(selectedLotteryInfo.endTime)}
               </Text>
             ) : (

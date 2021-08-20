@@ -121,11 +121,11 @@ export default function ManageTokens({
           <Text bold color="textSubtle">
             {userAddedTokens?.length} {userAddedTokens.length === 1 ? t('Custom Token') : t('Custom Tokens')}
           </Text>
-          {userAddedTokens.length > 0 && (
+          {/* {userAddedTokens.length > 0 && (
             <Button variant="tertiary" onClick={handleRemoveAll}>
               {t('Clear all')}
             </Button>
-          )}
+          )} */}
         </Footer>
       </Column>
     </Wrapper>

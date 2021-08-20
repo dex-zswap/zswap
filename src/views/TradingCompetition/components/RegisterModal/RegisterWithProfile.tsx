@@ -42,7 +42,7 @@ const RegisterWithProfile: React.FC<CompetitionProps> = ({ profile, onDismiss, o
         <Text bold>
           {t('Registering for the competition will make your wallet address publicly visible on the leaderboard.')}
         </Text>
-        <Text fontSize="14px" color="textSubtle" mb="24px">
+        <Text color="textSubtle" mb="24px">
           {t('This decision cannot be reversed.')}
         </Text>
         <StyledLabel htmlFor="acknowledgement">

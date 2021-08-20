@@ -1,58 +1,24 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { Pair } from 'zswap-sdk'
 import { Text, Flex, CardBody, CardFooter, Button, AddIcon } from 'zswap-uikit'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import FullPositionCard from 'components/PositionCard'
-import { useTokenBalancesWithLoadingIndicator } from 'state/wallet/hooks'
-import { usePairs } from 'hooks/usePairs'
-import { toV2LiquidityToken, useTrackedTokenPairs } from 'state/user/hooks'
 import Dots from 'components/Loader/Dots'
 import { AppHeader, AppBody } from 'components/App'
-import Page from 'views/Page'
+import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import { useUserPairs } from './hooks'
+import WrappedPositionCard from './components/card'
 
 const Body = styled(CardBody)`
-  background-color: ${({ theme }) => theme.colors.dropdownDeep};
+  background-color: ${({ theme }) => theme.colors.background};
 `
 
 export default function Pool() {
   const { account } = useActiveWeb3React()
   const { t } = useTranslation()
 
-  const userPairs = useUserPairs()
-
-  // fetch the user's balances of all tracked V2 LP tokens
-  const trackedTokenPairs = useTrackedTokenPairs()
-  const tokenPairsWithLiquidityTokens = useMemo(
-    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
-    [trackedTokenPairs],
-  )
-  const liquidityTokens = useMemo(
-    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-    [tokenPairsWithLiquidityTokens],
-  )
-  const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
-    account ?? undefined,
-    liquidityTokens,
-  )
-
-  // fetch the reserves for all V2 pools in which the user has a balance
-  const liquidityTokensWithBalances = useMemo(
-    () =>
-      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
-        v2PairsBalances[liquidityToken.address]?.greaterThan('0'),
-      ),
-    [tokenPairsWithLiquidityTokens, v2PairsBalances],
-  )
-
-  const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
-  const v2IsLoading =
-    fetchingV2PairBalances || v2Pairs?.length < liquidityTokensWithBalances.length || v2Pairs?.some((V2Pair) => !V2Pair)
-
-  const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
+  const { loading, pairs } = useUserPairs()
 
   const renderBody = () => {
     if (!account) {
@@ -62,20 +28,17 @@ export default function Pool() {
         </Text>
       )
     }
-    if (v2IsLoading) {
+    if (loading) {
       return (
         <Text color="textSubtle" textAlign="center">
           <Dots>{t('Loading')}</Dots>
         </Text>
       )
     }
-    if (allV2PairsWithLiquidity?.length > 0) {
-      return allV2PairsWithLiquidity.map((v2Pair, index) => (
-        <FullPositionCard
-          key={v2Pair.liquidityToken.address}
-          pair={v2Pair}
-          mb={index < allV2PairsWithLiquidity.length - 1 ? '16px' : 0}
-        />
+
+    if (pairs?.length > 0) {
+      return pairs.map((pair, index) => (
+        <WrappedPositionCard key={pair.pair} pair={pair} mb={index < pairs.length - 1 ? '16px' : 0} />
       ))
     }
     return (
@@ -86,12 +49,12 @@ export default function Pool() {
   }
 
   return (
-    <Page>
+    <SwapAndLiquidityPage>
       <AppBody>
         <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
         <Body>
           {renderBody()}
-          {account && !v2IsLoading && (
+          {account && !loading && !pairs?.length && (
             <Flex flexDirection="column" alignItems="center" mt="24px">
               <Text color="textSubtle" mb="8px">
                 {t("Don't see a pool you joined?")}
@@ -103,11 +66,11 @@ export default function Pool() {
           )}
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>
-          <Button id="join-pool-button" as={Link} to="/add" width="100%" startIcon={<AddIcon color="white" />}>
+          <Button id="join-pool-button" as={Link} to="/add" width="100%">
             {t('Add Liquidity')}
           </Button>
         </CardFooter>
       </AppBody>
-    </Page>
+    </SwapAndLiquidityPage>
   )
 }

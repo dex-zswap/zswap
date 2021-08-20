@@ -21,33 +21,38 @@ function PoolPriceBar({
   const { t } = useTranslation()
   return (
     <AutoColumn gap="md">
-      <AutoRow justify="space-around" gap="4px">
-        <AutoColumn justify="center">
-          <Text>{price?.toSignificant(6) ?? '-'}</Text>
-          <Text fontSize="14px" pt={1}>
+      <AutoRow justify="space-between" gap="4px">
+        <AutoColumn justify="flex-start">
+          <Text color="primary" fontWeight="bold">
+            {price?.toSignificant(6) ?? '-'}
+          </Text>
+          <Text pt={1} fontWeight="bold">
             {t('%assetA% per %assetB%', {
               assetA: currencies[Field.CURRENCY_B]?.symbol ?? '',
               assetB: currencies[Field.CURRENCY_A]?.symbol ?? '',
             })}
           </Text>
         </AutoColumn>
-        <AutoColumn justify="center">
-          <Text>{price?.invert()?.toSignificant(6) ?? '-'}</Text>
-          <Text fontSize="14px" pt={1}>
+        <AutoColumn justify="flex-start">
+          <Text color="primary" fontWeight="bold">
+            {price?.invert()?.toSignificant(6) ?? '-'}
+          </Text>
+          <Text pt={1} fontWeight="bold">
             {t('%assetA% per %assetB%', {
               assetA: currencies[Field.CURRENCY_A]?.symbol ?? '',
               assetB: currencies[Field.CURRENCY_B]?.symbol ?? '',
             })}
           </Text>
         </AutoColumn>
-        <AutoColumn justify="center">
-          <Text>
+        <AutoColumn justify="flex-start">
+          <Text color="primary" fontWeight="bold">
+            {' '}
             {noLiquidity && price
               ? '100'
               : (poolTokenPercentage?.lessThan(ONE_BIPS) ? '<0.01' : poolTokenPercentage?.toFixed(2)) ?? '0'}
             %
           </Text>
-          <Text fontSize="14px" pt={1}>
+          <Text pt={1} fontWeight="bold">
             {t('Share of Pool')}
           </Text>
         </AutoColumn>
