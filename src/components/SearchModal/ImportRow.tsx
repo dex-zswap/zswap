@@ -86,7 +86,7 @@ export default function ImportRow({
       {!isActive && !isAdded ? (
         <Button
           scale="sm"
-          width="fit-content"
+          width="100px"
           onClick={() => {
             if (setImportToken) {
               setImportToken(token)

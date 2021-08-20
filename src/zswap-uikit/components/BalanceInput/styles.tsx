@@ -14,6 +14,8 @@ export const StyledBalanceInput = styled(Box)<{
 `
 
 export const StyledInput = styled(Input)`
+  font-size: 20px;
+  font-weight: bold;
   background: transparent;
   border-radius: 0;
   box-shadow: none;

@@ -7,6 +7,7 @@ import { Pool } from 'state/types'
 import Balance from 'components/Balance'
 import NotEnoughTokensModal from 'views/Pools/components/PoolCard/Modals/NotEnoughTokensModal'
 import StakeModal from 'views/Pools/components/PoolCard/Modals/StakeModal'
+import ManageStakeModal from 'views/Pools/components/PoolCard/Modals/ManageStakeModal'
 
 interface StakeActionsProps {
   pool: Pool
@@ -43,6 +44,15 @@ const StakeAction: React.FC<StakeActionsProps> = ({
     />,
   )
 
+  const [manageStake] = useModal(
+    <ManageStakeModal
+      isBnbPool={isBnbPool}
+      pool={pool}
+      stakingTokenBalance={stakingTokenBalance}
+      stakingTokenPrice={stakingTokenPrice}
+    />,
+  )
+
   const [onPresentUnstake] = useModal(
     <StakeModal
       stakingTokenBalance={stakingTokenBalance}
@@ -61,10 +71,8 @@ const StakeAction: React.FC<StakeActionsProps> = ({
   // const reachStakingLimit = stakingLimit.gt(0) && userData.stakedBalance.gte(stakingLimit)
   const reachStakingLimit = false
 
-  const renderStakeAction = () => {
-    return isStaked ? (
-      <>
-        {/* <Flex justifyContent="space-between" alignItems="center">
+  {
+    /* <Flex justifyContent="space-between" alignItems="center">
           <Text>Value Locked</Text>
           <Text>
             <Balance
@@ -140,12 +148,26 @@ const StakeAction: React.FC<StakeActionsProps> = ({
             )}
           </Flex>
           {tooltipVisible && tooltip}
-        </Flex> */}
-      </>
-    ) : (
-      <Button disabled={isFinished} onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}>
-        {t('Stake')}
-      </Button>
+        </Flex> */
+  }
+
+  const renderStakeAction = () => {
+    return (
+      <div style={{ marginBottom: '25px' }}>
+        {isStaked ? (
+          <Button width="100%" onClick={manageStake}>
+            {t('Manage Stake')}
+          </Button>
+        ) : (
+          <Button
+            width="100%"
+            disabled={isFinished}
+            onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}
+          >
+            {t('Join')}
+          </Button>
+        )}
+      </div>
     )
   }
 

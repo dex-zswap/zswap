@@ -101,6 +101,8 @@ const usePoolInfo = (pool: Pool) => {
     userData: anyLoading
       ? null
       : {
+          stakedCurrency,
+          earningCurrency,
           totalStakedBalance: (stakingBalance.balance ?? BIG_ZERO).dividedBy(BIG_TEN.pow(stakedToken?.decimals)),
           allowance: allowance ? new BigNumber(allowance.toSignificant(4)) : BIG_ZERO,
           stakedBalance: userStakedBalance,

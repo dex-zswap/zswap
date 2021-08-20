@@ -96,8 +96,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
             {isStaked ? t('Staked') : `${stakingToken.symbol}`}
           </InlineText>
         </Box> */}
-        {needsApproval ? <ApprovalAction pool={pool} isLoading={isLoading} /> : null}
-        {/* {needsApproval ? (
+        {needsApproval ? (
           <ApprovalAction pool={pool} isLoading={isLoading} />
         ) : (
           <StakeActions
@@ -108,7 +107,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
             isBnbPool={isBnbPool}
             isStaked={isStaked}
           />
-        )} */}
+        )}
       </Flex>
     </Flex>
   )

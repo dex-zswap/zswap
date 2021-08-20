@@ -45,17 +45,22 @@ const TransactionsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
   }, [dispatch, chainId])
 
   return (
-    <Modal title={t('Recent Transactions')} headerBackground="gradients.cardHeader" onDismiss={onDismiss}>
+    <Modal
+      style={{ width: '400px' }}
+      title={t('Recent Transactions')}
+      headerBackground="gradients.cardHeader"
+      onDismiss={onDismiss}
+    >
       {account && (
         <ModalBody>
           {!!pending.length || !!confirmed.length ? (
             <>
-              <AutoRow mb="1rem" style={{ justifyContent: 'space-between' }}>
+              {/* <AutoRow mb="1rem" style={{ justifyContent: 'space-between' }}>
                 <Text>{t('Recent Transactions')}</Text>
-                {/* <Button variant="tertiary" scale="xs" onClick={clearAllTransactionsCallback}>
+                <Button variant="tertiary" scale="xs" onClick={clearAllTransactionsCallback}>
                   {t('clear all')}
-                </Button> */}
-              </AutoRow>
+                </Button>
+              </AutoRow> */}
               {renderTransactions(pending)}
               {renderTransactions(confirmed)}
             </>

@@ -22,7 +22,7 @@ export const StyledCard = styled(Card)<{
   isFinished?: boolean
 }>`
   width: 360px;
-  min-height: 490px;
+  height: 560px;
   margin: 0 8px 24px;
   display: flex;
   flex-direction: column;
