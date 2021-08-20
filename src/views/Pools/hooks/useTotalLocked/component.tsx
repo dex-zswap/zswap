@@ -43,8 +43,6 @@ const TotalLockedWrapper: React.FC<{
     return length < calls.length ? BIG_ZERO : keys.reduce((last, key) => last.plus(state[key]), BIG_ZERO)
   }, [state, calls])
 
-  console.log(total)
-
   return (
     <Provider
       value={{
