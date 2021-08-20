@@ -92,6 +92,24 @@ const usePoolInfo = (pool: Pool) => {
     () => [userShare, pendingReward].some(({ loading }) => loading),
     [userShare, pendingReward],
   )
+  console.log({
+    ...pool,
+    stakingTokenPrice: new BigNumber(stakingTokenPrice?.toSignificant(6) ?? 0).toNumber(),
+    earningTokenBalance: new BigNumber(earningTokenBalance?.toSignificant(6) ?? 0).toNumber(),
+    apr: 100,
+    userData: anyLoading
+      ? null
+      : {
+          stakedCurrency,
+          earningCurrency,
+          totalStakedBalance: (stakingBalance.balance ?? BIG_ZERO).dividedBy(BIG_TEN.pow(stakedToken?.decimals)),
+          allowance: allowance ? new BigNumber(allowance.toSignificant(4)) : BIG_ZERO,
+          stakedBalance: userStakedBalance,
+          stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toSignificant(4)) : BIG_ZERO,
+          pendingReward: pendingReward.result,
+          stakedPercent: `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
+        },
+  })
 
   return {
     ...pool,

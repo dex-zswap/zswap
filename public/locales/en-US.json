@@ -1332,7 +1332,6 @@
   "SS": "SS",
   "ZBst": "ZBst",
   "Current Price": "Current Price",
-  "Reward": "Reward",
   "Amount": "Amount",
   "Total Repurchase": "Total Repurchase",
   "and Destruction": "and Destruction",
@@ -1367,5 +1366,14 @@
   "here to get reward token": "here to get reward token",
   "Claimable Rewards": "Claimable Rewards",
   "Available": "Available",
-  "Amount Staked": "Amount Staked"
+  "Amount Staked": "Amount Staked",
+  "Add": "Add",
+  "Withdraw": "Withdraw",
+  "Withdraw Principal": "Withdraw Principal",
+  "MAX": "MAX",
+  "Withdraw Reward": "Withdraw Reward",
+  "Withdrawing Reward": "Withdrawing Reward",
+  "Amount Withdrawed": "Amount Withdrawed",
+  "Withdrawing Principal": "Withdrawing Principal",
+  "Reward": "Reward"
 }

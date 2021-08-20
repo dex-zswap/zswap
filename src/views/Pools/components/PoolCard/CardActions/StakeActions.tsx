@@ -53,15 +53,15 @@ const StakeAction: React.FC<StakeActionsProps> = ({
     />,
   )
 
-  const [onPresentUnstake] = useModal(
-    <StakeModal
-      stakingTokenBalance={stakingTokenBalance}
-      isBnbPool={isBnbPool}
-      pool={pool}
-      stakingTokenPrice={stakingTokenPrice}
-      isRemovingStake
-    />,
-  )
+  // const [onPresentUnstake] = useModal(
+  //   <StakeModal
+  //     stakingTokenBalance={stakingTokenBalance}
+  //     isBnbPool={isBnbPool}
+  //     pool={pool}
+  //     stakingTokenPrice={stakingTokenPrice}
+  //     isRemovingStake
+  //   />,
+  // )
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t('You’ve already staked the maximum amount you can stake in this pool!'),
