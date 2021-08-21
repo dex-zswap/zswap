@@ -12,7 +12,7 @@ const BuyTickets = () => {
   const lotteryId = useCurrentLotteryId()
   const { zbst, zusd } = useTotalUserCost()
 
-  const [ toggleBuyModal ] = useModal(<BuyTicketsModal />)
+  const [toggleBuyModal] = useModal(<BuyTicketsModal />)
 
   return (
     <>
@@ -20,7 +20,7 @@ const BuyTickets = () => {
         <CardHeader>
           <Flex justifyContent="space-between" alignItems="center">
             <Text>Round {lotteryId}</Text>
-            <Text>Draw: 24 Dec 2021  14:00</Text>
+            <Text>Draw: 24 Dec 2021 14:00</Text>
           </Flex>
         </CardHeader>
         <StyledCardInner>
@@ -33,7 +33,6 @@ const BuyTickets = () => {
             <Button onClick={toggleBuyModal}>Buy Tickets</Button>
           </Flex>
         </StyledCardInner>
-        
       </StyledCard>
     </>
   )

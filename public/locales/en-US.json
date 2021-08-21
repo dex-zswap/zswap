@@ -1376,5 +1376,10 @@
   "Amount Withdrawed": "Amount Withdrawed",
   "Withdrawing Principal": "Withdrawing Principal",
   "Reward": "Reward",
-  "You are not currently providing liquidity for any LP pools.": "You are not currently providing liquidity for any LP pools."
+  "Withdraw Lp": "Withdraw Lp",
+  "Withdrawing Lp": "Withdrawing Lp",
+  "You are not currently providing liquidity for any LP pools.": "You are not currently providing liquidity for any LP pools.",
+  "You need to obtain": "You need to obtain",
+  "token first, which can be obtained by adding funds to": "token first, which can be obtained by adding funds to",
+  "liquidity pool, and then you can stake LP token on this page.": "liquidity pool, and then you can stake LP token on this page."
 }

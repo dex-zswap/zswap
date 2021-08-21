@@ -6,7 +6,7 @@ import { Modal } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
 import BigNumber from 'bignumber.js'
-import { Pool } from 'state/types'
+import { Farm } from 'state/types'
 
 const TabWrap = styled(Flex)`
   align-items: center;
@@ -20,13 +20,18 @@ const TabWrap = styled(Flex)`
     }
   }
 `
+interface FarmProps extends Farm {
+  apr?: number
+  lpRewardsApr?: number
+  liquidity?: BigNumber
+  [key: string]: any
+}
 
 interface ManageStakeModalProps {
-  isBnbPool: boolean
-  pool: Pool
-  stakingTokenBalance: BigNumber
-  stakingTokenPrice: number
+  farm: FarmProps
   isRemovingStake?: boolean
+  handleStake: (amount: string) => void
+  handleUnstake: (amount: string) => void
   onDismiss?: () => void
 }
 
@@ -48,17 +53,10 @@ const HeaderTabWrap = ({ getBtnColor, tabChange }) => {
   )
 }
 
-const ManageStakeModal: React.FC<ManageStakeModalProps> = ({
-  pool,
-  stakingTokenBalance,
-  stakingTokenPrice,
-  onDismiss,
-}) => {
-  const { t } = useTranslation()
+const ManageStakeModal: React.FC<ManageStakeModalProps> = ({ farm, handleStake, handleUnstake, onDismiss }) => {
   const { theme } = useTheme()
   const [tabType, setTabType] = useState('add')
 
-  const isAdd = 'add' === tabType
   const isWithdraw = 'withdraw' === tabType
   const isReward = 'reward' === tabType
 
@@ -68,17 +66,19 @@ const ManageStakeModal: React.FC<ManageStakeModalProps> = ({
 
   return (
     <Modal
+      style={{ width: '640px' }}
       headerChildren={<HeaderTabWrap getBtnColor={getBtnColor} tabChange={tabChange} />}
       minWidth="640px"
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
       <StakeModalContent
-        pool={pool}
-        stakingTokenBalance={stakingTokenBalance}
-        stakingTokenPrice={stakingTokenPrice}
+        tabType={tabType}
+        farm={farm}
         isRemovingStake={isWithdraw}
         isReward={isReward}
+        handleStake={handleStake}
+        handleUnstake={handleUnstake}
         onDismiss={onDismiss}
       />
     </Modal>

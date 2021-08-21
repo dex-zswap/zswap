@@ -6,7 +6,7 @@ import { Token } from 'config/constants/types'
 import { TokenPairImage } from 'components/TokenImage'
 
 export interface ExpandableSectionProps {
-  weight?: Number
+  weight?: number
   lpLabel?: string
   multiplier?: string
   isCommunityFarm?: boolean
@@ -29,13 +29,14 @@ const MultiplierTag = styled(Tag)`
 `
 
 const WeightWrap = styled(Flex)`
-  width: 96px;
+  width: 80px;
   height: 24px;
+  line-height: 24px;
   background: #ff66ff;
   border-radius: 12px;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   color: #ffffff;
 `

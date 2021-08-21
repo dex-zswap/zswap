@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Text, Flex, Button, Slider, BalanceInput, AutoRenewIcon, Link } from 'zswap-uikit'
-import { CurrencyLogo } from 'components/Logo'
+import { TokenPairImage } from 'components/TokenImage'
 import { useTranslation } from 'contexts/Localization'
 import useToast from 'hooks/useToast'
 import BigNumber from 'bignumber.js'
 import { getFullDisplayBalance, formatNumber, getDecimalAmount } from 'utils/formatBalance'
-import { Pool } from 'state/types'
-import useStakePool from 'views/Pools/hooks/useStakePool'
-import useHarvestPool from 'views/Pools/hooks/useHarvestPool'
-import useUnstakePool from 'views/Pools/hooks/useUnstakePool'
+import { Farm } from 'state/types'
+import useHarvestFarm from 'views/LPStake/hooks/useHarvestFarm'
 import PercentageButton from './PercentageButton'
-
+interface FarmProps extends Farm {
+  apr?: number
+  lpRewardsApr?: number
+  liquidity?: BigNumber
+  [key: string]: any
+}
 interface StakeModalContentProps {
-  pool: Pool
-  stakingTokenBalance: BigNumber
-  stakingTokenPrice: number
+  farm: FarmProps
+  tabType?: string
   isRemovingStake?: boolean
   isReward?: boolean
+  handleStake?: (amount: string) => void
+  handleUnstake?: (amount: string) => void
   onDismiss?: () => void
 }
 
@@ -53,39 +57,49 @@ const PercentageButtonWrap = styled(Flex)`
 `
 
 const StakeModalContent: React.FC<StakeModalContentProps> = ({
-  pool,
-  stakingTokenBalance,
-  stakingTokenPrice,
+  farm,
+  tabType,
   isRemovingStake = false,
   isReward = false,
+  handleStake,
+  handleUnstake,
   onDismiss,
 }) => {
-  const { apr, stakingToken, userData, stakingLimit, earningToken } = pool
+  console.log('farm', farm)
 
+  const { userData } = farm
+  const max = isRemovingStake ? farm?.userData?.stakedBalance : farm?.userData?.tokenBalance
+  const stakingToken = farm.token
   const { t } = useTranslation()
-  const { onStake } = useStakePool(pool.stakingToken)
-  const { onUnstake } = useUnstakePool(pool.stakingToken)
   const { toastSuccess, toastError } = useToast()
-  const { onReward } = useHarvestPool(stakingToken)
   const [pendingTx, setPendingTx] = useState(false)
   const [stakeAmount, setStakeAmount] = useState('')
   const [hasReachedStakeLimit, setHasReachedStakedLimit] = useState(false)
   const [percent, setPercent] = useState(0)
   const getCalculatedStakingLimit = () => {
     if (isRemovingStake) {
-      return userData.stakedBalance
+      return new BigNumber(userData.stakedBalance)
     }
-    return stakingTokenBalance
+    return new BigNumber(max)
   }
-
-  const usdValueStaked = stakeAmount && formatNumber(new BigNumber(stakeAmount).times(stakingTokenPrice).toNumber())
+  useEffect(() => {
+    setStakeAmount('')
+    setPercent(0)
+  }, [tabType])
 
   useEffect(() => {
     if (!isRemovingStake) {
       const fullDecimalStakeAmount = getDecimalAmount(new BigNumber(stakeAmount), 0)
-      setHasReachedStakedLimit(fullDecimalStakeAmount.plus(userData.stakedBalance).gt(stakingLimit))
+      setHasReachedStakedLimit(fullDecimalStakeAmount.plus(userData.stakedBalance).gt(max))
     }
   }, [stakeAmount, userData, stakingToken, isRemovingStake, setHasReachedStakedLimit])
+
+  const fullBalance = useMemo(() => {
+    return getFullDisplayBalance(new BigNumber(max), 0)
+  }, [max])
+
+  const stakeAmountNum = new BigNumber(stakeAmount)
+  const fullBalanceNumber = new BigNumber(fullBalance)
 
   const handleStakeInputChange = (input: string) => {
     if (input) {
@@ -109,43 +123,35 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setPercent(sliderPercent)
   }
 
-  const handleConfirmClick = async () => {
+  const stakeConfirm = async () => {
     setPendingTx(true)
-
-    if (isRemovingStake) {
-      // unstaking
-      try {
-        await onUnstake(stakeAmount, stakingToken.decimals)
-        toastSuccess(
-          `${t('Unstaked')}!`,
-          t('Your %symbol% earnings have also been harvested to your wallet!', {
-            symbol: earningToken.symbol,
-          }),
-        )
-        setPendingTx(false)
-        onDismiss()
-      } catch (e) {
-        toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-        setPendingTx(false)
-      }
-    } else {
-      try {
-        // staking
-        await onStake(stakeAmount, stakingToken.decimals)
-        toastSuccess(
-          `${t('Staked')}!`,
-          t('Your %symbol% funds have been staked in the pool!', {
-            symbol: stakingToken.symbol,
-          }),
-        )
-        setPendingTx(false)
-        onDismiss()
-      } catch (e) {
-        toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-        setPendingTx(false)
-      }
+    try {
+      await handleStake(stakeAmount)
+      toastSuccess(t('Staked!'), t('Your funds have been staked in the farm'))
+      onDismiss()
+    } catch (e) {
+      toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+      console.error(e)
+    } finally {
+      setPendingTx(false)
     }
   }
+
+  const unstakeConfirm = async () => {
+    setPendingTx(true)
+    try {
+      await handleUnstake(stakeAmount)
+      toastSuccess(t('Unstaked!'), t('Your earnings have also been harvested to your wallet'))
+      onDismiss()
+    } catch (e) {
+      toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+      console.error(e)
+    } finally {
+      setPendingTx(false)
+    }
+  }
+
+  const { onReward } = useHarvestFarm(farm.pair.pair)
 
   const handleHarvestConfirm = async () => {
     setPendingTx(true)
@@ -154,14 +160,13 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
       toastSuccess(
         `${t('Harvested')}!`,
         t('Your %symbol% earnings have been sent to your wallet!', {
-          symbol: earningToken.symbol,
+          symbol: 'CAKE',
         }),
       )
-      setPendingTx(false)
-      onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
       console.error(e)
+    } finally {
       setPendingTx(false)
     }
   }
@@ -170,11 +175,13 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     <>
       {!isReward && !isRemovingStake && (
         <>
-          <Text bold>{t('Single Currency Pledge Mining')}</Text>
+          <Text bold>{t('LP Pledge Mining')}</Text>
           <Text style={{ marginBottom: '35px' }}>
-            {t('Stake')}
-            {' ' + stakingToken.symbol + ' '}
-            {t('here to get reward token')}
+            {t('You need to obtain')}
+            {' ' + farm.lpSymbol + ' '}
+            {t('token first, which can be obtained by adding funds to')}
+            {' ' + farm.lpSymbol.split(' LP')[0] + ' '}
+            {t('liquidity pool, and then you can stake LP token on this page.')}
           </Text>
         </>
       )}
@@ -182,28 +189,27 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <Flex flexDirection="column">
           <Text mb="10px">{t('Reward Token')}</Text>
           <Flex>
-            <CurrencyLogo style={{ marginRight: '10px' }} currency={userData?.earningCurrency} size="18px" />
-            <Text bold>{earningToken.symbol}</Text>
+            {/* <TokenPairImage style={{ marginRight: '10px' }} secondaryToken={farm.quoteToken} width={18} height={18} /> */}
+            <Text bold>ZBst</Text>
           </Flex>
         </Flex>
         <Flex flexDirection="column">
           <Text mb="10px">{t('APR')}</Text>
-          <Text bold>{apr}</Text>
+          <Text bold>{farm.displayApr}%</Text>
         </Flex>
         <Flex flexDirection="column">
           <Text mb="10px">{t('Claimable Rewards')}</Text>
-          <Text bold>{userData?.pendingReward.toFixed(2)}</Text>
+          <Text bold>{userData?.earnings.toString()}</Text>
         </Flex>
       </RewordTokenWrap>
-
       <Flex justifyContent="space-between">
         <Text fontSize="16px" mb="15px" bold>
-          {isReward ? t('Withdraw Reward') : isRemovingStake ? t('Withdraw Principal') : t('Stake')}
+          {isReward ? t('Withdraw Reward') : isRemovingStake ? t('Withdraw Lp') : t('Stake')}
         </Text>
         {!isReward && (
           <Text bold>
-            {t('Available' + ': ')}
-            {isRemovingStake ? userData?.stakedBalance.toFixed(2) : userData?.stakingTokenBalance.toFixed(2)}
+            {t('Available') + ': '}
+            {`${isRemovingStake ? max : max}`}
             <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
               {t('MAX')}
             </span>
@@ -214,34 +220,34 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <>
           <StakeTokenWrap>
             <Flex alignItems="center">
-              <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" />
+              {/* <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" /> */}
               <Text fontSize="16px" bold>
-                {earningToken.symbol}
+                ZBst
               </Text>
             </Flex>
             <Text fontSize="20px" bold>
-              {parseFloat(userData?.pendingReward.toFixed(2))}
+              {userData?.earnings.toString()}
             </Text>
           </StakeTokenWrap>
           <Button
             isLoading={pendingTx}
             endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
             onClick={handleHarvestConfirm}
-            disabled={!parseFloat(userData?.pendingReward.toFixed(2))}
+            disabled={!userData?.earnings.toString()}
             mt="24px"
           >
             {pendingTx ? t('Withdrawing Reward') : t('Withdraw Reward')}
           </Button>
         </>
       )}
-
       {!isReward && (
         <>
           <StakeTokenWrap>
-            <Flex alignItems="center">
-              <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" />
+            <Flex flex="1" alignItems="center">
+              <TokenPairImage secondaryToken={farm.quoteToken} width={24} height={24} />
+              <TokenPairImage style={{ margin: '0 14px 0 -3px' }} secondaryToken={farm.token} width={25} height={25} />
               <Text fontSize="16px" bold>
-                {earningToken.symbol}
+                {farm.lpSymbol}
               </Text>
             </Flex>
             <BalanceInput
@@ -266,25 +272,31 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             <PercentageButton onClick={() => handleChangePercent(75)}>75%</PercentageButton>
             <PercentageButton onClick={() => handleChangePercent(100)}>{t('Max')}</PercentageButton>
           </PercentageButtonWrap>
-          <Flex>
+          {/* <Flex>
             <Text fontSize="16px" bold>
-              {isRemovingStake ? t('Amount Withdrawed') : t('Amount Staked')}: {stakeAmount || 0} ≈ $
-              {usdValueStaked || 0}
+              {isRemovingStake ? t('Amount Withdrawed') : t('Amount Staked')}:{' '}
+              {stakeAmount ? parseFloat(stakeAmount).toFixed(2) : 0} ≈ $
+              {usdValueStaked ? parseFloat(usdValueStaked).toFixed(2) : 0}
             </Text>
-          </Flex>
+          </Flex> */}
           <Button
             isLoading={pendingTx}
             endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
-            onClick={handleConfirmClick}
-            disabled={!stakeAmount || parseFloat(stakeAmount) === 0 || hasReachedStakeLimit}
+            onClick={isRemovingStake ? unstakeConfirm : stakeConfirm}
+            disabled={
+              !stakeAmountNum ||
+              !stakeAmountNum.isFinite() ||
+              stakeAmountNum.eq(0) ||
+              stakeAmountNum.gt(fullBalanceNumber)
+            }
             mt="24px"
           >
             {pendingTx
               ? isRemovingStake
-                ? t('Withdrawing Principal')
+                ? t('Withdrawing Lp')
                 : t('Staking')
               : isRemovingStake
-              ? t('Withdraw Principal')
+              ? t('Withdraw Lp')
               : t('Staking')}
           </Button>
         </>

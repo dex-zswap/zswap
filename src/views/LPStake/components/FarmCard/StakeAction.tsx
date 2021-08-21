@@ -18,8 +18,10 @@ import useUnstake from 'views/LPStake/hooks/useUnstake'
 import useStake from 'views/LPStake/hooks/useStake'
 import StakeModal from '../Modals/StakeModal'
 import ManageStakeModal from '../Modals/ManageStakeModal'
+import { Farm } from 'state/types'
 
 interface FarmCardActionsProps {
+  farm: Farm
   stakedBalance?: BigNumber
   tokenBalance?: BigNumber
   tokenName?: string
@@ -36,6 +38,7 @@ const IconButtonWrapper = styled.div`
 `
 
 const StakeAction: React.FC<FarmCardActionsProps> = ({
+  farm,
   stakedBalance,
   tokenBalance,
   tokenName,
@@ -69,11 +72,9 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
     return stakedBalanceBigNumber.toFixed(3, BigNumber.ROUND_DOWN)
   }, [stakedBalance])
 
-  const [onPresentDeposit] = useModal(
-    <DepositModal max={tokenBalance} onConfirm={handleStake} tokenName={tokenName} addLiquidityUrl={addLiquidityUrl} />,
-  )
+  const [onPresentDeposit] = useModal(<StakeModal farm={farm} handleStake={handleStake} />)
   const [onPresentManage] = useModal(
-    <DepositModal max={stakedBalance} onConfirm={handleUnstake} tokenName={tokenName} />,
+    <ManageStakeModal farm={farm} handleStake={handleUnstake} handleUnstake={handleUnstake} />,
   )
 
   const renderStakingButtons = () => {

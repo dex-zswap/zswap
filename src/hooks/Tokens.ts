@@ -204,4 +204,3 @@ export function useZBSTToken(): Token | undefined | null {
 export function useZBSTCurrency(): Currency | undefined | null {
   return useCurrency(ZSWAP_ZB_ADDRESS)
 }
-

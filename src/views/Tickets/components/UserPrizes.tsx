@@ -16,12 +16,7 @@ const UserPrizes = () => {
           <Text>Round 5</Text>
         </Heading>
       </CardHeader>
-      <StyledCardInner>
-        Prize Pot
-        $668800
-        688000 ZBst
-        
-      </StyledCardInner>
+      <StyledCardInner>Prize Pot $668800 688000 ZBst</StyledCardInner>
     </StyledCard>
   )
 }

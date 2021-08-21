@@ -15,7 +15,7 @@ export default function useTicketPrice() {
 
   return useMemo(() => {
     if (!costPerTicket.result || !zbst) {
-      return BIG_ZERO;
+      return BIG_ZERO
     }
 
     return new BigNumber(costPerTicket.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))

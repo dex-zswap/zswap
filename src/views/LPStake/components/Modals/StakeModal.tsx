@@ -4,53 +4,34 @@ import { Modal } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import useTheme from 'hooks/useTheme'
 import BigNumber from 'bignumber.js'
-import { Pool } from 'state/types'
+import { Farm } from 'state/types'
 
-interface StakeModalProps {
-  max: BigNumber
-  onConfirm: (amount: string) => void
-  onDismiss?: () => void
-  tokenName?: string
-  addLiquidityUrl?: string
-
-  isBnbPool: boolean
-  pool: Pool
-  stakingTokenBalance: BigNumber
-  stakingTokenPrice: number
-  isRemovingStake?: boolean
+interface FarmProps extends Farm {
+  apr?: number
+  lpRewardsApr?: number
+  liquidity?: BigNumber
+  [key: string]: any
 }
 
-const StakeModal: React.FC<StakeModalProps> = ({
-  pool,
-  stakingTokenBalance,
-  stakingTokenPrice,
-  isRemovingStake = false,
-  onDismiss,
-}) => {
+interface StakeModalProps {
+  farm: FarmProps
+  handleStake: (amount: string) => void
+  onDismiss?: () => void
+}
+
+const StakeModal: React.FC<StakeModalProps> = ({ farm, handleStake, onDismiss }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
 
-  // <Text color="secondary" bold mb="24px" style={{ textAlign: 'center' }} fontSize="16px">
-  //   {t('Max stake for this pool: %amount% %token%', {
-  //     amount: getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0),
-  //     token: stakingToken.symbol,
-  //   })}
-  // </Text>
-
   return (
     <Modal
-      title={isRemovingStake ? t('Unstake') : t('Stake in Pool')}
+      style={{ width: '640px' }}
+      title={t('Join')}
       minWidth="640px"
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
-      <StakeModalContent
-        pool={pool}
-        stakingTokenBalance={stakingTokenBalance}
-        stakingTokenPrice={stakingTokenPrice}
-        isRemovingStake={false}
-        onDismiss={onDismiss}
-      />
+      <StakeModalContent farm={farm} handleStake={handleStake} onDismiss={onDismiss} />
       {/* <Flex alignItems="center" justifyContent="space-between" mb="8px">
         <Text bold>{isRemovingStake ? t('Unstake') : t('Stake')}:</Text>
         <Flex alignItems="center" minWidth="70px">

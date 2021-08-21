@@ -132,7 +132,7 @@ export class Fraction {
         .toSignificantDigits(significantDigits)
       return quotient.toFormat(quotient.decimalPlaces(), format)
     } catch (e) {
-      console.log(e, rounding, format, significantDigits)
+      console.error(e, rounding, format, significantDigits)
     }
   }
 
@@ -149,7 +149,7 @@ export class Fraction {
       Big.RM = toFixedRounding[rounding]
       return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format)
     } catch (e) {
-      console.log(e, rounding, format, decimalPlaces)
+      console.error(e, rounding, format, decimalPlaces)
     }
   }
 }

@@ -12,10 +12,7 @@ const Ticket = () => {
 
   return (
     <div>
-      Ticket
-
-      总奖励: ${prizes.toFixed(2)}
-
+      Ticket 总奖励: ${prizes.toFixed(2)}
       <UserHistory />
       <BuyTickets />
     </div>

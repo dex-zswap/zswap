@@ -54,11 +54,9 @@ const ManageStakeModal: React.FC<ManageStakeModalProps> = ({
   stakingTokenPrice,
   onDismiss,
 }) => {
-  const { t } = useTranslation()
   const { theme } = useTheme()
   const [tabType, setTabType] = useState('add')
 
-  const isAdd = 'add' === tabType
   const isWithdraw = 'withdraw' === tabType
   const isReward = 'reward' === tabType
 
@@ -74,6 +72,7 @@ const ManageStakeModal: React.FC<ManageStakeModalProps> = ({
       headerBackground={theme.colors.gradients.cardHeader}
     >
       <StakeModalContent
+        tabType={tabType}
         pool={pool}
         stakingTokenBalance={stakingTokenBalance}
         stakingTokenPrice={stakingTokenPrice}

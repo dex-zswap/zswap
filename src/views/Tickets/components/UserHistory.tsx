@@ -18,14 +18,7 @@ const UserHistory = () => {
           <Text>User History</Text>
         </Heading>
       </CardHeader>
-      {
-        !account ?
-        <ConnectWalletButton />
-        :
-        <StyledCardInner>
-          
-        </StyledCardInner>
-      }
+      {!account ? <ConnectWalletButton /> : <StyledCardInner></StyledCardInner>}
     </StyledCard>
   )
 }

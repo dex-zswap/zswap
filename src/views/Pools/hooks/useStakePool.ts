@@ -19,7 +19,7 @@ const stakeDEX = async (contract, amount, decimals = 18) => {
     const receipt = await tx.wait()
     return receipt.status
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 

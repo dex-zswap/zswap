@@ -41,7 +41,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
 
   return (
     <Modal
-      title={isRemovingStake ? t('Unstake') : t('Stake in Pool')}
+      title={t('Join')}
       minWidth="640px"
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
@@ -50,7 +50,6 @@ const StakeModal: React.FC<StakeModalProps> = ({
         pool={pool}
         stakingTokenBalance={stakingTokenBalance}
         stakingTokenPrice={stakingTokenPrice}
-        isRemovingStake={false}
         onDismiss={onDismiss}
       />
       {/* <Flex alignItems="center" justifyContent="space-between" mb="8px">
