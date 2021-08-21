@@ -27,7 +27,7 @@ export default function usePrizes() {
   const lpReward = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 10])
 
   return useMemo(() => {
-    if (!lotteryReward.result || !lpReward.result || !zbst) {
+    if (!lotteryReward.result || !lpReward.result || !zbst || !zbstPrice) {
       return BIG_ZERO
     }
 

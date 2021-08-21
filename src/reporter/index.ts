@@ -1,4 +1,4 @@
-const reportUrl = process.env.REACT_APP_REPORT_URL
+const apiBase = process.env.REACT_APP_API_BASE
 
 export enum TransactionType {
   TRANSFER_IN = 1,
@@ -71,7 +71,7 @@ class Reporter implements ReporterInterface {
     const { retryCount } = body
     delete body.retryCount
 
-    fetch(reportUrl, {
+    fetch(`${apiBase}/walletTran/add`, {
       mode: 'cors',
       credentials: 'omit',
       method: 'POST',
