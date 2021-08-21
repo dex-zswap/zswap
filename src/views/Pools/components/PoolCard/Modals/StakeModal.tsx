@@ -32,6 +32,13 @@ const StakeModal: React.FC<StakeModalProps> = ({
   //   })}
   // </Text>
 
+  // <Text color="secondary" bold mb="24px" style={{ textAlign: 'center' }} fontSize="16px">
+  //   {t('Max stake for this pool: %amount% %token%', {
+  //     amount: getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0),
+  //     token: stakingToken.symbol,
+  //   })}
+  // </Text>
+
   return (
     <Modal
       title={isRemovingStake ? t('Unstake') : t('Stake in Pool')}

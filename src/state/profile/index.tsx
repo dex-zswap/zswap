@@ -31,12 +31,10 @@ export const profileSlice = createSlice({
       state.isLoading = false
       state.isInitialized = true
     },
-    profileClear: () => {
-      return {
-        ...initialState,
-        isLoading: false,
-      }
-    },
+    profileClear: () => ({
+      ...initialState,
+      isLoading: false,
+    }),
     addPoints: (state, action: PayloadAction<number>) => {
       state.data.points += action.payload
     },

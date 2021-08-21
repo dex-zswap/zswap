@@ -68,7 +68,7 @@ export function useAllPairs(): AllPairs {
         token0 = allToken0[idx].result ?? []
         token1 = allToken1[idx].result ?? []
 
-        if (!weight[0].eq(0)) {
+        if (weight[0]) {
           pairs.push({
             pair: id,
             weight: weight[0].toNumber(),

@@ -16,8 +16,10 @@ import { NEVER_RELOAD, useSingleCallResult } from 'state/multicall/hooks'
 import useUserAddedTokens from 'state/user/hooks/useUserAddedTokens'
 import { isAddress } from 'utils'
 
-import { useBytes32TokenContract, useTokenContract } from './useContract'
 import { filterTokens } from 'components/SearchModal/filtering'
+import { ZSWAP_ZB_ADDRESS } from 'config/constants/zswap/address'
+
+import { useBytes32TokenContract, useTokenContract } from './useContract'
 
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
 function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean): { [address: string]: Token } {
@@ -190,7 +192,16 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  const isBNB = currencyId?.toUpperCase() === 'DEX'
-  const token = useToken(isBNB ? undefined : currencyId)
-  return isBNB ? ETHER : token
+  const isDEX = currencyId?.toUpperCase() === 'DEX'
+  const token = useToken(isDEX ? undefined : currencyId)
+  return isDEX ? ETHER : token
 }
+
+export function useZBSTToken(): Token | undefined | null {
+  return useToken(ZSWAP_ZB_ADDRESS)
+}
+
+export function useZBSTCurrency(): Currency | undefined | null {
+  return useCurrency(ZSWAP_ZB_ADDRESS)
+}
+

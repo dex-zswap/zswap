@@ -10,6 +10,7 @@ import { useCurrencyBalance } from 'state/wallet/hooks'
 import useTokenAllowance from 'hooks/useTokenAllowance'
 import { useStakedTokenBalance } from 'hooks/useTokenBalance'
 import { getAddress } from 'utils/addressHelpers'
+import { useContractCall } from 'hooks/useContractCall'
 import { BIG_TEN, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
 import { Pool } from 'state/types'
 import { ZSWAP_DEX_ADDRESS, ZSWAP_ZERO_ADDRESS } from 'config/constants/zswap/address'
@@ -28,6 +29,7 @@ const usePoolInfo = (pool: Pool) => {
 
   const isDEX = stakingTokenAddress === ZSWAP_DEX_ADDRESS
 
+  const shareReward = useContractCall(stakeContract, 'token_pershare_reward', [stakingTokenAddress])
   const stakedTokenBalance = useCurrencyBalance(account ?? undefined, isDEX ? ETHER : stakedCurrency)
   const earningTokenBalance = useCurrencyBalance(account ?? undefined, earningCurrency)
 
@@ -40,6 +42,18 @@ const usePoolInfo = (pool: Pool) => {
     isDEX ? ZSWAP_ZERO_ADDRESS : stakingTokenAddress,
     account,
   ])
+
+  // (120 / 6 * 0.1) / 10 * 365 * 100
+
+  const apr = useMemo(() => {
+    if (!shareReward.result || !stakedToken || !stakingBalance.balance) {
+      return BIG_ZERO
+    }
+
+    const shareRewardCount = new BigNumber(shareReward.result.toString()).dividedBy(BIG_TEN.pow(stakedToken.decimals))
+
+    return BIG_TEN
+  }, [shareReward, stakedToken, stakingBalance])
 
   const [pendingReward, setPendingReward] = useState({
     loading: true,
