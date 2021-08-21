@@ -55,6 +55,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
   const renderApprovalOrStakeButton = () => {
     return isApproved ? (
       <StakeAction
+        farm={farm}
         stakedBalance={stakedBalance}
         tokenBalance={tokenBalance}
         tokenName={farm.lpSymbol}
@@ -64,7 +65,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
         addLiquidityUrl={addLiquidityUrl}
       />
     ) : (
-      <Button mt="8px" width="100%" disabled={requestedApproval} onClick={handleApprove}>
+      <Button width="100%" disabled={requestedApproval} onClick={handleApprove}>
         {t('Enable Contract')}
       </Button>
     )

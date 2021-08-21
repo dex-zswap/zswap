@@ -81,7 +81,6 @@ interface FarmCardProps {
 
 const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePrice, account }) => {
   const { t } = useTranslation()
-  console.log(farm)
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 

@@ -135,7 +135,7 @@ const HeaderWrap = styled(PageHeader)`
 
 const PairCardWrap = styled.div`
   width: 360px;
-  height: 490px;
+  height: 535px;
   background: #292929;
   box-shadow: 0px 0px 32px 0px rgba(19, 53, 93, 0.51);
   border-radius: 30px;

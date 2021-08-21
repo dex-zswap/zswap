@@ -272,7 +272,7 @@ export default function FullPositionCard({ pair, ...props }: PositionCardProps) 
           {userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, BIG_INT_ZERO) && (
             <Flex marginTop="30px">
               <Button
-                marginRight="10px"
+                style={{ marginRight: '10px' }}
                 scale="medium"
                 as={Link}
                 to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}`}

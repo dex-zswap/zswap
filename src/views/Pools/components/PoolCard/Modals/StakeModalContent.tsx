@@ -16,6 +16,7 @@ interface StakeModalContentProps {
   pool: Pool
   stakingTokenBalance: BigNumber
   stakingTokenPrice: number
+  tabType?: string
   isRemovingStake?: boolean
   isReward?: boolean
   onDismiss?: () => void
@@ -56,6 +57,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   pool,
   stakingTokenBalance,
   stakingTokenPrice,
+  tabType,
   isRemovingStake = false,
   isReward = false,
   onDismiss,
@@ -77,6 +79,11 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     }
     return stakingTokenBalance
   }
+
+  useEffect(() => {
+    setStakeAmount('')
+    setPercent(0)
+  }, [tabType])
 
   const usdValueStaked = stakeAmount && formatNumber(new BigNumber(stakeAmount).times(stakingTokenPrice).toNumber())
 
@@ -183,7 +190,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
           <Text mb="10px">{t('Reward Token')}</Text>
           <Flex>
             <CurrencyLogo style={{ marginRight: '10px' }} currency={userData?.earningCurrency} size="18px" />
-            <Text bold>{earningToken.symbol}</Text>
+            <Text bold>ZBst</Text>
           </Flex>
         </Flex>
         <Flex flexDirection="column">
@@ -216,7 +223,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             <Flex alignItems="center">
               <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" />
               <Text fontSize="16px" bold>
-                {earningToken.symbol}
+                ZBst
               </Text>
             </Flex>
             <Text fontSize="20px" bold>

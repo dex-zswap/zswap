@@ -48,8 +48,6 @@ export function usePairInfo(pair: PairsInfo): any {
 
   const allowance = useContractCall(pairContract, 'allowance', [account, pair.pair])
 
-  console.log(allowance)
-
   const [, pairInfo] = usePair(currency0, currency1)
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
@@ -96,8 +94,8 @@ export function usePairInfo(pair: PairsInfo): any {
 
   const tokenLpAmount = useMemo(() => {
     return {
-      token0: token0Amount.balance ? token0Amount.balance.div(BIG_TEN.pow(token0.decimals)) : BIG_ZERO,
-      token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token0.decimals)) : BIG_ZERO,
+      token0: token0Amount.balance ? token0Amount.balance.div(BIG_TEN.pow(token0?.decimals)) : BIG_ZERO,
+      token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token0?.decimals)) : BIG_ZERO,
     }
   }, [token0Amount, token1Amount, token0, token1])
 
@@ -144,7 +142,7 @@ export function usePairInfo(pair: PairsInfo): any {
   }, [userShares, lpShareReward, pairInfo])
 
   return {
-    lpSymbol: `${token0.symbol}-${token1.symbol} LP`,
+    lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,
     displayApr: apr.toSignificant(4),
     pair,
     pairInfo,
@@ -161,19 +159,19 @@ export function usePairInfo(pair: PairsInfo): any {
     tokenAmount: token0Deposited?.toSignificant(4),
     quoteTokenAmount: token1Deposited?.toSignificant(4),
     token: {
-      symbol: token0.symbol,
+      symbol: token0?.symbol,
       address: {
-        [chainId]: token0.address,
+        [chainId]: token0?.address,
       },
-      decimals: token0.decimals,
+      decimals: token0?.decimals,
       projectLink: 'https://pancakeswap.finance/',
     },
     quoteToken: {
-      symbol: token1.symbol,
+      symbol: token1?.symbol,
       address: {
-        [chainId]: token1.address,
+        [chainId]: token1?.address,
       },
-      decimals: token1.decimals,
+      decimals: token1?.decimals,
       projectLink: 'https://pancakeswap.finance/',
     },
   }
