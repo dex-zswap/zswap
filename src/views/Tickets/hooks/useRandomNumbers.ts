@@ -5,10 +5,10 @@ export default function useRandomNumbers(lens: number): number[][] {
   let numbers: number[] = []
   let randomNumber: number | undefined
 
-  for (let l = 0; l < lens; l ++) {
+  for (let l = 0; l < lens; l++) {
     numbers = []
 
-    for (let i = 0; i < 6; i ++) {
+    for (let i = 0; i < 6; i++) {
       randomNumber = random(0, 9)
 
       while (numbers.includes(randomNumber)) {

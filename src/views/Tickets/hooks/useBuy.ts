@@ -6,17 +6,17 @@ import { useZSwapLotteryContract } from 'hooks/useContract'
 export default function useBuy() {
   const lotteryContract = useZSwapLotteryContract()
 
-  const buyTickets = useCallback(async() => {}, [lotteryContract])
+  const buyTickets = useCallback(async () => {}, [lotteryContract])
 
   return {
-    buyTickets
+    buyTickets,
   }
 }
 
 export function useCurrentLotteryId() {
   const lotteryContract = useZSwapLotteryContract()
   const lotteryId = useContractCall(lotteryContract, 'lotteryId', [])
-  
+
   return useMemo(() => {
     if (!lotteryId.result) {
       return '1'

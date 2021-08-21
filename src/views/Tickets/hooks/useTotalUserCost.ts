@@ -17,7 +17,7 @@ export default function useTotalUserCost() {
     if (!lotteryReward.result || !zbstPrice || !zbst) {
       return {
         zusd: BIG_ZERO.toString(),
-        zbst: BIG_ZERO.toString()
+        zbst: BIG_ZERO.toString(),
       }
     }
 
@@ -26,7 +26,7 @@ export default function useTotalUserCost() {
 
     return {
       zusd: lotteryRewardBigNumber.multipliedBy(priceBigNumber).toFixed(2),
-      zbst: lotteryRewardBigNumber.toFixed(2)
+      zbst: lotteryRewardBigNumber.toFixed(2),
     }
   }, [lotteryReward, zbst, zbstPrice])
 }

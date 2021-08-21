@@ -6,8 +6,8 @@ import useTicketPrice, { useZBSTBalance } from 'views/Tickets/hooks/useTicketPri
 import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
 
 const BuyTicketModal = () => {
-  const [ step, setStep ] = useState('buy')
-  const [ count, setCount ] = useState('')
+  const [step, setStep] = useState('buy')
+  const [count, setCount] = useState('')
 
   const zbstBalance = useZBSTBalance()
   const ticketPrice = useTicketPrice()
