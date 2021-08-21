@@ -17,9 +17,10 @@ enum TransactionCategory {
   ADD_LIQUIDITY = 4,
   REMOVE_LIQUIDITY = 5,
   APPROVE = 6,
+  TICKET = 7,
 }
 
-export declare type ReportFrom = 'swap' | 'approve' | 'addLiquidity' | 'removeLiquidity' | 'LPPledge' | 'singlePledge'
+export declare type ReportFrom = 'swap' | 'approve' | 'addLiquidity' | 'removeLiquidity' | 'LPPledge' | 'singlePledge' | 'ticket'
 
 type TransactionRecord = Partial<{
   retryCount: number
@@ -38,6 +39,8 @@ type TransactionRecord = Partial<{
   gasLimit: string
   gwei: string
   mainCoinType: string
+  lottery: string
+  lotteryNum: string
   category: TransactionCategory
 }>
 
@@ -93,7 +96,7 @@ class Reporter implements ReporterInterface {
   }
 
   private makeInfoFromReportData(hashInfo: HashInfoBaseStructure): TransactionRecord {
-    const { hash, from, chainId, summary, reportData } = hashInfo
+    const { hash, from, chainId, reportData } = hashInfo
     const info: TransactionRecord = {
       retryCount: 1,
       txId: hash,
@@ -136,6 +139,12 @@ class Reporter implements ReporterInterface {
             break
         }
         break
+      case 'ticket':
+        info.tranType = TransactionType.TRANSFER_OUT
+        info.category = TransactionCategory.TICKET
+        info.lottery = reportData.lottery
+        info.lotteryNum = reportData.lotteryNum
+        break
     }
 
     return info
@@ -145,12 +154,12 @@ class Reporter implements ReporterInterface {
     this.cachedHashMaps[hash] = this.makeInfoFromReportData(hashInfo)
   }
 
-  public recordHash(hash: string, transitionInfo: TransactionRecord): void {
+  public recordHash(hash: string, transitionInfo: TransactionRecord = {}): void {
     const storagedHash: TransactionRecord = this.cachedHashMaps[hash]
     this.cachedHashMaps[hash] = Object.assign(storagedHash, transitionInfo, {
       updateTime: Date.now(),
     })
-    // this.reportTransaction(hash)
+    this.reportTransaction(hash)
   }
 }
 

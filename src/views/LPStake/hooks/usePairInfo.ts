@@ -6,14 +6,13 @@ import { formatUnits } from '@ethersproject/units'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useToken } from 'hooks/Tokens'
 import { useLPTokenBalance } from 'hooks/useTokenBalance'
-import { useZSwapLPContract, usePairContract, useERC20 } from 'hooks/useContract'
+import { useZSwapLPContract, usePairContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
 import { usePair } from 'hooks/usePairs'
 import useZUSDPrice from 'hooks/useZUSDPrice'
 import useTotalSupply from 'hooks/useTotalSupply'
 import { useTokenBalance } from 'state/wallet/hooks'
 import { BIG_TEN, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
-import { ZSWAP_ZB_ADDRESS } from 'config/constants/zswap/address'
 import { ZERO_PERCENT } from 'config/constants'
 import { ONE_YEAR_BLOCK_COUNT } from 'config'
 
@@ -27,7 +26,6 @@ type PairsInfo = {
 export function usePairInfo(pair: PairsInfo): any {
   const { chainId, account } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
-  const zbstContract = useERC20(ZSWAP_ZB_ADDRESS)
 
   const pairContract = usePairContract(pair.pair, true)
 
@@ -47,8 +45,6 @@ export function usePairInfo(pair: PairsInfo): any {
   const userShares = useContractCall(lpContract, 'getUserShare', [pair.pair, account])
 
   const allowance = useContractCall(pairContract, 'allowance', [account, pair.pair])
-
-  console.log(allowance)
 
   const [, pairInfo] = usePair(currency0, currency1)
 
