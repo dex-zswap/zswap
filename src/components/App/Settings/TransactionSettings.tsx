@@ -129,7 +129,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               1%
             </Button>
           </Grid>
-          <RowBetween paddingRight="8px !important">
+          <Flex alignItems="center" paddingRight="8px !important">
             <Input
               width="104px"
               height="32px"
@@ -143,10 +143,10 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
               isWarning={!slippageInputIsValid}
               isSuccess={![10, 50, 100].includes(rawSlippage)}
             />
-            <Text color="text" bold>
+            <Text ml="8px" height="fit-content" color="text" bold>
               %
             </Text>
-          </RowBetween>
+          </Flex>
         </Flex>
         {!!slippageError && (
           <RowBetween

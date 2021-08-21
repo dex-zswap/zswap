@@ -30,11 +30,11 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
     <AutoColumn gap="lg">
       <Message variant="warning">
         <Text>
-          {t(
+          {/* {t(
             'Anyone can create a BEP20 token on BSC with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.',
           )}
           <br />
-          <br />
+          <br /> */}
           {t('If you purchase an arbitrary token, you may be unable to sell it back.')}
         </Text>
       </Message>
@@ -67,8 +67,8 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
             {chainId && (
               <Flex justifyContent="space-between" width="100%">
                 <Text mr="4px">{address}</Text>
-                <Link href={getBscScanLink(token.address, 'address', chainId)} external>
-                  ({t('View on DEX Browser')})
+                <Link style={{ color: '#0050FF' }} href={getBscScanLink(token.address, 'address', chainId)} external>
+                  {t('View on DEX Browser')}
                 </Link>
               </Flex>
             )}
@@ -77,7 +77,7 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
       })}
 
       <Flex justifyContent="space-between" alignItems="center">
-        <Flex alignItems="center" onClick={() => setConfirmed(!confirmed)}>
+        {/* <Flex alignItems="center" onClick={() => setConfirmed(!confirmed)}>
           <Checkbox
             scale="sm"
             name="confirmed"
@@ -88,11 +88,11 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
           <Text ml="8px" style={{ userSelect: 'none' }}>
             {t('I understand')}
           </Text>
-        </Flex>
+        </Flex> */}
         <Button
-          scale="sm"
+          width="100%"
+          scale="medium"
           variant="danger"
-          disabled={!confirmed}
           onClick={() => {
             tokens.map((token) => addToken(token))
             if (handleCurrencySelect) {

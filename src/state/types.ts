@@ -1,3 +1,4 @@
+import { Currency } from 'zswap-sdk'
 import { ThunkAction } from 'redux-thunk'
 import { AnyAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
@@ -49,6 +50,8 @@ export interface Pool extends PoolConfig {
   earningTokenPrice?: number
   isAutoVault?: boolean
   userData?: {
+    stakedCurrency: Currency | null | undefined
+    earningCurrency: Currency | null | undefined
     totalStakedBalance: BigNumber
     allowance: BigNumber
     stakingTokenBalance: BigNumber

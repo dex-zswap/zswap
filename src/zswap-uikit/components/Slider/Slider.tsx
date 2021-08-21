@@ -30,7 +30,7 @@ const Slider: React.FC<SliderProps> = ({
   const isMax = value === max
   let progressWidth: string
   if (progressPercentage <= 10) {
-    progressWidth = `${progressPercentage + 1}%`
+    progressWidth = `${progressPercentage + 0.5}%`
   } else {
     progressWidth = `${progressPercentage}%`
   }

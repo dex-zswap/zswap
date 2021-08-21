@@ -7,6 +7,7 @@ import { Pool } from 'state/types'
 import Balance from 'components/Balance'
 import NotEnoughTokensModal from 'views/Pools/components/PoolCard/Modals/NotEnoughTokensModal'
 import StakeModal from 'views/Pools/components/PoolCard/Modals/StakeModal'
+import ManageStakeModal from 'views/Pools/components/PoolCard/Modals/ManageStakeModal'
 
 interface StakeActionsProps {
   pool: Pool
@@ -43,15 +44,24 @@ const StakeAction: React.FC<StakeActionsProps> = ({
     />,
   )
 
-  const [onPresentUnstake] = useModal(
-    <StakeModal
-      stakingTokenBalance={stakingTokenBalance}
+  const [manageStake] = useModal(
+    <ManageStakeModal
       isBnbPool={isBnbPool}
       pool={pool}
+      stakingTokenBalance={stakingTokenBalance}
       stakingTokenPrice={stakingTokenPrice}
-      isRemovingStake
     />,
   )
+
+  // const [onPresentUnstake] = useModal(
+  //   <StakeModal
+  //     stakingTokenBalance={stakingTokenBalance}
+  //     isBnbPool={isBnbPool}
+  //     pool={pool}
+  //     stakingTokenPrice={stakingTokenPrice}
+  //     isRemovingStake
+  //   />,
+  // )
 
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t('You’ve already staked the maximum amount you can stake in this pool!'),
@@ -145,7 +155,11 @@ const StakeAction: React.FC<StakeActionsProps> = ({
     return (
       <div style={{ marginBottom: '25px' }}>
         {isStaked ? (
+<<<<<<< HEAD
           <Button width="100%" onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}>
+=======
+          <Button width="100%" onClick={manageStake}>
+>>>>>>> 7b964f3fa225823fe6d0f195e995cf551c7df2fa
             {t('Manage Stake')}
           </Button>
         ) : (

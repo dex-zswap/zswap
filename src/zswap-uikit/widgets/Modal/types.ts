@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { BoxProps } from '../../components/Box'
 
 export interface ModalTheme {
@@ -11,7 +12,8 @@ export interface InjectedProps {
 }
 
 export interface ModalProps extends InjectedProps, BoxProps {
-  title: string
+  title?: string
+  headerChildren?: ReactNode
   hideCloseButton?: boolean
   onBack?: () => void
   bodyPadding?: string
