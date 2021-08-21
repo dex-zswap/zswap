@@ -16,6 +16,8 @@ import DepositModal from 'views/LPStake/components/DepositModal'
 import WithdrawModal from 'views/LPStake/components/WithdrawModal'
 import useUnstake from 'views/LPStake/hooks/useUnstake'
 import useStake from 'views/LPStake/hooks/useStake'
+import StakeModal from '../Modals/StakeModal'
+import ManageStakeModal from '../Modals/ManageStakeModal'
 
 interface FarmCardActionsProps {
   stakedBalance?: BigNumber
@@ -70,8 +72,8 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
   const [onPresentDeposit] = useModal(
     <DepositModal max={tokenBalance} onConfirm={handleStake} tokenName={tokenName} addLiquidityUrl={addLiquidityUrl} />,
   )
-  const [onPresentWithdraw] = useModal(
-    <WithdrawModal max={stakedBalance} onConfirm={handleUnstake} tokenName={tokenName} />,
+  const [onPresentManage] = useModal(
+    <DepositModal max={stakedBalance} onConfirm={handleUnstake} tokenName={tokenName} />,
   )
 
   const renderStakingButtons = () => {
@@ -80,32 +82,30 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
         onClick={onPresentDeposit}
         disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
       >
-        {t('Stake LP')}
+        {t('Join')}
       </Button>
     ) : (
-      <IconButtonWrapper>
-        <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
-          <MinusIcon color="primary" width="14px" />
-        </IconButton>
-        <IconButton
-          variant="tertiary"
-          onClick={onPresentDeposit}
-          disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
-        >
-          <AddIcon color="primary" width="14px" />
-        </IconButton>
-      </IconButtonWrapper>
+      <Button
+        onClick={onPresentManage}
+        disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
+      >
+        {t('Manage Stake')}
+      </Button>
+      // <IconButtonWrapper>
+      //   <IconButton variant="tertiary" onClick={onPresentWithdraw} mr="6px">
+      //     <MinusIcon color="primary" width="14px" />
+      //   </IconButton>
+      //   <IconButton
+      //     variant="tertiary"
+      //     onClick={onPresentDeposit}
+      //     disabled={['history', 'archived'].some((item) => location.pathname.includes(item))}
+      //   >
+      //     <AddIcon color="primary" width="14px" />
+      //   </IconButton>
+      // </IconButtonWrapper>
     )
   }
-
-  return (
-    <Flex justifyContent="space-between" alignItems="center">
-      <Flex flexDirection="column" alignItems="flex-start">
-        <Heading color={stakedBalance.eq(0) ? 'textDisabled' : 'text'}>{displayBalance()}</Heading>
-      </Flex>
-      {renderStakingButtons()}
-    </Flex>
-  )
+  return <>{renderStakingButtons()}</>
 }
 
 export default StakeAction

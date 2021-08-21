@@ -11,9 +11,6 @@ import useApproveLp from 'views/LPStake/hooks/useApprove'
 import StakeAction from './StakeAction'
 import HarvestAction from './HarvestAction'
 
-const Action = styled.div`
-  padding-top: 16px;
-`
 export interface FarmWithStakedValue extends Farm {
   apr?: number
   [key: string]: any
@@ -74,8 +71,8 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
   }
 
   return (
-    <Action>
-      <Flex>
+    <>
+      {/* <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="4px">
           CAKE
         </Text>
@@ -91,9 +88,9 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
         <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
           {t('Staked')}
         </Text>
-      </Flex>
+      </Flex> */}
       {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
-    </Action>
+    </>
   )
 }
 
