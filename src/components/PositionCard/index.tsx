@@ -62,7 +62,16 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
     <>
       {
         userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, JSBI.BigInt(0)) ? (
-          <AutoColumn gap="16px">
+          <AutoColumn
+            style={{
+              padding: '24px',
+              width: '100%',
+              background: '#1A1A1A',
+              zIndex: 99,
+              borderRadius: '20px',
+            }}
+            gap="16px"
+          >
             {/* <FixedHeightRow>
               <RowFixed>
                 <Text color="secondary" bold>

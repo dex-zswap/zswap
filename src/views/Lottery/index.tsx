@@ -54,11 +54,9 @@ const Lottery = () => {
         index={2}
       >
         <Flex alignItems="center" justifyContent="center" flexDirection="column" pt="24px">
-          {status === LotteryStatus.OPEN && (
-            <Heading scale="xl" color="#ffffff" mb="24px" textAlign="center">
-              {t('Get your tickets now!')}
-            </Heading>
-          )}
+          <Heading scale="xl" color="#ffffff" mb="24px" textAlign="center">
+            {t('Get your tickets now!')}
+          </Heading>
           <Flex alignItems="center" justifyContent="center" mb="48px">
             {nextEventTime && (postCountdownText || preCountdownText) ? (
               <Countdown

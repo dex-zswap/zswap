@@ -119,21 +119,31 @@ const StakeModal: React.FC<StakeModalProps> = ({
     }
   }
 
+  // <Text color="secondary" bold mb="24px" style={{ textAlign: 'center' }} fontSize="16px">
+  //   {t('Max stake for this pool: %amount% %token%', {
+  //     amount: getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0),
+  //     token: stakingToken.symbol,
+  //   })}
+  // </Text>
+
   return (
     <Modal
       title={isRemovingStake ? t('Unstake') : t('Stake in Pool')}
+      minWidth="640px"
       onDismiss={onDismiss}
       headerBackground={theme.colors.gradients.cardHeader}
     >
       {!isRemovingStake && (
-        <Text color="secondary" bold mb="24px" style={{ textAlign: 'center' }} fontSize="16px">
-          {t('Max stake for this pool: %amount% %token%', {
-            amount: getFullDisplayBalance(stakingLimit, stakingToken.decimals, 0),
-            token: stakingToken.symbol,
-          })}
-        </Text>
+        <>
+          <Text bold>{t('Single Currency Pledge Mining')}</Text>
+          <Text style={{ marginBottom: '35px' }}>
+            {t('Stake')}
+            {' ' + stakingToken.symbol + ' '}
+            {t('here to get reward token')}
+          </Text>
+        </>
       )}
-      <Flex alignItems="center" justifyContent="space-between" mb="8px">
+      {/* <Flex alignItems="center" justifyContent="space-between" mb="8px">
         <Text bold>{isRemovingStake ? t('Unstake') : t('Stake')}:</Text>
         <Flex alignItems="center" minWidth="70px">
           <Image
@@ -146,7 +156,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
             {stakingToken.symbol}
           </Text>
         </Flex>
-      </Flex>
+      </Flex> */}
       <BalanceInput
         value={stakeAmount}
         onUserInput={handleStakeInputChange}
@@ -189,15 +199,15 @@ const StakeModal: React.FC<StakeModalProps> = ({
         disabled={!stakeAmount || parseFloat(stakeAmount) === 0 || hasReachedStakeLimit}
         mt="24px"
       >
-        {pendingTx ? t('Confirming') : t('Confirm')}
+        {pendingTx ? t('Staking') : t('Stake')}
       </Button>
-      {!isRemovingStake && (
+      {/* {!isRemovingStake && (
         <StyledLink external href="/swap">
           <Button width="100%" mt="8px" variant="secondary">
             {t('Get %symbol%', { symbol: stakingToken.symbol })}
           </Button>
         </StyledLink>
-      )}
+      )} */}
     </Modal>
   )
 }

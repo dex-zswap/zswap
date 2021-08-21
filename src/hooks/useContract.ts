@@ -40,7 +40,8 @@ import { getContract } from 'utils'
 import { abi as FACTORY_ABI } from 'config/zswap-abis/ZswapFactory.json'
 import { abi as ZSWAP_LP_ABI } from 'config/zswap-abis/ZswapLpStaking.json'
 import { abi as ZSWAP_STAKE_ABI } from 'config/zswap-abis/staking.json'
-import { ZSWAP_LP_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_MUTLICALL_ADDRESS } from 'config/constants/zswap/address'
+import { abi as ZSWAP_LOTTERY_ABI } from 'config/zswap-abis/lottery.json'
+import { ZSWAP_LP_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_MUTLICALL_ADDRESS, ZSWAP_LOTTERY_ADDRESS } from 'config/constants/zswap/address'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -260,4 +261,8 @@ export function useZSwapLPContract(): Contract | null {
 
 export function useZSwapStakeContract(): Contract | null {
   return useContract(ZSWAP_STAKE_ADDRESS, ZSWAP_STAKE_ABI, true)
+}
+
+export function useZSwapLotteryContract(): Contract | null {
+  return useContract(ZSWAP_LOTTERY_ADDRESS, ZSWAP_LOTTERY_ABI, true)
 }

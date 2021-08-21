@@ -16,7 +16,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
 
   return (
-    <AutoColumn style={{ padding: '0 1rem' }}>
+    <AutoColumn>
       <RowBetween marginY="3px">
         <RowFixed>
           <Text color="textSubtle">{isExactIn ? 'Minimum received' : 'Maximum sold'}</Text>
@@ -60,7 +60,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             ml="4px"
           /> */}
         </RowFixed>
-        <Text>{realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade?.inputAmount?.currency?.symbol}` : '-'}</Text>
+        <Text>{realizedLPFee ? `${realizedLPFee.toSignificant(4)} DEX` : '-'}</Text>
       </RowBetween>
     </AutoColumn>
   )
@@ -76,7 +76,15 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const showRoute = Boolean(trade && trade.route.path.length > 1)
 
   return (
-    <AutoColumn gap="0px">
+    <AutoColumn
+      style={{
+        width: '100%',
+        padding: '24px',
+        zIndex: 99,
+        borderRadius: '20px',
+      }}
+      gap="0px"
+    >
       {trade && (
         <>
           <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />

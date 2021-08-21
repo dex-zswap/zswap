@@ -21,28 +21,21 @@ export const StyledCard = styled(Card)<{
   isPromoted?: PromotedStyleCardProps
   isFinished?: boolean
 }>`
-  width: 360px;
+  width: 758px;
   height: 560px;
-  margin: 0 8px 24px;
+  margin: 0 auto 24px;
   display: flex;
   flex-direction: column;
   align-self: flex-start;
   position: relative;
-  background: #292929;
+  background: #2d2d2d;
   color: ${({ isFinished, theme }) => theme.colors[isFinished ? 'textDisabled' : 'secondary']};
   box-shadow: 0px 0px 32px 0px rgba(19, 53, 93, 0.51);
   border-radius: 30px;
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    margin: 0 15px 30px;
-  }
-  > div {
-    background: #292929;
-  }
 `
 
 export const StyledCardInner = styled(Box)`
-  background: #292929;
+  background: #2d2d2d;
   border-radius: 30px;
 `
 

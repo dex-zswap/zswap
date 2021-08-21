@@ -30,7 +30,7 @@ import { RedirectPathToSwapOnly, RedirectToSwap } from './views/Swap/redirects'
 const Home = lazy(() => import('./views/Home'))
 const LPStake = lazy(() => import('./views/LPStake'))
 const FarmAuction = lazy(() => import('./views/FarmAuction'))
-const Lottery = lazy(() => import('./views/Lottery'))
+const Lottery = lazy(() => import('./views/Tickets'))
 const Ifos = lazy(() => import('./views/Ifos'))
 const NotFound = lazy(() => import('./views/NotFound'))
 const Collectibles = lazy(() => import('./views/Collectibles'))

@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 
 import { Contract } from '@ethersproject/contracts'
 
-export function useContractCall(contract: Contract | null, methodName: string, inputs: Array<unknown> = []) {
+export function useContractCall(contract: Contract | null | any, methodName: string, inputs: Array<unknown> = []) {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(true)
