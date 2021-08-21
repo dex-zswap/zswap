@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
-import { Flex, Text, Skeleton } from 'zswap-uikit'
+import { Flex, Text, Skeleton, TokenPairImage } from 'zswap-uikit'
 import { Farm } from 'state/types'
 import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
@@ -46,10 +46,11 @@ const StyledCardAccent = styled.div`
 `
 
 const FCard = styled.div<{ isPromotedFarm: boolean }>`
+  width: 100%;
+  height: 100%;
   align-self: baseline;
-  background: ${(props) => props.theme.card.background};
-  border-radius: ${({ theme, isPromotedFarm }) => (isPromotedFarm ? '31px' : theme.radii.card)};
-  box-shadow: 0px 1px 4px rgba(25, 19, 38, 0.15);
+  background: #292929;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -59,10 +60,10 @@ const FCard = styled.div<{ isPromotedFarm: boolean }>`
 `
 
 const Divider = styled.div`
-  background-color: ${({ theme }) => theme.colors.cardBorder};
-  height: 1px;
-  margin: 28px auto;
   width: 100%;
+  height: 2px;
+  margin: 10px 0 25px;
+  background-color: #fff;
 `
 
 const ExpandingWrapper = styled.div<{ expanded: boolean }>`
@@ -80,10 +81,11 @@ interface FarmCardProps {
 
 const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePrice, account }) => {
   const { t } = useTranslation()
+  console.log(farm)
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
-  const lpLabel = farm.lpSymbol && farm.lpSymbol.toUpperCase().replace('PANCAKE', '')
+  const lpLabel = farm?.lpSymbol
   const earnLabel = farm.dual ? farm.dual.earnLabel : t('CAKE + Fees')
 
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
@@ -94,10 +96,13 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
   const lpAddress = getAddress(farm.lpAddresses)
   const isPromotedFarm = farm.token.symbol === 'CAKE'
 
+  const userData = farm?.userData
+
   return (
     <FCard isPromotedFarm={isPromotedFarm}>
       {isPromotedFarm && <StyledCardAccent />}
       <CardHeading
+        weight={farm?.pair?.weight}
         lpLabel={lpLabel}
         multiplier={farm.pair.weight}
         isCommunityFarm={farm.isCommunity}
@@ -105,14 +110,17 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
         quoteToken={farm.quoteToken}
       />
       {!removed && (
-        <Flex justifyContent="space-between" alignItems="center">
-          <Text>{t('APR')}:</Text>
-          <Text bold style={{ display: 'flex', alignItems: 'center' }}>
-            {farm.displayApr ? <>{displayApr}%</> : <Skeleton height={24} width={80} />}
-          </Text>
-        </Flex>
+        <>
+          <Flex style={{ marginTop: '40px' }} justifyContent="space-between" alignItems="center">
+            <Text fontSize="16px">{t('APR')}</Text>
+            <Text fontSize="32px" bold style={{ display: 'flex', alignItems: 'center' }}>
+              {farm.displayApr ? <>{displayApr}%</> : <Skeleton height={24} width={80} />}
+            </Text>
+          </Flex>
+          <Divider />
+        </>
       )}
-      <Flex justifyContent="space-between">
+      {/* <Flex justifyContent="space-between">
         <Text>{t('Earn')}:</Text>
         <Text bold>{earnLabel}</Text>
       </Flex>
@@ -122,11 +130,48 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
           {farm.tokenAmount}
           {farm.token.symbol}/{farm.quoteTokenAmount}
           {farm.quoteToken.symbol}
+
+        </Text>
+      </Flex> */}
+
+      <Flex mb="7px" justifyContent="space-between">
+        <Text fontSize="14px">{t('Reward Token')}</Text>
+        {/* <TokenPairImage secondaryToken={farm?.quoteToken} width={46} height={46} /> */}
+      </Flex>
+
+      <Flex mb="7px" justifyContent="space-between">
+        <Text fontSize="14px">{t('Value Locked')}</Text>
+        <Text fontSize="14px">{farm?.lpTotalTokens.toString()}</Text>
+      </Flex>
+
+      <Flex mb="7px" justifyContent="space-between">
+        <Text fontSize="14px">{t('Your Share')}</Text>
+        <Text fontSize="14px">
+          ${userData?.stakedBalance.toString()}（{}）
         </Text>
       </Flex>
+
+      <Flex mb="7px" justifyContent="space-between">
+        <Text fontSize="14px">{t('Available Balance')}</Text>
+        <Text fontSize="14px">
+          {farm.tokenAmount} {farm.token.symbol} / {farm.quoteTokenAmount} {farm.quoteToken.symbol}
+        </Text>
+      </Flex>
+
+      <Flex mb="25px" justifyContent="space-between">
+        <Text fontSize="14px">{t('Your Reward')}</Text>
+        <Text fontSize="14px">{userData?.earnings.toString()}</Text>
+      </Flex>
       <CardActionsContainer farm={farm} account={account} addLiquidityUrl={addLiquidityUrl} />
-      <Divider />
-      <ExpandableSectionButton
+      <DetailsSection
+        removed={removed}
+        bscScanAddress={getBscScanLink(lpAddress, 'address')}
+        infoAddress={`https://pancakeswap.info/pool/${lpAddress}`}
+        totalValueFormatted={farm.lpTotalTokens}
+        lpLabel={lpLabel}
+        addLiquidityUrl={addLiquidityUrl}
+      />
+      {/* <ExpandableSectionButton
         onClick={() => setShowExpandableSection(!showExpandableSection)}
         expanded={showExpandableSection}
       />
@@ -139,7 +184,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
           lpLabel={lpLabel}
           addLiquidityUrl={addLiquidityUrl}
         />
-      </ExpandingWrapper>
+      </ExpandingWrapper> */}
     </FCard>
   )
 }

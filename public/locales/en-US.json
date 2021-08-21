@@ -1375,5 +1375,6 @@
   "Withdrawing Reward": "Withdrawing Reward",
   "Amount Withdrawed": "Amount Withdrawed",
   "Withdrawing Principal": "Withdrawing Principal",
-  "Reward": "Reward"
+  "Reward": "Reward",
+  "You are not currently providing liquidity for any LP pools.": "You are not currently providing liquidity for any LP pools."
 }

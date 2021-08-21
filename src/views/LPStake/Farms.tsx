@@ -3,6 +3,8 @@ import { Route, useRouteMatch, useLocation, NavLink } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import { Image, Heading, RowType, Toggle, Text, Button, ArrowForwardIcon, Flex } from 'zswap-uikit'
+import { Spinner } from 'zswap-uikit'
+import HelpButton from 'components/HelpButton'
 import { ChainId } from 'zswap-sdk'
 import styled from 'styled-components'
 import FlexLayout from 'components/Layout/Flex'
@@ -94,6 +96,55 @@ const ViewControls = styled.div`
     }
   }
 `
+const HeaderWrap = styled(PageHeader)`
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    width: 350px;
+    height: 150px;
+    border-radius: 50%;
+    background: #0050fe;
+    filter: blur(200px);
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    width: 350px;
+    height: 150px;
+    border-radius: 50%;
+    background: #f866ff;
+    filter: blur(140px);
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transform: translateX(50%);
+    z-index: 0;
+  }
+`
+
+const PairCardWrap = styled.div`
+  width: 360px;
+  height: 490px;
+  background: #292929;
+  box-shadow: 0px 0px 32px 0px rgba(19, 53, 93, 0.51);
+  border-radius: 30px;
+  margin: 0 8px 24px;
+`
+
+const CardContainer = styled(Flex)`
+  flex-wrap: wrap;
+`
 
 const StyledImage = styled(Image)`
   margin-left: auto;
@@ -145,15 +196,15 @@ const Farms: React.FC = () => {
   const inactiveFarms = farmsLP.filter((farm) => farm.pid !== 0 && farm.multiplier === '0X' && !isArchivedPid(farm.pid))
   const archivedFarms = farmsLP.filter((farm) => isArchivedPid(farm.pid))
 
-  const stakedOnlyFarms = activeFarms.filter(
+  const stakedOnlyFarms = farmsLP.filter(
     (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
   )
 
-  const stakedInactiveFarms = inactiveFarms.filter(
+  const stakedInactiveFarms = farmsLP.filter(
     (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
   )
 
-  const stakedArchivedFarms = archivedFarms.filter(
+  const stakedArchivedFarms = farmsLP.filter(
     (farm) => farm.userData && new BigNumber(farm.userData.stakedBalance).isGreaterThan(0),
   )
 
@@ -276,25 +327,29 @@ const Farms: React.FC = () => {
 
   const renderContent = (): JSX.Element => {
     return (
-      <FlexLayout>
+      <CardContainer>
         <Route exact path={`${path}`}>
-          <div>
-            {pairs.map((pair) => (
-              <WrapperedCard key={pair.pair} pair={pair} />
-            ))}
-          </div>
+          {pairs.map((pair) => (
+            <PairCardWrap key={pair.pair}>
+              <WrapperedCard pair={pair} />
+            </PairCardWrap>
+          ))}
         </Route>
         <Route exact path={`${path}/history`}>
           {pairs.map((pair) => (
-            <WrapperedCard key={pair.pair} pair={pair} />
+            <PairCardWrap key={pair.pair}>
+              <WrapperedCard pair={pair} />
+            </PairCardWrap>
           ))}
         </Route>
         <Route exact path={`${path}/archived`}>
           {pairs.map((pair) => (
-            <WrapperedCard key={pair.pair} pair={pair} />
+            <PairCardWrap key={pair.pair}>
+              <WrapperedCard pair={pair} />
+            </PairCardWrap>
           ))}
         </Route>
-      </FlexLayout>
+      </CardContainer>
     )
   }
 
@@ -304,8 +359,8 @@ const Farms: React.FC = () => {
 
   return (
     <>
-      <PageHeader>
-        <Heading as="h1" scale="xxl" color="secondary" mb="24px">
+      <HeaderWrap>
+        {/* <Heading as="h1" scale="xxl" color="secondary" mb="24px">
           {t('Farms')}
         </Heading>
         <Heading scale="lg" color="text">
@@ -318,10 +373,28 @@ const Farms: React.FC = () => {
             </Text>
             <ArrowForwardIcon color="primary" />
           </Button>
-        </NavLink>
-      </PageHeader>
+        </NavLink> */}
+        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
+          <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
+            <Heading as="h1" scale="lg" color="secondary" mb="10px">
+              {t('Earn ZBst by staking assets for market making')}
+              <HelpButton />
+            </Heading>
+            <Heading scale="xxl" color="pink">
+              $72,593,369.39
+            </Heading>
+            <Heading scale="md" color="text">
+              {t('Total Value Locked (TVL)')}
+            </Heading>
+          </Flex>
+          {/* <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
+              <HelpButton />
+              <BountyCard />
+            </Flex> */}
+        </Flex>
+      </HeaderWrap>
       <Page>
-        <ControlContainer>
+        {/* <ControlContainer>
           <ViewControls>
             <ToggleWrapper>
               <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
@@ -363,16 +436,17 @@ const Farms: React.FC = () => {
               <SearchInput onChange={handleChangeQuery} placeholder="Search Farms" />
             </LabelWrapper>
           </FilterContainer>
-        </ControlContainer>
+        </ControlContainer> */}
         {renderContent()}
         {account && loading && (
           <Flex justifyContent="center">
-            <Loading />
+            <Spinner />
           </Flex>
         )}
         <div ref={loadMoreRef} />
-        {pairs.length === 0 && (
-          <StyledImage src="/images/decorations/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+        {!loading && pairs.length === 0 && (
+          // <StyledImage src="/images/decorations/3dpan.png" alt="Pancake illustration" width={120} height={103} />
+          <Text>{t('You are not currently providing liquidity for any LP pools.')}</Text>
         )}
       </Page>
     </>

@@ -6,6 +6,7 @@ import { Token } from 'config/constants/types'
 import { TokenPairImage } from 'components/TokenImage'
 
 export interface ExpandableSectionProps {
+  weight?: Number
   lpLabel?: string
   multiplier?: string
   isCommunityFarm?: boolean
@@ -14,6 +15,10 @@ export interface ExpandableSectionProps {
 }
 
 const Wrapper = styled(Flex)`
+  width: 100%;
+  > div {
+    width: 100%;
+  }
   svg {
     margin-right: 4px;
   }
@@ -23,17 +28,44 @@ const MultiplierTag = styled(Tag)`
   margin-left: 4px;
 `
 
-const CardHeading: React.FC<ExpandableSectionProps> = ({ lpLabel, multiplier, isCommunityFarm, token, quoteToken }) => {
+const WeightWrap = styled(Flex)`
+  width: 96px;
+  height: 24px;
+  background: #ff66ff;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+`
+
+const CardHeading: React.FC<ExpandableSectionProps> = ({
+  lpLabel,
+  multiplier,
+  isCommunityFarm,
+  token,
+  quoteToken,
+  weight,
+}) => {
   return (
     <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
-      <TokenPairImage variant="inverted" primaryToken={token} secondaryToken={quoteToken} width={64} height={64} />
-      <Flex flexDirection="column" alignItems="flex-end">
+      <Flex justifyContent="space-between" alignItems="center">
+        <Flex flex="1" alignItems="center">
+          <TokenPairImage secondaryToken={quoteToken} width={31} height={31} />
+          <TokenPairImage style={{ margin: '0 10px 0 -3px' }} secondaryToken={token} width={32} height={32} />
+          <Heading>{lpLabel}</Heading>
+        </Flex>
+        <WeightWrap>Weight: {weight}</WeightWrap>
+      </Flex>
+
+      {/* <Flex flexDirection="column" alignItems="flex-end">
         <Heading mb="4px">{lpLabel.split(' ')[0]}</Heading>
         <Flex justifyContent="center">
           {isCommunityFarm ? <CommunityTag /> : <CoreTag />}
           <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>
         </Flex>
-      </Flex>
+      </Flex> */}
     </Wrapper>
   )
 }
