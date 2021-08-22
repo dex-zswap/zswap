@@ -36,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({ pool, account }) => {
   })
 
   return (
-    <CardFooter style={{ paddingTop: 0 }}>
+    <CardFooter marginTop="25px">
       {/* <ExpandableButtonWrapper>
         <Flex alignItems="center">
           {isAutoVault ? <CompoundingPoolTag /> : <ManualPoolTag />}

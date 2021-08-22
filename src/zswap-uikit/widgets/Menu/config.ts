@@ -143,19 +143,20 @@ export const socials = [
   {
     label: 'Telegram',
     icon: 'TelegramIcon',
-    items: [
-      {
-        label: 'English',
-        href: 'https://t.me/pancakeswap',
-      },
+    href: 'https://t.me/dexioOfficial',
+    // items: [
+      // {
+      //   label: 'English',
+      //   href: 'https://twitter.com/io_dex',
+      // },
       // {
       //   label: 'Bahasa Indonesia',
       //   href: 'https://t.me/PancakeSwapIndonesia',
       // },
-      {
-        label: '中文',
-        href: 'https://t.me/PancakeSwap_CN',
-      },
+      // {
+      //   label: '中文',
+      //   href: 'https://t.me/PancakeSwap_CN',
+      // },
       // {
       //   label: 'Tiếng Việt',
       //   href: 'https://t.me/PancakeSwapVN',
@@ -196,12 +197,12 @@ export const socials = [
       //   label: 'Whale Alert',
       //   href: 'https://t.me/PancakeSwapWhales',
       // },
-    ],
+    // ],
   },
   {
     label: 'Twitter',
     icon: 'TwitterIcon',
-    href: 'https://twitter.com/pancakeswap',
+    href: 'https://twitter.com/io_dex',
   },
 ]
 

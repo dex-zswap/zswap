@@ -46,6 +46,7 @@ const AddLiquidity = lazy(() => import('./views/AddLiquidity'))
 const Liquidity = lazy(() => import('./views/Pool'))
 const PoolFinder = lazy(() => import('./views/PoolFinder'))
 const RemoveLiquidity = lazy(() => import('./views/RemoveLiquidity'))
+const Upgrade = lazy(() => import('./views/Upgrade'))
 
 // This config is required for number formatting
 BigNumber.config({
@@ -78,11 +79,21 @@ const App: React.FC = () => {
             <Route path="/pools">
               <Pools />
             </Route>
+            <Route path="/bridge">
+              <Upgrade />
+            </Route>
             <Route path="/lottery">
               <Lottery />
             </Route>
             <Route path="/ifo">
-              <Ifos />
+              {/* <Ifos /> */}
+              <Upgrade />
+            </Route>
+            <Route path="/data">
+              <Upgrade />
+            </Route>
+            <Route path="/help">
+              <Upgrade />
             </Route>
             <Route path="/collectibles">
               <Collectibles />
