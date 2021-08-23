@@ -20,7 +20,7 @@ export default function useApprove() {
 }
 
 export function useApproveStatus() {
-  const { fastRefresh } = useRefresh()
+  const { slowRefresh } = useRefresh()
   const { account } = useActiveWeb3React()
   const lotteryContract = useZSwapLotteryContract()
   const zbstContract = useERC20(ZSWAP_ZBST_ADDRESS)
@@ -33,5 +33,5 @@ export function useApproveStatus() {
     }
 
     return allowance.result.eq(0)
-  }, [allowance, fastRefresh])
+  }, [allowance, slowRefresh])
 }

@@ -25,13 +25,13 @@ type PairsInfo = {
 }
 
 export function usePairInfo(pair: PairsInfo): any {
-  const { fastRefresh } = useRefresh()
+  const { slowRefresh } = useRefresh()
   const { chainId, account } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
 
-  const [ allowance, setAllowance ] = useState({
+  const [allowance, setAllowance] = useState({
     loading: true,
-    result: null
+    result: null,
   })
 
   const pairContract = usePairContract(pair.pair, true)
@@ -51,8 +51,6 @@ export function usePairInfo(pair: PairsInfo): any {
   const lpShareReward = useContractCall(lpContract, 'lp_pershare_reward', [pair.pair])
   const userShares = useContractCall(lpContract, 'getUserShare', [pair.pair, account])
 
-  // const allowance = useContractCall(pairContract, 'allowance', [account, pair.pair])
-
   const [, pairInfo] = usePair(currency0, currency1)
 
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
@@ -69,12 +67,12 @@ export function usePairInfo(pair: PairsInfo): any {
         const result = await pairContract.allowance(account, pair.pair)
         setAllowance((state) => ({
           loading: false,
-          result
-        }))        
+          result,
+        }))
       } catch (e) {
         setAllowance((state) => ({
           loading: false,
-          result: null
+          result: null,
         }))
       }
     }
@@ -82,7 +80,7 @@ export function usePairInfo(pair: PairsInfo): any {
     if (account && pair.pair) {
       fetchAllowance()
     }
-  }, [fastRefresh, account, pair.pair])
+  }, [slowRefresh, account, pair.pair])
 
   // FIXME: 不知道为啥checkReward总是调用不起来所以用这种方式先完成功能
   useEffect(() => {
