@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZSwapLotteryContract, useERC20 } from 'hooks/useContract'
 import { ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/address'
+import useRefresh from 'hooks/useRefresh'
 
 export default function useApprove() {
   const lotteryContract = useZSwapLotteryContract()
@@ -19,6 +20,7 @@ export default function useApprove() {
 }
 
 export function useApproveStatus() {
+  const { fastRefresh } = useRefresh()
   const { account } = useActiveWeb3React()
   const lotteryContract = useZSwapLotteryContract()
   const zbstContract = useERC20(ZSWAP_ZBST_ADDRESS)
@@ -31,5 +33,5 @@ export function useApproveStatus() {
     }
 
     return allowance.result.eq(0)
-  }, [allowance])
+  }, [allowance, fastRefresh])
 }

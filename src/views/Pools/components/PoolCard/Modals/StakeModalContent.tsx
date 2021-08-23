@@ -210,7 +210,9 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         {!isReward && (
           <Text bold>
             {t('Available' + ': ')}
-            {isRemovingStake ? userData?.stakedBalance.toFixed(4, BigNumber.ROUND_DOWN) : userData?.stakingTokenBalance.toFixed(4)}
+            {isRemovingStake
+              ? userData?.stakedBalance.toFixed(4, BigNumber.ROUND_DOWN)
+              : userData?.stakingTokenBalance.toFixed(4)}
             <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
               {t('MAX')}
             </span>
