@@ -83,7 +83,10 @@ const CollectRoundWinningsModal: React.FC<CollectRoundWinningsModalProps> = ({
             {t('Your prizes have been sent to your wallet')}
           </Text>
           {receipt.transactionHash && (
-            <LinkExternal href={getBscScanLink(receipt.transactionHash, 'transaction')}>
+            <LinkExternal
+              style={{ color: '#999', marginTop: '15px', fontSize: '14px' }}
+              href={getBscScanLink(receipt.transactionHash, 'transaction')}
+            >
               {t('View on DEX Browser')}
             </LinkExternal>
           )}

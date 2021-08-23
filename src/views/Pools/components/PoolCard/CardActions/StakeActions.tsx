@@ -153,7 +153,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
 
   const renderStakeAction = () => {
     return (
-      <div style={{ marginBottom: '25px' }}>
+      <div>
         {isStaked ? (
           <Button width="100%" onClick={manageStake}>
             {t('Manage Stake')}

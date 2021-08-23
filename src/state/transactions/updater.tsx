@@ -79,7 +79,11 @@ export default function Updater(): null {
                 <Flex flexDirection="column">
                   <Text>{transactions[hash]?.summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}</Text>
                   {chainId && (
-                    <Link external href={getBscScanLink(hash, 'transaction', chainId)}>
+                    <Link
+                      style={{ color: '#999', marginTop: '15px', fontSize: '14px' }}
+                      external
+                      href={getBscScanLink(hash, 'transaction', chainId)}
+                    >
                       View on DEX Browser
                     </Link>
                   )}
