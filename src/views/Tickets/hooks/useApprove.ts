@@ -9,12 +9,12 @@ export default function useApprove() {
   const lotteryContract = useZSwapLotteryContract()
   const zbstContract = useERC20(ZSWAP_ZBST_ADDRESS)
 
-  const approve = useCallback(async() => {
+  const approve = useCallback(async () => {
     const tx = await zbstContract.approve(lotteryContract.address, ethers.constants.MaxUint256)
   }, [zbstContract, lotteryContract])
 
   return {
-    approve
+    approve,
   }
 }
 

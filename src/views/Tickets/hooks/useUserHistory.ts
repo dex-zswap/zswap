@@ -6,10 +6,10 @@ import { useWinNumbers } from './usePrizes'
 const apiBase = process.env.REACT_APP_API_BASE
 
 export default function useUserHistory(page: number = 1) {
-  const [ history, setHistory ] = useState({
+  const [history, setHistory] = useState({
     page,
     pages: 0,
-    list: []
+    list: [],
   })
   const { account } = useActiveWeb3React()
 
@@ -26,20 +26,19 @@ export default function useUserHistory(page: number = 1) {
         body: JSON.stringify({
           srcAddr: account,
           current: page,
-          size: 5
+          size: 5,
         }),
-      }).then((response) => response.json())
+      })
+        .then((response) => response.json())
         .then((res) => {
-          const { data: {
-            currPage,
-            totalCount,
-            list
-          } } = res
+          const {
+            data: { currPage, totalCount, list },
+          } = res
 
           setHistory(() => ({
             list,
             page: currPage,
-            pages: Math.ceil(totalCount / 5)
+            pages: Math.ceil(totalCount / 5),
           }))
         })
     }
