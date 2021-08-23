@@ -55,7 +55,7 @@ export function usePairInfo(pair: PairsInfo): any {
 
   // console.log(totalPoolTokens.toSignificant(4))
   lpToken.balanceOf(lpContract.address).then((e) => console.log(e.toString()))
-  lpToken.getUserShare(lpContract.address, account).then((e) => console.log(e.toString()))
+  // lpToken.getUserShare(lpContract.address, account).then((e) => console.log(e.toString()))
 
   const [reward, setReward] = useState({
     loading: true,
@@ -99,7 +99,9 @@ export function usePairInfo(pair: PairsInfo): any {
       return BIG_ZERO
     }
 
-    return new BigNumber(token0Deposited.toSignificant(token0.decimals)).dividedBy(new BigNumber(token1Deposited.toSignificant(token1.decimals)))
+    return new BigNumber(token0Deposited.toSignificant(token0.decimals)).dividedBy(
+      new BigNumber(token1Deposited.toSignificant(token1.decimals)),
+    )
   }, [token0Deposited, token1Deposited, token0, token1])
 
   const tokenLpAmount = useMemo(() => {
@@ -150,7 +152,6 @@ export function usePairInfo(pair: PairsInfo): any {
 
     return new Percent(aprRate, JSBI.BigInt(BIG_HUNDERED))
   }, [userShares, lpShareReward, pairInfo])
-
 
   return {
     lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,

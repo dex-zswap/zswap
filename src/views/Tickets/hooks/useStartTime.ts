@@ -17,7 +17,7 @@ export default function useStartTime() {
 
     return {
       timestamp,
-      date: dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss')
+      date: dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     }
   }, [startTime])
 }

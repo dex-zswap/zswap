@@ -11,25 +11,28 @@ export default function useBuy() {
   const lotteryNum = useCurrentLotteryId()
   const { chainId, account } = useActiveWeb3React()
 
-  const buyTickets = useCallback(async(numbers) => {
-    const tickets = numbers.map(hexlify)
-    
-    const { hash } = await lotteryContract.batchBuyLottoTicket(tickets)
+  const buyTickets = useCallback(
+    async (numbers) => {
+      const tickets = numbers.map(hexlify)
 
-    reporter.cacheHash(hash, {
-      hash,
-      from: account,
-      chainId,
-      summary: '',
-      reportData: {
-        from: 'ticket',
-        lottery: numbers.map((nums) => nums.join('')).join(','),
-        lotteryNum
-      }
-    })
+      const { hash } = await lotteryContract.batchBuyLottoTicket(tickets)
 
-    reporter.recordHash(hash)
-  }, [lotteryContract])
+      reporter.cacheHash(hash, {
+        hash,
+        from: account,
+        chainId,
+        summary: '',
+        reportData: {
+          from: 'ticket',
+          lottery: numbers.map((nums) => nums.join('')).join(','),
+          lotteryNum,
+        },
+      })
+
+      reporter.recordHash(hash)
+    },
+    [lotteryContract],
+  )
 
   return {
     buyTickets,

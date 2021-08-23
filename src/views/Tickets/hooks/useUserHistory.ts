@@ -6,10 +6,10 @@ import { useWinNumbers } from './usePrizes'
 const apiBase = process.env.REACT_APP_API_BASE
 
 export default function useUserHistory(page: number = 1) {
-  const [ history, setHistory ] = useState({
+  const [history, setHistory] = useState({
     page,
     pages: 0,
-    list: []
+    list: [],
   })
   const { account } = useActiveWeb3React()
 
@@ -27,20 +27,19 @@ export default function useUserHistory(page: number = 1) {
           category: 7,
           srcAddr: account,
           current: page,
-          size: 5
+          size: 5,
         }),
-      }).then((response) => response.json())
+      })
+        .then((response) => response.json())
         .then((res) => {
-          const { data: {
-            currPage,
-            totalCount,
-            list
-          } } = res
+          const {
+            data: { currPage, totalCount, list },
+          } = res
 
           setHistory(() => ({
             list,
             page: currPage,
-            pages: Math.ceil(totalCount / 5)
+            pages: Math.ceil(totalCount / 5),
           }))
         })
     }
@@ -54,7 +53,7 @@ export default function useUserHistory(page: number = 1) {
 }
 
 export function useUserLotteryIds() {
-  const [ lotteryIds, setlotteryIds ] = useState([])
+  const [lotteryIds, setlotteryIds] = useState([])
   const { account } = useActiveWeb3React()
 
   useEffect(() => {
@@ -69,9 +68,10 @@ export function useUserLotteryIds() {
         },
         body: JSON.stringify({
           category: 7,
-          srcAddr: account
+          srcAddr: account,
         }),
-      }).then((response) => response.json())
+      })
+        .then((response) => response.json())
         .then((res) => {
           const ids = []
           let findIndex
@@ -79,16 +79,16 @@ export function useUserLotteryIds() {
           res.data.forEach(({ lotteryNum, lottery }) => {
             console.log(lotteryNum, lottery)
             if (lotteryNum) {
-              findIndex = ids.findIndex(({id}) => id === lotteryNum)
+              findIndex = ids.findIndex(({ id }) => id === lotteryNum)
               if (findIndex === -1) {
                 ids.push({
                   id: lotteryNum,
-                  numbers: lottery.split(',')
+                  numbers: lottery.split(','),
                 })
               } else {
-                ids[findIndex] ={
+                ids[findIndex] = {
                   id: lotteryNum,
-                  numbers: ids[findIndex].numbers.concat(lottery.split(','))
+                  numbers: ids[findIndex].numbers.concat(lottery.split(',')),
                 }
               }
             }

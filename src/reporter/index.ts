@@ -20,7 +20,14 @@ enum TransactionCategory {
   TICKET = 7,
 }
 
-export declare type ReportFrom = 'swap' | 'approve' | 'addLiquidity' | 'removeLiquidity' | 'LPPledge' | 'singlePledge' | 'ticket'
+export declare type ReportFrom =
+  | 'swap'
+  | 'approve'
+  | 'addLiquidity'
+  | 'removeLiquidity'
+  | 'LPPledge'
+  | 'singlePledge'
+  | 'ticket'
 
 type TransactionRecord = Partial<{
   retryCount: number
