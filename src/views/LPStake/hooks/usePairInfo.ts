@@ -6,7 +6,7 @@ import { formatUnits } from '@ethersproject/units'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useToken } from 'hooks/Tokens'
 import { useLPTokenBalance } from 'hooks/useTokenBalance'
-import { useZSwapLPContract, usePairContract } from 'hooks/useContract'
+import { useZSwapLPContract, usePairContract, useTokenContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
 import { usePair } from 'hooks/usePairs'
 import useZUSDPrice from 'hooks/useZUSDPrice'
@@ -51,12 +51,16 @@ export function usePairInfo(pair: PairsInfo): any {
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
   const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
 
+  const lpToken = useTokenContract(pair.pair)
+
+  // console.log(totalPoolTokens.toSignificant(4))
+  lpToken.balanceOf(lpContract.address).then((e) => console.log(e.toString()))
+  lpToken.getUserShare(lpContract.address, account).then((e) => console.log(e.toString()))
+
   const [reward, setReward] = useState({
     loading: true,
     result: BIG_ZERO,
   })
-
-  // const reward = useContractCall(lpContract, 'predReward', [pair.pair])
 
   // FIXME: 不知道为啥checkReward总是调用不起来所以用这种方式先完成功能
   useEffect(() => {
@@ -90,10 +94,18 @@ export function usePairInfo(pair: PairsInfo): any {
         ]
       : [undefined, undefined]
 
+  const tokenRate = useMemo(() => {
+    if (!token0Deposited || !token1Deposited || !token0 || !token1) {
+      return BIG_ZERO
+    }
+
+    return new BigNumber(token0Deposited.toSignificant(token0.decimals)).dividedBy(new BigNumber(token1Deposited.toSignificant(token1.decimals)))
+  }, [token0Deposited, token1Deposited, token0, token1])
+
   const tokenLpAmount = useMemo(() => {
     return {
       token0: token0Amount.balance ? token0Amount.balance.div(BIG_TEN.pow(token0?.decimals)) : BIG_ZERO,
-      token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token0?.decimals)) : BIG_ZERO,
+      token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token1?.decimals)) : BIG_ZERO,
     }
   }, [token0Amount, token1Amount, token0, token1])
 
@@ -110,7 +122,7 @@ export function usePairInfo(pair: PairsInfo): any {
     }
 
     return new BigNumber(formatUnits(userShares.result, pairInfo.liquidityToken.decimals))
-  }, [userShares, pairInfo])
+  }, [userShares, pairInfo, tokenLpAmount])
 
   const lpTotalTokens = useMemo(() => {
     return tokenLpAmount.token0
@@ -126,7 +138,7 @@ export function usePairInfo(pair: PairsInfo): any {
 
     const userPoolBalanceBigNumber = new BigNumber(userPoolBalance.toFixed(4))
     return userPoolBalanceBigNumber.minus(userSharesBigNumber)
-  }, [userPoolBalance, userSharesBigNumber])
+  }, [userPoolBalance, userSharesBigNumber, tokenLpAmount])
 
   const apr = useMemo(() => {
     if (!lpShareReward.result || !pairInfo) {
@@ -138,6 +150,7 @@ export function usePairInfo(pair: PairsInfo): any {
 
     return new Percent(aprRate, JSBI.BigInt(BIG_HUNDERED))
   }, [userShares, lpShareReward, pairInfo])
+
 
   return {
     lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,
@@ -156,6 +169,9 @@ export function usePairInfo(pair: PairsInfo): any {
     },
     tokenAmount: token0Deposited?.toSignificant(4),
     quoteTokenAmount: token1Deposited?.toSignificant(4),
+    tokenPrice: tokenPrice.token0,
+    quoteTokenPrice: tokenPrice.token1,
+    tokenRate,
     token: {
       symbol: token0?.symbol,
       address: {

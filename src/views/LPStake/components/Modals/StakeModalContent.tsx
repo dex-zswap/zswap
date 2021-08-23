@@ -65,8 +65,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   handleUnstake,
   onDismiss,
 }) => {
-  console.log('farm', farm)
-
   const { userData } = farm
   const max = isRemovingStake ? farm?.userData?.stakedBalance : farm?.userData?.tokenBalance
   const stakingToken = farm.token
