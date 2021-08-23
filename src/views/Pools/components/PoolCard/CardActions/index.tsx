@@ -44,27 +44,27 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
 
             <Flex mb="7px" justifyContent="space-between">
               <Text fontSize="14px">{t('Value Locked')}</Text>
-              <Text fontSize="14px">${pool?.userData?.totalStakedBalance.toFixed(2)}</Text>
+              <Text fontSize="14px">${pool.userData?.totalStakedBalance.toFixed(2)}</Text>
             </Flex>
 
             <Flex mb="7px" justifyContent="space-between">
               <Text fontSize="14px">{t('Your Share')}</Text>
               <Text fontSize="14px">
-                ${pool?.userData?.stakedBalance.toFixed(2)}（{pool?.userData?.stakedPercent.toString()}）
+                ${pool.userData?.stakedUSDTValue.toFixed(2)}（{pool.userData?.stakedPercent.toString()}）
               </Text>
             </Flex>
 
             <Flex mb="7px" justifyContent="space-between">
-              <Text fontSize="14px">{t('Available Balance')}</Text>
+              <Text fontSize="14px">{t('Pooled Balance')}</Text>
               <Text fontSize="14px">
-                {pool?.userData?.stakingTokenBalance.toFixed(2)}
+                {pool.userData?.stakedBalance.toFixed(2)}
                 {' ' + stakingToken.symbol}
               </Text>
             </Flex>
 
             <Flex mb="25px" justifyContent="space-between">
               <Text fontSize="14px">{t('Your Reward')}</Text>
-              <Text fontSize="14px">{pool?.userData?.pendingReward.toFixed(2)}</Text>
+              <Text fontSize="14px">{pool.userData?.pendingReward.toFixed(2)}</Text>
             </Flex>
 
             {/* <Box display="inline">

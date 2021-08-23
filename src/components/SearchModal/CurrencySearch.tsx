@@ -17,6 +17,8 @@ import useTokenComparator from './sorting'
 
 import ImportRow from './ImportRow'
 
+const SHOW_DEX_KEYWORDS = ['', 'd', 'de', 'dex']
+
 interface CurrencySearchProps {
   selectedCurrency?: Currency | null
   onCurrencySelect: (currency: Currency) => void
@@ -57,7 +59,7 @@ function CurrencySearch({
 
   const showETH: boolean = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
-    return s === '' || s === 'b' || s === 'bn' || s === 'bnb'
+    return SHOW_DEX_KEYWORDS.includes(s)
   }, [debouncedQuery])
 
   const tokenComparator = useTokenComparator(invertSearchOrder)
@@ -100,7 +102,7 @@ function CurrencySearch({
     (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
         const s = debouncedQuery.toLowerCase().trim()
-        if (s === 'bnb') {
+        if (s === 'dex') {
           handleCurrencySelect(ETHER)
         } else if (filteredSortedTokens.length > 0) {
           if (

@@ -52,6 +52,7 @@ export interface Pool extends PoolConfig {
   userData?: {
     stakedCurrency: Currency | null | undefined
     earningCurrency: Currency | null | undefined
+    stakedUSDTValue: BigNumber
     totalStakedBalance: BigNumber
     allowance: BigNumber
     stakingTokenBalance: BigNumber

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import BigNumber from 'bignumber.js'
 import { Text, Flex, Button, Slider, BalanceInput, AutoRenewIcon, Link } from 'zswap-uikit'
 import { CurrencyLogo } from 'components/Logo'
 import { useTranslation } from 'contexts/Localization'
 import useToast from 'hooks/useToast'
-import BigNumber from 'bignumber.js'
 import { getFullDisplayBalance, formatNumber, getDecimalAmount } from 'utils/formatBalance'
 import { Pool } from 'state/types'
 import useStakePool from 'views/Pools/hooks/useStakePool'
@@ -108,7 +108,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   const handleChangePercent = (sliderPercent: number) => {
     if (sliderPercent > 0) {
       const percentageOfStakingMax = getCalculatedStakingLimit().dividedBy(100).multipliedBy(sliderPercent)
-      const amountToStake = getFullDisplayBalance(percentageOfStakingMax, 0)
+      const amountToStake = getFullDisplayBalance(percentageOfStakingMax, 0, 8)
       setStakeAmount(amountToStake)
     } else {
       setStakeAmount('')
@@ -199,7 +199,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         </Flex>
         <Flex flexDirection="column">
           <Text mb="10px">{t('Claimable Rewards')}</Text>
-          <Text bold>{userData?.pendingReward.toFixed(2)}</Text>
+          <Text bold>{userData?.pendingReward.toFixed(4)}</Text>
         </Flex>
       </RewordTokenWrap>
 
@@ -210,7 +210,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         {!isReward && (
           <Text bold>
             {t('Available' + ': ')}
-            {isRemovingStake ? userData?.stakedBalance.toFixed(2) : userData?.stakingTokenBalance.toFixed(2)}
+            {isRemovingStake ? userData?.stakedBalance.toFixed(4, BigNumber.ROUND_DOWN) : userData?.stakingTokenBalance.toFixed(4)}
             <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
               {t('MAX')}
             </span>
@@ -248,7 +248,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             <Flex alignItems="center">
               <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" />
               <Text fontSize="16px" bold>
-                {earningToken.symbol}
+                {stakingToken.symbol}
               </Text>
             </Flex>
             <BalanceInput

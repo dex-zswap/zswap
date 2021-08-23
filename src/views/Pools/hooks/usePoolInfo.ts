@@ -43,8 +43,6 @@ const usePoolInfo = (pool: Pool) => {
     account,
   ])
 
-  // (120 / 6 * 0.1) / 10 * 365 * 100
-
   const apr = useMemo(() => {
     if (!shareReward.result || !stakedToken || !stakingBalance.balance) {
       return BIG_ZERO
@@ -107,9 +105,21 @@ const usePoolInfo = (pool: Pool) => {
     [userShare, pendingReward],
   )
 
+  const stakeTokenPrice = useMemo(() => {
+    if (!stakingTokenPrice) {
+      return BIG_ZERO
+    }
+
+    return new BigNumber(stakingTokenPrice.toSignificant(6))
+  }, [stakingTokenPrice])
+
+  const stakedUSDTValue = useMemo(() => {
+    return userStakedBalance.multipliedBy(stakeTokenPrice)
+  }, [userStakedBalance, stakeTokenPrice])
+
   return {
     ...pool,
-    stakingTokenPrice: new BigNumber(stakingTokenPrice?.toSignificant(6) ?? 0).toNumber(),
+    stakingTokenPrice: stakeTokenPrice.toNumber(),
     earningTokenBalance: new BigNumber(earningTokenBalance?.toSignificant(6) ?? 0).toNumber(),
     apr: 100,
     userData: anyLoading
@@ -118,9 +128,10 @@ const usePoolInfo = (pool: Pool) => {
           stakedCurrency,
           earningCurrency,
           totalStakedBalance: (stakingBalance.balance ?? BIG_ZERO).dividedBy(BIG_TEN.pow(stakedToken?.decimals)),
-          allowance: allowance ? new BigNumber(allowance.toSignificant(4)) : BIG_ZERO,
+          allowance: allowance ? new BigNumber(allowance.toSignificant(10)) : BIG_ZERO,
+          stakedUSDTValue,
           stakedBalance: userStakedBalance,
-          stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toSignificant(4)) : BIG_ZERO,
+          stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toSignificant(10)) : BIG_ZERO,
           pendingReward: pendingReward.result,
           stakedPercent: `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
         },

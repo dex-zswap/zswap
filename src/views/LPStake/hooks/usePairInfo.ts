@@ -51,12 +51,6 @@ export function usePairInfo(pair: PairsInfo): any {
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
   const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
 
-  const lpToken = useTokenContract(pair.pair)
-
-  // console.log(totalPoolTokens.toSignificant(4))
-  lpToken.balanceOf(lpContract.address).then((e) => console.log(e.toString()))
-  // lpToken.getUserShare(lpContract.address, account).then((e) => console.log(e.toString()))
-
   const [reward, setReward] = useState({
     loading: true,
     result: BIG_ZERO,
@@ -158,7 +152,7 @@ export function usePairInfo(pair: PairsInfo): any {
     displayApr: apr.toSignificant(4),
     pair,
     pairInfo,
-    lpTotalTokens: `$${lpTotalTokens}`,
+    lpTotalTokens: `$${userSharesBigNumber.toString()}`,
     lpAddresses: {
       [chainId]: pair.pair,
     },
@@ -166,7 +160,7 @@ export function usePairInfo(pair: PairsInfo): any {
       earnings: reward.result,
       allowance: allowance.result?.toString(),
       tokenBalance: tokenBalance.toFixed(4),
-      stakedBalance: userSharesBigNumber.toString(),
+      stakedBalance: lpTotalTokens,
     },
     tokenAmount: token0Deposited?.toSignificant(4),
     quoteTokenAmount: token1Deposited?.toSignificant(4),
