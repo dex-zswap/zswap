@@ -1,23 +1,22 @@
-import React from 'react'
-import { CardHeader, Heading, Text, Flex } from 'zswap-uikit'
+import styled from 'styled-components'
+import { Text, Flex } from 'zswap-uikit'
+import Card from './Card'
 
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import ConnectWalletButton from 'components/ConnectWalletButton'
-
-import { StyledCard, StyledCardInner } from './StyledCard'
+import { useTranslation } from 'contexts/Localization'
 
 const UserPrizes = () => {
-  const { account } = useActiveWeb3React()
+  const { t } = useTranslation()
 
   return (
-    <StyledCard>
-      <CardHeader>
-        <Heading>
-          <Text>Round 5</Text>
-        </Heading>
-      </CardHeader>
-      <StyledCardInner>Prize Pot $668800 688000 ZBst</StyledCardInner>
-    </StyledCard>
+    <Flex mb="260px" alignItems="center" flexDirection="column">
+      <Text textAlign="center" fontSize="48px" bold>
+        {t('Your Prizes')}
+      </Text>
+      <Text mb="100px" fontSize="24px" bold>
+        {t('Ready to see if you have won a prize?')}
+      </Text>
+      <Card width="420px" title={t('Your Prizes')}></Card>
+    </Flex>
   )
 }
 
