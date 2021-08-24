@@ -74,7 +74,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
 
   const [onPresentDeposit] = useModal(<StakeModal farm={farm} handleStake={handleStake} />)
   const [onPresentManage] = useModal(
-    <ManageStakeModal farm={farm} handleStake={handleUnstake} handleUnstake={handleUnstake} />,
+    <ManageStakeModal farm={farm} handleStake={handleStake} handleUnstake={handleUnstake} />,
   )
 
   const renderStakingButtons = () => {

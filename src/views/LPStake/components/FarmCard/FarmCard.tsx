@@ -84,7 +84,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
 
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
-  const lpLabel = farm?.lpSymbol
+  const lpLabel = farm.lpSymbol
   const earnLabel = farm.dual ? farm.dual.earnLabel : t('CAKE + Fees')
 
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
@@ -95,13 +95,13 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
   const lpAddress = getAddress(farm.lpAddresses)
   const isPromotedFarm = farm.token.symbol === 'CAKE'
 
-  const userData = farm?.userData
+  const userData = farm.userData
 
   return (
     <FCard isPromotedFarm={isPromotedFarm}>
       {isPromotedFarm && <StyledCardAccent />}
       <CardHeading
-        weight={farm?.pair?.weight}
+        weight={farm.pair.weight}
         lpLabel={lpLabel}
         multiplier={farm.pair.weight}
         isCommunityFarm={farm.isCommunity}
@@ -140,18 +140,18 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
 
       <Flex mb="7px" justifyContent="space-between">
         <Text fontSize="14px">{t('Value Locked')}</Text>
-        <Text fontSize="14px">{farm?.lpTotalTokens.toString()}</Text>
+        <Text fontSize="14px">{farm.lpTotalTokens.toString()}</Text>
       </Flex>
 
       <Flex mb="7px" justifyContent="space-between">
         <Text fontSize="14px">{t('Your Share')}</Text>
         <Text fontSize="14px">
-          ${userData?.stakedBalance.toString()}（{}）
+          ${userData.stakedBalance.toString()}（{userData.userSharePercent}）
         </Text>
       </Flex>
 
       <Flex mb="7px" justifyContent="space-between">
-        <Text fontSize="14px">{t('Available Balance')}</Text>
+        <Text fontSize="14px">{t('Staked Balance')}</Text>
         <Text fontSize="14px">
           {farm.tokenAmount} {farm.token.symbol} / {farm.quoteTokenAmount} {farm.quoteToken.symbol}
         </Text>
@@ -159,7 +159,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
 
       <Flex mb="25px" justifyContent="space-between">
         <Text fontSize="14px">{t('Your Reward')}</Text>
-        <Text fontSize="14px">{userData?.earnings.toString()}</Text>
+        <Text fontSize="14px">{userData.earnings.toString()}</Text>
       </Flex>
       <CardActionsContainer farm={farm} account={account} addLiquidityUrl={addLiquidityUrl} />
       <DetailsSection

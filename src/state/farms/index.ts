@@ -22,7 +22,7 @@ const noAccountFarmConfig = farmsConfig.map((farm) => ({
   },
 }))
 
-const initialState: FarmsState = {
+const initialState: FarmsState | any = {
   data: noAccountFarmConfig,
   loadArchivedFarmsData: false,
   userDataLoaded: false,
