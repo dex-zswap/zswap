@@ -1,10 +1,12 @@
 import styled from 'styled-components'
-import { Text, Flex } from 'zswap-uikit'
+import { Text, Flex, Button } from 'zswap-uikit'
+import { ArrowBackIcon } from 'zswap-uikit'
 
 interface cardProps {
   title: string
   subTitle?: string
   width?: string
+  back?: () => void
 }
 
 const CardWrap = styled.div<{ width?: string | number }>`
@@ -17,13 +19,20 @@ const CardWrap = styled.div<{ width?: string | number }>`
   border-radius: 30px;
 `
 
-const Card: React.FC<cardProps> = ({ width, title, subTitle, children }) => {
+const Card: React.FC<cardProps> = ({ back, width, title, subTitle, children }) => {
   return (
     <CardWrap width={width}>
       <Flex mb="16px" justifyContent="space-between" alignItems="center">
-        <Text fontSize="16px" bold>
-          {title}
-        </Text>
+        <Flex alignItems="center">
+          {back && (
+            <Button padding="0" mr="10px" variant="text" onClick={back}>
+              <ArrowBackIcon color="text" />
+            </Button>
+          )}
+          <Text fontSize="16px" bold>
+            {title}
+          </Text>
+        </Flex>
         {subTitle && (
           <Text fontSize="16px" bold>
             {subTitle}

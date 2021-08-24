@@ -6,7 +6,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "npx react-app-rewired start",
     "build": "CI=false npx react-app-rewired build",
-    "postbuild": "node ./deploy",
+    "postbuild": "CI=false npx react-app-rewired build && node ./deploy",
     "test": "npx react-app-rewired test",
     "eject": "npx react-app-rewired eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",

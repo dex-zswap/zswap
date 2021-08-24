@@ -7,7 +7,6 @@ import useBuy from 'views/Tickets/hooks/useBuy'
 import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
 import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
-import BigNumber from 'bignumber.js'
 
 const InputWrap = styled(Flex)`
   width: 100%;

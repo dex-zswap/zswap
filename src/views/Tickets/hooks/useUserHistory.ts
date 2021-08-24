@@ -52,10 +52,9 @@ export default function useUserHistory(page: number = 1) {
   return history
 }
 
-export function useUserLotteryIds() {
+export function useUserLotteryIds(lotteryId = '') {
   const [lotteryIds, setlotteryIds] = useState([])
   const { account } = useActiveWeb3React()
-
   useEffect(() => {
     const fetchLotteryIds = () => {
       fetch(`${apiBase}/walletTran/queryList`, {
@@ -67,6 +66,7 @@ export function useUserLotteryIds() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          lotteryId,
           category: 7,
           srcAddr: account,
         }),
@@ -77,7 +77,6 @@ export function useUserLotteryIds() {
           let findIndex
 
           res.data.forEach(({ lotteryNum, lottery }) => {
-            console.log(lotteryNum, lottery)
             if (lotteryNum) {
               findIndex = ids.findIndex(({ id }) => id === lotteryNum)
               if (findIndex === -1) {
