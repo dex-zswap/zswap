@@ -247,7 +247,10 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   ])
 
   const displayApr = useMemo(() => {
-    return rewardZustValue.dividedBy(liquidityInfo.lockedValue).multipliedBy(BIG_HUNDERED).toFixed(2, BigNumber.ROUND_DOWN)
+    return rewardZustValue
+      .dividedBy(liquidityInfo.lockedValue)
+      .multipliedBy(BIG_HUNDERED)
+      .toFixed(2, BigNumber.ROUND_DOWN)
   }, [liquidityInfo, rewardZustValue])
 
   return {
