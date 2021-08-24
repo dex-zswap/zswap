@@ -181,7 +181,7 @@ export function usePairInfo(pair: PairsInfo): any {
         tokenAmount: 0,
         quoteTokenAmount: 0,
         userSharePercent: '0.00',
-        zustValue: 0
+        zustValue: 0,
       }
     }
 
@@ -202,10 +202,19 @@ export function usePairInfo(pair: PairsInfo): any {
       tokenAmount: token0RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
       quoteTokenAmount: token1RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
       userSharePercent: realUserSharePercent.toFixed(2, BigNumber.ROUND_DOWN),
-      zustValue: zustValue.toFixed(2, BigNumber.ROUND_DOWN)
+      zustValue: zustValue.toFixed(2, BigNumber.ROUND_DOWN),
     }
-  }, [pairBalanceOf, userSharesBigNumber, userSharePercent, lpTotalTokens, token0, token1, tokenPrice, token0Deposited, token1Deposited])
-
+  }, [
+    pairBalanceOf,
+    userSharesBigNumber,
+    userSharePercent,
+    lpTotalTokens,
+    token0,
+    token1,
+    tokenPrice,
+    token0Deposited,
+    token1Deposited,
+  ])
 
   const apr = useMemo(() => {
     if (!lpShareReward.result || !pairInfo) {
@@ -232,7 +241,7 @@ export function usePairInfo(pair: PairsInfo): any {
       allowance: allowance.result?.toString(),
       tokenBalance: tokenBalance.toFixed(4),
       stakedBalance: lpTotalTokens,
-      userSharePercent: `${liquidityInfo.userSharePercent}%`
+      userSharePercent: `${liquidityInfo.userSharePercent}%`,
     },
     tokenAmount: liquidityInfo.tokenAmount,
     quoteTokenAmount: liquidityInfo.quoteTokenAmount,
