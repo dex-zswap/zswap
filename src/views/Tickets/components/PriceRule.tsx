@@ -30,7 +30,7 @@ const PriceRule = ({ lotteryId }) => {
         color: isLast ? 'pink' : 'blue',
         title: isLast ? 'Burn' : `${index + 1}${t('st Prize')}`,
         subTitle: `${t('Match all ')}6`,
-        earn: `${zustValue.times(per[index]).integerValue()} ZBst`,
+        earn: `${zustValue.times(per[index]).integerValue()} ZBst each`,
         winner: `123 ${t('Winners')}`,
       }
       return d
@@ -59,6 +59,7 @@ const PriceRule = ({ lotteryId }) => {
             <Text fontSize="24px" bold>
               {earn}
             </Text>
+            <Text>{earn}</Text>
             <Text>{winner}</Text>
           </div>
         ))}
