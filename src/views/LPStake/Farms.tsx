@@ -331,21 +331,21 @@ const Farms: React.FC = () => {
         <Route exact path={`${path}`}>
           {pairs.map((pair) => (
             <PairCardWrap key={pair.pair}>
-              <WrapperedCard pair={pair} />
+              <WrapperedCard pair={pair} pairs={pairs} />
             </PairCardWrap>
           ))}
         </Route>
         <Route exact path={`${path}/history`}>
           {pairs.map((pair) => (
             <PairCardWrap key={pair.pair}>
-              <WrapperedCard pair={pair} />
+              <WrapperedCard pair={pair} pairs={pairs} />
             </PairCardWrap>
           ))}
         </Route>
         <Route exact path={`${path}/archived`}>
           {pairs.map((pair) => (
             <PairCardWrap key={pair.pair}>
-              <WrapperedCard pair={pair} />
+              <WrapperedCard pair={pair} pairs={pairs} />
             </PairCardWrap>
           ))}
         </Route>

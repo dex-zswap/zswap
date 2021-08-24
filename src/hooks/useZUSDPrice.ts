@@ -4,7 +4,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ZUSD, CAKE } from 'config/constants/tokens'
 import { PairState, usePairs } from './usePairs'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { useZBSTCurrency } from 'hooks/Tokens'
+import { useZBCurrency, useZBSTCurrency } from 'hooks/Tokens'
 
 const ZUSD_MAINNET = ZUSD[ChainId.MAINNET]
 
@@ -69,6 +69,11 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
     }
     return undefined
   }, [chainId, currency, ethPair, ethPairState, usdEthPair, usdEthPairState, usdPair, usdPairState, wrapped])
+}
+
+export function useZBZUSTPrice() {
+  const currency = useZBCurrency()
+  return useZUSDPrice(currency)
 }
 
 export function useZBSTZUSTPrice() {

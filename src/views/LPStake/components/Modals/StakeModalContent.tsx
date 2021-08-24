@@ -66,7 +66,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   onDismiss,
 }) => {
   const { userData } = farm
-  const max = isRemovingStake ? farm?.userData?.stakedBalance : farm?.userData?.tokenBalance
+  const max = isRemovingStake ? userData?.staked : userData?.tokenBalance
   const stakingToken = farm.token
   const { t } = useTranslation()
   const { toastSuccess, toastError } = useToast()
@@ -76,7 +76,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   const [percent, setPercent] = useState(0)
   const getCalculatedStakingLimit = () => {
     if (isRemovingStake) {
-      return new BigNumber(userData.stakedBalance)
+      return new BigNumber(userData.staked)
     }
     return new BigNumber(max)
   }
@@ -207,7 +207,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         {!isReward && (
           <Text bold>
             {t('Available') + ': '}
-            {`${isRemovingStake ? max : max}`}
+            {max}
             <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
               {t('MAX')}
             </span>

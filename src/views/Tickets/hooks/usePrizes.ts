@@ -4,8 +4,8 @@ import { arrayify } from '@ethersproject/bytes'
 import { useZSwapLotteryContract, useZSwapLPContract } from 'hooks/useContract'
 import { useBlockNumber } from 'state/application/hooks'
 import { useContractCall } from 'hooks/useContractCall'
-import { useZBSTToken } from 'hooks/Tokens'
-import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
+import { useZBToken } from 'hooks/Tokens'
+import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export function useWinNumbers(lotteryId: string) {
@@ -18,8 +18,8 @@ export function useWinNumbers(lotteryId: string) {
 export default function usePrizes() {
   const lotteryContract = useZSwapLotteryContract()
   const lpContract = useZSwapLPContract()
-  const zbst = useZBSTToken()
-  const zbstPrice = useZBSTZUSTPrice()
+  const zbst = useZBToken()
+  const zbstPrice = useZBZUSTPrice()
 
   const blockNumber = useBlockNumber()
 
@@ -27,12 +27,12 @@ export default function usePrizes() {
   const lpReward = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 10])
 
   return useMemo(() => {
-    if (!lotteryReward.result || !lpReward.result || !zbst || !zbstPrice) {
+    if (!zbst || !zbstPrice) {
       return BIG_ZERO
     }
 
-    const lotteryRewardBigNumber = new BigNumber(lotteryReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
-    const lpRewardBigNumber = new BigNumber(lpReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+    const lotteryRewardBigNumber = lotteryReward.result ? new BigNumber(lotteryReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
+    const lpRewardBigNumber = lpReward.result ? new BigNumber(lpReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
     const priceBigNumber = new BigNumber(zbstPrice.toSignificant(6))
 
     return [lotteryRewardBigNumber, lpRewardBigNumber].reduce((res, cur) => {
