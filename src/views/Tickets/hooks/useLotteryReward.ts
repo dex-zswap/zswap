@@ -16,12 +16,12 @@ export default function useLotteryReward(lotteryId: string) {
     if (!zbstPrice) {
       return BIG_ZERO
     }
-    
+
     return zbRewards.multipliedBy(new BigNumber(zbstPrice.toSignificant(18)))
   }, [zbstPrice, zbRewards])
 
   return {
     zustValue,
-    zbRewards
+    zbRewards,
   }
 }

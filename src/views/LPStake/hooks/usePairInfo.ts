@@ -37,6 +37,8 @@ export function usePairInfo(pair: PairsInfo): any {
 
   const pairContract = usePairContract(pair.pair, true)
 
+  console.log(lpContract, pairContract)
+
   const token0 = useToken(pair.token0)
   const token1 = useToken(pair.token1)
 
@@ -163,7 +165,7 @@ export function usePairInfo(pair: PairsInfo): any {
     return tokenLpAmount.token0
       .multipliedBy(tokenPrice.token0)
       .plus(tokenLpAmount.token1.multipliedBy(tokenPrice.token1))
-      .toFixed(4)
+      .toFixed(4, BigNumber.ROUND_DOWN)
   }, [tokenLpAmount, tokenPrice])
 
   const tokenBalance = useMemo(() => {
@@ -176,33 +178,43 @@ export function usePairInfo(pair: PairsInfo): any {
   }, [userPoolBalance, userSharesBigNumber, tokenLpAmount])
 
   const liquidityInfo = useMemo(() => {
-    if (!token0Deposited || !token1Deposited || !token0 || !token1) {
+    if (!token0Deposited || !token1Deposited || !token0 || !token1 || !pairBalanceOf) {
       return {
         tokenAmount: 0,
         quoteTokenAmount: 0,
         userSharePercent: '0.00',
         zustValue: 0,
+        lockedValue: 0,
+        staked: 0,
+        userAvaliableZust: 0
       }
     }
 
     const lpTokenBigNumber = new BigNumber(lpTotalTokens)
+    const pairBalanceOfBigNumber = new BigNumber(pairBalanceOf.toSignificant(18))
     const userSharePercentBigNumber = new BigNumber(userSharePercent)
     const stakedPercent = userSharesBigNumber.dividedBy(lpTokenBigNumber)
     const realPercent = BIG_ONE.plus(stakedPercent)
     const realUserSharePercent = userSharePercentBigNumber.multipliedBy(realPercent)
     const token0DepositedBigNumber = new BigNumber(token0Deposited.toSignificant(token0.decimals))
     const token1DepositedBigNumber = new BigNumber(token1Deposited.toSignificant(token1.decimals))
+    const lockedRate = pairBalanceOfBigNumber.dividedBy(userSharesBigNumber)
 
     const token0RealDeposited = token0DepositedBigNumber.multipliedBy(stakedPercent)
     const token1RealDeposited = token1DepositedBigNumber.multipliedBy(stakedPercent)
 
-    const zustValue = userSharesBigNumber.multipliedBy(realPercent)
+    const userAvaliableZust = token0DepositedBigNumber.multipliedBy(tokenPrice.token0).plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1)).multipliedBy(BIG_ONE.minus(stakedPercent)).toFixed(4, BigNumber.ROUND_DOWN)
+    const lockedValue = token0RealDeposited.multipliedBy(tokenPrice.token0).plus(token0RealDeposited.multipliedBy(tokenPrice.token1)).multipliedBy(lockedRate)
+    const zustValue = token0DepositedBigNumber.multipliedBy(tokenPrice.token0).plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1))
 
     return {
       tokenAmount: token0RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
       quoteTokenAmount: token1RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
       userSharePercent: realUserSharePercent.toFixed(2, BigNumber.ROUND_DOWN),
       zustValue: zustValue.toFixed(2, BigNumber.ROUND_DOWN),
+      staked: userSharesBigNumber.toFixed(4, BigNumber.ROUND_DOWN),
+      lockedValue,
+      userAvaliableZust
     }
   }, [
     pairBalanceOf,
@@ -214,6 +226,7 @@ export function usePairInfo(pair: PairsInfo): any {
     tokenPrice,
     token0Deposited,
     token1Deposited,
+    slowRefresh
   ])
 
   const apr = useMemo(() => {
@@ -232,7 +245,7 @@ export function usePairInfo(pair: PairsInfo): any {
     displayApr: apr.toSignificant(4),
     pair,
     pairInfo,
-    lpTotalTokens: `$${userSharesBigNumber.toString()}`,
+    lpTotalTokens: `$${liquidityInfo.lockedValue.toFixed(4, BigNumber.ROUND_DOWN)}`,
     lpAddresses: {
       [chainId]: pair.pair,
     },
@@ -240,8 +253,11 @@ export function usePairInfo(pair: PairsInfo): any {
       earnings: reward.result,
       allowance: allowance.result?.toString(),
       tokenBalance: tokenBalance.toFixed(4),
-      stakedBalance: lpTotalTokens,
+      stakedBalance: liquidityInfo.zustValue,
+      staked: liquidityInfo.staked,
       userSharePercent: `${liquidityInfo.userSharePercent}%`,
+      userAvaliableZust: liquidityInfo.userAvaliableZust,
+      userPoolBalance
     },
     tokenAmount: liquidityInfo.tokenAmount,
     quoteTokenAmount: liquidityInfo.quoteTokenAmount,

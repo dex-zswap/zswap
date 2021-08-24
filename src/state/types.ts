@@ -1,4 +1,4 @@
-import { Currency } from 'zswap-sdk'
+import { Currency, TokenAmount } from 'zswap-sdk'
 import { ThunkAction } from 'redux-thunk'
 import { AnyAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
@@ -38,6 +38,9 @@ export interface Farm extends FarmConfig {
     stakedBalance: string
     earnings: string
     userSharePercent: string
+    userAvaliableZust: string
+    staked: string
+    userPoolBalance: TokenAmount
   }
 }
 
