@@ -31,8 +31,12 @@ export default function usePrizes() {
       return BIG_ZERO
     }
 
-    const lotteryRewardBigNumber = lotteryReward.result ? new BigNumber(lotteryReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
-    const lpRewardBigNumber = lpReward.result ? new BigNumber(lpReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
+    const lotteryRewardBigNumber = lotteryReward.result
+      ? new BigNumber(lotteryReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
+    const lpRewardBigNumber = lpReward.result
+      ? new BigNumber(lpReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
     const priceBigNumber = new BigNumber(zbstPrice.toSignificant(6))
 
     return [lotteryRewardBigNumber, lpRewardBigNumber].reduce((res, cur) => {
