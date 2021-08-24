@@ -4,8 +4,8 @@ import { arrayify } from '@ethersproject/bytes'
 import { useZSwapLotteryContract, useZSwapLPContract } from 'hooks/useContract'
 import { useBlockNumber } from 'state/application/hooks'
 import { useContractCall } from 'hooks/useContractCall'
-import { useZBSTToken } from 'hooks/Tokens'
-import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
+import { useZBToken } from 'hooks/Tokens'
+import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export function useWinNumbers(lotteryId: string) {
@@ -18,8 +18,8 @@ export function useWinNumbers(lotteryId: string) {
 export default function usePrizes() {
   const lotteryContract = useZSwapLotteryContract()
   const lpContract = useZSwapLPContract()
-  const zbst = useZBSTToken()
-  const zbstPrice = useZBSTZUSTPrice()
+  const zbst = useZBToken()
+  const zbstPrice = useZBZUSTPrice()
 
   const blockNumber = useBlockNumber()
 

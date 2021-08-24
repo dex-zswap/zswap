@@ -17,7 +17,7 @@ import useUserAddedTokens from 'state/user/hooks/useUserAddedTokens'
 import { isAddress } from 'utils'
 
 import { filterTokens } from 'components/SearchModal/filtering'
-import { ZSWAP_ZB_ADDRESS } from 'config/constants/zswap/address'
+import { ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/address'
 
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
@@ -197,10 +197,18 @@ export function useCurrency(currencyId: string | undefined): Currency | null | u
   return isDEX ? ETHER : token
 }
 
-export function useZBSTToken(): Token | undefined | null {
+export function useZBToken(): Token | undefined | null {
   return useToken(ZSWAP_ZB_ADDRESS)
 }
 
-export function useZBSTCurrency(): Currency | undefined | null {
+export function useZBCurrency(): Currency | undefined | null {
   return useCurrency(ZSWAP_ZB_ADDRESS)
+}
+
+export function useZBSTToken(): Token | undefined | null {
+  return useToken(ZSWAP_ZBST_ADDRESS)
+}
+
+export function useZBSTCurrency(): Currency | undefined | null {
+  return useCurrency(ZSWAP_ZBST_ADDRESS)
 }

@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "npx react-app-rewired start",
+    "start": "BUILD_TYPE=dev npx react-app-rewired start",
     "build": "CI=false npx react-app-rewired build",
+    "testbuild": "BUILD_TYPE=test npx react-app-rewired build",
     "postbuild": "node ./deploy",
+    "posttestbuild": "node ./deploy",
     "test": "npx react-app-rewired test",
     "eject": "npx react-app-rewired eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",

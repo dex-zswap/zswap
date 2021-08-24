@@ -2,14 +2,14 @@ import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
-import { useZBSTToken } from 'hooks/Tokens'
-import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
+import { useZBToken } from 'hooks/Tokens'
+import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export default function useTotalUserCost() {
   const lotteryContract = useZSwapLotteryContract()
-  const zbst = useZBSTToken()
-  const zbstPrice = useZBSTZUSTPrice()
+  const zbst = useZBToken()
+  const zbstPrice = useZBZUSTPrice()
 
   const lotteryReward = useContractCall(lotteryContract, 'totalUsersCost', [])
 

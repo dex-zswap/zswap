@@ -1,9 +1,8 @@
 const {
   override,
-  addPostcssPlugins,
-  fixBabelImports,
   overrideDevServer
 } = require('customize-cra');
+const webpack = require('webpack');
 
 const devServerConfig = () => config => {
   return {

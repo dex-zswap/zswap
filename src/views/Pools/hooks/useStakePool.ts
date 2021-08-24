@@ -30,6 +30,8 @@ const useStakePool = (token: Token) => {
 
   const handleStake = useCallback(
     async (amount: string, decimals: number) => {
+      // stakeContract.changeWeight(tokenAddress, 10)
+
       if (isUsingDEX) {
         await stakeDEX(stakeContract, amount, token.decimals)
       } else {

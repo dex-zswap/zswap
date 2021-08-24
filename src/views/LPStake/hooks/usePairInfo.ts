@@ -1,21 +1,20 @@
 import { useMemo, useState, useEffect } from 'react'
 import BigNumber from 'bignumber.js'
-import { JSBI, Percent } from 'zswap-sdk'
+import { JSBI } from 'zswap-sdk'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { formatUnits } from '@ethersproject/units'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { useToken } from 'hooks/Tokens'
+import { useToken, useZBSTToken } from 'hooks/Tokens'
 import { useLPTokenBalance } from 'hooks/useTokenBalance'
 import { useZSwapLPContract, usePairContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
 import { usePair } from 'hooks/usePairs'
-import useZUSDPrice from 'hooks/useZUSDPrice'
+import useZUSDPrice, { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useTotalSupply from 'hooks/useTotalSupply'
 import { useTokenBalance } from 'state/wallet/hooks'
 import useRefresh from 'hooks/useRefresh'
 import { BIG_TEN, BIG_ONE, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
-import { ZERO_PERCENT } from 'config/constants'
-import { ONE_YEAR_BLOCK_COUNT } from 'config'
+import getLpReward from 'config/reward/lp'
 
 type PairsInfo = {
   pair: string
@@ -24,11 +23,15 @@ type PairsInfo = {
   token1: string
 }
 
-export function usePairInfo(pair: PairsInfo): any {
+export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   const { slowRefresh } = useRefresh()
   const { chainId, account } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
   const pairToken = useToken(pair.pair)
+  const zbstPrice = useZBSTZUSTPrice()
+
+  const lpReward = getLpReward(allWeights, pair.weight)
+  const zbstToken = useZBSTToken()
 
   const [allowance, setAllowance] = useState({
     loading: true,
@@ -36,8 +39,6 @@ export function usePairInfo(pair: PairsInfo): any {
   })
 
   const pairContract = usePairContract(pair.pair, true)
-
-  console.log(lpContract, pairContract)
 
   const token0 = useToken(pair.token0)
   const token1 = useToken(pair.token1)
@@ -51,7 +52,6 @@ export function usePairInfo(pair: PairsInfo): any {
   const token0Amount = useLPTokenBalance(pair.token0, pair.pair)
   const token1Amount = useLPTokenBalance(pair.token1, pair.pair)
 
-  const lpShareReward = useContractCall(lpContract, 'lp_pershare_reward', [pair.pair])
   const userShares = useContractCall(lpContract, 'getUserShare', [pair.pair, account])
 
   const [, pairInfo] = usePair(currency0, currency1)
@@ -109,6 +109,14 @@ export function usePairInfo(pair: PairsInfo): any {
       fetchReward()
     }
   }, [pair])
+
+  const rewardZustValue = useMemo(() => {
+    if (!zbstPrice || !zbstToken) {
+      return BIG_ZERO
+    }
+
+    return lpReward.multipliedBy(new BigNumber(zbstPrice.toSignificant(zbstToken.decimals)))
+  }, [zbstPrice, lpReward, zbstToken])
 
   const [token0Deposited, token1Deposited] =
     !!totalPoolTokens && !!userPoolBalance && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
@@ -186,7 +194,7 @@ export function usePairInfo(pair: PairsInfo): any {
         zustValue: 0,
         lockedValue: 0,
         staked: 0,
-        userAvaliableZust: 0
+        userAvaliableZust: 0,
       }
     }
 
@@ -203,9 +211,18 @@ export function usePairInfo(pair: PairsInfo): any {
     const token0RealDeposited = token0DepositedBigNumber.multipliedBy(stakedPercent)
     const token1RealDeposited = token1DepositedBigNumber.multipliedBy(stakedPercent)
 
-    const userAvaliableZust = token0DepositedBigNumber.multipliedBy(tokenPrice.token0).plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1)).multipliedBy(BIG_ONE.minus(stakedPercent)).toFixed(4, BigNumber.ROUND_DOWN)
-    const lockedValue = token0RealDeposited.multipliedBy(tokenPrice.token0).plus(token0RealDeposited.multipliedBy(tokenPrice.token1)).multipliedBy(lockedRate)
-    const zustValue = token0DepositedBigNumber.multipliedBy(tokenPrice.token0).plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1))
+    const userAvaliableZust = token0DepositedBigNumber
+      .multipliedBy(tokenPrice.token0)
+      .plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1))
+      .multipliedBy(BIG_ONE.minus(stakedPercent))
+      .toFixed(4, BigNumber.ROUND_DOWN)
+    const lockedValue = token0RealDeposited
+      .multipliedBy(tokenPrice.token0)
+      .plus(token0RealDeposited.multipliedBy(tokenPrice.token1))
+      .multipliedBy(lockedRate)
+    const zustValue = token0DepositedBigNumber
+      .multipliedBy(tokenPrice.token0)
+      .plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1))
 
     return {
       tokenAmount: token0RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
@@ -214,7 +231,7 @@ export function usePairInfo(pair: PairsInfo): any {
       zustValue: zustValue.toFixed(2, BigNumber.ROUND_DOWN),
       staked: userSharesBigNumber.toFixed(4, BigNumber.ROUND_DOWN),
       lockedValue,
-      userAvaliableZust
+      userAvaliableZust,
     }
   }, [
     pairBalanceOf,
@@ -226,23 +243,16 @@ export function usePairInfo(pair: PairsInfo): any {
     tokenPrice,
     token0Deposited,
     token1Deposited,
-    slowRefresh
+    slowRefresh,
   ])
 
-  const apr = useMemo(() => {
-    if (!lpShareReward.result || !pairInfo) {
-      return ZERO_PERCENT
-    }
-
-    const rewardPerblock = new BigNumber(formatUnits(lpShareReward.result, pairInfo.liquidityToken.decimals))
-    const aprRate = JSBI.BigInt(parseInt(`${ONE_YEAR_BLOCK_COUNT.multipliedBy(rewardPerblock).toNumber()}`))
-
-    return new Percent(aprRate, JSBI.BigInt(BIG_HUNDERED))
-  }, [userShares, lpShareReward, pairInfo])
+  const displayApr = useMemo(() => {
+    return rewardZustValue.dividedBy(liquidityInfo.lockedValue).multipliedBy(BIG_HUNDERED).toFixed(2, BigNumber.ROUND_DOWN)
+  }, [liquidityInfo, rewardZustValue])
 
   return {
     lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,
-    displayApr: apr.toSignificant(4),
+    displayApr,
     pair,
     pairInfo,
     lpTotalTokens: `$${liquidityInfo.lockedValue.toFixed(4, BigNumber.ROUND_DOWN)}`,
@@ -257,7 +267,7 @@ export function usePairInfo(pair: PairsInfo): any {
       staked: liquidityInfo.staked,
       userSharePercent: `${liquidityInfo.userSharePercent}%`,
       userAvaliableZust: liquidityInfo.userAvaliableZust,
-      userPoolBalance
+      userPoolBalance,
     },
     tokenAmount: liquidityInfo.tokenAmount,
     quoteTokenAmount: liquidityInfo.quoteTokenAmount,

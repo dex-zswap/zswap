@@ -14,11 +14,13 @@ type PairsInfo = {
 
 type WrapperedCardProps = {
   pair: PairsInfo
+  pairs: PairsInfo[]
 }
 
-const WrapperedCard: React.FC<WrapperedCardProps> = ({ pair }: WrapperedCardProps) => {
+const WrapperedCard: React.FC<WrapperedCardProps> = ({ pair, pairs }: WrapperedCardProps) => {
   const { account } = useActiveWeb3React()
-  const pairInfo = usePairInfo(pair)
+  const allWeights = pairs.map(({ weight }) => weight)
+  const pairInfo = usePairInfo(pair, allWeights)
 
   return (
     <div>
