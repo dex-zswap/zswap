@@ -3,6 +3,8 @@ import { Text, Flex } from 'zswap-uikit'
 import Card from './Card'
 
 import { useTranslation } from 'contexts/Localization'
+import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
+import useTotalUserCost from 'views/Tickets/hooks/useTotalUserCost'
 
 const TicketDrawWrap = styled.div`
   position: relative;
@@ -41,8 +43,19 @@ const NumWrap = styled.div`
   border-radius: 16px;
 `
 
+const renderPriceContent = (zusd: string, zbst: string) => {
+  return (
+    <div>
+      <Text>${zusd}</Text>
+      <Text>{zbst} ZBst</Text>
+    </div>
+  )
+}
+
 const TicketDraw = () => {
   const { t } = useTranslation()
+  const lotteryId = useCurrentLotteryId()
+  const { zusd, zbst } = useTotalUserCost()
 
   return (
     <TicketDrawWrap>
@@ -65,7 +78,7 @@ const TicketDraw = () => {
           {t('until the draw')}
         </Text>
       </Flex>
-      <Card title={t('Round') + '5'} subTitle={t('Draw') + ': 24 Dec 2021  14:00'}></Card>
+      <Card title={`${t('Round')} ${lotteryId}`} subTitle={t('Draw') + ': 24 Dec 2021  14:00'}></Card>
     </TicketDrawWrap>
   )
 }

@@ -11,7 +11,7 @@ interface TransientButtonProps extends ThemedButtonProps {
   $isLoading?: boolean
 }
 
-const getDisabledStyles = ({ $isLoading, theme }: TransientButtonProps) => {
+const getDisabledStyles = ({ $isLoading, theme, variant }: TransientButtonProps) => {
   if ($isLoading === true) {
     return `
       &:disabled,
@@ -24,8 +24,8 @@ const getDisabledStyles = ({ $isLoading, theme }: TransientButtonProps) => {
   return `
     &:disabled,
     &.zswap-button--disabled {
-      background: ${theme.colors.backgroundDisabled} !important;
-      border: ${theme.colors.backgroundDisabled};
+      background: ${'text' == variant ? 'none' : theme.colors.backgroundDisabled} !important;
+      border: ${'text' == variant ? 'none' : theme.colors.backgroundDisabled};
       box-shadow: none;
       color: ${theme.colors.textDisabled} !important;
       cursor: not-allowed;

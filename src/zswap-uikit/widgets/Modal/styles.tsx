@@ -6,12 +6,12 @@ import { ArrowBackIcon, CloseIcon } from '../../components/Svg'
 import { IconButton } from '../../components/Button'
 import { ModalProps } from './types'
 
-export const ModalHeader = styled.div<{ background?: string }>`
+export const ModalHeader = styled.div<{ onBack?: () => void; background?: string }>`
   align-items: center;
   background: #1a1a1a;
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
   display: flex;
-  padding: 12px 24px;
+  padding: ${({ onBack }) => (onBack ? '12px 24px 12px 6px' : '12px 24px')};
 `
 
 export const ModalTitle = styled(Flex)`
