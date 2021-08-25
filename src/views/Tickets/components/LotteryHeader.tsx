@@ -46,7 +46,6 @@ const HeaderWrap = styled(Flex)`
 const LotteryHeader = () => {
   const { t } = useTranslation()
   const prizes = usePrizes()
-  console.log(prizes)
 
   return (
     <HeaderWrap>
