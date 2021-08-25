@@ -9,7 +9,7 @@ import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export function useWinNumbers(lotteryId: string) {
   const lotteryContract = useZSwapLotteryContract()
-  const [ winNumbers, setWinNumber ] = useState([])
+  const [winNumbers, setWinNumber] = useState([])
   const idIndex = lotteryId ? [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index]) : []
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function useWinNumbers(lotteryId: string) {
       try {
         const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
         const results = await Promise.all(callQueue)
-  
+
         if (results.length === idIndex.length) {
           setWinNumber(() => results)
         }
