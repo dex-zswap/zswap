@@ -6,7 +6,7 @@ import { useContractCall } from 'hooks/useContractCall'
 import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
-export default function useLotteryReward(lotteryId: string) {
+export default function useLotteryReward(lotteryId: string | number) {
   const lotteryContract = useZSwapLotteryContract()
   const reward = useContractCall(lotteryContract, 'lottoTotalRewards', [lotteryId])
   const zbstPrice = useZBZUSTPrice()

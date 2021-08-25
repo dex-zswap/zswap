@@ -6,12 +6,12 @@ interface cardProps {
   width?: string
   title: string
   subTitle?: string
-  rightContent?: any
+  rightContent?: React.ReactNode
   back?: () => void
 }
 
 const CardWrap = styled.div<{ width?: string | number }>`
-  width: ${({ width }) => width || '750px'};
+  width: ${({ width }) => width || '850px'};
   min-height: 328px;
   padding: 25px 30px;
   margin: auto;
