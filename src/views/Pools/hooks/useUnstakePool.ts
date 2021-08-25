@@ -13,10 +13,12 @@ const useUnstakePool = (token: Token) => {
 
   const handleUnstake = useCallback(
     async (amount: string, decimals: number) => {
-      await stakeContract.withdrawToken(
+      const tx = await stakeContract.withdrawToken(
         isUsingDEX ? ZSWAP_ZERO_ADDRESS : tokenAddress,
         new BigNumber(amount).times(BIG_TEN.pow(decimals)).toString(),
       )
+      const receipt = await tx.wait()
+      return Boolean(receipt.status)
     },
     [isUsingDEX, stakeContract],
   )

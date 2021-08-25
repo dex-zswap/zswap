@@ -6,6 +6,7 @@ const ONLINE_TIME = isBuild ? +date : Date.now()
 const DATE_SECS = 24 * 60 * 60 * 1000
 
 const RATE = new BigNumber(0.7)
+const WEEK_DAYS = new BigNumber(7)
 
 const REWARDS = {
   10080000: [0, 14],
@@ -25,7 +26,7 @@ export default function getLpReward(allWeight: number[], weight: number) {
   Object.keys(REWARDS).forEach((key) => {
     const [minDate, maxDate] = REWARDS[key]
     if (minDate <= dayOffset && maxDate >= dayOffset) {
-      reward = new BigNumber(key).multipliedBy(RATE)
+      reward = new BigNumber(key).dividedBy(WEEK_DAYS).multipliedBy(RATE)
     }
   })
 

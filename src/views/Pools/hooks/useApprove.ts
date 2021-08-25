@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { ethers, Contract } from 'ethers'
 import BigNumber from 'bignumber.js'
-import { useAppDispatch } from 'state'
 import { useTranslation } from 'contexts/Localization'
 import { useCake, useCakeVaultContract } from 'hooks/useContract'
 import { ZSWAP_STAKE_ADDRESS } from 'config/constants/zswap/address'
@@ -13,7 +12,6 @@ export const useApprovePool = (lpContract: Contract) => {
   const [requestedApproval, setRequestedApproval] = useState(false)
   const { toastSuccess, toastError } = useToast()
   const { t } = useTranslation()
-  const dispatch = useAppDispatch()
   const { account } = useWeb3React()
   // const sousChefContract = useSousChef(sousId)
 
@@ -38,10 +36,10 @@ export const useApprovePool = (lpContract: Contract) => {
         setRequestedApproval(false)
       }
     } catch (e) {
-      console.error(e)
+      setRequestedApproval(false)
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
     }
-  }, [account, dispatch, lpContract, t, toastError, toastSuccess])
+  }, [account, lpContract, t, toastError, toastSuccess])
 
   return { handleApprove, requestedApproval }
 }
