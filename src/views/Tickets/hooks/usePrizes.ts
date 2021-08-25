@@ -6,14 +6,13 @@ import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
 import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
+import useWinTime from './useWinTime'
 import { useCurrentLotteryId } from './useBuy'
 
 export function useWinNumbers(lotteryId: string | number) {
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState([])
   const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index])
-
-  useAllWinNumbers()
 
   useEffect(() => {
     const fetchWinNumbers = async () => {
@@ -35,9 +34,11 @@ export function useWinNumbers(lotteryId: string | number) {
 
 export function useAllWinNumbers() {
   const lotteryId = useCurrentLotteryId()
+  const winTime = useWinTime(lotteryId)
   const lotteryContract = useZSwapLotteryContract()
-  const [winNumbers, setWinNumber] = useState([])
-  const lotteryIds = new Array(parseInt(lotteryId)).fill(0)
+  const [winNumbers, setWinNumber] = useState({})
+  const lotteryNum = winTime === '0' ? Number(lotteryId) - 1 : parseInt(lotteryId)
+  const lotteryIds = new Array(lotteryNum).fill(0)
   const idIndex = lotteryIds
     .map((item, index) => {
       return [
@@ -51,24 +52,29 @@ export function useAllWinNumbers() {
     })
     .flat(1)
 
-  // useEffect(() => {
-  //   const fetchWinNumbers = async () => {
-  //     try {
-  //       const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
-  //       const results = await Promise.all(callQueue)
+  useEffect(() => {
+    const fetchWinNumbers = async () => {
+      try {
+        const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
+        const results = await Promise.all(callQueue)
+        const wins = {}
+        if (results.length === idIndex.length) {
+          for (let i = 1; i <= lotteryNum; i++) {
+            wins[`lottery${i}`] = results.slice((i - 1) * 6, 6)
+          }
 
-  //       if (results.length === idIndex.length) {
-  //         setWinNumber(() => results)
-  //       }
-  //     } catch (e) {}
-  //   }
+          setWinNumber(() => wins)
+        }
+      } catch (e) {
+      }
+    }
 
-  //   if (idIndex.length) {
-  //     fetchWinNumbers()
-  //   }
-  // }, [lotteryContract])
+    if (idIndex.length) {
+      fetchWinNumbers()
+    }
+  }, [lotteryContract])
 
-  // return winNumbers
+  return winNumbers
 }
 
 export default function usePrizes() {
