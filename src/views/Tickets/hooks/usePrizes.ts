@@ -6,30 +6,67 @@ import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
 import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
+import { useCurrentLotteryId } from './useBuy'
 
 export function useWinNumbers(lotteryId: string) {
   const lotteryContract = useZSwapLotteryContract()
-  const [ winNumbers, setWinNumber ] = useState([])
-  const idIndex = lotteryId ? [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index]) : []
+  const [winNumbers, setWinNumber] = useState([])
+  const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index])
+
+  useAllWinNumbers()
 
   useEffect(() => {
     const fetchWinNumbers = async () => {
       try {
         const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
         const results = await Promise.all(callQueue)
-  
+
         if (results.length === idIndex.length) {
           setWinNumber(() => results)
         }
       } catch (e) {}
     }
 
-    if (idIndex.length) {
-      fetchWinNumbers()
-    }
+    fetchWinNumbers()
   }, [lotteryContract])
 
   return winNumbers
+}
+
+export function useAllWinNumbers() {
+  const lotteryId = useCurrentLotteryId()
+  const lotteryContract = useZSwapLotteryContract()
+  const [winNumbers, setWinNumber] = useState([])
+  const lotteryIds = new Array(parseInt(lotteryId)).fill(0)
+  const idIndex = lotteryIds.map((item, index) => {
+    return [
+      [index + 1, 0],
+      [index + 1, 1],
+      [index + 1, 2],
+      [index + 1, 3],
+      [index + 1, 4],
+      [index + 1, 5],
+    ]
+  }).flat(1)
+
+  // useEffect(() => {
+  //   const fetchWinNumbers = async () => {
+  //     try {
+  //       const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
+  //       const results = await Promise.all(callQueue)
+
+  //       if (results.length === idIndex.length) {
+  //         setWinNumber(() => results)
+  //       }
+  //     } catch (e) {}
+  //   }
+
+  //   if (idIndex.length) {
+  //     fetchWinNumbers()
+  //   }
+  // }, [lotteryContract])
+
+  // return winNumbers
 }
 
 export default function usePrizes() {
