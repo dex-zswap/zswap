@@ -51,7 +51,7 @@ export default function useUserHistory(page: number = 1) {
   return history
 }
 
-export function useUserLotteryIds(lotteryNum: string) {
+export function useUserLotteryIds(lotteryNum: string = '') {
   const [lotteryIds, setlotteryIds] = useState([])
   const { account } = useActiveWeb3React()
   useEffect(() => {

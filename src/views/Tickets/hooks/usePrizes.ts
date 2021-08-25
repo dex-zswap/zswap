@@ -1,8 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
-import { arrayify } from '@ethersproject/bytes'
 import { useZSwapLotteryContract, useZSwapLPContract } from 'hooks/useContract'
-import { useSingleContractMultipleData } from 'state/multicall/hooks'
 import { useBlockNumber } from 'state/application/hooks'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
@@ -11,13 +9,27 @@ import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export function useWinNumbers(lotteryId: string) {
   const lotteryContract = useZSwapLotteryContract()
-  // const winNumbers = useContractCall(lotteryContract, 'lottoWinningNumbers', [[lotteryId, 0]])
-  const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index])
-  const winNumbers = useSingleContractMultipleData(lotteryContract, 'lottoWinningNumbers', idIndex)
+  const [ winNumbers, setWinNumber ] = useState([])
+  const idIndex = lotteryId ? [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index]) : []
 
-  // return winNumbers.result ? arrayify(winNumbers.result.toString()) : []
+  useEffect(() => {
+    const fetchWinNumbers = async () => {
+      try {
+        const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
+        const results = await Promise.all(callQueue)
+  
+        if (results.length === idIndex.length) {
+          setWinNumber(() => results)
+        }
+      } catch (e) {}
+    }
 
-  return []
+    if (idIndex.length) {
+      fetchWinNumbers()
+    }
+  }, [lotteryContract])
+
+  return winNumbers
 }
 
 export default function usePrizes() {

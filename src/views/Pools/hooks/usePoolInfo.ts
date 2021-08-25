@@ -8,6 +8,7 @@ import { useCurrency, useToken } from 'hooks/Tokens'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import useZUSDPrice, { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useTokenAllowance from 'hooks/useTokenAllowance'
+import useRefresh from 'hooks/useRefresh'
 import { useStakedTokenBalance } from 'hooks/useTokenBalance'
 import { getAddress } from 'utils/addressHelpers'
 import { useContractCall } from 'hooks/useContractCall'
@@ -17,6 +18,7 @@ import { ZSWAP_DEX_ADDRESS, ZSWAP_ZERO_ADDRESS } from 'config/constants/zswap/ad
 import getStakeReward from 'config/reward/stake'
 
 const usePoolInfo = (pool: Pool) => {
+  const { fastRefresh } = useRefresh()
   const { account } = useActiveWeb3React()
   const stakeContract = useZSwapStakeContract()
   const contractAddress = getAddress(pool.contractAddress)
@@ -75,7 +77,7 @@ const usePoolInfo = (pool: Pool) => {
     if (ZSWAP_ZERO_ADDRESS && stakingTokenAddress) {
       fetchReward()
     }
-  }, [ZSWAP_ZERO_ADDRESS, stakingTokenAddress, isDEX, stakeContract, earningToken, stakingBalance])
+  }, [ZSWAP_ZERO_ADDRESS, stakingTokenAddress, isDEX, stakeContract, earningToken, stakingBalance, fastRefresh])
 
   const userSharePercent = useMemo(() => {
     if (!userShare.result || !stakingBalance.balance) {
@@ -94,8 +96,8 @@ const usePoolInfo = (pool: Pool) => {
   }, [stakedToken, stakingBalance, userSharePercent])
 
   const anyLoading = useMemo(
-    () => [userShare, pendingReward, currentWeight].some(({ loading }) => loading),
-    [userShare, pendingReward, totalWeight, currentWeight],
+    () => [userShare, pendingReward].some(({ loading }) => loading),
+    [userShare, pendingReward],
   )
 
   const stakeTokenPrice = useMemo(() => {
