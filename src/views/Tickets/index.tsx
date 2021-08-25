@@ -5,6 +5,8 @@ import UserPrizes from './components/UserPrizes'
 import TicketDraw from './components/TicketDraw'
 import LotteryFooter from './components/LotteryFooter'
 
+import useUserPrize from './hooks/useUserPrize'
+
 const LotteryPage = styled.div`
   position: relative;
   overflow: hidden;
@@ -37,6 +39,8 @@ const LotteryPage = styled.div`
 `
 
 const Ticket = () => {
+  useUserPrize()
+
   return (
     <LotteryPage>
       <LotteryHeader />

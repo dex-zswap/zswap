@@ -47,10 +47,10 @@ const DetailsSection: React.FC<ExpandableSectionProps> = ({
         {t('View Contract')}
         <ArrowRightIcon width="10px" marginLeft="6px" type="blue" />
       </StyledLinkExternal>
-      <StyledLinkExternal mb="5px" href={infoAddress} small>
+      {/* <StyledLinkExternal mb="5px" href={infoAddress} small>
         {t('View Token Pair Info')}
         <ArrowRightIcon width="10px" marginLeft="6px" type="blue" />
-      </StyledLinkExternal>
+      </StyledLinkExternal> */}
     </Wrapper>
   )
 }

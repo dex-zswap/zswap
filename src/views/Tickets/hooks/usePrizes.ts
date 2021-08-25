@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { arrayify } from '@ethersproject/bytes'
 import { useZSwapLotteryContract, useZSwapLPContract } from 'hooks/useContract'
+import { useSingleContractMultipleData } from 'state/multicall/hooks'
 import { useBlockNumber } from 'state/application/hooks'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
@@ -10,9 +11,13 @@ import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export function useWinNumbers(lotteryId: string) {
   const lotteryContract = useZSwapLotteryContract()
-  const winNumbers = useContractCall(lotteryContract, 'winningNumbers', [lotteryId])
+  // const winNumbers = useContractCall(lotteryContract, 'lottoWinningNumbers', [[lotteryId, 0]])
+  const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index])
+  const winNumbers = useSingleContractMultipleData(lotteryContract, 'lottoWinningNumbers', idIndex)
 
-  return winNumbers.result ? arrayify(winNumbers.result.toString()) : []
+  // return winNumbers.result ? arrayify(winNumbers.result.toString()) : []
+
+  return []
 }
 
 export default function usePrizes() {
