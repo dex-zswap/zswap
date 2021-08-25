@@ -45,7 +45,7 @@ const UserHistory = () => {
   const renderContent = useMemo(
     () =>
       lotteryId ? (
-        <Card title={`${t('Round')} ${lotteryId}`} back={backList}>
+        <Card width="850px" title={`${t('Round')} ${lotteryId}`} back={backList}>
           <UserHistoryDetail lotteryId={lotteryId} />
         </Card>
       ) : (
