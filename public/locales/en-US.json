@@ -1416,7 +1416,7 @@
   "Amount of your":"Amount of your",
   "winning prizes":"winning prizes",
   "Collect Prizes":"Collect Prizes",
-  "You have not won any prizes this round.":"You have not won any prizes this round.",
-  "Buy tickets for the next draw!":"Buy tickets for the next draw!",
+  "You have not won any prizes last round.":"You have not won any prizes last round.",
+  "Buy tickets for this draw!":"Buy tickets for this draw!",
   "Connect your wallet to check your prizes":"Connect your wallet to check your prizes"
 }
