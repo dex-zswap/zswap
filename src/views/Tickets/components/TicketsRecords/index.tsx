@@ -66,7 +66,7 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
     [winNumbers],
   )
 
-  const totalTicks = useMemo(() => lotteryIds.filter((d) => d.id == lotteryId)[0]?.numbers || [], [lotteryIds])
+  const totalTicks = useMemo(() => lotteryIds[0]?.numbers || [], [lotteryIds])
 
   const winTicks = useMemo(() => totalTicks.filter((d) => t('No Prize') != getRewardLevel(d))[0] || [], [totalTicks])
 

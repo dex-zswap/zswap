@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
@@ -47,10 +47,7 @@ const UserHistoryDetail = ({ lotteryId }) => {
   const winNumbers = useWinNumbers(lotteryId)
   const BallArr = new Array(6).fill('ball')
   const lotteryIds = useUserLotteryIds(lotteryId)
-  const ticketsNum = useCallback(
-    () => lotteryIds.filter((d) => d.id == lotteryId)[0]?.numbers.length || '0',
-    [lotteryIds],
-  )
+  const ticketsNum = useMemo(() => lotteryIds[0]?.numbers.length || '0', [lotteryIds])
   const winTime = useWinTime(lotteryId)
   const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} />)
 
@@ -84,7 +81,7 @@ const UserHistoryDetail = ({ lotteryId }) => {
       </Flex>
       <Text margin="0 auto 27px" textAlign="center" bold>
         {t('You have')}
-        {` ${ticketsNum()} `}
+        {` ${ticketsNum} `}
         {t('tickets this round.')}
       </Text>
       <Flex justifyContent="center">

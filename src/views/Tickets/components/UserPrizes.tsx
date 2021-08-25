@@ -19,12 +19,8 @@ const Line = styled.div`
 const UserPrizes = () => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
-  const lotteryIds = useUserLotteryIds()
   const currentLotteryId = useCurrentLotteryId()
-  const lastDrawPriceHistory = useMemo(
-    () => !!lotteryIds.filter((d) => d.id == Number(currentLotteryId) - 1).length,
-    [lotteryIds, currentLotteryId],
-  )
+  const lotteryIds = useUserLotteryIds(Number(currentLotteryId) - 1 + '')
 
   return (
     <Flex mb="260px" alignItems="center" flexDirection="column">
@@ -35,10 +31,10 @@ const UserPrizes = () => {
         {t('Ready to see if you have won a prize?')}
       </Text>
       <Card width="420px" title={t('Your Prizes')}>
-        {!account || !lastDrawPriceHistory ? (
+        {!account || !lotteryIds.length ? (
           <Flex height="238px" flexDirection="column" alignItems="center" justifyContent="center">
             {!account && <Text mb="20px">{t('Connect your wallet to check your prizes')}</Text>}
-            {account && !lastDrawPriceHistory && (
+            {account && !lotteryIds.length && (
               <>
                 {'1' != currentLotteryId && <Text mb="5px">{t('You have not won any prizes last round.')}</Text>}
                 <Text mb="20px">{t('Buy tickets for this draw!')}</Text>
