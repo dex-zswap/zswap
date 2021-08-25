@@ -13,7 +13,7 @@ import useZUSDPrice, { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useTotalSupply from 'hooks/useTotalSupply'
 import { useTokenBalance } from 'state/wallet/hooks'
 import useRefresh from 'hooks/useRefresh'
-import { BIG_TEN, BIG_ONE, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
+import { BIG_TEN, BIG_ONE, BIG_ZERO, BIG_HUNDERED, BIG_ONE_YEAR } from 'utils/bigNumber'
 import getLpReward from 'config/reward/lp'
 
 type PairsInfo = {
@@ -250,6 +250,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     return rewardZustValue
       .dividedBy(liquidityInfo.lockedValue)
       .multipliedBy(BIG_HUNDERED)
+      .multipliedBy(BIG_ONE_YEAR)
       .toFixed(2, BigNumber.ROUND_DOWN)
   }, [liquidityInfo, rewardZustValue])
 

@@ -1,19 +1,20 @@
 import { useMemo, useState, useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 import { ETHER } from 'zswap-sdk'
-import useZUSDPrice from 'hooks/useZUSDPrice'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useZSwapStakeContract } from 'hooks/useContract'
 import { useSingleCallResult } from 'state/multicall/hooks'
 import { useCurrency, useToken } from 'hooks/Tokens'
 import { useCurrencyBalance } from 'state/wallet/hooks'
+import useZUSDPrice, { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useTokenAllowance from 'hooks/useTokenAllowance'
 import { useStakedTokenBalance } from 'hooks/useTokenBalance'
 import { getAddress } from 'utils/addressHelpers'
 import { useContractCall } from 'hooks/useContractCall'
-import { BIG_TEN, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
+import { BIG_TEN, BIG_ZERO, BIG_HUNDERED, BIG_ONE_YEAR } from 'utils/bigNumber'
 import { Pool } from 'state/types'
 import { ZSWAP_DEX_ADDRESS, ZSWAP_ZERO_ADDRESS } from 'config/constants/zswap/address'
+import getStakeReward from 'config/reward/stake'
 
 const usePoolInfo = (pool: Pool) => {
   const { account } = useActiveWeb3React()
@@ -29,29 +30,21 @@ const usePoolInfo = (pool: Pool) => {
 
   const isDEX = stakingTokenAddress === ZSWAP_DEX_ADDRESS
 
-  const shareReward = useContractCall(stakeContract, 'token_pershare_reward', [stakingTokenAddress])
   const stakedTokenBalance = useCurrencyBalance(account ?? undefined, isDEX ? ETHER : stakedCurrency)
   const earningTokenBalance = useCurrencyBalance(account ?? undefined, earningCurrency)
+  const totalWeight = useContractCall(stakeContract, 'total_weight', [])
+  const currentWeight = useContractCall(stakeContract, 'weights', [stakingTokenAddress])
+
+  const zbstPrice = useZBSTZUSTPrice()
+  const stakingTokenPrice = useZUSDPrice(stakedToken)
 
   const allowance = useTokenAllowance(stakedToken, account, contractAddress)
   const stakingBalance = useStakedTokenBalance(stakingTokenAddress, contractAddress, isDEX)
-
-  const stakingTokenPrice = useZUSDPrice(stakedToken)
 
   const userShare = useSingleCallResult(stakeContract, 'getUserShare', [
     isDEX ? ZSWAP_ZERO_ADDRESS : stakingTokenAddress,
     account,
   ])
-
-  const apr = useMemo(() => {
-    if (!shareReward.result || !stakedToken || !stakingBalance.balance) {
-      return BIG_ZERO
-    }
-
-    const shareRewardCount = new BigNumber(shareReward.result.toString()).dividedBy(BIG_TEN.pow(stakedToken.decimals))
-
-    return BIG_TEN
-  }, [shareReward, stakedToken, stakingBalance])
 
   const [pendingReward, setPendingReward] = useState({
     loading: true,
@@ -101,33 +94,55 @@ const usePoolInfo = (pool: Pool) => {
   }, [stakedToken, stakingBalance, userSharePercent])
 
   const anyLoading = useMemo(
-    () => [userShare, pendingReward].some(({ loading }) => loading),
-    [userShare, pendingReward],
+    () => [userShare, pendingReward, currentWeight, ].some(({ loading }) => loading),
+    [userShare, pendingReward, totalWeight, currentWeight],
   )
 
   const stakeTokenPrice = useMemo(() => {
-    if (!stakingTokenPrice) {
+    if (!stakingTokenPrice || !stakedToken) {
       return BIG_ZERO
     }
 
-    return new BigNumber(stakingTokenPrice.toSignificant(6))
-  }, [stakingTokenPrice])
+    return new BigNumber(stakingTokenPrice.toSignificant(stakedToken.decimals))
+  }, [stakingTokenPrice, stakedToken])
 
   const stakedUSDTValue = useMemo(() => {
     return userStakedBalance.multipliedBy(stakeTokenPrice)
   }, [userStakedBalance, stakeTokenPrice])
 
+  const totalStakedBalance = useMemo(() => {
+    if (!stakingBalance.balance || !stakedToken) {
+      return BIG_ZERO
+    }
+
+    return stakingBalance.balance.multipliedBy(stakeTokenPrice).dividedBy(BIG_TEN.pow(stakedToken.decimals))
+  }, [stakingBalance, stakedToken, stakeTokenPrice])
+
+  const apr = useMemo(() => {
+    if (!currentWeight.result || !totalWeight.result || !stakingBalance.balance || !zbstPrice || !stakedCurrency) {
+      return 0
+    }
+
+    const currentWeightBigNumber = new BigNumber(currentWeight.result.toString())
+    const totalWeightBigNumber = new BigNumber(totalWeight.result.toString())
+    const priceBigNumber = new BigNumber(zbstPrice.toSignificant(stakedCurrency.decimals))
+    const reward = getStakeReward(currentWeightBigNumber.dividedBy(totalWeightBigNumber))
+    const rewardUsdtValue = priceBigNumber.multipliedBy(reward)
+
+    return rewardUsdtValue.dividedBy(totalStakedBalance).multipliedBy(BIG_ONE_YEAR).multipliedBy(BIG_HUNDERED).toNumber()
+  }, [totalWeight, currentWeight, stakingBalance, zbstPrice, stakedCurrency, stakeTokenPrice, totalStakedBalance])
+
   return {
     ...pool,
+    apr,
     stakingTokenPrice: stakeTokenPrice.toNumber(),
     earningTokenBalance: new BigNumber(earningTokenBalance?.toSignificant(6) ?? 0).toNumber(),
-    apr: 100,
     userData: anyLoading
       ? null
       : {
           stakedCurrency,
           earningCurrency,
-          totalStakedBalance: (stakingBalance.balance ?? BIG_ZERO).dividedBy(BIG_TEN.pow(stakedToken?.decimals)),
+          totalStakedBalance,
           allowance: allowance ? new BigNumber(allowance.toSignificant(stakedToken.decimals)) : BIG_ZERO,
           stakedUSDTValue,
           stakedBalance: userStakedBalance,
