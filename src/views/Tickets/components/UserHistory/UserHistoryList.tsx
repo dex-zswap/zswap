@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Text, Flex, ArrowRightIcon, Button } from 'zswap-uikit'
-import BuyTicketsButton from '../BuyTicketsButton'
+import BuyTicketsButton from '../BuyTicket/BuyTicketsButton'
 
 import { useTranslation } from 'contexts/Localization'
 import { format } from 'date-fns'

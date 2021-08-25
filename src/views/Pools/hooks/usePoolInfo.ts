@@ -141,7 +141,15 @@ const usePoolInfo = (pool: Pool) => {
       .multipliedBy(BIG_ONE_YEAR)
       .multipliedBy(BIG_HUNDERED)
       .toNumber()
-  }, [totalWeight, currentWeightBigNumber, stakingBalance, zbstPrice, stakedCurrency, stakeTokenPrice, totalStakedBalance])
+  }, [
+    totalWeight,
+    currentWeightBigNumber,
+    stakingBalance,
+    zbstPrice,
+    stakedCurrency,
+    stakeTokenPrice,
+    totalStakedBalance,
+  ])
 
   return {
     ...pool,

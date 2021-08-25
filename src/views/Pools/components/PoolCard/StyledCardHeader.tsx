@@ -82,9 +82,7 @@ const StyledCardHeader: React.FC<{
         ) : (
           <TokenPairImage primaryToken={earningToken} secondaryToken={stakingToken} width={64} height={64} />
         )} */}
-        <WeightWrap>
-          weight: {weight}
-        </WeightWrap>
+        <WeightWrap>weight: {weight}</WeightWrap>
       </Flex>
     </Wrapper>
   )

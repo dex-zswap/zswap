@@ -1,12 +1,15 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
+import useWinTime from 'views/Tickets/hooks/useWinTime'
+import { format } from 'date-fns'
 
 import styled from 'styled-components'
-import { Text, Flex, Button } from 'zswap-uikit'
+import { Text, Flex, Button, useModal } from 'zswap-uikit'
 import PriceRule from '../PriceRule'
+import TicketsModal from './TicketsModal'
 
 const BallWrap = styled(Flex)`
   align-items: center;
@@ -48,10 +51,15 @@ const UserHistoryDetail = ({ lotteryId }) => {
     () => lotteryIds.filter((d) => d.id == lotteryId)[0]?.numbers.length || '0',
     [lotteryIds],
   )
+  const winTime = useWinTime(lotteryId)
+  const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} />)
 
   return (
     <>
-      <Text style={{ color: '#999', margin: '-10px 0 30px 3px' }}>Drawn 12 Aug 2021, 02:00</Text>
+      <Text style={{ color: '#999', margin: '-10px 0 30px 3px' }}>
+        {t('Drawn') + ' '}
+        {'0' != winTime.toString() ? format(new Date(winTime.toString()), 'yyyy.MM.dd HH:mm') : '-'}
+      </Text>
       <Flex>
         <Text mr="46px" bold>
           {t('Price Pot')}
@@ -80,7 +88,7 @@ const UserHistoryDetail = ({ lotteryId }) => {
         {t('tickets this round.')}
       </Text>
       <Flex justifyContent="center">
-        <Button>{t('View your Tickets')}</Button>
+        <Button onClick={useTicketsModal}>{t('View your Tickets')}</Button>
       </Flex>
       <PriceRule lotteryId={lotteryId} />
     </>

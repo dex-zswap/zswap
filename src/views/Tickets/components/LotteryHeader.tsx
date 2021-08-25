@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Text, Flex } from 'zswap-uikit'
-import BuyTicketsButton from './BuyTicketsButton'
+import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
 import { useTranslation } from 'contexts/Localization'
 import usePrizes from '../hooks/usePrizes'
 
@@ -46,7 +46,6 @@ const HeaderWrap = styled(Flex)`
 const LotteryHeader = () => {
   const { t } = useTranslation()
   const prizes = usePrizes()
-  console.log(prizes)
 
   return (
     <HeaderWrap>
