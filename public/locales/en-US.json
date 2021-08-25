@@ -1387,7 +1387,6 @@
   "No lottery history found. Buy tickets for the next draw!":"No lottery history found. Buy tickets for the next draw!",
   "Connect your wallet to check your history":"Connect your wallet to check your history",
   "More details":"More details",
-  "Price Pot":"Price Pot",
   "You have":"You have",
   "tickets this round.":"tickets this round.",
   "View your Tickets":"View your Tickets",
@@ -1418,5 +1417,8 @@
   "Collect Prizes":"Collect Prizes",
   "You have not won any prizes last round.":"You have not won any prizes last round.",
   "Buy tickets for this draw!":"Buy tickets for this draw!",
-  "Connect your wallet to check your prizes":"Connect your wallet to check your prizes"
+  "Connect your wallet to check your prizes":"Connect your wallet to check your prizes",
+  "Current Draw":"Current Draw",
+  "Previous Draw":"Previous Draw",
+  "Price Pot":"Price Pot"
 }

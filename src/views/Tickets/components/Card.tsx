@@ -3,9 +3,10 @@ import { Text, Flex, Button } from 'zswap-uikit'
 import { ArrowBackIcon } from 'zswap-uikit'
 
 interface cardProps {
+  width?: string
   title: string
   subTitle?: string
-  width?: string
+  rightContent?: any
   back?: () => void
 }
 
@@ -19,7 +20,7 @@ const CardWrap = styled.div<{ width?: string | number }>`
   border-radius: 30px;
 `
 
-const Card: React.FC<cardProps> = ({ back, width, title, subTitle, children }) => {
+const Card: React.FC<cardProps> = ({ width, title, subTitle, rightContent, children, back }) => {
   return (
     <CardWrap width={width}>
       <Flex mb="16px" justifyContent="space-between" alignItems="center">
@@ -38,6 +39,7 @@ const Card: React.FC<cardProps> = ({ back, width, title, subTitle, children }) =
             {subTitle}
           </Text>
         )}
+        {rightContent && rightContent}
       </Flex>
       {children}
     </CardWrap>

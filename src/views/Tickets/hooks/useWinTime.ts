@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
-import { BIG_ZERO } from 'utils/bigNumber'
+import { format } from 'date-fns'
 
 export default function useWinTime(lotteryId: string) {
   const lotteryContract = useZSwapLotteryContract()
-  const winTime = useContractCall(lotteryContract, 'lottoWinningTime', [lotteryId])
+  const data = useContractCall(lotteryContract, 'lottoWinningTime', [lotteryId])
+  const winTime = data.result ? new BigNumber(data.result.toString()).multipliedBy(1000).toNumber() : 0
 
-  return winTime.result ? new BigNumber(winTime.result.toString()).multipliedBy(1000) : BIG_ZERO
+  return winTime ? format(new Date(winTime), 'yyyy.MM.dd HH:mm') : '-'
 }

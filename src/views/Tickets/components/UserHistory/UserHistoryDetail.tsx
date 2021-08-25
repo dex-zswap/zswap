@@ -55,7 +55,7 @@ const UserHistoryDetail = ({ lotteryId }) => {
     <>
       <Text style={{ color: '#999', margin: '-10px 0 30px 3px' }}>
         {t('Drawn') + ' '}
-        {'0' != winTime.toString() ? format(new Date(winTime.toString()), 'yyyy.MM.dd HH:mm') : '-'}
+        {winTime}
       </Text>
       <Flex>
         <Text mr="46px" bold>
