@@ -12,7 +12,7 @@ import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 export function useWinNumbers(lotteryId: string) {
   const lotteryContract = useZSwapLotteryContract()
   // const winNumbers = useContractCall(lotteryContract, 'lottoWinningNumbers', [[lotteryId, 0]])
-  const idIndex = [0, 1, 2, 3, 4, 5].map((index) => ([lotteryId, index]))
+  const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index])
   const winNumbers = useSingleContractMultipleData(lotteryContract, 'lottoWinningNumbers', idIndex)
 
   // return winNumbers.result ? arrayify(winNumbers.result.toString()) : []

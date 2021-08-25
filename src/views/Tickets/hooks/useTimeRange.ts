@@ -15,11 +15,11 @@ export default function useTimeRange() {
 
     //  TODO: add timezone
     const start = startTime.result.toNumber() * 1000
-    const end = startTime.result.toNumber() * 1000
+    const end = endTime.result.toNumber() * 1000
 
     return {
       start,
       end,
     }
-  }, [startTime])
+  }, [startTime, endTime])
 }
