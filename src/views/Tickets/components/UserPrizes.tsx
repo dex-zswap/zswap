@@ -4,9 +4,11 @@ import Card from './Card'
 import TicketsRecords from './TicketsRecords'
 import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
 
+import { useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
-import useUserHistory from 'views/Tickets/hooks/useUserHistory'
+import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 
 const Line = styled.div`
   width: 100%;
@@ -17,7 +19,12 @@ const Line = styled.div`
 const UserPrizes = () => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
-  const { list } = useUserHistory()
+  const lotteryIds = useUserLotteryIds()
+  const currentLotteryId = useCurrentLotteryId()
+  const lastDrawPriceHistory = useMemo(
+    () => !!lotteryIds.filter((d) => d.id == Number(currentLotteryId) - 1).length,
+    [lotteryIds, currentLotteryId],
+  )
 
   return (
     <Flex mb="260px" alignItems="center" flexDirection="column">
@@ -28,11 +35,15 @@ const UserPrizes = () => {
         {t('Ready to see if you have won a prize?')}
       </Text>
       <Card width="420px" title={t('Your Prizes')}>
-        {!account || !list.length ? (
-          <Flex height="268px" flexDirection="column" alignItems="center" justifyContent="center">
-            <Text mb="78px">
-              {!account ? t('Connect your wallet to check your prizes') : t('You have 0 tickets this round.')}
-            </Text>
+        {!account || !lastDrawPriceHistory ? (
+          <Flex height="238px" flexDirection="column" alignItems="center" justifyContent="center">
+            {!account && <Text mb="20px">{t('Connect your wallet to check your prizes')}</Text>}
+            {account && !lastDrawPriceHistory && (
+              <>
+                {'1' != currentLotteryId && <Text mb="5px">{t('You have not won any prizes last round.')}</Text>}
+                <Text mb="20px">{t('Buy tickets for this draw!')}</Text>
+              </>
+            )}
             <BuyTicketsButton />
           </Flex>
         ) : (
