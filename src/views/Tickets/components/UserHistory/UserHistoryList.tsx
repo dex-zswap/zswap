@@ -1,37 +1,12 @@
 import styled from 'styled-components'
-import { Text, Flex, LinkExternal, ArrowRightIcon, Button } from 'zswap-uikit'
-import Card from './Card'
-import BuyTicketsButton from './BuyTicketsButton'
-import { ZSWAP_EXPLORE } from 'config/constants/zswap/address'
+import { Text, Flex, ArrowRightIcon, Button } from 'zswap-uikit'
+import BuyTicketsButton from '../BuyTicketsButton'
 
 import { useTranslation } from 'contexts/Localization'
-import { format, parseISO, isValid } from 'date-fns'
+import { format } from 'date-fns'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useUserHistory from 'views/Tickets/hooks/useUserHistory'
 import { useState } from 'react'
-
-const HistoryWrap = styled.div`
-  position: relative;
-  margin-bottom: 200px;
-  img {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
-    &:first-child {
-      top: -20px;
-      transform: translateX(-480px);
-    }
-    &:nth-child(2) {
-      top: 280px;
-      transform: translateX(-660px);
-    }
-    &:nth-child(3) {
-      top: 170px;
-      transform: translateX(500px);
-    }
-  }
-`
 
 const HistoryTable = styled.table`
   width: 100%;
@@ -49,7 +24,7 @@ const HistoryTable = styled.table`
   }
 `
 
-const RenderHistory = () => {
+const UserHistoryList = ({ showDetail }) => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const [pageNum, setPageNum] = useState(1)
@@ -76,17 +51,24 @@ const RenderHistory = () => {
             <th>{t('Purchase Quantity')}</th>
             <th>{t('Details')}</th>
           </tr>
-          {list.map(({ id, lotteryNum, createTime, lottery, txId }) => {
+          {list.map(({ id, lotteryNum, createTime, lottery }) => {
             return (
               <tr key={id}>
                 <td>{lotteryNum || '-'}</td>
                 <td>{format(new Date(createTime), 'yyyy.MM.dd HH:mm')}</td>
                 <td>{lottery?.split(',').length || 0}</td>
                 <td>
-                  <LinkExternal style={{ margin: 'auto' }} href={`${ZSWAP_EXPLORE}/tx/${txId}`} bold={false} small>
+                  <Button
+                    style={{ height: 'fit-content', fontSize: '14px', fontWeight: 'normal' }}
+                    endIcon={<ArrowRightIcon width="10px" marginLeft="6px" />}
+                    variant="text"
+                    padding="0"
+                    onClick={() => {
+                      showDetail(lotteryNum)
+                    }}
+                  >
                     {t('More details')}
-                    <ArrowRightIcon width="10px" marginLeft="6px" />
-                  </LinkExternal>
+                  </Button>
                 </td>
               </tr>
             )
@@ -118,20 +100,4 @@ const RenderHistory = () => {
   )
 }
 
-const UserHistory = () => {
-  const { t } = useTranslation()
-
-  return (
-    <HistoryWrap>
-      <img width="191px" src="/images/tickets/obj_2_1.png" />
-      <img width="22px" src="/images/tickets/obj_2_2.png" />
-      <img width="109px" src="/images/tickets/obj_2_3.png" />
-      <Text textAlign="center" fontSize="48px" margin="0 auto 75px" bold>
-        {t('Your History')}
-      </Text>
-      <Card title={t('Your History')}>{RenderHistory()}</Card>
-    </HistoryWrap>
-  )
-}
-
-export default UserHistory
+export default UserHistoryList
