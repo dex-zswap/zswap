@@ -50,6 +50,7 @@ export interface Pool extends PoolConfig {
   startBlock?: number
   endBlock?: number
   apr?: number
+  weight?: number
   stakingTokenPrice?: number
   earningTokenPrice?: number
   isAutoVault?: boolean

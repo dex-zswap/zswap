@@ -1,10 +1,9 @@
 import React from 'react'
-import { CardHeader, Heading, Text, Flex } from 'zswap-uikit'
+import { CardHeader, Heading, Flex } from 'zswap-uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import { Token } from 'config/constants/types'
 import { TokenPairImage } from 'components/TokenImage'
-import CakeVaultTokenPairImage from 'views/Pools/components/CakeVaultCard/CakeVaultTokenPairImage'
 
 const Wrapper = styled(CardHeader)<{
   isFinished?: boolean
@@ -14,13 +13,27 @@ const Wrapper = styled(CardHeader)<{
   border-radius: 30px 0 0;
 `
 
+const WeightWrap = styled(Flex)`
+  width: 80px;
+  height: 24px;
+  line-height: 24px;
+  background: #ff66ff;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffffff;
+`
+
 const StyledCardHeader: React.FC<{
   earningToken: Token
   stakingToken: Token
+  weight: number
   isAutoVault?: boolean
   isFinished?: boolean
   isStaking?: boolean
-}> = ({ earningToken, stakingToken, isFinished = false, isAutoVault = false, isStaking = false }) => {
+}> = ({ earningToken, stakingToken, weight, isFinished = false, isAutoVault = false, isStaking = false }) => {
   const { t } = useTranslation()
   const isCakePool = earningToken.symbol === 'CAKE' && stakingToken.symbol === 'CAKE'
   const background = isStaking ? 'bubblegum' : 'cardHeader'
@@ -69,6 +82,9 @@ const StyledCardHeader: React.FC<{
         ) : (
           <TokenPairImage primaryToken={earningToken} secondaryToken={stakingToken} width={64} height={64} />
         )} */}
+        <WeightWrap>
+          weight: {weight}
+        </WeightWrap>
       </Flex>
     </Wrapper>
   )

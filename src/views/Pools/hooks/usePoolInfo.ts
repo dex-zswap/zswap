@@ -94,7 +94,7 @@ const usePoolInfo = (pool: Pool) => {
   }, [stakedToken, stakingBalance, userSharePercent])
 
   const anyLoading = useMemo(
-    () => [userShare, pendingReward, currentWeight, ].some(({ loading }) => loading),
+    () => [userShare, pendingReward, currentWeight].some(({ loading }) => loading),
     [userShare, pendingReward, totalWeight, currentWeight],
   )
 
@@ -118,25 +118,37 @@ const usePoolInfo = (pool: Pool) => {
     return stakingBalance.balance.multipliedBy(stakeTokenPrice).dividedBy(BIG_TEN.pow(stakedToken.decimals))
   }, [stakingBalance, stakedToken, stakeTokenPrice])
 
+  const currentWeightBigNumber = useMemo(() => {
+    if (!currentWeight.result) {
+      return BIG_ZERO
+    }
+
+    return new BigNumber(currentWeight.result.toString())
+  }, [currentWeight])
+
   const apr = useMemo(() => {
-    if (!currentWeight.result || !totalWeight.result || !stakingBalance.balance || !zbstPrice || !stakedCurrency) {
+    if (!totalWeight.result || !stakingBalance.balance || !zbstPrice || !stakedCurrency) {
       return 0
     }
 
-    const currentWeightBigNumber = new BigNumber(currentWeight.result.toString())
     const totalWeightBigNumber = new BigNumber(totalWeight.result.toString())
     const priceBigNumber = new BigNumber(zbstPrice.toSignificant(stakedCurrency.decimals))
     const reward = getStakeReward(currentWeightBigNumber.dividedBy(totalWeightBigNumber))
     const rewardUsdtValue = priceBigNumber.multipliedBy(reward)
 
-    return rewardUsdtValue.dividedBy(totalStakedBalance).multipliedBy(BIG_ONE_YEAR).multipliedBy(BIG_HUNDERED).toNumber()
-  }, [totalWeight, currentWeight, stakingBalance, zbstPrice, stakedCurrency, stakeTokenPrice, totalStakedBalance])
+    return rewardUsdtValue
+      .dividedBy(totalStakedBalance)
+      .multipliedBy(BIG_ONE_YEAR)
+      .multipliedBy(BIG_HUNDERED)
+      .toNumber()
+  }, [totalWeight, currentWeightBigNumber, stakingBalance, zbstPrice, stakedCurrency, stakeTokenPrice, totalStakedBalance])
 
   return {
     ...pool,
     apr,
     stakingTokenPrice: stakeTokenPrice.toNumber(),
     earningTokenBalance: new BigNumber(earningTokenBalance?.toSignificant(6) ?? 0).toNumber(),
+    weight: currentWeightBigNumber.toNumber(),
     userData: anyLoading
       ? null
       : {
