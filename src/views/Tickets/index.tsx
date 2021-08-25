@@ -39,7 +39,6 @@ const LotteryPage = styled.div`
 `
 
 const Ticket = () => {
-
   useUserPrize()
 
   return (

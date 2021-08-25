@@ -13,11 +13,10 @@ export function useCollectReward() {
   }, [lotteryContract])
 
   return {
-    collectReward
+    collectReward,
   }
 }
 
 export default function useUserPrize() {
   const lotteryContract = useZSwapLotteryContract()
-
 }

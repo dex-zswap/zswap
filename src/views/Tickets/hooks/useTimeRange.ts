@@ -1,23 +1,26 @@
 import { useMemo } from 'react'
-import dayjs from 'dayjs'
 
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
 
-export default function useStartTime() {
+export default function useTimeRange() {
   const lotteryContract = useZSwapLotteryContract()
   const startTime = useContractCall(lotteryContract, 'startingTimestamp')
+  const endTime = useContractCall(lotteryContract, 'closingTimestamp')
 
   return useMemo(() => {
-    if (!startTime.result) {
+    if (!startTime.result || !endTime.result) {
       return null
     }
 
-    const timestamp = startTime.result.toNumber() * 1000
+    //  TODO: add timezone
+    const start = startTime.result.toNumber() * 1000
+    const end = startTime.result.toNumber() * 1000
 
     return {
-      timestamp,
-      date: dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss'),
+      start,
+      end
     }
   }, [startTime])
 }
+
