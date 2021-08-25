@@ -1,10 +1,14 @@
 import styled from 'styled-components'
-import { Text, Flex } from 'zswap-uikit'
+import { Text, Flex, Button } from 'zswap-uikit'
 import Card from './Card'
+import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
+import PriceRule from './PriceRule'
 
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
-import useTotalUserCost from 'views/Tickets/hooks/useTotalUserCost'
+import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
+import useWinTime from 'views/Tickets/hooks/useWinTime'
 
 const TicketDrawWrap = styled.div`
   position: relative;
@@ -43,19 +47,48 @@ const NumWrap = styled.div`
   border-radius: 16px;
 `
 
-const renderPriceContent = (zusd: string, zbst: string) => {
-  return (
-    <div>
-      <Text>${zusd}</Text>
-      <Text>{zbst} ZBst</Text>
-    </div>
-  )
-}
+const ButtonWrap = styled.div`
+  width: 312px;
+  height: 50px;
+  margin: 0 auto 50px;
+  border: 2px solid #0050ff;
+  border-radius: 25px;
+  > button {
+    width: 50%;
+    height: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0;
+    border-radius: 25px;
+  }
+`
 
 const TicketDraw = () => {
   const { t } = useTranslation()
   const lotteryId = useCurrentLotteryId()
-  const { zusd, zbst } = useTotalUserCost()
+  const [currentLotteryId, setcurrentLotteryId] = useState(lotteryId)
+  const { zustValue, zbRewards } = useLotteryReward(currentLotteryId)
+  const winTime = useWinTime(currentLotteryId)
+  const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
+
+  const [showPreView, setShowPreView] = useState(false)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setUntilDrawTime(() => {
+        const date = new Date()
+        let hour = date.getHours() - 1
+        hour = hour > 13 ? 36 - hour : 13 - hour
+        let min = 60 - date.getMinutes()
+        const h = hour > 10 ? hour + '' : '0' + hour
+        const m = min > 10 ? min + '' : '0' + min
+        return { h, m }
+      })
+    })
+    return () => {
+      clearInterval(timer)
+    }
+  }, [])
 
   return (
     <TicketDrawWrap>
@@ -66,11 +99,11 @@ const TicketDraw = () => {
         {t('Get your tickets now!')}
       </Text>
       <Flex mb="120px" alignItems="center" justifyContent="center">
-        <NumWrap>06</NumWrap>
+        <NumWrap>{untilDrawTime.h}</NumWrap>
         <Text fontSize="24px" mr="16px" color="blue" bold>
           HH
         </Text>
-        <NumWrap>23</NumWrap>
+        <NumWrap>{untilDrawTime.m}</NumWrap>
         <Text fontSize="24px" mr="16px" color="blue" bold>
           MM
         </Text>
@@ -78,7 +111,44 @@ const TicketDraw = () => {
           {t('until the draw')}
         </Text>
       </Flex>
-      <Card title={`${t('Round')} ${lotteryId}`} subTitle={t('Draw') + ': 24 Dec 2021  14:00'}></Card>
+      <ButtonWrap>
+        <Button
+          style={{ color: showPreView ? '#0050FF' : '#fff' }}
+          variant={showPreView ? 'text' : 'primary'}
+          onClick={() => setShowPreView(false)}
+        >
+          {t('Current Draw')}
+        </Button>
+        <Button
+          style={{ color: showPreView ? '#fff' : '#0050FF' }}
+          variant={showPreView ? 'primary' : 'text'}
+          onClick={() => setShowPreView(true)}
+        >
+          {t('Previous Draw')}
+        </Button>
+      </ButtonWrap>
+      <Card title={`${t('Round')} ${currentLotteryId}`} subTitle={`${t('Draw')}: ${winTime}`}>
+        <>
+          <Flex mb="25px">
+            <Text width="110px" mr="20px" fontSize="16px" bold>
+              {t('Price Pot')}
+            </Text>
+            <div>
+              <Text color="blue" fontSize="36px" bold>
+                ${zustValue.toFixed(2)}
+              </Text>
+              <Text>{zbRewards.toFixed(2)} ZBst</Text>
+            </div>
+          </Flex>
+          <Flex>
+            <Text width="110px" mr="20px" fontSize="16px" bold>
+              {t('Yout Tickets')}
+            </Text>
+            <BuyTicketsButton />
+          </Flex>
+          <PriceRule lotteryId={currentLotteryId} />
+        </>
+      </Card>
     </TicketDrawWrap>
   )
 }

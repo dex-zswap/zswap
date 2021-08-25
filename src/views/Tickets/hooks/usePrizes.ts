@@ -37,7 +37,7 @@ export function useAllWinNumbers() {
   const winTime = useWinTime(lotteryId)
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState({})
-  const lotteryNum = winTime.eq(BIG_ZERO) ? Number(lotteryId) - 1 : parseInt(lotteryId)
+  const lotteryNum = winTime === '0' ? Number(lotteryId) - 1 : parseInt(lotteryId)
   const lotteryIds = new Array(lotteryNum).fill(0)
   const idIndex = lotteryIds
     .map((item, index) => {

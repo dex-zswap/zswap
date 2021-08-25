@@ -53,12 +53,10 @@ const UserHistoryDetail = ({ lotteryId }) => {
 
   return (
     <>
-      {winTime && (
-        <Text style={{ color: '#999', margin: '-10px 0 30px 3px' }}>
-          {t('Drawn') + ' '}
-          {'0' != winTime.toString() ? format(new Date(winTime.toNumber()), 'yyyy.MM.dd HH:mm') : '-'}
-        </Text>
-      )}
+      <Text style={{ color: '#999', margin: '-10px 0 30px 3px' }}>
+        {t('Drawn') + ' '}
+        {winTime}
+      </Text>
       <Flex>
         <Text mr="46px" bold>
           {t('Price Pot')}
