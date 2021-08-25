@@ -21,7 +21,6 @@ export function useContractCall(contract: Contract | null | any, methodName: str
         setResult(() => res)
         setLoading(() => false)
       } catch (e) {
-        console.error(`call contract.${methodName} throws ${e.message}`)
         setError(() => error)
         setLoading(() => false)
       }

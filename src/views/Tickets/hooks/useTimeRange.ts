@@ -19,8 +19,7 @@ export default function useTimeRange() {
 
     return {
       start,
-      end
+      end,
     }
   }, [startTime])
 }
-

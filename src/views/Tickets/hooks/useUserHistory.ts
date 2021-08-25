@@ -51,7 +51,7 @@ export default function useUserHistory(page: number = 1) {
   return history
 }
 
-export function useUserLotteryIds(lotteryId = '') {
+export function useUserLotteryIds(lotteryNum: string) {
   const [lotteryIds, setlotteryIds] = useState([])
   const { account } = useActiveWeb3React()
   useEffect(() => {
@@ -65,7 +65,7 @@ export function useUserLotteryIds(lotteryId = '') {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          lotteryId,
+          lotteryNum,
           category: 7,
           srcAddr: account,
         }),
