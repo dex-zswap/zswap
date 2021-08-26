@@ -205,7 +205,7 @@ const TicketDraw = () => {
   const changeDrawPage = useCallback(
     (num) => {
       if (!num) {
-        setPreLotteryId(1)
+        setPreLotteryId(currentLotteryId - 1)
       } else {
         setPreLotteryId(preLotteryId + num)
       }
@@ -222,9 +222,9 @@ const TicketDraw = () => {
           height="15px"
           padding="0"
           variant="text"
-          disabled={preLotteryId == currentLotteryId - 1}
+          disabled={preLotteryId == 1}
           onClick={() => {
-            changeDrawPage(1)
+            changeDrawPage(-1)
           }}
         >
           <PreArrowIcon strokeWidth="3px" width="15px" color="text" />
@@ -233,9 +233,9 @@ const TicketDraw = () => {
           height="15px"
           padding="0"
           variant="text"
-          disabled={preLotteryId == 1}
+          disabled={preLotteryId == currentLotteryId - 1}
           onClick={() => {
-            changeDrawPage(-1)
+            changeDrawPage(1)
           }}
         >
           <NextArrowIcon width="15px" color="text" />
@@ -245,7 +245,7 @@ const TicketDraw = () => {
           height="15px"
           padding="0"
           variant="text"
-          disabled={preLotteryId == 1}
+          disabled={preLotteryId == currentLotteryId - 1}
           onClick={() => {
             changeDrawPage(0)
           }}
