@@ -17,8 +17,8 @@ const LotteryPage = styled.div`
     background: #0050fe;
     filter: blur(200px);
     position: absolute;
-    left: 20%;
-    top: 30%;
+    left: 250px;
+    top: 250px;
     z-index: 0;
   }
 
@@ -30,8 +30,8 @@ const LotteryPage = styled.div`
     background: #f866ff;
     filter: blur(150px);
     position: absolute;
-    right: 30%;
-    top: 20%;
+    right: 350px;
+    top: 200px;
     z-index: 0;
   }
 `
