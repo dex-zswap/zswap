@@ -23,9 +23,7 @@ export const addLockedValue = createAction<LpValueLocked>('lpStake/addLockedValu
 export default createReducer<LpValueLockedState>(initialState, (builder) => {
   builder.addCase(addLockedValue, (state, { payload }) => {
     const findIndex = state.lps.findIndex((lp) => lp.pair === payload.pair)
-
-    payload.lockedValue = new BigNumber(payload.lockedValue)
-
+    payload.lockedValue = typeof payload.lockedValue !== 'number' && (payload.lockedValue as BigNumber).isNaN() ? BIG_ZERO : new BigNumber(payload.lockedValue)
     if (findIndex !== -1) {
       state.lps[findIndex] = payload
     } else {
