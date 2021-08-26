@@ -266,10 +266,12 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [liquidityInfo, rewardZustValue])
 
   useEffect(() => {
-    dispatch(addLockedValue({
-      pair: pair.pair,
-      lockedValue: liquidityInfo.lockedValue
-    }))
+    dispatch(
+      addLockedValue({
+        pair: pair.pair,
+        lockedValue: liquidityInfo.lockedValue,
+      }),
+    )
   }, [dispatch, liquidityInfo, pair])
 
   return {

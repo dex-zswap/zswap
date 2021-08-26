@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect} from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
@@ -6,7 +6,7 @@ import useToast from 'hooks/useToast'
 const apiBase = process.env.REACT_APP_API_BASE
 
 const userGetReward = async (txId: string) => {
-  await fetch(`${apiBase}/lottery/getReward`, {
+  await fetch(`${apiBase}lottery/getReward`, {
     mode: 'cors',
     credentials: 'omit',
     method: 'POST',
@@ -15,8 +15,8 @@ const userGetReward = async (txId: string) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      txId
-    })
+      txId,
+    }),
   })
 }
 
@@ -53,12 +53,12 @@ export function useCollectReward() {
 }
 
 export function useUserCollected() {
-  const [ totalCollected, setTotalCollected ] = useState(0)
+  const [totalCollected, setTotalCollected] = useState(0)
   const { account } = useActiveWeb3React()
 
   useEffect(() => {
     const queryUserCollected = () => {
-      fetch(`${apiBase}/lottery/queryTotalReward`, {
+      fetch(`${apiBase}lottery/queryTotalReward`, {
         mode: 'cors',
         credentials: 'omit',
         method: 'POST',
@@ -67,12 +67,11 @@ export function useUserCollected() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          dstAddr: account
-        })
-      }).then(response => response.json())
-      .then((res) => {
-        
+          dstAddr: account,
+        }),
       })
+        .then((response) => response.json())
+        .then((res) => {})
     }
 
     if (account) {

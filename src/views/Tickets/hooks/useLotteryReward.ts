@@ -31,6 +31,10 @@ export function useAllRewards(lotteryIds: string[]) {
   const lotteryContract = useZSwapLotteryContract()
   const zbstPrice = useZBZUSTPrice()
 
+  const prizeBigNumber = useMemo(() => {
+    return zbstPrice ? new BigNumber(zbstPrice.toSignificant(18)) : BIG_ZERO
+  }, [zbstPrice])
+
   useEffect(() => {
     const fetchRewards = async () => {
       const callQueue = lotteryIds.map((id) => lotteryContract.lottoTotalRewards(id))
@@ -41,7 +45,7 @@ export function useAllRewards(lotteryIds: string[]) {
       if (results.length === lotteryIds.length) {
         results.forEach((reward, index) => {
           zbstValue = new BigNumber(reward.toString()).dividedBy(BIG_TEN.pow(18))
-          zustValue = zbstValue.multipliedBy(new BigNumber(zbstPrice.toSignificant(18)))
+          zustValue = zbstValue.multipliedBy(prizeBigNumber)
 
           rewards[`lottery${lotteryIds[index]}`] = {
             zbstValue,
@@ -53,10 +57,10 @@ export function useAllRewards(lotteryIds: string[]) {
       }
     }
 
-    if (lotteryIds && zbstPrice) {
+    if (lotteryIds) {
       fetchRewards()
     }
-  }, [lotteryIds, lotteryContract])
+  }, [lotteryIds, prizeBigNumber, lotteryContract])
 
   return rewardInfo
 }

@@ -6,7 +6,7 @@ import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
 import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
-import useWinTime from './useWinTime'
+import { useHasOpened } from './useWinTime'
 import { useCurrentLotteryId } from './useBuy'
 
 export function useWinNumbers(lotteryId: string | number) {
@@ -34,11 +34,13 @@ export function useWinNumbers(lotteryId: string | number) {
 
 export function useAllWinNumbers() {
   const lotteryId = useCurrentLotteryId()
-  const winTime = useWinTime(lotteryId)
+  const hasOpened = useHasOpened(lotteryId)
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState({})
-  const lotteryNum = winTime === '-' ? Number(lotteryId) - 1 : parseInt(lotteryId)
+  let lotteryNum = hasOpened ? parseInt(lotteryId) : Number(lotteryId) - 1
   const idIndex = useMemo(() => {
+    lotteryNum = hasOpened ? parseInt(lotteryId) : Number(lotteryId) - 1
+
     const lotteryIds = new Array(lotteryNum).fill(0)
     const idIndex = lotteryIds
       .map((item, index) => {
@@ -54,33 +56,29 @@ export function useAllWinNumbers() {
       .flat(1)
 
     return idIndex
-  }, [winTime, lotteryId, lotteryNum])
+  }, [hasOpened, lotteryId, lotteryNum])
 
   useEffect(() => {
     const fetchWinNumbers = async () => {
       try {
         const callQueue = []
         idIndex.forEach((args) => {
-          if (args[0] === 3) {
-            console.log(args)
-            callQueue.push(lotteryContract.lottoWinningNumbers(...args))
-          }
+          callQueue.push(lotteryContract.lottoWinningNumbers(...args))
         })
         const results = await Promise.all(callQueue)
         const wins = {}
-        if (results.length === idIndex.length) {
-          for (let i = 1; i <= lotteryNum; i++) {
-            wins[`lottery${i}`] = results.slice((i - 1) * 6, 6)
-          }
-          setWinNumber(() => wins)
+        for (let i = 1; i <= lotteryNum; i++) {
+          wins[`lottery${i}`] = results.slice((i - 1) * 6, i * 6)
         }
-      } catch (e) {}
+        setWinNumber(() => wins)
+      } catch (e) {
+      }
     }
 
     if (idIndex.length) {
       fetchWinNumbers()
     }
-  }, [lotteryContract, idIndex])
+  }, [lotteryContract, idIndex, lotteryNum])
 
   return winNumbers
 }
