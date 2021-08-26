@@ -476,22 +476,16 @@ export default function AddLiquidity({
                   </Button>
                 ) : (
                   <>
-                  {
-                    ((!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED) && error !== ZB_PAIR_NOT_EXSIT) ?
-                    (
-                      <Button disabled={true}>
-                        {error}
-                      </Button>
-                    )
-                    :
-                    (
+                    {(!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED) &&
+                    error !== ZB_PAIR_NOT_EXSIT ? (
+                      <Button disabled={true}>{error}</Button>
+                    ) : (
                       <Button as={Link} to={createZBPairLink}>
                         {t(error, {
                           symbol: otherCurrencySymbol,
                         })}
                       </Button>
-                    )
-                  }
+                    )}
                   </>
                 )}
               </AutoColumn>

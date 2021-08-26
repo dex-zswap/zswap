@@ -12,9 +12,11 @@ import { usePair } from 'hooks/usePairs'
 import useZUSDPrice, { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useTotalSupply from 'hooks/useTotalSupply'
 import { useTokenBalance } from 'state/wallet/hooks'
+import { useAppDispatch } from 'state'
 import useRefresh from 'hooks/useRefresh'
 import { BIG_TEN, BIG_ONE, BIG_ZERO, BIG_HUNDERED, BIG_ONE_YEAR } from 'utils/bigNumber'
 import getLpReward from 'config/reward/lp'
+import { addLockedValue } from './useTotalValueLocked/state'
 
 const JSBI_ZERO = JSBI.BigInt(0)
 
@@ -26,6 +28,7 @@ type PairsInfo = {
 }
 
 export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
+  const dispatch = useAppDispatch()
   const { slowRefresh } = useRefresh()
   const { chainId, account } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
@@ -121,10 +124,11 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [zbstPrice, lpReward, zbstToken])
 
   const [token0Deposited, token1Deposited] =
-    totalPoolTokens && userPoolBalance 
-    && JSBI.greaterThan(totalPoolTokens.raw, JSBI_ZERO)
-    && JSBI.greaterThan(userPoolBalance.raw, JSBI_ZERO)
-    && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    totalPoolTokens &&
+    userPoolBalance &&
+    JSBI.greaterThan(totalPoolTokens.raw, JSBI_ZERO) &&
+    JSBI.greaterThan(userPoolBalance.raw, JSBI_ZERO) &&
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
           pairInfo.getLiquidityValue(pairInfo.token0, totalPoolTokens, userPoolBalance, false),
           pairInfo.getLiquidityValue(pairInfo.token1, totalPoolTokens, userPoolBalance, false),
@@ -252,12 +256,21 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   ])
 
   const displayApr = useMemo(() => {
-    return liquidityInfo.lockedValue === 0 ? '0.00' : rewardZustValue
-      .dividedBy(liquidityInfo.lockedValue)
-      .multipliedBy(BIG_HUNDERED)
-      .multipliedBy(BIG_ONE_YEAR)
-      .toFixed(2, BigNumber.ROUND_DOWN)
+    return liquidityInfo.lockedValue === 0
+      ? '0.00'
+      : rewardZustValue
+          .dividedBy(liquidityInfo.lockedValue)
+          .multipliedBy(BIG_HUNDERED)
+          .multipliedBy(BIG_ONE_YEAR)
+          .toFixed(2, BigNumber.ROUND_DOWN)
   }, [liquidityInfo, rewardZustValue])
+
+  useEffect(() => {
+    dispatch(addLockedValue({
+      pair: pair.pair,
+      lockedValue: liquidityInfo.lockedValue
+    }))
+  }, [dispatch, liquidityInfo, pair])
 
   return {
     lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,

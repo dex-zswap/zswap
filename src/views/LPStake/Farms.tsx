@@ -7,7 +7,6 @@ import { Spinner } from 'zswap-uikit'
 import HelpButton from 'components/HelpButton'
 import { ChainId } from 'zswap-sdk'
 import styled from 'styled-components'
-import FlexLayout from 'components/Layout/Flex'
 import Page from 'components/Layout/Page'
 import { useFarms, usePollFarmsData, usePriceCakeBusd } from 'state/farms/hooks'
 import usePersistState from 'hooks/usePersistState'
@@ -20,82 +19,14 @@ import isArchivedPid from 'utils/farmHelpers'
 import { latinise } from 'utils/latinise'
 import { useUserFarmStakedOnly } from 'state/user/hooks'
 import PageHeader from 'components/PageHeader'
-import SearchInput from 'components/SearchInput'
-import Select, { OptionProps } from 'components/Select/Select'
-import Loading from 'components/Loading'
+import { OptionProps } from 'components/Select/Select'
 import { FarmWithStakedValue } from './components/FarmCard/FarmCard'
 // import Table from './components/FarmTable/FarmTable'
 import WrapperedCard from './components/FarmCard/WrappedCard'
-import FarmTabButtons from './components/FarmTabButtons'
 import { ViewMode } from './components/types'
 import { useAllPairs } from './hooks/useAllPairs'
+import { useTotalValueLocked } from './hooks/useTotalValueLocked/state'
 
-const ControlContainer = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  position: relative;
-
-  justify-content: space-between;
-  flex-direction: column;
-  margin-bottom: 32px;
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 16px 32px;
-    margin-bottom: 0;
-  }
-`
-
-const ToggleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 10px;
-
-  ${Text} {
-    margin-left: 8px;
-  }
-`
-
-const LabelWrapper = styled.div`
-  > ${Text} {
-    font-size: 12px;
-  }
-`
-
-const FilterContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 8px 0px;
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    width: auto;
-    padding: 0;
-  }
-`
-
-const ViewControls = styled.div`
-  flex-wrap: wrap;
-  justify-content: space-between;
-  display: flex;
-  align-items: center;
-  width: 100%;
-
-  > div {
-    padding: 8px 0px;
-  }
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    justify-content: flex-start;
-    width: auto;
-
-    > div {
-      padding: 0;
-    }
-  }
-`
 const HeaderWrap = styled(PageHeader)`
   position: relative;
   overflow: hidden;
@@ -145,12 +76,6 @@ const PairCardWrap = styled.div`
 const CardContainer = styled(Flex)`
   flex-wrap: wrap;
 `
-
-const StyledImage = styled(Image)`
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 58px;
-`
 const NUMBER_OF_FARMS_VISIBLE = 12
 
 const getDisplayApr = (cakeRewardsApr?: number, lpRewardsApr?: number) => {
@@ -183,6 +108,7 @@ const Farms: React.FC = () => {
   const isArchived = pathname.includes('archived')
   const isInactive = pathname.includes('history')
   const isActive = !isInactive && !isArchived
+  const totalLocked = useTotalValueLocked()
 
   usePollFarmsData(isArchived)
 
@@ -381,7 +307,7 @@ const Farms: React.FC = () => {
               <HelpButton />
             </Heading>
             <Heading scale="xxl" color="pink">
-              $72,593,369.39
+              ${totalLocked}
             </Heading>
             <Heading scale="md" color="text">
               {t('Total Value Locked (TVL)')}

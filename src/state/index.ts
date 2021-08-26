@@ -20,6 +20,7 @@ import mint from './mint/reducer'
 import lists from './lists/reducer'
 import burn from './burn/reducer'
 import multicall from './multicall/reducer'
+import lpTotalValueLocked from 'views/LPStake/hooks/useTotalValueLocked/state'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
@@ -46,6 +47,9 @@ const store = configureStore({
     burn,
     multicall,
     lists,
+
+    // stake
+    lpTotalValueLocked,
   },
   middleware: [...getDefaultMiddleware({ thunk: true }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS }),

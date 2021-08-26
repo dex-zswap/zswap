@@ -9,11 +9,10 @@ import reporter from 'reporter'
 export default function useBuy() {
   const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
-  const lotteryNum = useCurrentLotteryId()
   const { chainId, account } = useActiveWeb3React()
 
   const buyTickets = useCallback(
-    async (numbers) => {
+    async (numbers, lotteryNum) => {
       try {
         setBuying(true)
         const tickets = numbers.map(hexlify)

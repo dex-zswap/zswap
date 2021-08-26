@@ -37,32 +37,41 @@ export function useAllWinNumbers() {
   const winTime = useWinTime(lotteryId)
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState({})
-  const lotteryNum = winTime === '0' ? Number(lotteryId) - 1 : parseInt(lotteryId)
-  const lotteryIds = new Array(lotteryNum).fill(0)
-  const idIndex = lotteryIds
-    .map((item, index) => {
-      return [
-        [index + 1, 0],
-        [index + 1, 1],
-        [index + 1, 2],
-        [index + 1, 3],
-        [index + 1, 4],
-        [index + 1, 5],
-      ]
-    })
-    .flat(1)
+  const lotteryNum = winTime === '-' ? Number(lotteryId) - 1 : parseInt(lotteryId)
+  const idIndex = useMemo(() => {
+    const lotteryIds = new Array(lotteryNum).fill(0)
+    const idIndex = lotteryIds
+      .map((item, index) => {
+        return [
+          [index + 1, 0],
+          [index + 1, 1],
+          [index + 1, 2],
+          [index + 1, 3],
+          [index + 1, 4],
+          [index + 1, 5],
+        ]
+      })
+      .flat(1)
+
+    return idIndex
+  }, [winTime, lotteryId, lotteryNum])
 
   useEffect(() => {
     const fetchWinNumbers = async () => {
       try {
-        const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
+        const callQueue = []
+        idIndex.forEach((args) => {
+          if (args[0] === 3) {
+            console.log(args)
+            callQueue.push(lotteryContract.lottoWinningNumbers(...args))
+          }
+        })
         const results = await Promise.all(callQueue)
         const wins = {}
         if (results.length === idIndex.length) {
           for (let i = 1; i <= lotteryNum; i++) {
             wins[`lottery${i}`] = results.slice((i - 1) * 6, 6)
           }
-
           setWinNumber(() => wins)
         }
       } catch (e) {}
@@ -71,7 +80,7 @@ export function useAllWinNumbers() {
     if (idIndex.length) {
       fetchWinNumbers()
     }
-  }, [lotteryContract])
+  }, [lotteryContract, idIndex])
 
   return winNumbers
 }
