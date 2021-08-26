@@ -46,6 +46,8 @@ const RowWrap = styled.div`
   margin-bottom: 40px;
 `
 
+const ZB_PAIR_NOT_EXSIT = 'Create ZB Pair'
+
 export default function AddLiquidity({
   match: {
     params: { currencyIdA, currencyIdB },
@@ -473,11 +475,24 @@ export default function AddLiquidity({
                     {error ?? t('Supply')}
                   </Button>
                 ) : (
-                  <Button as={Link} to={createZBPairLink}>
-                    {t(error, {
-                      symbol: otherCurrencySymbol,
-                    })}
-                  </Button>
+                  <>
+                  {
+                    ((!isValid || approvalA !== ApprovalState.APPROVED || approvalB !== ApprovalState.APPROVED) && error !== ZB_PAIR_NOT_EXSIT) ?
+                    (
+                      <Button disabled={true}>
+                        {error}
+                      </Button>
+                    )
+                    :
+                    (
+                      <Button as={Link} to={createZBPairLink}>
+                        {t(error, {
+                          symbol: otherCurrencySymbol,
+                        })}
+                      </Button>
+                    )
+                  }
+                  </>
                 )}
               </AutoColumn>
             )}
