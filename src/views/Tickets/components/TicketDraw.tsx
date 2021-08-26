@@ -1,15 +1,16 @@
 import styled from 'styled-components'
-import { Text, Flex, Button, ArrowRightIcon } from 'zswap-uikit'
+import { Text, Flex, Button, NextArrowIcon, EndArrowIcon, PreArrowIcon } from 'zswap-uikit'
 import Card from './Card'
 import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
 import PriceRule from './PriceRule'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import useWinTime from 'views/Tickets/hooks/useWinTime'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
+import useTimeRange from 'views/Tickets/hooks/useTimeRange'
 
 const TicketDrawWrap = styled.div`
   position: relative;
@@ -93,56 +94,62 @@ const BallWrap = styled(Flex)`
   }
 `
 
+const RightContentWrap = styled(Flex)`
+  .zswap-button--disabled > svg {
+    fill: #999 !important;
+  }
+`
+
 const TicketDraw = () => {
   const { t } = useTranslation()
-  const lotteryId = useCurrentLotteryId()
-  const [currentLotteryId, setCurrentLotteryId] = useState(Number(lotteryId))
-  const winNumbers = useWinNumbers(currentLotteryId)
-  const { zustValue, zbRewards } = useLotteryReward(currentLotteryId)
-  const winTime = useWinTime(currentLotteryId)
-  const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
 
+  const currentLotteryId = Number(useCurrentLotteryId())
+  const [preLotteryId, setPreLotteryId] = useState(0)
   const [showPreView, setShowPreView] = useState(false)
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setUntilDrawTime(() => {
-        const date = new Date()
-        let hour = date.getHours() - 1
-        hour = hour > 13 ? 36 - hour : 13 - hour
-        let min = 60 - date.getMinutes()
-        const h = hour > 10 ? hour + '' : '0' + hour
-        const m = min > 10 ? min + '' : '0' + min
-        return { h, m }
-      })
+  const lotteryId = showPreView ? preLotteryId : currentLotteryId
+
+  const winNumbers = useWinNumbers(lotteryId)
+  const { zustValue, zbRewards } = useLotteryReward(lotteryId)
+  const winTime = useWinTime(lotteryId)
+
+  const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
+  const timeRange = useTimeRange()
+
+  const getUntilDrawTime = () => {
+    setUntilDrawTime(() => {
+      const date = new Date()
+      let hour = date.getHours() - 1
+      hour = hour > 13 ? 36 - hour : 13 - hour
+      let min = 60 - date.getMinutes()
+      const h = hour > 10 ? hour + '' : '0' + hour
+      const m = min > 10 ? min + '' : '0' + min
+      return { h, m }
     })
+  }
+
+  useEffect(() => {
+    getUntilDrawTime()
+    const timer = setInterval(() => {
+      getUntilDrawTime()
+    }, 60000)
     return () => {
+      setUntilDrawTime({ h: '00', m: '00' })
       clearInterval(timer)
     }
   }, [])
 
-  const rightContent = useMemo(() => {
-    if (!showPreView || Number(lotteryId) < 3) return false
-    return (
-      <Flex alignItems="center">
-        <Button disabled={currentLotteryId == Number(lotteryId) - 1} mr="18px" height="15px" padding="0" variant="text">
-          <ArrowRightIcon style={{ transform: 'rotate(180deg)' }} width="15px" color="text" />
-        </Button>
-        <Button disabled={currentLotteryId == 1} height="15px" padding="0" variant="text">
-          <ArrowRightIcon width="15px" color="text" />
-        </Button>
-      </Flex>
-    )
-  }, [showPreView, lotteryId, currentLotteryId])
-
-  return (
-    <TicketDrawWrap>
-      <img width="65px" src="/images/tickets/obj_3_1.png" />
-      <img width="22px" src="/images/tickets/obj_2_2.png" />
-      <img width="197px" src="/images/tickets/obj_3_2.png" />
-      <Text textAlign="center" fontSize="48px" margin="0 auto 75px" bold>
-        {t('Get your tickets now!')}
-      </Text>
+  const untilDrawContent = useMemo(() => {
+    const date = new Date().getTime()
+    const showUntilDraw = !timeRange || !(timeRange.start > date) || timeRange.end > date
+    let tip: string = ''
+    if (timeRange && timeRange.start && timeRange.start > date) {
+      tip = t('Awards to be announced soon')
+    }
+    if (timeRange && timeRange.end && timeRange.end < date) {
+      tip = t('Lottery tickets to go on sale')
+    }
+    return showUntilDraw ? (
       <Flex mb="120px" alignItems="center" justifyContent="center">
         <NumWrap>{untilDrawTime.h}</NumWrap>
         <Text fontSize="24px" mr="16px" color="blue" bold>
@@ -156,13 +163,83 @@ const TicketDraw = () => {
           {t('until the draw')}
         </Text>
       </Flex>
+    ) : (
+      <Text textAlign="center" fontSize="24px" mb="120px" color="blue" bold>
+        {tip}
+      </Text>
+    )
+  }, [timeRange])
+
+  const changeDrawPage = useCallback(
+    (num) => {
+      if (!num) {
+        setPreLotteryId(1)
+      } else {
+        setPreLotteryId(preLotteryId + num)
+      }
+    },
+    [preLotteryId],
+  )
+
+  const rightContent = useMemo(() => {
+    if (!showPreView || currentLotteryId < 3) return false
+    return (
+      <RightContentWrap alignItems="center">
+        <Button
+          mr="18px"
+          height="15px"
+          padding="0"
+          variant="text"
+          disabled={preLotteryId == currentLotteryId - 1}
+          onClick={() => {
+            changeDrawPage(1)
+          }}
+        >
+          <PreArrowIcon strokeWidth="3px" width="15px" color="text" />
+        </Button>
+        <Button
+          height="15px"
+          padding="0"
+          variant="text"
+          disabled={preLotteryId == 1}
+          onClick={() => {
+            changeDrawPage(-1)
+          }}
+        >
+          <NextArrowIcon width="15px" color="text" />
+        </Button>
+        <Button
+          ml="18px"
+          height="15px"
+          padding="0"
+          variant="text"
+          disabled={preLotteryId == 1}
+          onClick={() => {
+            changeDrawPage(0)
+          }}
+        >
+          <EndArrowIcon width="15px" color="text" />
+        </Button>
+      </RightContentWrap>
+    )
+  }, [showPreView, currentLotteryId, preLotteryId])
+
+  return (
+    <TicketDrawWrap>
+      <img width="65px" src="/images/tickets/obj_3_1.png" />
+      <img width="22px" src="/images/tickets/obj_2_2.png" />
+      <img width="197px" src="/images/tickets/obj_3_2.png" />
+      <Text textAlign="center" fontSize="48px" margin="0 auto 40px" bold>
+        {t('Get your tickets now!')}
+      </Text>
+      {untilDrawContent}
       <ButtonWrap>
         <Button
           style={{ color: showPreView ? '#0050FF' : '#fff' }}
           variant={showPreView ? 'text' : 'primary'}
           onClick={() => {
             setShowPreView(false)
-            setCurrentLotteryId(Number(lotteryId))
+            setPreLotteryId(currentLotteryId)
           }}
         >
           {t('Current Draw')}
@@ -170,17 +247,17 @@ const TicketDraw = () => {
         <Button
           style={{ color: showPreView ? '#fff' : '#0050FF' }}
           variant={showPreView ? 'primary' : 'text'}
-          disabled={'1' == lotteryId}
+          disabled={1 == currentLotteryId}
           onClick={() => {
             setShowPreView(true)
-            setCurrentLotteryId(Number(lotteryId) - 1)
+            setPreLotteryId(currentLotteryId - 1)
           }}
         >
           {t('Previous Draw')}
         </Button>
       </ButtonWrap>
       <Card
-        title={`${t('Round')} ${currentLotteryId}`}
+        title={`${t('Round')} ${lotteryId}`}
         subTitle={showPreView ? '' : `${t('Draw')}: ${winTime}`}
         rightContent={rightContent}
       >
@@ -215,7 +292,7 @@ const TicketDraw = () => {
               <BuyTicketsButton />
             )}
           </Flex>
-          <PriceRule lotteryId={currentLotteryId} />
+          <PriceRule lotteryId={lotteryId} />
         </>
       </Card>
     </TicketDrawWrap>

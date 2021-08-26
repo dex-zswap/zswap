@@ -60,7 +60,7 @@ const Logo: React.FC<Props> = ({ isPushed, togglePush, isDark, href }) => {
 
   const innerLogo = (
     <>
-      <img width="32px" src="/images/logo.png" />
+      <img width="32px" src="/images/home/logo.png" />
       <Text ml="10px" fontSize="20px" fontWeight="bold">
         ZSwap
       </Text>
