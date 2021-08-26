@@ -48,7 +48,6 @@ export default function useBuy() {
 export function useCurrentLotteryId() {
   const lotteryContract = useZSwapLotteryContract()
   const lotteryId = useContractCall(lotteryContract, 'lotteryId', [])
-
   return useMemo(() => {
     if (!lotteryId.result) {
       return '1'
