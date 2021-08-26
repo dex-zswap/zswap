@@ -11,11 +11,12 @@ import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import useWinTime from 'views/Tickets/hooks/useWinTime'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import useTimeRange from 'views/Tickets/hooks/useTimeRange'
+import dayjs from 'dayjs'
 
 const TicketDrawWrap = styled.div`
   position: relative;
   margin-bottom: 200px;
-  img {
+  > img {
     position: absolute;
     left: 0;
     right: 0;
@@ -77,7 +78,7 @@ const BallWrap = styled(Flex)`
     color: #fff;
     margin-right: 15px;
     &:first-child,
-    &:last-child {
+    &:nth-child(6) {
       background: url(/images/tickets/ball_1.png) center / contain no-repeat;
     }
     &:nth-child(2),
@@ -88,7 +89,7 @@ const BallWrap = styled(Flex)`
     &:nth-child(5) {
       background: url(/images/tickets/ball_3.png) center / contain no-repeat;
     }
-    &:last-child {
+    &:nth-child(6) {
       margin-right: 0;
     }
   }
@@ -115,6 +116,12 @@ const TicketDraw = () => {
 
   const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
   const timeRange = useTimeRange()
+
+  const currentWinTime = useMemo(() => {
+    const hour = new Date().getHours()
+    const date = hour > 14 ? dayjs().add(1, 'day').format('YYYY.MM.DD') : dayjs().format('YYYY.MM.DD')
+    return `${date} 14:00`
+  }, [timeRange])
 
   const getUntilDrawTime = () => {
     setUntilDrawTime(() => {
@@ -258,7 +265,7 @@ const TicketDraw = () => {
       </ButtonWrap>
       <Card
         title={`${t('Round')} ${lotteryId}`}
-        subTitle={showPreView ? '' : `${t('Draw')}: ${winTime}`}
+        subTitle={showPreView ? '' : `${t('Draw')}: ${currentWinTime}`}
         rightContent={rightContent}
       >
         <>
@@ -287,6 +294,9 @@ const TicketDraw = () => {
                 {winNumbers.map((d, index) => (
                   <div key={index}>{d}</div>
                 ))}
+                {preLotteryId == currentLotteryId - 1 && (
+                  <img style={{ marginLeft: '65px' }} width="53px" src="/images/tickets/latest.png" />
+                )}
               </BallWrap>
             ) : (
               <BuyTicketsButton />

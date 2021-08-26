@@ -69,7 +69,7 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
 
   const winTicks = useMemo(() => totalTicks.filter((d) => t('No Prize') != getRewardLevel(d))[0] || [], [totalTicks])
 
-  const numbers = useMemo(() => (onlyShowWin ? winTicks : totalTicks), [onlyShowWin, totalTicks, winTicks])
+  const numbers = onlyShowWin ? winTicks : totalTicks
 
   const pages = useMemo(() => Math.ceil(numbers.length / 5), [numbers])
 
@@ -92,7 +92,7 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
       {pageNumbers.map((numWrap: string, index: number) => (
         <Flex key={index} justifyContent="space-between" alignItems="center" mb="16px">
           <NumWrap>
-            <Text mr="55px" bold>
+            <Text width="44px" mr="55px" bold>
               {getOrderStr(index)}
             </Text>
             {numWrap.split('').map((num: string, nIndex: number) => (
