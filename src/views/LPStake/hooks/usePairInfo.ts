@@ -121,10 +121,11 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [zbstPrice, lpReward, zbstToken])
 
   const [token0Deposited, token1Deposited] =
-    totalPoolTokens && userPoolBalance 
-    && JSBI.greaterThan(totalPoolTokens.raw, JSBI_ZERO)
-    && JSBI.greaterThan(userPoolBalance.raw, JSBI_ZERO)
-    && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    totalPoolTokens &&
+    userPoolBalance &&
+    JSBI.greaterThan(totalPoolTokens.raw, JSBI_ZERO) &&
+    JSBI.greaterThan(userPoolBalance.raw, JSBI_ZERO) &&
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
           pairInfo.getLiquidityValue(pairInfo.token0, totalPoolTokens, userPoolBalance, false),
           pairInfo.getLiquidityValue(pairInfo.token1, totalPoolTokens, userPoolBalance, false),
@@ -252,11 +253,13 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   ])
 
   const displayApr = useMemo(() => {
-    return liquidityInfo.lockedValue === 0 ? '0.00' : rewardZustValue
-      .dividedBy(liquidityInfo.lockedValue)
-      .multipliedBy(BIG_HUNDERED)
-      .multipliedBy(BIG_ONE_YEAR)
-      .toFixed(2, BigNumber.ROUND_DOWN)
+    return liquidityInfo.lockedValue === 0
+      ? '0.00'
+      : rewardZustValue
+          .dividedBy(liquidityInfo.lockedValue)
+          .multipliedBy(BIG_HUNDERED)
+          .multipliedBy(BIG_ONE_YEAR)
+          .toFixed(2, BigNumber.ROUND_DOWN)
   }, [liquidityInfo, rewardZustValue])
 
   return {
