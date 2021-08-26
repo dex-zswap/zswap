@@ -127,14 +127,6 @@ const UserPrizes = () => {
     return prizes
   }, [lotteryIds, allWinNumbers, fastRefresh])
 
-  const userHasPrized = useMemo(() => {
-    return Boolean(
-      Object.keys(allPrizes).reduce((result, current) => {
-        return allPrizes[current].filter(({ isSelf }) => isSelf).length + result
-      }, 0),
-    )
-  }, [allPrizes])
-
   const lotteryRewardIds = useMemo(() => Object.keys(allPrizes).map((key) => key.substr(7)), [allPrizes])
   const allRewardInfo = useAllRewards(lotteryRewardIds)
 
@@ -176,7 +168,7 @@ const UserPrizes = () => {
         {!account || !lotteryIds.length ? (
           <Flex height="238px" flexDirection="column" alignItems="center" justifyContent="center">
             {!account && <Text mb="20px">{t('Connect your wallet to check your prizes')}</Text>}
-            {account && !userHasPrized && (
+            {account && !userTotalRewardInfo.hasPrizes && (
               <>
                 {'1' != currentLotteryId && <Text mb="5px">{t('You have not won any prizes last round.')}</Text>}
                 <Text mb="20px">{t('Buy tickets for this draw!')}</Text>
