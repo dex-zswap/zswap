@@ -16,6 +16,31 @@ import dayjs from 'dayjs'
 const TicketDrawWrap = styled.div`
   position: relative;
   margin-bottom: 200px;
+  &::before {
+    content: '';
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: #0050fe;
+    filter: blur(200px);
+    position: absolute;
+    right: 250px;
+    top: 0;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: #f866ff;
+    filter: blur(180px);
+    position: absolute;
+    left: 400px;
+    top: 250px;
+    z-index: 0;
+  }
   > img {
     position: absolute;
     left: 0;
