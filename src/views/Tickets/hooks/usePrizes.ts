@@ -9,7 +9,7 @@ import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 import useWinTime from './useWinTime'
 import { useCurrentLotteryId } from './useBuy'
 
-export function useWinNumbers(lotteryId: string) {
+export function useWinNumbers(lotteryId: string | number) {
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState([])
   const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index])

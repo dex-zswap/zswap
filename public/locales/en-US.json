@@ -1398,7 +1398,6 @@
   " or last 1":" or last 1",
   "Drawn":"Drawn",
   "Congratulations on your winning!":"Congratulations on your winning!",
-  "Winning Number":"Winning Number",
   "Prize Bracket":"Prize Bracket",
   "Your ticket numbers":"Your ticket numbers",
   "1st Prize":"1st Prize",
@@ -1420,5 +1419,6 @@
   "Connect your wallet to check your prizes":"Connect your wallet to check your prizes",
   "Current Draw":"Current Draw",
   "Previous Draw":"Previous Draw",
-  "Price Pot":"Price Pot"
+  "Price Pot":"Price Pot",
+  "Winning Number":"Winning Number"
 }
