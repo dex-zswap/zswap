@@ -13,7 +13,7 @@ export default function useWinTime(lotteryId: string | number) {
 }
 
 export function useHasOpened(lotteryId: string) {
-  const [ opened, setOpened ] = useState(false)
+  const [opened, setOpened] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
 
   useEffect(() => {

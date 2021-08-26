@@ -71,8 +71,7 @@ export function useAllWinNumbers() {
           wins[`lottery${i}`] = results.slice((i - 1) * 6, i * 6)
         }
         setWinNumber(() => wins)
-      } catch (e) {
-      }
+      } catch (e) {}
     }
 
     if (idIndex.length) {
