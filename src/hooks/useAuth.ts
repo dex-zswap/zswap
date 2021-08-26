@@ -61,6 +61,7 @@ const useAuth = () => {
   const logout = useCallback(() => {
     dispatch(profileClear())
     deactivate()
+    window.localStorage.removeItem(connectorLocalStorageKey)
     // This localStorage key is set by @web3-react/walletconnect-connector
     if (window.localStorage.getItem('walletconnect')) {
       connectorsByName.walletconnect.close()

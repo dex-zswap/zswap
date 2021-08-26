@@ -6,7 +6,7 @@ import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useUserAllLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
-import { useCollectReward } from 'views/Tickets/hooks/useUserPrize'
+import { useCollectReward, useUserCollected } from 'views/Tickets/hooks/useUserPrize'
 import { useAllWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useAllRewards } from 'views/Tickets/hooks/useLotteryReward'
 import { BIG_ZERO } from 'utils/bigNumber'
@@ -79,6 +79,7 @@ const UserPrizes = () => {
   const lotteryIds = useUserAllLotteryIds()
   const allWinNumbers = useAllWinNumbers()
   const { collectReward, collecting } = useCollectReward()
+  const userCollected = useUserCollected()
 
   const allPrizes = useMemo(() => {
     const prizes = {}

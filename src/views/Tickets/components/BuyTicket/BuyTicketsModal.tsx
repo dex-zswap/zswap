@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { Text, Input, Flex, Modal, Button } from 'zswap-uikit'
 import useTicketPrice, { useZBSTBalance } from 'views/Tickets/hooks/useTicketPrice'
 import useApprove, { useApproveStatus } from 'views/Tickets/hooks/useApprove'
-import useBuy from 'views/Tickets/hooks/useBuy'
+import useBuy, { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
 import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
@@ -148,6 +148,8 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
   const needApprove = useApproveStatus()
   const { approve, approving } = useApprove()
 
+  const lotteryNum = useCurrentLotteryId()
+
   const { buyTickets, buying } = useBuy()
   const zbstBalance = useZBSTBalance()
   const ticketPrice = useTicketPrice()
@@ -171,7 +173,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
   }, [])
 
   const buy = useCallback(() => {
-    buyTickets(numbers)
+    buyTickets(numbers, lotteryNum)
   }, [buyTickets, numbers])
 
   const backInput = useCallback(() => {

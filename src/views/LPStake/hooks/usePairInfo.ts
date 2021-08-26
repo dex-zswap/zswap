@@ -12,9 +12,11 @@ import { usePair } from 'hooks/usePairs'
 import useZUSDPrice, { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useTotalSupply from 'hooks/useTotalSupply'
 import { useTokenBalance } from 'state/wallet/hooks'
+import { useAppDispatch } from 'state'
 import useRefresh from 'hooks/useRefresh'
 import { BIG_TEN, BIG_ONE, BIG_ZERO, BIG_HUNDERED, BIG_ONE_YEAR } from 'utils/bigNumber'
 import getLpReward from 'config/reward/lp'
+import { addLockedValue } from './useTotalValueLocked/state'
 
 const JSBI_ZERO = JSBI.BigInt(0)
 
@@ -26,6 +28,7 @@ type PairsInfo = {
 }
 
 export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
+  const dispatch = useAppDispatch()
   const { slowRefresh } = useRefresh()
   const { chainId, account } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
@@ -261,6 +264,15 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
           .multipliedBy(BIG_ONE_YEAR)
           .toFixed(2, BigNumber.ROUND_DOWN)
   }, [liquidityInfo, rewardZustValue])
+
+  useEffect(() => {
+    dispatch(
+      addLockedValue({
+        pair: pair.pair,
+        lockedValue: liquidityInfo.lockedValue,
+      }),
+    )
+  }, [dispatch, liquidityInfo, pair])
 
   return {
     lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,

@@ -4,7 +4,7 @@ import useRefresh from 'hooks/useRefresh'
 import { Contract } from '@ethersproject/contracts'
 
 export function useContractCall(contract: Contract | null | any, methodName: string, inputs: Array<unknown> = []) {
-  const { fastRefresh } = useRefresh()
+  const { slowRefresh } = useRefresh()
   const [result, setResult] = useState(null)
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -27,7 +27,7 @@ export function useContractCall(contract: Contract | null | any, methodName: str
     }
 
     call()
-  }, [fastRefresh])
+  }, [slowRefresh])
 
   return useMemo(() => {
     return {

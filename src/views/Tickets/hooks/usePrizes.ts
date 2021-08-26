@@ -6,7 +6,7 @@ import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
 import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
-import useWinTime from './useWinTime'
+import { useHasOpened } from './useWinTime'
 import { useCurrentLotteryId } from './useBuy'
 
 export function useWinNumbers(lotteryId: string | number) {
@@ -34,44 +34,50 @@ export function useWinNumbers(lotteryId: string | number) {
 
 export function useAllWinNumbers() {
   const lotteryId = useCurrentLotteryId()
-  const winTime = useWinTime(lotteryId)
+  const hasOpened = useHasOpened(lotteryId)
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState({})
-  const lotteryNum = winTime === '0' ? Number(lotteryId) - 1 : parseInt(lotteryId)
-  const lotteryIds = new Array(lotteryNum).fill(0)
-  const idIndex = lotteryIds
-    .map((item, index) => {
-      return [
-        [index + 1, 0],
-        [index + 1, 1],
-        [index + 1, 2],
-        [index + 1, 3],
-        [index + 1, 4],
-        [index + 1, 5],
-      ]
-    })
-    .flat(1)
+  let lotteryNum = hasOpened ? parseInt(lotteryId) : Number(lotteryId) - 1
+  const idIndex = useMemo(() => {
+    lotteryNum = hasOpened ? parseInt(lotteryId) : Number(lotteryId) - 1
+
+    const lotteryIds = new Array(lotteryNum).fill(0)
+    const idIndex = lotteryIds
+      .map((item, index) => {
+        return [
+          [index + 1, 0],
+          [index + 1, 1],
+          [index + 1, 2],
+          [index + 1, 3],
+          [index + 1, 4],
+          [index + 1, 5],
+        ]
+      })
+      .flat(1)
+
+    return idIndex
+  }, [hasOpened, lotteryId, lotteryNum])
 
   useEffect(() => {
     const fetchWinNumbers = async () => {
       try {
-        const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
+        const callQueue = []
+        idIndex.forEach((args) => {
+          callQueue.push(lotteryContract.lottoWinningNumbers(...args))
+        })
         const results = await Promise.all(callQueue)
         const wins = {}
-        if (results.length === idIndex.length) {
-          for (let i = 1; i <= lotteryNum; i++) {
-            wins[`lottery${i}`] = results.slice((i - 1) * 6, 6)
-          }
-
-          setWinNumber(() => wins)
+        for (let i = 1; i <= lotteryNum; i++) {
+          wins[`lottery${i}`] = results.slice((i - 1) * 6, i * 6)
         }
+        setWinNumber(() => wins)
       } catch (e) {}
     }
 
     if (idIndex.length) {
       fetchWinNumbers()
     }
-  }, [lotteryContract])
+  }, [lotteryContract, idIndex, lotteryNum])
 
   return winNumbers
 }

@@ -1,6 +1,24 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
+
+const apiBase = process.env.REACT_APP_API_BASE
+
+const userGetReward = async (txId: string) => {
+  await fetch(`${apiBase}lottery/getReward`, {
+    mode: 'cors',
+    credentials: 'omit',
+    method: 'POST',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      txId,
+    }),
+  })
+}
 
 export function useCollectReward() {
   const [collecting, setCollecting] = useState(false)
@@ -14,6 +32,7 @@ export function useCollectReward() {
       const receipt = await tx.wait()
       setCollecting(false)
       if (receipt.status) {
+        userGetReward(tx.hash)
         toastSuccess('Success Collected', 'You have success collected your ticket prizes')
       } else {
         toastError(
@@ -31,4 +50,34 @@ export function useCollectReward() {
     collectReward,
     collecting,
   }
+}
+
+export function useUserCollected() {
+  const [totalCollected, setTotalCollected] = useState(0)
+  const { account } = useActiveWeb3React()
+
+  useEffect(() => {
+    const queryUserCollected = () => {
+      fetch(`${apiBase}lottery/queryTotalReward`, {
+        mode: 'cors',
+        credentials: 'omit',
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          dstAddr: account,
+        }),
+      })
+        .then((response) => response.json())
+        .then((res) => {})
+    }
+
+    if (account) {
+      queryUserCollected()
+    }
+  }, [account])
+
+  return totalCollected
 }
