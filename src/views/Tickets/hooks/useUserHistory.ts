@@ -118,7 +118,7 @@ export function useUserAllLotteryIds() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          category: 7
+          category: 7,
         }),
       })
         .then((response) => response.json())

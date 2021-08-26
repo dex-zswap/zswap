@@ -27,34 +27,34 @@ const getPrizesLevels = (prizes, filterUser = true) => {
   const result = {
     1: {
       total: 0,
-      user: 0
+      user: 0,
     },
     2: {
       total: 0,
-      user: 0
+      user: 0,
     },
     3: {
       total: 0,
-      user: 0
+      user: 0,
     },
     4: {
       total: 0,
-      user: 0
+      user: 0,
     },
     5: {
       total: 0,
-      user: 0
+      user: 0,
     },
     6: {
       total: 0,
-      user: 0
-    }
+      user: 0,
+    },
   }
 
   prizes.forEach((prize) => {
-    result[prize.level].total ++
+    result[prize.level].total++
     if (prize.isSelf) {
-      result[prize.level].user ++
+      result[prize.level].user++
     }
   })
 
@@ -117,7 +117,7 @@ const UserPrizes = () => {
               lotteryId: id,
               winedNumber: num,
               isSelf,
-              level
+              level,
             })
           }
         })
@@ -128,9 +128,11 @@ const UserPrizes = () => {
   }, [lotteryIds, allWinNumbers, fastRefresh])
 
   const userHasPrized = useMemo(() => {
-    return Boolean(Object.keys(allPrizes).reduce((result, current) => {
-      return allPrizes[current].filter(({ isSelf }) => isSelf).length + result
-    }, 0))
+    return Boolean(
+      Object.keys(allPrizes).reduce((result, current) => {
+        return allPrizes[current].filter(({ isSelf }) => isSelf).length + result
+      }, 0),
+    )
   }, [allPrizes])
 
   const lotteryRewardIds = useMemo(() => Object.keys(allPrizes).map((key) => key.substr(7)), [allPrizes])
@@ -142,11 +144,14 @@ const UserPrizes = () => {
 
     Object.keys(allPrizes).forEach((key) => {
       const rewardInfo = allRewardInfo[key]
-      const [ ZUST, ZBST ] = rewardInfo ? [ rewardInfo.zustValue, rewardInfo.zbstValue ] : [BIG_ZERO, BIG_ZERO]
+      const [ZUST, ZBST] = rewardInfo ? [rewardInfo.zustValue, rewardInfo.zbstValue] : [BIG_ZERO, BIG_ZERO]
       const currentRound = getPrizesLevels(allPrizes[key])
 
       Object.keys(currentRound).forEach((key) => {
-        const [ zustPool, zbstPool ] = [ ZUST.times(REWARD_RATE[Number(key) - 1]), ZBST.times(REWARD_RATE[Number(key) - 1]) ]
+        const [zustPool, zbstPool] = [
+          ZUST.times(REWARD_RATE[Number(key) - 1]),
+          ZBST.times(REWARD_RATE[Number(key) - 1]),
+        ]
         zbstEarnedReward = zbstEarnedReward.plus(zbstPool.times(currentRound[key].percent))
         zustEarnedReward = zustEarnedReward.plus(zustPool.times(currentRound[key].percent))
       })
@@ -155,7 +160,7 @@ const UserPrizes = () => {
     return {
       hasPrizes: zbstEarnedReward.gt(BIG_ZERO),
       zbst: zbstEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
-      zust: zustEarnedReward.toFixed(4, BigNumber.ROUND_DOWN)
+      zust: zustEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
     }
   }, [allRewardInfo, allPrizes])
 

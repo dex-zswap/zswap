@@ -7,7 +7,7 @@ import { ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/address'
 import useRefresh from 'hooks/useRefresh'
 
 export default function useApprove() {
-  const [ approving, setApproving ] = useState(false)
+  const [approving, setApproving] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const zbstContract = useERC20(ZSWAP_ZBST_ADDRESS)
 
@@ -25,7 +25,7 @@ export default function useApprove() {
 
   return {
     approve,
-    approving
+    approving,
   }
 }
 

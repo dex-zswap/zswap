@@ -7,7 +7,7 @@ import { useZSwapLotteryContract } from 'hooks/useContract'
 import reporter from 'reporter'
 
 export default function useBuy() {
-  const [ buying, setBuying ] = useState(false)
+  const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const lotteryNum = useCurrentLotteryId()
   const { chainId, account } = useActiveWeb3React()
@@ -28,7 +28,7 @@ export default function useBuy() {
             from: 'ticket',
             lottery: numbers.map((nums) => nums.join('')).join(','),
             lotteryNum,
-          }
+          },
         })
         reporter.recordHash(tx.hash)
 
@@ -42,7 +42,7 @@ export default function useBuy() {
 
   return {
     buyTickets,
-    buying
+    buying,
   }
 }
 

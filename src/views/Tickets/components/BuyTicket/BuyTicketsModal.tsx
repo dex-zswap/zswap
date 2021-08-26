@@ -184,14 +184,22 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
 
   const FooterButtons = useMemo(() => {
     if (needApprove) {
-      return <Button isLoading={approving} onClick={approve}>{t('Enable')}</Button>
+      return (
+        <Button isLoading={approving} onClick={approve}>
+          {t('Enable')}
+        </Button>
+      )
     }
 
     if (step === Steps.INPUT_COUNT) {
       return <Button onClick={viewTickets}>{t('View Edit Numbers')}</Button>
     }
 
-    return <Button isLoading={buying} onClick={buy}>{t('Confirm and Buy')}</Button>
+    return (
+      <Button isLoading={buying} onClick={buy}>
+        {t('Confirm and Buy')}
+      </Button>
+    )
   }, [step, needApprove, buy, viewTickets, approve, approving, buying])
 
   const onBack = step === Steps.VIEW_EDIT_NUMBER ? backInput : undefined

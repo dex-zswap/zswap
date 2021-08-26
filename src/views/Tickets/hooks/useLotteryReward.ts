@@ -27,7 +27,7 @@ export default function useLotteryReward(lotteryId: string) {
 }
 
 export function useAllRewards(lotteryIds: string[]) {
-  const [ rewardInfo, setRewardInfo ] = useState({})
+  const [rewardInfo, setRewardInfo] = useState({})
   const lotteryContract = useZSwapLotteryContract()
   const zbstPrice = useZBZUSTPrice()
 
@@ -45,7 +45,7 @@ export function useAllRewards(lotteryIds: string[]) {
 
           rewards[`lottery${lotteryIds[index]}`] = {
             zbstValue,
-            zustValue
+            zustValue,
           }
         })
 
