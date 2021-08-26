@@ -16,6 +16,8 @@ import useRefresh from 'hooks/useRefresh'
 import { BIG_TEN, BIG_ONE, BIG_ZERO, BIG_HUNDERED, BIG_ONE_YEAR } from 'utils/bigNumber'
 import getLpReward from 'config/reward/lp'
 
+const JSBI_ZERO = JSBI.BigInt(0)
+
 type PairsInfo = {
   pair: string
   weight: number
@@ -119,7 +121,10 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [zbstPrice, lpReward, zbstToken])
 
   const [token0Deposited, token1Deposited] =
-    !!totalPoolTokens && !!userPoolBalance && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+    totalPoolTokens && userPoolBalance 
+    && JSBI.greaterThan(totalPoolTokens.raw, JSBI_ZERO)
+    && JSBI.greaterThan(userPoolBalance.raw, JSBI_ZERO)
+    && JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
       ? [
           pairInfo.getLiquidityValue(pairInfo.token0, totalPoolTokens, userPoolBalance, false),
           pairInfo.getLiquidityValue(pairInfo.token1, totalPoolTokens, userPoolBalance, false),
@@ -247,7 +252,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   ])
 
   const displayApr = useMemo(() => {
-    return rewardZustValue
+    return liquidityInfo.lockedValue === 0 ? '0.00' : rewardZustValue
       .dividedBy(liquidityInfo.lockedValue)
       .multipliedBy(BIG_HUNDERED)
       .multipliedBy(BIG_ONE_YEAR)
