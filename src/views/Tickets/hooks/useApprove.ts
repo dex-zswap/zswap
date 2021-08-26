@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ethers } from 'ethers'
 import { useContractCall } from 'hooks/useContractCall'
@@ -7,15 +7,25 @@ import { ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/address'
 import useRefresh from 'hooks/useRefresh'
 
 export default function useApprove() {
+  const [ approving, setApproving ] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const zbstContract = useERC20(ZSWAP_ZBST_ADDRESS)
 
   const approve = useCallback(async () => {
-    const tx = await zbstContract.approve(lotteryContract.address, ethers.constants.MaxUint256)
+    try {
+      setApproving(true)
+      const tx = await zbstContract.approve(lotteryContract.address, ethers.constants.MaxUint256)
+      await tx.await()
+
+      setApproving(false)
+    } catch (e) {
+      setApproving(false)
+    }
   }, [zbstContract, lotteryContract])
 
   return {
     approve,
+    approving
   }
 }
 

@@ -4,7 +4,6 @@ import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import useWinTime from 'views/Tickets/hooks/useWinTime'
-import { format } from 'date-fns'
 
 import styled from 'styled-components'
 import { Text, Flex, Button, useModal } from 'zswap-uikit'

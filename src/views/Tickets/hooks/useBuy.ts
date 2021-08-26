@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { hexlify } from '@ethersproject/bytes'
 import BigNumber from 'bignumber.js'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -7,35 +7,42 @@ import { useZSwapLotteryContract } from 'hooks/useContract'
 import reporter from 'reporter'
 
 export default function useBuy() {
+  const [ buying, setBuying ] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const lotteryNum = useCurrentLotteryId()
   const { chainId, account } = useActiveWeb3React()
 
   const buyTickets = useCallback(
     async (numbers) => {
-      const tickets = numbers.map(hexlify)
+      try {
+        setBuying(true)
+        const tickets = numbers.map(hexlify)
+        const tx = await lotteryContract.batchBuyLottoTicket(tickets)
+        await tx.wait()
+        reporter.cacheHash(tx.hash, {
+          hash: tx.hash,
+          from: account,
+          chainId,
+          summary: '',
+          reportData: {
+            from: 'ticket',
+            lottery: numbers.map((nums) => nums.join('')).join(','),
+            lotteryNum,
+          }
+        })
+        reporter.recordHash(tx.hash)
 
-      const { hash } = await lotteryContract.batchBuyLottoTicket(tickets)
-
-      reporter.cacheHash(hash, {
-        hash,
-        from: account,
-        chainId,
-        summary: '',
-        reportData: {
-          from: 'ticket',
-          lottery: numbers.map((nums) => nums.join('')).join(','),
-          lotteryNum,
-        },
-      })
-
-      reporter.recordHash(hash)
+        setBuying(false)
+      } catch (e) {
+        setBuying(false)
+      }
     },
     [lotteryContract],
   )
 
   return {
     buyTickets,
+    buying
   }
 }
 

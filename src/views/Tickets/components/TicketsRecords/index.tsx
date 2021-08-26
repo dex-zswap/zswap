@@ -1,11 +1,10 @@
+import { useMemo, useEffect, useCallback, useState } from 'react'
+import styled from 'styled-components'
+import { Text, Input, Flex, Modal, Button } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
-
-import styled from 'styled-components'
-import { Text, Input, Flex, Modal, Button } from 'zswap-uikit'
-import { useMemo, useEffect, useCallback, useState } from 'react'
 
 const NumWrap = styled(Flex)`
   align-items: center;

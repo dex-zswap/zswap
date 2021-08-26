@@ -65,8 +65,7 @@ export function useAllWinNumbers() {
 
           setWinNumber(() => wins)
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     }
 
     if (idIndex.length) {

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import BigNumber from 'bignumber.js'
 
 import { useZSwapLotteryContract } from 'hooks/useContract'
@@ -24,4 +24,39 @@ export default function useLotteryReward(lotteryId: string) {
     zustValue,
     zbRewards,
   }
+}
+
+export function useAllRewards(lotteryIds: string[]) {
+  const [ rewardInfo, setRewardInfo ] = useState({})
+  const lotteryContract = useZSwapLotteryContract()
+  const zbstPrice = useZBZUSTPrice()
+
+  useEffect(() => {
+    const fetchRewards = async () => {
+      const callQueue = lotteryIds.map((id) => lotteryContract.lottoTotalRewards(id))
+      const results = await Promise.all(callQueue)
+      const rewards = {}
+      let zbstValue, zustValue
+
+      if (results.length === lotteryIds.length) {
+        results.forEach((reward, index) => {
+          zbstValue = new BigNumber(reward.toString()).dividedBy(BIG_TEN.pow(18))
+          zustValue = zbstValue.multipliedBy(new BigNumber(zbstPrice.toSignificant(18)))
+
+          rewards[`lottery${lotteryIds[index]}`] = {
+            zbstValue,
+            zustValue
+          }
+        })
+
+        setRewardInfo(() => rewards)
+      }
+    }
+
+    if (lotteryIds && zbstPrice) {
+      fetchRewards()
+    }
+  }, [lotteryIds, lotteryContract])
+
+  return rewardInfo
 }
