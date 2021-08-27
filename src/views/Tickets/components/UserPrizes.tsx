@@ -145,8 +145,8 @@ const UserPrizes = () => {
           ZUST.times(REWARD_RATE[Number(key) - 1]),
           ZBST.times(REWARD_RATE[Number(key) - 1]),
         ]
-        zbstEarnedReward = zbstEarnedReward.plus(zbstPool.times(currentRound[key].percent))
-        zustEarnedReward = zustEarnedReward.plus(zustPool.times(currentRound[key].percent))
+        zbstEarnedReward = zbstEarnedReward.plus(zbstPool.times(currentRound[key].percent)).minus(userCollected)
+        zustEarnedReward = zustEarnedReward.plus(zustPool.times(currentRound[key].percent)).minus(userCollected)
       })
     })
 
@@ -155,7 +155,7 @@ const UserPrizes = () => {
       zbst: zbstEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
       zust: zustEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
     }
-  }, [allRewardInfo, allPrizes])
+  }, [allRewardInfo, allPrizes, userCollected])
 
   return (
     <Flex mb="260px" alignItems="center" flexDirection="column">

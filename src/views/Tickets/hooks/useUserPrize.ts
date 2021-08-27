@@ -71,7 +71,11 @@ export function useUserCollected() {
         }),
       })
         .then((response) => response.json())
-        .then((res) => {})
+        .then((res) => {
+          if (res.data) {
+            setTotalCollected(Number(res.data))
+          }
+        })
     }
 
     if (account) {

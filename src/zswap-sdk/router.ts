@@ -81,7 +81,6 @@ export abstract class Router {
     const deadline = options.ttl
       ? `0x${(Math.floor(new Date().getTime() / 1000) + options.ttl).toString(16)}`
       : options.deadline
-    const useFeeOnTransfer = Boolean(options.feeOnTransfer)
 
     let methodName: string
     let args: (string | string[])[]
@@ -110,7 +109,6 @@ export abstract class Router {
         }
         break
       case TradeType.EXACT_OUTPUT:
-        invariant(!useFeeOnTransfer, 'EXACT_OUT_FOT')
         if (etherIn) {
           methodName = 'swapETHForExactTokens'
           // (uint amountOut, address[] calldata path, address to, uint deadline)

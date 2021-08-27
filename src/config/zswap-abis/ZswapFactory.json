@@ -50,6 +50,89 @@
 		},
 		{
 			"constant": true,
+			"inputs": [],
+			"name": "WDEX",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "WDEXTaxRate",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "WDEXTaxRateStartTime",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"components": [
+						{
+							"internalType": "address",
+							"name": "target",
+							"type": "address"
+						},
+						{
+							"internalType": "bytes",
+							"name": "callData",
+							"type": "bytes"
+						}
+					],
+					"internalType": "struct Multicall.Call[]",
+					"name": "calls",
+					"type": "tuple[]"
+				}
+			],
+			"name": "aggregate",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "blockNumber",
+					"type": "uint256"
+				},
+				{
+					"internalType": "bytes[]",
+					"name": "returnData",
+					"type": "bytes[]"
+				}
+			],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": true,
 			"inputs": [
 				{
 					"internalType": "uint256",
@@ -82,6 +165,36 @@
 			],
 			"payable": false,
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "burnAddr",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "new_owner",
+					"type": "address"
+				}
+			],
+			"name": "changeOwner",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
@@ -172,6 +285,11 @@
 					"internalType": "uint256",
 					"name": "reserveOut",
 					"type": "uint256"
+				},
+				{
+					"internalType": "bool",
+					"name": "ifWDEX",
+					"type": "bool"
 				}
 			],
 			"name": "getAmountIn",
@@ -191,37 +309,6 @@
 			"inputs": [
 				{
 					"internalType": "uint256",
-					"name": "amountOut",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint256",
-					"name": "reserveIn",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint256",
-					"name": "reserveOut",
-					"type": "uint256"
-				}
-			],
-			"name": "getAmountInWzb",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "amountInWzb",
-					"type": "uint256"
-				}
-			],
-			"payable": false,
-			"stateMutability": "pure",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [
-				{
-					"internalType": "uint256",
 					"name": "amountIn",
 					"type": "uint256"
 				},
@@ -234,6 +321,11 @@
 					"internalType": "uint256",
 					"name": "reserveOut",
 					"type": "uint256"
+				},
+				{
+					"internalType": "bool",
+					"name": "ifWDEX",
+					"type": "bool"
 				}
 			],
 			"name": "getAmountOut",
@@ -246,37 +338,6 @@
 			],
 			"payable": false,
 			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"constant": true,
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "amountIn",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint256",
-					"name": "reserveIn",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint256",
-					"name": "reserveOut",
-					"type": "uint256"
-				}
-			],
-			"name": "getAmountOutWzb",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "amountOutWzb",
-					"type": "uint256"
-				}
-			],
-			"payable": false,
-			"stateMutability": "pure",
 			"type": "function"
 		},
 		{
@@ -333,6 +394,108 @@
 		},
 		{
 			"constant": true,
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "blockNumber",
+					"type": "uint256"
+				}
+			],
+			"name": "getBlockHash",
+			"outputs": [
+				{
+					"internalType": "bytes32",
+					"name": "blockHash",
+					"type": "bytes32"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getCurrentBlockCoinbase",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "coinbase",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getCurrentBlockDifficulty",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "difficulty",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getCurrentBlockGasLimit",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "gaslimit",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getCurrentBlockTimestamp",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "timestamp",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "addr",
+					"type": "address"
+				}
+			],
+			"name": "getEthBalance",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "balance",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
 			"inputs": [],
 			"name": "getInitCodeHash",
 			"outputs": [
@@ -344,6 +507,21 @@
 			],
 			"payable": false,
 			"stateMutability": "pure",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getLastBlockHash",
+			"outputs": [
+				{
+					"internalType": "bytes32",
+					"name": "blockHash",
+					"type": "bytes32"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -406,6 +584,81 @@
 		{
 			"constant": true,
 			"inputs": [],
+			"name": "getWDEX",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getWDEXTaxRate",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getburnAddr",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "gettaxToLPAddr",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "getzbAddr",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
 			"name": "initCode",
 			"outputs": [
 				{
@@ -427,6 +680,21 @@
 					"internalType": "bytes32",
 					"name": "",
 					"type": "bytes32"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "owner",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
 				}
 			],
 			"payable": false,
@@ -551,6 +819,81 @@
 			"type": "function"
 		},
 		{
+			"constant": false,
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_wdex",
+					"type": "address"
+				}
+			],
+			"name": "setWDEX",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_WDEXTaxRate",
+					"type": "uint256"
+				}
+			],
+			"name": "setWDEXTaxRate",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_burnAddr",
+					"type": "address"
+				}
+			],
+			"name": "setburnAddr",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_taxToLPAddr",
+					"type": "address"
+				}
+			],
+			"name": "settaxToLPAddr",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_zbAddr",
+					"type": "address"
+				}
+			],
+			"name": "setzbAddr",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
 			"constant": true,
 			"inputs": [
 				{
@@ -579,6 +922,21 @@
 			],
 			"payable": false,
 			"stateMutability": "pure",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [],
+			"name": "taxToLPAddr",
+			"outputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{

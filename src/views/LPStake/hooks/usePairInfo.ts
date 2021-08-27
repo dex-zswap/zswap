@@ -210,7 +210,9 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     const lpTokenBigNumber = new BigNumber(lpTotalTokens)
     const pairBalanceOfBigNumber = new BigNumber(pairBalanceOf.toSignificant(18))
     const userSharePercentBigNumber = new BigNumber(userSharePercent)
-    const stakedPercent = lpTokenBigNumber.isEqualTo(BIG_ZERO) ? BIG_ZERO : userSharesBigNumber.dividedBy(lpTokenBigNumber)
+    const stakedPercent = lpTokenBigNumber.isEqualTo(BIG_ZERO)
+      ? BIG_ZERO
+      : userSharesBigNumber.dividedBy(lpTokenBigNumber)
     const realPercent = BIG_ONE.plus(stakedPercent)
     const realUserSharePercent = userSharePercentBigNumber.multipliedBy(realPercent)
     const token0DepositedBigNumber = new BigNumber(token0Deposited.toSignificant(token0.decimals))
@@ -266,11 +268,13 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [liquidityInfo, rewardZustValue])
 
   useEffect(() => {
-    const lockedValue = (liquidityInfo.lockedValue === 0 ? BIG_ZERO : new BigNumber(liquidityInfo.lockedValue)).toNumber()
+    const lockedValue = (
+      liquidityInfo.lockedValue === 0 ? BIG_ZERO : new BigNumber(liquidityInfo.lockedValue)
+    ).toNumber()
     dispatch(
       addLockedValue({
         pair: pair.pair,
-        lockedValue
+        lockedValue,
       }),
     )
   }, [dispatch, liquidityInfo, pair])

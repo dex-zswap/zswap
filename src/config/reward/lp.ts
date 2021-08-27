@@ -1,9 +1,5 @@
 import BigNumber from 'bignumber.js'
-
-const isBuild = ['dev', 'test'].includes(process.env.BUILD_TYPE)
-const date = new Date()
-const ONLINE_TIME = isBuild ? +date : Date.now()
-const DATE_SECS = 24 * 60 * 60 * 1000
+import ONLINE_TIME, { DATE_SECS } from 'config/constants/zswap/online-time'
 
 const RATE = new BigNumber(0.7)
 const WEEK_DAYS = new BigNumber(7)
