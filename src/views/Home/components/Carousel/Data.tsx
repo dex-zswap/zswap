@@ -188,10 +188,12 @@ const Carousel = () => {
                 ZSwap
               </Text>
               <Text lineHeight="52px" color="text" fontSize="48px" marginTop="10px" bold>
-                The Most Advanced Decentralized Platform in the Universe
+                {t('The Most Advanced Decentralized Platform in the Universe')}
               </Text>
               <Text color="text" fontSize="18px" margin="40px 0 30px">
-                More advanced and more convenient, easily complete the cryptocurrency exchange and win high bonuses
+                {t(
+                  'More advanced and more convenient, easily complete the cryptocurrency exchange and win high bonuses',
+                )}
               </Text>
               {WalletButton}
               <BlueBg />

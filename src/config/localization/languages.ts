@@ -5,7 +5,7 @@ import { Language } from 'zswap-uikit'
 export const EN: Language = {
   locale: 'en-US',
   language: 'English',
-  code: 'en',
+  code: 'EN',
 }
 // export const DE: Language = { locale: 'de-DE', language: 'Deutsch', code: 'de' }
 // export const EL: Language = { locale: 'el-GR', language: 'Ελληνικά', code: 'el' }
@@ -34,19 +34,19 @@ export const EN: Language = {
 export const ZHCN: Language = {
   locale: 'zh-CN',
   language: '中文简体',
-  code: 'zh-cn',
+  code: '简',
 }
 
 export const ZHTW: Language = {
   locale: 'zh-TW',
   language: '中文繁體',
-  code: 'zh-tw',
+  code: '繁',
 }
 
 export const languages = {
   'en-US': EN,
-  'zh-CN': ZHCN,
   'zh-TW': ZHTW,
+  'zh-CN': ZHCN,
   // 'ar-SA': AR,
   // 'bn-BD': BN,
   // 'de-DE': DE,
