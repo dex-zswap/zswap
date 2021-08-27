@@ -277,7 +277,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
         lockedValue,
       }),
     )
-  }, [dispatch, liquidityInfo, pair])
+  }, [dispatch, liquidityInfo.lockedValue, pair])
 
   return {
     lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,
