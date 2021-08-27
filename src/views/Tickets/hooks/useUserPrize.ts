@@ -1,7 +1,9 @@
 import { useCallback, useState, useEffect } from 'react'
+import BigNumber from 'bignumber.js'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
+import { BIG_ZERO } from 'utils/bigNumber'
 
 const apiBase = process.env.REACT_APP_API_BASE
 
@@ -53,7 +55,7 @@ export function useCollectReward() {
 }
 
 export function useUserCollected() {
-  const [totalCollected, setTotalCollected] = useState(0)
+  const [totalCollected, setTotalCollected] = useState(BIG_ZERO)
   const { account } = useActiveWeb3React()
 
   useEffect(() => {
@@ -73,7 +75,7 @@ export function useUserCollected() {
         .then((response) => response.json())
         .then((res) => {
           if (res.data) {
-            setTotalCollected(Number(res.data))
+            setTotalCollected(new BigNumber(res.data))
           }
         })
     }

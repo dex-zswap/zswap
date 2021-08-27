@@ -145,10 +145,19 @@ const UserPrizes = () => {
           ZUST.times(REWARD_RATE[Number(key) - 1]),
           ZBST.times(REWARD_RATE[Number(key) - 1]),
         ]
-        zbstEarnedReward = zbstEarnedReward.plus(zbstPool.times(currentRound[key].percent)).minus(userCollected)
-        zustEarnedReward = zustEarnedReward.plus(zustPool.times(currentRound[key].percent)).minus(userCollected)
+        zbstEarnedReward = zbstEarnedReward.plus(zbstPool.times(currentRound[key].percent))
+        zustEarnedReward = zustEarnedReward.plus(zustPool.times(currentRound[key].percent))
       })
     })
+
+    if (userCollected.lt(zbstEarnedReward)) {
+      const originalZbstAMount = zbstEarnedReward
+      zbstEarnedReward = zbstEarnedReward.minus(userCollected)
+      zustEarnedReward = zustEarnedReward.times((originalZbstAMount.minus(zbstEarnedReward)))
+    } else {
+      zbstEarnedReward = BIG_ZERO
+      zustEarnedReward = BIG_ZERO
+    }
 
     return {
       hasPrizes: zbstEarnedReward.gt(BIG_ZERO),
