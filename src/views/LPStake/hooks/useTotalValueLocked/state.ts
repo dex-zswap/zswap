@@ -1,13 +1,10 @@
 import { useMemo } from 'react'
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
-import BigNumber from 'bignumber.js'
-
-import { BIG_ZERO } from 'utils/bigNumber'
 
 type LpValueLocked = {
   pair: string
-  lockedValue: BigNumber | number
+  lockedValue: number
 }
 
 type LpValueLockedState = {
@@ -23,7 +20,6 @@ export const addLockedValue = createAction<LpValueLocked>('lpStake/addLockedValu
 export default createReducer<LpValueLockedState>(initialState, (builder) => {
   builder.addCase(addLockedValue, (state, { payload }) => {
     const findIndex = state.lps.findIndex((lp) => lp.pair === payload.pair)
-    payload.lockedValue = typeof payload.lockedValue !== 'number' && (payload.lockedValue as BigNumber).isNaN() ? BIG_ZERO : new BigNumber(payload.lockedValue)
     if (findIndex !== -1) {
       state.lps[findIndex] = payload
     } else {
@@ -36,10 +32,6 @@ export const useTotalValueLocked = () => {
   const lpLockedState = useSelector((state: any) => state.lpTotalValueLocked)
 
   return useMemo(() => {
-    return lpLockedState.lps
-      .reduce((result, current) => {
-        return result.plus(current.lpTotalValueLocked)
-      }, BIG_ZERO)
-      .toFixed(2, BigNumber.ROUND_DOWN)
+    return lpLockedState.lps.reduce((result, current) => result + current.lockedValue, 0).toFixed(2)
   }, [lpLockedState])
 }
