@@ -150,12 +150,21 @@ const UserPrizes = () => {
       })
     })
 
+    if (userCollected.lt(zbstEarnedReward)) {
+      const originalZbstAMount = zbstEarnedReward
+      zbstEarnedReward = zbstEarnedReward.minus(userCollected)
+      zustEarnedReward = zustEarnedReward.times((originalZbstAMount.minus(zbstEarnedReward)))
+    } else {
+      zbstEarnedReward = BIG_ZERO
+      zustEarnedReward = BIG_ZERO
+    }
+
     return {
       hasPrizes: zbstEarnedReward.gt(BIG_ZERO),
       zbst: zbstEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
       zust: zustEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
     }
-  }, [allRewardInfo, allPrizes])
+  }, [allRewardInfo, allPrizes, userCollected])
 
   return (
     <Flex mb="260px" alignItems="center" flexDirection="column">
