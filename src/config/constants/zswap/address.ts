@@ -1,4 +1,4 @@
-//  ZSwap Contract Config Center
+//  ZSwap Contract Address Config Center
 
 //  Router, Factory
 export const ZSWAP_INIT_CODE_HASH = '0x6b0a967442183da48fa9e2afc9aa1f1e2e7eaff929b7db1da96877f7b63e9885'
