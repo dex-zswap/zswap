@@ -154,7 +154,7 @@ export function useDerivedMintInfo(
   const allExist = useMemo<boolean>(() => zbWithcurrencyA && zbWithcurrencyB, [zbWithcurrencyA, zbWithcurrencyB])
   const createZBPairLink = useMemo<string>(
     () => (allExist ? null : `/add/${ZB_ADDRESS}/${zbWithcurrencyA ? currencyId.currencyB : currencyId.currencyA}`),
-    [currencyId, allExist],
+    [allExist],
   )
   const otherCurrencySymbol = useMemo<string>(
     () => (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol),

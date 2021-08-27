@@ -153,7 +153,7 @@ const UserPrizes = () => {
     if (userCollected.lt(zbstEarnedReward)) {
       const originalZbstAMount = zbstEarnedReward
       zbstEarnedReward = zbstEarnedReward.minus(userCollected)
-      zustEarnedReward = zustEarnedReward.times((originalZbstAMount.minus(zbstEarnedReward)))
+      zustEarnedReward = zustEarnedReward.times(originalZbstAMount.minus(zbstEarnedReward))
     } else {
       zbstEarnedReward = BIG_ZERO
       zustEarnedReward = BIG_ZERO
