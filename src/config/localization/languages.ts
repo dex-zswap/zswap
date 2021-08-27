@@ -31,21 +31,22 @@ export const EN: Language = {
 // export const UK: Language = { locale: 'uk-UA', language: 'Українська', code: 'uk' }
 // export const VI: Language = { locale: 'vi-VN', language: 'Tiếng Việt', code: 'vi' }
 
-// export const ZHCN: Language = {
-//   locale: 'zh-CN',
-//   language: '简体中文',
-//   code: 'zh-cn',
-// }
-// export const ZHTW: Language = {
-//   locale: 'zh-TW',
-//   language: '繁體中文',
-//   code: 'zh-tw',
-// }
+export const ZHCN: Language = {
+  locale: 'zh-CN',
+  language: '中文简体',
+  code: 'zh-cn',
+}
+
+export const ZHTW: Language = {
+  locale: 'zh-TW',
+  language: '中文繁體',
+  code: 'zh-tw',
+}
 
 export const languages = {
   'en-US': EN,
-  // 'zh-CN': ZHCN,
-  // 'zh-TW': ZHTW,
+  'zh-CN': ZHCN,
+  'zh-TW': ZHTW,
   // 'ar-SA': AR,
   // 'bn-BD': BN,
   // 'de-DE': DE,

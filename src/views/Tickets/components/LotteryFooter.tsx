@@ -67,7 +67,7 @@ const LotteryHeader = () => {
       <Flex>
         <Flex width="220px" flexDirection="column" alignItems="center">
           <Text fontSize="16px" color="blue" mb="18px" bold>
-            {t('Step')} 1
+            {t('Step 1')}
           </Text>
           <Flex height="72px" alignItems="center" mb="20px">
             <img width="94px" src="/images/tickets/footer_1.png" />
@@ -84,7 +84,7 @@ const LotteryHeader = () => {
         />
         <Flex width="220px" flexDirection="column" alignItems="center">
           <Text fontSize="16px" color="blue" mb="18px" bold>
-            {t('Step')} 2
+            {t('Step 2')}
           </Text>
           <Flex height="72px" alignItems="center" mb="20px">
             <img width="69px" src="/images/tickets/footer_2.png" />
@@ -101,7 +101,7 @@ const LotteryHeader = () => {
         />
         <Flex width="220px" flexDirection="column" alignItems="center">
           <Text fontSize="16px" color="blue" mb="18px" bold>
-            {t('Step')} 3
+            {t('Step 3')}
           </Text>
           <Flex height="72px" alignItems="center" mb="20px">
             <img width="69px" src="/images/tickets/footer_3.png" />
@@ -119,11 +119,13 @@ const LotteryHeader = () => {
             {t('Winning Criteria')}
           </Text>
           <Text fontSize="16px">
-            {t('Each ticket contains a total of six lottery balls, from digit 0 to 9, on each ticket.')}
+            {t(
+              'Each ticket contains a total of six lottery balls, from digit 0 to 9, on each ticket (Digits can be repeated).',
+            )}
           </Text>
           <Text fontSize="16px" mb="30px">
             {t(
-              '(Digits can be repeated) To win, your numbers need to match the drawn numbers in the same order as the lottery balls, starting from the left of the ticket.',
+              'To win, your numbers need to match the drawn numbers in the same order as the lottery balls, starting from the left of the ticket.',
             )}
           </Text>
           <Text fontSize="16px">{t('1st Prize - Match all 6 digits in the correct order')}</Text>

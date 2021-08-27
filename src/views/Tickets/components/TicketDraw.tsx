@@ -185,11 +185,11 @@ const TicketDraw = () => {
       <Flex mb="120px" alignItems="center" justifyContent="center">
         <NumWrap>{untilDrawTime.h}</NumWrap>
         <Text fontSize="24px" mr="16px" color="blue" bold>
-          HH
+          {t('HH')}
         </Text>
         <NumWrap>{untilDrawTime.m}</NumWrap>
         <Text fontSize="24px" mr="16px" color="blue" bold>
-          MM
+          {t('MM')}
         </Text>
         <Text fontSize="24px" bold>
           {t('until the draw')}
@@ -200,7 +200,7 @@ const TicketDraw = () => {
         {tip}
       </Text>
     )
-  }, [timeRange])
+  }, [timeRange, t])
 
   const changeDrawPage = useCallback(
     (num) => {
@@ -312,7 +312,7 @@ const TicketDraw = () => {
           </Flex>
           <Flex>
             <Text width="110px" mr="20px" fontSize="16px" bold>
-              {showPreView ? t('Winning Number') : t('Yout Tickets')}
+              {showPreView ? t('Winning Number') : t('Your Tickets')}
             </Text>
             {showPreView ? (
               <BallWrap>

@@ -51,7 +51,7 @@ const UserHistory = () => {
       ) : (
         <Card title={t('Your History')}>{<UserHistoryList showDetail={showDetail} />}</Card>
       ),
-    [lotteryId],
+    [lotteryId, t],
   )
 
   return (
