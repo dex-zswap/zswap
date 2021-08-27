@@ -27,17 +27,16 @@ export default function CurrencyLogo({
     if (currency === ETHER) return []
 
     if (currency instanceof Token) {
-      if (currency instanceof WrappedTokenInfo) {
-        return [...uriLocations, getTokenLogoURL(currency.address)]
-      }
+      // if (currency instanceof WrappedTokenInfo) {
+      //   return [...uriLocations, getTokenLogoURL(currency.address)]
+      // }
       return [getTokenLogoURL(currency.address)]
     }
     return []
   }, [currency, uriLocations])
 
   if (currency === ETHER) {
-    return <BinanceIcon width={size} style={style} />
+    return <img style={{...style}} width={size} src="/images/tokens/DEX.png" /> 
   }
-
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 }

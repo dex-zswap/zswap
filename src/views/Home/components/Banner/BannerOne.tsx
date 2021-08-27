@@ -123,7 +123,7 @@ const BannerOne = () => {
       </ImgWrap>
       <TextWrap>
         <Text lineHeight="54px" color="text" fontSize="48px" bold>
-          {t('Lottery is in progress')}.
+          {t('Lottery is in progress')}
         </Text>
         <Text lineHeight="54px" color="text" fontSize="48px" bold>
           {t('Win more than')}
@@ -132,10 +132,10 @@ const BannerOne = () => {
           $2250000
         </Text>
         <Text lineHeight="20px" color="text" fontSize="18px" marginTop="30px">
-          {t('Fair game on a chain')},
+          {t('Fair game on a chain')}
         </Text>
         <Text lineHeight="22px" color="text" fontSize="18px">
-          {t('win bonuses')}.
+          {t('win bonuses')}
         </Text>
         <ButtonWrap>
           <Button width="152px">{t('Join Now')}</Button>
