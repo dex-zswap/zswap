@@ -90,7 +90,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
         </RowFixed>
         <RowFixed>
           <Text fontSize="16px" margin="13px 0 25px" bold>
-            {t('if the price changes disadvantageously by more than this percentage, your transaction will revert.')}
+            {t('If the price disadvantage exceeds this percentage, your deal will be cancelled.')}
           </Text>
         </RowFixed>
         <Flex flexWrap={['wrap', 'wrap', 'nowrap']}>
@@ -174,7 +174,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
         </RowFixed>
         <RowFixed>
           <Text fontSize="16px" margin="13px 0 25px" bold>
-            {t('if the transaction is pending for longer than this time, your transaction will revert.')}
+            {t('If the time to be processed exceeds this time, your transaction will be cancelled.')}
           </Text>
         </RowFixed>
         <RowFixed>

@@ -79,11 +79,11 @@ const Footer = () => {
 
   return (
     <Wrap>
-      <Text lineHeight="54px" color="text" fontSize="48px" marginBottom="60px" bold>
+      {/* <Text lineHeight="54px" color="text" fontSize="48px" marginBottom="60px" bold>
         {t('Total Liquidity Bet')}
         <span style={pinkColor}> 25888800</span>
         <span> {t('USDT')}</span>
-      </Text>
+      </Text> */}
       <CountdowmnLabel>
         <Text color="text" fontSize="18px" bold>
           {t('Halving Countdown')}
@@ -147,7 +147,7 @@ const Footer = () => {
             $8088100
           </Text>
         </TextWrap>
-        <TextWrap>
+        {/* <TextWrap>
           <Text color="text" fontSize="20px" bold>
             {t('Total Repurchase')}
           </Text>
@@ -157,7 +157,7 @@ const Footer = () => {
           <Text color="primary" fontSize="34px" bold>
             881000
           </Text>
-        </TextWrap>
+        </TextWrap> */}
         <TextWrap>
           <Text color="text" fontSize="20px" bold>
             {t('Destroyed')}

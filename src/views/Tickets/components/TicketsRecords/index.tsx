@@ -67,7 +67,10 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
 
   const totalTicks = useMemo(() => lotteryIds[0]?.numbers || [], [lotteryIds])
 
-  const winTicks = useMemo(() => totalTicks.filter((d) => t('No Prize') != getRewardLevel(d))[0] || [], [totalTicks])
+  const winTicks = useMemo(
+    () => totalTicks.filter((d: string) => t('No Prize') != getRewardLevel(d))[0] || [],
+    [totalTicks],
+  )
 
   const numbers = onlyShowWin ? winTicks : totalTicks
 
@@ -89,21 +92,22 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
         <Text>{onlyShowWin ? t('Winning Number') : t('Your ticket numbers')}</Text>
         <Text>{t('Prize Bracket')}</Text>
       </Flex>
-      {pageNumbers.map((numWrap: string, index: number) => (
-        <Flex key={index} justifyContent="space-between" alignItems="center" mb="16px">
-          <NumWrap>
-            <Text width="44px" mr="55px" bold>
-              {getOrderStr(index)}
-            </Text>
-            {numWrap.split('').map((num: string, nIndex: number) => (
-              <div className="ticket-num" key={nIndex}>
-                {num}
-              </div>
-            ))}
-          </NumWrap>
-          <Text bold>{getRewardLevel(numWrap)}</Text>
-        </Flex>
-      ))}
+      {pageNumbers &&
+        pageNumbers.map((numWrap: string, index: number) => (
+          <Flex key={index} justifyContent="space-between" alignItems="center" mb="16px">
+            <NumWrap>
+              <Text width="44px" mr="55px" bold>
+                {getOrderStr(index)}
+              </Text>
+              {numWrap.split('').map((num: string, nIndex: number) => (
+                <div className="ticket-num" key={nIndex}>
+                  {num}
+                </div>
+              ))}
+            </NumWrap>
+            <Text bold>{getRewardLevel(numWrap)}</Text>
+          </Flex>
+        ))}
       {pages > 1 && (
         <Flex mt="15px" justifyContent="center" alignItems="center">
           <Button

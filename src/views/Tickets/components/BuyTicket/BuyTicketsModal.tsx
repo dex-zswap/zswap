@@ -225,7 +225,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
             <Text textAlign="right">{ticketPrice?.multipliedBy(1)?.toFixed(2)} ZBst</Text>
           </InputWrap>
           <Text textAlign="right" mb="26px">
-            {t('ZBst Balance')}: {zbstBalance?.toFixed(2)}
+            ZBst {t('Balance')}: {zbstBalance?.toFixed(2)}
           </Text>
           <Line />
           <PricePay count={count} ticketPrice={ticketPrice} />

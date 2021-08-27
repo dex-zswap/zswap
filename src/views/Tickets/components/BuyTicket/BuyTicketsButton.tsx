@@ -49,7 +49,7 @@ const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccount
       setBtnDisabled(true)
       clearInterval(timer)
     }
-  }, [timeRange])
+  }, [timeRange, t])
 
   return (
     <>
