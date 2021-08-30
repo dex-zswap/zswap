@@ -175,15 +175,15 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
       if (token) {
         tokenResult = token
       }
-  
+
       if (!chainId || !address) {
         tokenResult = undefined
       }
-  
+
       if (decimals.loading || symbol.loading || tokenName.loading) {
         tokenResult = null
       }
-  
+
       if (decimals.result) {
         tokenResult = new Token(
           chainId,

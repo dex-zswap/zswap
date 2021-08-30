@@ -260,7 +260,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     token0Deposited,
     token1Deposited,
     slowRefresh,
-    tokenLpAmount
+    tokenLpAmount,
   ])
 
   const displayApr = useMemo(() => {

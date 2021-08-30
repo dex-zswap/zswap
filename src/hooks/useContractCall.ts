@@ -38,7 +38,11 @@ export function useContractCall(contract: Contract | null | any, methodName: str
   }, [result, loading, error])
 }
 
-export function useContractCalls(contract: Contract | null | any, methodName: string, inputs: Array<Array<unknown>> = []) {
+export function useContractCalls(
+  contract: Contract | null | any,
+  methodName: string,
+  inputs: Array<Array<unknown>> = [],
+) {
   const [result, setResult] = useState([])
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(true)
