@@ -1,5 +1,5 @@
 import React from 'react'
-import { Currency, Pair } from 'zswap-sdk'
+import { Currency, Pair, TokenAmount } from 'zswap-sdk'
 import { Button, ChevronDownIcon, Text, useModal, Flex } from 'zswap-uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
@@ -57,7 +57,9 @@ interface CurrencyInputPanelProps {
   hideBalance?: boolean
   pair?: Pair | null
   hideInput?: boolean
+  removeLiquidity?: boolean
   otherCurrency?: Currency | null
+  currencyBalance?: TokenAmount
   id: string
   showCommonBases?: boolean
 }
@@ -70,10 +72,12 @@ export default function CurrencyInputPanel({
   onCurrencySelect,
   currency,
   disableCurrencySelect = false,
+  removeLiquidity = false,
   hideBalance = false,
   pair = null, // used for double token logo
   hideInput = false,
   otherCurrency,
+  currencyBalance,
   id,
   showCommonBases,
 }: CurrencyInputPanelProps) {
@@ -99,11 +103,11 @@ export default function CurrencyInputPanel({
               <Text>{translatedLabel}</Text>
               {account && (
                 <Text onClick={onMax} style={{ display: 'inline', cursor: 'pointer' }}>
-                  {!hideBalance && !!currency && selectedCurrencyBalance
+                  {!hideBalance && !!currency && (currencyBalance || selectedCurrencyBalance)
                     ? t('Balance: %amount%', {
-                        amount: selectedCurrencyBalance?.toSignificant(6) ?? '',
+                        amount: (removeLiquidity ? currencyBalance : selectedCurrencyBalance).toSignificant(6) ?? '',
                       })
-                    : ' -'}
+                    :  ' -'}
                 </Text>
               )}
             </RowBetween>

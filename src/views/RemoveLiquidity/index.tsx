@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, Percent, WETH } from 'zswap-sdk'
+import { Currency, currencyEquals, ETHER, Percent, WETH, JSBI } from 'zswap-sdk'
 import { Button, Text, AddIcon, ArrowDownIcon, CardBody, Slider, Box, Flex, useModal } from 'zswap-uikit'
 import { RouteComponentProps } from 'react-router'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -15,9 +15,10 @@ import { MinimalPositionCard } from 'components/PositionCard'
 import { AppHeader, AppBody } from 'components/App'
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { LightGreyCard } from 'components/Card'
+import { useTokenBalance } from 'state/wallet/hooks'
+import useTotalSupply from 'hooks/useTotalSupply'
 
-import { CurrencyLogo, DoubleCurrencyLogo } from 'components/Logo'
+import { CurrencyLogo } from 'components/Logo'
 import { ROUTER_ADDRESS } from 'config/constants'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useCurrency } from 'hooks/Tokens'
@@ -25,7 +26,6 @@ import { usePairContract } from 'hooks/useContract'
 import useTransactionDeadline from 'hooks/useTransactionDeadline'
 
 import { useTransactionAdder } from 'state/transactions/hooks'
-import StyledInternalLink from 'components/Links'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from 'utils'
 import { currencyId } from 'utils/currencyId'
 import useDebouncedChangeHandler from 'hooks/useDebouncedChangeHandler'
@@ -108,6 +108,20 @@ export default function RemoveLiquidity({
   const { pair, parsedAmounts, error } = useDerivedBurnInfo(currencyA ?? undefined, currencyB ?? undefined)
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
+
+  const userPoolBalance = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+  const totalPoolTokens = useTotalSupply(pair?.liquidityToken)
+
+  const [token0Deposited, token1Deposited] =
+    !!totalPoolTokens &&
+    !!userPoolBalance &&
+    // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
+    JSBI.greaterThanOrEqual(totalPoolTokens.raw, userPoolBalance.raw)
+      ? [
+          pair.getLiquidityValue(pair.token0, totalPoolTokens, userPoolBalance, false),
+          pair.getLiquidityValue(pair.token1, totalPoolTokens, userPoolBalance, false),
+        ]
+      : [undefined, undefined]
 
   // modal and loading
   const [showDetailed, setShowDetailed] = useState<boolean>(false)
@@ -657,7 +671,8 @@ export default function RemoveLiquidity({
                 <ArrowDownIcon width="24px" my="16px" />
               </ColumnCenter>
               <CurrencyInputPanel
-                hideBalance
+                removeLiquidity
+                currencyBalance={token0Deposited}
                 value={formattedAmounts[Field.CURRENCY_A]}
                 onUserInput={onCurrencyAInput}
                 onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
@@ -671,7 +686,8 @@ export default function RemoveLiquidity({
                 <AddIcon width="24px" my="16px" />
               </ColumnCenter>
               <CurrencyInputPanel
-                hideBalance
+                removeLiquidity
+                currencyBalance={token1Deposited}
                 value={formattedAmounts[Field.CURRENCY_B]}
                 onUserInput={onCurrencyBInput}
                 onMax={() => onUserInput(Field.LIQUIDITY_PERCENT, '100')}
