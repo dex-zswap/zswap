@@ -37,3 +37,38 @@ export function useContractCall(contract: Contract | null | any, methodName: str
     }
   }, [result, loading, error])
 }
+
+export function useContractCalls(contract: Contract | null | any, methodName: string, inputs: Array<Array<unknown>> = []) {
+  const [result, setResult] = useState([])
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const call = async () => {
+      const method = contract?.[methodName]
+      if (typeof method !== 'function') {
+        throw new Error(`contract.${methodName} is not a function!`)
+      }
+      const callQueue = inputs.map((input) => method(...input))
+      try {
+        setLoading(true)
+        const res = await Promise.all(callQueue)
+        setResult(() => res)
+        setLoading(false)
+      } catch (e) {
+        setError(() => error)
+        setLoading(false)
+      }
+    }
+
+    call()
+  }, [])
+
+  return useMemo(() => {
+    return {
+      result,
+      loading,
+      error,
+    }
+  }, [result, loading, error])
+}

@@ -29,7 +29,7 @@ type PairsInfo = {
 
 export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   const dispatch = useAppDispatch()
-  const { slowRefresh } = useRefresh()
+  const { slowRefresh, fastRefresh } = useRefresh()
   const { chainId, account } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
   const pairToken = useToken(pair.pair)
@@ -59,7 +59,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
 
   const userShares = useContractCall(lpContract, 'getUserShare', [pair.pair, account])
 
-  const [, pairInfo] = usePair(currency0, currency1)
+  const [pairState, pairInfo] = usePair(currency0, currency1)
 
   const pairBalanceOf = useTokenBalance(lpContract.address, pairToken)
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
@@ -96,12 +96,19 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     const fetchReward = async () => {
       try {
         const res = await lpContract.predReward(pair.pair)
-        setReward(() => ({
-          loading: false,
-          result: new BigNumber(res.toString())
-            .dividedBy(BIG_TEN.pow(pairInfo?.liquidityToken?.decimals))
-            .integerValue(BigNumber.ROUND_DOWN),
-        }))
+        if (res) {
+          setReward(() => ({
+            loading: false,
+            result: new BigNumber(res.toString())
+              .dividedBy(BIG_TEN.pow(pairInfo?.liquidityToken?.decimals))
+              .integerValue(BigNumber.ROUND_DOWN),
+          }))
+        } else {
+          setReward(() => ({
+            loading: false,
+            result: BIG_ZERO,
+          }))
+        }
       } catch (e) {
         setReward(() => ({
           loading: false,
@@ -113,7 +120,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     if (pair) {
       fetchReward()
     }
-  }, [pair])
+  }, [pair, fastRefresh])
 
   const rewardZustValue = useMemo(() => {
     if (!zbstPrice || !zbstToken) {
@@ -168,15 +175,13 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [userShares, pairInfo, tokenLpAmount])
 
   const userSharePercent = useMemo(() => {
-    if (!userPoolBalance || !totalPoolTokens) {
+    if (!totalPoolTokens) {
       return '0.00'
     }
 
-    const userPool = new BigNumber(userPoolBalance.toSignificant(4))
     const balance = new BigNumber(totalPoolTokens.toSignificant(4))
-
-    return userPool.dividedBy(balance).multipliedBy(BIG_HUNDERED).toFixed(2, BigNumber.ROUND_DOWN)
-  }, [userPoolBalance, totalPoolTokens])
+    return userSharesBigNumber.dividedBy(balance).multipliedBy(BIG_HUNDERED).toFixed(4, BigNumber.ROUND_DOWN)
+  }, [userSharesBigNumber, totalPoolTokens])
 
   const lpTotalTokens = useMemo(() => {
     return tokenLpAmount.token0
@@ -219,8 +224,8 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     const token1DepositedBigNumber = new BigNumber(token1Deposited.toSignificant(token1.decimals))
     const lockedRate = pairBalanceOfBigNumber.dividedBy(userSharesBigNumber)
 
-    const token0RealDeposited = token0DepositedBigNumber.multipliedBy(stakedPercent)
-    const token1RealDeposited = token1DepositedBigNumber.multipliedBy(stakedPercent)
+    const token0RealDeposited = tokenLpAmount.token0.multipliedBy(userSharePercentBigNumber)
+    const token1RealDeposited = tokenLpAmount.token1.multipliedBy(userSharePercentBigNumber)
 
     const userAvaliableZust = token0DepositedBigNumber
       .multipliedBy(tokenPrice.token0)
@@ -231,9 +236,9 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
       .multipliedBy(tokenPrice.token0)
       .plus(token0RealDeposited.multipliedBy(tokenPrice.token1))
       .multipliedBy(lockedRate)
-    const zustValue = token0DepositedBigNumber
+    const zustValue = token0RealDeposited
       .multipliedBy(tokenPrice.token0)
-      .plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1))
+      .plus(token1RealDeposited.multipliedBy(tokenPrice.token1))
 
     return {
       tokenAmount: token0RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
@@ -255,6 +260,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     token0Deposited,
     token1Deposited,
     slowRefresh,
+    tokenLpAmount
   ])
 
   const displayApr = useMemo(() => {
@@ -280,7 +286,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [dispatch, liquidityInfo.lockedValue.toString(), pair.pair])
 
   return {
-    lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,
+    lpSymbol: token0 && token1 ? `${token0.symbol}-${token1.symbol} LP` : '',
     displayApr,
     pair,
     pairInfo,
@@ -291,7 +297,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     userData: {
       earnings: reward.result,
       allowance: allowance.result?.toString(),
-      tokenBalance: tokenBalance.toFixed(4),
+      tokenBalance: tokenBalance.toFixed(10),
       stakedBalance: liquidityInfo.zustValue,
       staked: liquidityInfo.staked,
       userSharePercent: `${liquidityInfo.userSharePercent}%`,
