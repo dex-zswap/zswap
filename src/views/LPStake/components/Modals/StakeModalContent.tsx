@@ -156,7 +156,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     try {
       await onReward()
       toastSuccess(
-        `${t('Harvested')}!`,
+        `${t('Rewarded')}!`,
         t('Your %symbol% earnings have been sent to your wallet!', {
           symbol: 'CAKE',
         }),
@@ -187,8 +187,8 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <Flex flexDirection="column">
           <Text mb="10px">{t('Reward Token')}</Text>
           <Flex>
-            {/* <TokenPairImage style={{ marginRight: '10px' }} secondaryToken={farm.quoteToken} width={18} height={18} /> */}
-            <Text bold>ZBst</Text>
+            <img style={{ marginRight: '10px' }} width="24px" src="/images/tokens/ZBST.png" />
+            <Text bold>ZBST</Text>
           </Flex>
         </Flex>
         <Flex flexDirection="column">
@@ -208,9 +208,9 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
           <Text bold>
             {t('Available') + ': '}
             {max}
-            <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
+            {/* <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
               {t('MAX')}
-            </span>
+            </span> */}
           </Text>
         )}
       </Flex>
@@ -220,7 +220,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             <Flex alignItems="center">
               {/* <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" /> */}
               <Text fontSize="16px" bold>
-                ZBst
+                ZBST
               </Text>
             </Flex>
             <Text fontSize="20px" bold>
@@ -292,10 +292,10 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             {pendingTx
               ? isRemovingStake
                 ? t('Withdrawing Lp')
-                : t('Staking')
+                : t('Stake')
               : isRemovingStake
               ? t('Withdraw Lp')
-              : t('Staking')}
+              : t('Stake')}
           </Button>
         </>
       )}

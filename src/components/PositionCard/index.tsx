@@ -219,7 +219,7 @@ export default function FullPositionCard({ pair, ...props }: PositionCardProps) 
             <RowFixed>
               <CurrencyLogo size="20px" currency={currency0} />
               <Text color="textSubtle" ml="4px" bold>
-                Pooled {currency0.symbol}
+                {t('Pooled %asset%', { asset: currency0.symbol })}
               </Text>
             </RowFixed>
             {token0Deposited ? (
@@ -237,7 +237,7 @@ export default function FullPositionCard({ pair, ...props }: PositionCardProps) 
             <RowFixed>
               <CurrencyLogo size="20px" currency={currency1} />
               <Text color="textSubtle" ml="4px" bold>
-                Pooled {currency1.symbol}
+                {t('Pooled %asset%', { asset: currency1.symbol })}
               </Text>
             </RowFixed>
             {token1Deposited ? (
@@ -253,14 +253,14 @@ export default function FullPositionCard({ pair, ...props }: PositionCardProps) 
 
           <FixedHeightRow>
             <Text color="textSubtle" bold>
-              Your pool tokens
+              {t('Your pool tokens')}
             </Text>
             <Text bold>{userPoolBalance?.toSignificant(4)}</Text>
           </FixedHeightRow>
 
           <FixedHeightRow>
             <Text color="textSubtle" bold>
-              Your pool share
+              {t('Your pool share')}
             </Text>
             <Text bold>
               {poolTokenPercentage
@@ -280,7 +280,7 @@ export default function FullPositionCard({ pair, ...props }: PositionCardProps) 
                 width="100%"
                 mb="8px"
               >
-                Remove
+                {t('Remove')}
               </Button>
               <Button
                 scale="medium"
@@ -289,7 +289,7 @@ export default function FullPositionCard({ pair, ...props }: PositionCardProps) 
                 variant="primary"
                 width="100%"
               >
-                Add liquidity
+                {t('Add Liquidity')}
               </Button>
             </Flex>
           )}

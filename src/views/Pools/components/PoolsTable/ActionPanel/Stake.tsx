@@ -163,12 +163,12 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
       <ActionContainer>
         <ActionTitles>
           <Text fontSize="12px" bold color="textSubtle" as="span" textTransform="uppercase">
-            {t('Enable pool')}
+            {t('Approve pool')}
           </Text>
         </ActionTitles>
         <ActionContent>
           <Button width="100%" disabled={requestedApproval} onClick={handleApprove} variant="secondary">
-            {t('Enable')}
+            {t('Approve')}
           </Button>
         </ActionContent>
       </ActionContainer>

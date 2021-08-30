@@ -307,7 +307,7 @@ const TicketDraw = () => {
               <Text color="blue" fontSize="36px" bold>
                 ${zustValue.toFixed(2)}
               </Text>
-              <Text>{zbRewards.toFixed(2)} ZBst</Text>
+              <Text>{zbRewards.toFixed(2)} ZBST</Text>
             </div>
           </Flex>
           <Flex>

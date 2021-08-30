@@ -126,7 +126,7 @@ const Footer = () => {
       <TextContainer>
         <TextWrap>
           <Text color="text" fontSize="20px" bold>
-            {t('ZBst')}
+            {t('ZBST')}
           </Text>
           <Text color="text" fontSize="20px" bold>
             {t('Current Price')}
@@ -163,7 +163,7 @@ const Footer = () => {
             {t('Destroyed')}
           </Text>
           <Text color="text" fontSize="20px" bold>
-            {t('ZBst')}
+            {t('ZBST')}
           </Text>
           <Text color="primary" fontSize="34px" bold>
             882000

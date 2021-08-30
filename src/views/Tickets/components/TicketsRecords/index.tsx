@@ -1,10 +1,12 @@
 import { useMemo, useEffect, useCallback, useState } from 'react'
-import styled from 'styled-components'
-import { Text, Input, Flex, Modal, Button } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
+
+import styled from 'styled-components'
+import { Text, Flex, Button } from 'zswap-uikit'
+import BuyTicketsButton from '../BuyTicket/BuyTicketsButton'
 
 const NumWrap = styled(Flex)`
   align-items: center;
@@ -77,7 +79,7 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
   const pages = useMemo(() => Math.ceil(numbers.length / 5), [numbers])
 
   const [pageNum, setPageNum] = useState(1)
-  const [pageNumbers, setPageNumbers] = useState(numbers.slice(0, 5))
+  const [pageNumbers, setPageNumbers] = useState([])
 
   const getOrderStr = useCallback((index) => `#${(index + (pageNum - 1) * 5 + 1 + '').padStart(3, '0')}`, [pageNum])
 
@@ -85,14 +87,18 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
     setTickData && setTickData(winNumbers, totalTicks.length, winTicks.length)
     setPageNumbers(numbers.slice((pageNum - 1) * 5, pageNum * 5))
   }, [numbers, pageNum])
+  const showLabel = (onlyShowWin && numbers?.length) || !onlyShowWin
 
   return (
     <>
-      <Flex justifyContent="space-between" alignItems="center" mb="25px">
-        <Text>{onlyShowWin ? t('Winning Number') : t('Your ticket numbers')}</Text>
-        <Text>{t('Prize Bracket')}</Text>
-      </Flex>
+      {showLabel && (
+        <Flex justifyContent="space-between" alignItems="center" mb="25px">
+          <Text>{onlyShowWin ? t('Winning Number') : t('Your ticket numbers')}</Text>
+          <Text>{t('Prize Bracket')}</Text>
+        </Flex>
+      )}
       {pageNumbers &&
+        pageNumbers.map &&
         pageNumbers.map((numWrap: string, index: number) => (
           <Flex key={index} justifyContent="space-between" alignItems="center" mb="16px">
             <NumWrap>
@@ -132,6 +138,14 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
             }}
           >{`>`}</Button>
         </Flex>
+      )}
+      {onlyShowWin && !numbers?.length && (
+        <>
+          <Text textAlign="center">{t('You have not won any prizes.')}</Text>
+          <Flex justifyContent="center" m="20px 0 0">
+            <BuyTicketsButton />
+          </Flex>
+        </>
       )}
     </>
   )

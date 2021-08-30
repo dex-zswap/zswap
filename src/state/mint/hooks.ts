@@ -12,6 +12,7 @@ import { AppDispatch, AppState } from 'state'
 import { tryParseAmount } from 'state/swap/hooks'
 import { useCurrencyBalances } from 'state/wallet/hooks'
 import { Field, typeInput } from './actions'
+import { useTranslation } from 'contexts/Localization'
 
 type ExistZBPair = {
   zbWithcurrencyA: boolean
@@ -114,6 +115,7 @@ export function useDerivedMintInfo(
   createZBPairLink: string
   otherCurrencySymbol: string
 } {
+  const { t } = useTranslation()
   const { account, chainId } = useActiveWeb3React()
 
   const { independentField, typedValue, otherTypedValue } = useMintState()
@@ -242,11 +244,11 @@ export function useDerivedMintInfo(
   }
 
   if (pairState === PairState.INVALID) {
-    error = error ?? 'Invalid pair'
+    error = error ?? 'Select a token'
   }
 
   if (!parsedAmounts[Field.CURRENCY_A] || !parsedAmounts[Field.CURRENCY_B]) {
-    error = error ?? 'Enter an amount'
+    error = error ?? t('Enter an amount')
   }
 
   if (!allExist) {

@@ -37,7 +37,7 @@ const PriceRule = ({ lotteryId }) => {
           ? t('Burn')
           : t(`${index + 1}${!index ? 'st' : 1 == index ? 'nd' : 2 == index ? 'rd' : 'th'} Prize`),
         subTitle: t(`Match ${index ? 'first' : 'all'} ${6 - index}${5 == index ? ' or last 1' : ''}`),
-        earn: `${zustValue.times(per[index]).integerValue()} ZBst ${t('each')}`,
+        earn: `${zustValue.times(per[index]).integerValue()} ZBST ${t('each')}`,
         winner: `123 ${t('Winners')}`,
       }
       return d
@@ -64,7 +64,7 @@ const PriceRule = ({ lotteryId }) => {
             <Text fontSize="24px" bold>
               ${zbRewards.toFixed(0)}
             </Text>
-            <Text>{zustValue.toFixed(0)} ZBst</Text>
+            <Text>{zustValue.toFixed(0)} ZBST</Text>
             {!isLast && (
               <>
                 <Text>{earn}</Text>

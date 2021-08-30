@@ -175,7 +175,7 @@ export default function PoolFinder() {
               <LightCard padding="45px 10px">
                 <AutoColumn gap="sm" justify="center">
                   <Text textAlign="center" fontWeight={500}>
-                    {t('Invalid pair.')}
+                    {t('Select a token')}
                   </Text>
                 </AutoColumn>
               </LightCard>

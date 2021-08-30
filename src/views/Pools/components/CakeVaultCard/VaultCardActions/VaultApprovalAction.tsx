@@ -25,7 +25,7 @@ const VaultApprovalAction: React.FC<ApprovalActionProps> = ({ isLoading = false,
         //   onClick={handleApprove}
         //   width="100%"
         // >
-        //   {t('Enable')}
+        //   {t('Approve')}
         // </Button>
         <div></div>
       )}

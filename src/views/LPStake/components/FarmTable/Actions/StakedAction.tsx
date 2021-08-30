@@ -201,12 +201,12 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({
   //   <ActionContainer>
   //     <ActionTitles>
   //       <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-  //         {t('Enable Farm')}
+  //         {t('Approve Farm')}
   //       </Text>
   //     </ActionTitles>
   //     <ActionContent>
   //       <Button width="100%" disabled={requestedApproval} onClick={handleApprove} variant="secondary">
-  //         {t('Enable')}
+  //         {t('Approve')}
   //       </Button>
   //     </ActionContent>
   //   </ActionContainer>

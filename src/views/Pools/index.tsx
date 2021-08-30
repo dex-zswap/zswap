@@ -220,7 +220,7 @@ const Pools: React.FC = () => {
           <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
             <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
               <Heading as="h1" scale="lg" color="secondary" mb="10px">
-                {t('Earn ZBst by staking assets for market making')}
+                {t('Earn ZBST by staking assets for market making')}
                 <HelpButton />
               </Heading>
               <Heading scale="xxl" color="pink">

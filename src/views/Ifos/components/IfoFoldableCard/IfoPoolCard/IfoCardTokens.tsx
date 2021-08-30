@@ -130,7 +130,7 @@ const IfoCardTokens: React.FC<IfoCardTokensProps> = ({
               isLoading={enableStatus === EnableStatus.IS_ENABLING}
               endIcon={enableStatus === EnableStatus.IS_ENABLING ? <AutoRenewIcon spin color="currentColor" /> : null}
             >
-              {t('Enable')}
+              {t('Approve')}
             </Button>
           )}
         </>

@@ -110,7 +110,9 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
       {!removed && (
         <>
           <Flex style={{ marginTop: '40px' }} justifyContent="space-between" alignItems="center">
-            <Text fontSize="16px">{t('APR')}</Text>
+            <Text fontSize="16px" mr="10px">
+              {t('APR')}
+            </Text>
             <Text fontSize="32px" bold style={{ display: 'flex', alignItems: 'center' }}>
               {farm.displayApr ? <>{displayApr}%</> : <Skeleton height={24} width={80} />}
             </Text>
@@ -132,31 +134,32 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
         </Text>
       </Flex> */}
 
-      <Flex mb="7px" justifyContent="space-between">
+      <Flex mb="7px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Reward Token')}</Text>
-        {/* <TokenPairImage secondaryToken={farm?.quoteToken} width={46} height={46} /> */}
+        <img width="24px" src="/images/tokens/ZBST.png" />
+        {/* <TokenPairImage secondaryToken={farm?.quoteToken} width={24} height={24} /> */}
       </Flex>
 
-      <Flex mb="7px" justifyContent="space-between">
+      <Flex mb="7px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Value Locked')}</Text>
         <Text fontSize="14px">{farm.lpTotalTokens.toString()}</Text>
       </Flex>
 
-      <Flex mb="7px" justifyContent="space-between">
+      <Flex mb="7px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Your Share')}</Text>
         <Text fontSize="14px">
           ${userData.stakedBalance.toString()}（{userData.userSharePercent}）
         </Text>
       </Flex>
 
-      <Flex mb="7px" justifyContent="space-between">
+      <Flex mb="7px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Staked Balance')}</Text>
         <Text fontSize="14px">
           {farm.tokenAmount} {farm.token.symbol} / {farm.quoteTokenAmount} {farm.quoteToken.symbol}
         </Text>
       </Flex>
 
-      <Flex mb="25px" justifyContent="space-between">
+      <Flex mb="25px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Your Reward')}</Text>
         <Text fontSize="14px">{userData.earnings.toString()}</Text>
       </Flex>

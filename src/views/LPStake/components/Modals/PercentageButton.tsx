@@ -7,7 +7,7 @@ interface PercentageButtonProps {
 }
 
 const StyledButton = styled(Button)`
-  width: 80px;
+  min-width: 80px;
   height: 36px;
   border-radius: 18px;
   background: #303030;

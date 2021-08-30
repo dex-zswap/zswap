@@ -75,7 +75,7 @@ const LotteryHeader = () => {
           <Text fontSize="24px" bold>
             {t('Buy ticket')}
           </Text>
-          <Text textAlign="center">{t('The fare is 6.25 ZBst')}</Text>
+          <Text textAlign="center">{t('The fare is 6.25 ZBST')}</Text>
         </Flex>
         <img
           style={{ margin: '80px 40px 0', height: 'fit-content' }}
@@ -143,7 +143,7 @@ const LotteryHeader = () => {
           </Text>
           <Text fontSize="16px" mb="45px">
             {t(
-              'The amount won by each ticket will depend on how many other tickets won in the same prize bracket. For example, if the prize pool for the 3rd Prize is 1000 ZBst, there are five people won the 3rd Prize, the 1000 ZBst will be split between the five winning tickets, meaning every winning ticket will receive 200 ZBst.',
+              'The amount won by each ticket will depend on how many other tickets won in the same prize bracket. For example, if the prize pool for the 3rd Prize is 1000 ZBST, there are five people won the 3rd Prize, the 1000 ZBST will be split between the five winning tickets, meaning every winning ticket will receive 200 ZBST.',
             )}
           </Text>
           <Text fontSize="36px" mb="22px" bold>
@@ -159,12 +159,12 @@ const LotteryHeader = () => {
           <Text fontSize="16px" mb="30px">
             {t('The prizes for each lottery round come from three sources :')}
           </Text>
-          <Text fontSize="16px">{t('-  10% of the ZBst released in the block every day.')}</Text>
+          <Text fontSize="16px">{t('-  10% (144000 ZBST) of the ZBST released in the block every day.')}</Text>
           <Text fontSize="16px">
-            {t('-  The total amount of ZBst paid by the users buying ticket in the lottery round.')}
+            {t('-  The total amount of ZBST paid by the users buying ticket in the lottery round.')}
           </Text>
           <Text fontSize="16px" mb="45px">
-            {t('-  The total amount of ZBst from the previous lottery round that was not won;')}
+            {t('-  The total amount of ZBST from the previous lottery round that was not won;')}
           </Text>
 
           <Text fontSize="36px" mb="22px" bold>
@@ -172,7 +172,7 @@ const LotteryHeader = () => {
           </Text>
           <Text fontSize="16px" mb="34px">
             {t(
-              `Each bracket's prize pool is a portion of the total amount of ZBst in each Lottery round at a fixed ratio.`,
+              `Each bracket's prize pool is a portion of the total amount of ZBST in each Lottery round at a fixed ratio.`,
             )}
           </Text>
           <Text fontSize="16px">{t('1st Prize - 40%')}</Text>
@@ -190,7 +190,7 @@ const LotteryHeader = () => {
           </Text>
           <Text fontSize="16px" mb="45px">
             {t(
-              'Price is 6.25 ZBst worth in ZBst per ticket. You can only buy a maximum of 100 tickets in one purchase, but you can make unlimited purchases. Once purchased you will not be able to convert your ticket back to ZBst.',
+              'Price is 6.25 ZBST worth in ZBST per ticket. You can only buy a maximum of 100 tickets in one purchase, but you can make unlimited purchases. Once purchased you will not be able to convert your ticket back to ZBST.',
             )}
           </Text>
 

@@ -21,6 +21,7 @@ import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { RowFixed } from 'components/Layout/Row'
 import { AutoColumn, ColumnCenter } from 'components/Layout/Column'
 import { getBscScanLink } from 'utils'
+import history from '../../routerHistory'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -58,11 +59,13 @@ function TransactionSubmittedContent({
   chainId,
   hash,
   currencyToAdd,
+  doneBackUrl,
 }: {
   onDismiss: () => void
   hash: string | undefined
   chainId: ChainId
   currencyToAdd?: Currency | undefined
+  doneBackUrl?:string
 }) {
   const { library } = useActiveWeb3React()
 
@@ -70,6 +73,12 @@ function TransactionSubmittedContent({
 
   const token: Token | undefined = wrappedCurrency(currencyToAdd, chainId)
 
+  const dismiss = () =>{
+    if (doneBackUrl) {
+      history.push(doneBackUrl)
+    }
+    onDismiss()
+  }
   return (
     <Wrapper>
       <ConfirmedIcon>
@@ -97,7 +106,7 @@ function TransactionSubmittedContent({
               </RowFixed>
             </Button>
           )} */}
-        <Button width="100%" onClick={onDismiss} mt="50px">
+        <Button width="100%" onClick={dismiss} mt="50px">
           {t('Close')}
         </Button>
       </AutoColumn>
@@ -147,6 +156,7 @@ interface ConfirmationModalProps {
   pendingText: string
   currencyToAdd?: Currency | undefined
   minWidth?: string
+  doneBackUrl?:string
 }
 
 const TransactionConfirmationModal: React.FC<InjectedModalProps & ConfirmationModalProps> = ({
@@ -159,6 +169,7 @@ const TransactionConfirmationModal: React.FC<InjectedModalProps & ConfirmationMo
   pendingText,
   content,
   currencyToAdd,
+  doneBackUrl,
 }) => {
   const { chainId } = useActiveWeb3React()
 
@@ -184,6 +195,7 @@ const TransactionConfirmationModal: React.FC<InjectedModalProps & ConfirmationMo
         <TransactionSubmittedContent
           chainId={chainId}
           hash={hash}
+          doneBackUrl={doneBackUrl}
           onDismiss={onDismiss}
           currencyToAdd={currencyToAdd}
         />

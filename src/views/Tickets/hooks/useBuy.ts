@@ -6,7 +6,7 @@ import { useContractCall } from 'hooks/useContractCall'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import reporter from 'reporter'
 
-export default function useBuy() {
+export default function useBuy(onDismiss: () => void) {
   const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const { chainId, account } = useActiveWeb3React()
@@ -32,6 +32,7 @@ export default function useBuy() {
         reporter.recordHash(tx.hash)
 
         setBuying(false)
+        onDismiss()
       } catch (e) {
         setBuying(false)
       }

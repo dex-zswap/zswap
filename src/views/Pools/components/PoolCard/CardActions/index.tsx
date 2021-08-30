@@ -37,24 +37,24 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
       <Flex flexDirection="column">
         {harvest && (
           <>
-            <Flex mb="7px" justifyContent="space-between">
+            <Flex mb="7px" justifyContent="space-between" alignItems="center">
               <Text fontSize="14px">{t('Reward Token')}</Text>
-              <TokenPairImage secondaryToken={earningToken} width={46} height={46} />
+              <TokenPairImage secondaryToken={earningToken} width={24} height={24} />
             </Flex>
 
-            <Flex mb="7px" justifyContent="space-between">
+            <Flex mb="7px" justifyContent="space-between" alignItems="center">
               <Text fontSize="14px">{t('Value Locked')}</Text>
               <Text fontSize="14px">${pool.userData?.totalStakedBalance.toFixed(2)}</Text>
             </Flex>
 
-            <Flex mb="7px" justifyContent="space-between">
+            <Flex mb="7px" justifyContent="space-between" alignItems="center">
               <Text fontSize="14px">{t('Your Share')}</Text>
               <Text fontSize="14px">
                 ${pool.userData?.stakedUSDTValue.toFixed(2)}（{pool.userData?.stakedPercent.toString()}）
               </Text>
             </Flex>
 
-            <Flex mb="7px" justifyContent="space-between">
+            <Flex mb="7px" justifyContent="space-between" alignItems="center">
               <Text fontSize="14px">{t('Pooled Balance')}</Text>
               <Text fontSize="14px">
                 {pool.userData?.stakedBalance.toFixed(2)}
@@ -62,7 +62,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
               </Text>
             </Flex>
 
-            <Flex mb="25px" justifyContent="space-between">
+            <Flex mb="25px" justifyContent="space-between" alignItems="center">
               <Text fontSize="14px">{t('Your Reward')}</Text>
               <Text fontSize="14px">{pool.userData?.pendingReward.toFixed(2)}</Text>
             </Flex>
