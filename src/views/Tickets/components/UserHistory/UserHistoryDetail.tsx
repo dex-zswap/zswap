@@ -3,7 +3,6 @@ import { useTranslation } from 'contexts/Localization'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
-import useWinTime from 'views/Tickets/hooks/useWinTime'
 
 import styled from 'styled-components'
 import { Text, Flex, Button, useModal } from 'zswap-uikit'
@@ -40,21 +39,20 @@ const BallWrap = styled(Flex)`
   }
 `
 
-const UserHistoryDetail = ({ lotteryId }) => {
+const UserHistoryDetail = ({ lotteryId, drawTime }) => {
   const { t } = useTranslation()
   const { zustValue, zbRewards } = useLotteryReward(lotteryId)
   const winNumbers = useWinNumbers(lotteryId)
   const BallArr = new Array(6).fill('ball')
   const lotteryIds = useUserLotteryIds(lotteryId)
   const ticketsNum = useMemo(() => lotteryIds[0]?.numbers.length || '0', [lotteryIds])
-  const winTime = useWinTime(lotteryId)
   const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} />)
 
   return (
     <>
       <Text style={{ color: '#999', margin: '-10px 0 30px 3px' }}>
         {t('Drawn') + ' '}
-        {winTime}
+        {drawTime}
       </Text>
       <Flex>
         <Text mr="46px" bold>
