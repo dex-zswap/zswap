@@ -34,8 +34,11 @@ const UserHistory = () => {
   const { t } = useTranslation()
 
   const [lotteryId, setLotteryId] = useState<string | number>('')
-  const showDetail = useCallback((id) => {
+  const [drawTime, setDrawTime] = useState<string | number>('')
+
+  const showDetail = useCallback((id, drawTime) => {
     setLotteryId(id)
+    setDrawTime(drawTime)
   }, [])
 
   const backList = useCallback(() => {
@@ -46,7 +49,7 @@ const UserHistory = () => {
     () =>
       lotteryId ? (
         <Card title={`${t('Round')} ${lotteryId}`} back={backList}>
-          <UserHistoryDetail lotteryId={lotteryId} />
+          <UserHistoryDetail lotteryId={lotteryId} drawTime={drawTime} />
         </Card>
       ) : (
         <Card title={t('Your History')}>{<UserHistoryList showDetail={showDetail} />}</Card>

@@ -3,10 +3,10 @@ import { Text, Flex, ArrowRightIcon, Button } from 'zswap-uikit'
 import BuyTicketsButton from '../BuyTicket/BuyTicketsButton'
 
 import { useTranslation } from 'contexts/Localization'
-import { format } from 'date-fns'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useUserHistory from 'views/Tickets/hooks/useUserHistory'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import dayjs from 'dayjs'
 
 const HistoryTable = styled.table`
   width: 100%;
@@ -29,6 +29,12 @@ const UserHistoryList = ({ showDetail }) => {
   const { account } = useActiveWeb3React()
   const [pageNum, setPageNum] = useState(1)
   const { list, pages, page } = useUserHistory(pageNum)
+
+  const getDrawTime = useCallback((time) => {
+    const hour = new Date(time).getHours()
+    const date = hour > 14 ? dayjs(time).add(1, 'day').format('YYYY.MM.DD') : dayjs(time).format('YYYY.MM.DD')
+    return `${date} 14:00`
+  }, [])
 
   if (!account || !list.length) {
     return (
@@ -55,7 +61,7 @@ const UserHistoryList = ({ showDetail }) => {
             return (
               <tr key={id}>
                 <td>{lotteryNum || '-'}</td>
-                <td>{format(new Date(createTime), 'yyyy.MM.dd HH:mm')}</td>
+                <td>{getDrawTime(createTime)}</td>
                 <td>{lottery?.split(',').length || 0}</td>
                 <td>
                   <Button
@@ -64,7 +70,7 @@ const UserHistoryList = ({ showDetail }) => {
                     variant="text"
                     padding="0"
                     onClick={() => {
-                      showDetail(lotteryNum)
+                      showDetail(lotteryNum, getDrawTime(createTime))
                     }}
                   >
                     {t('More details')}
