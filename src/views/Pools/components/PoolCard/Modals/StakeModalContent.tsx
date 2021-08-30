@@ -131,9 +131,12 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             }),
           )
           setPendingTx(false)
-          onDismiss()  
+          onDismiss()
         } else {
-          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          toastError(
+            t('Error'),
+            t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
+          )
           setPendingTx(false)
         }
       } catch (e) {
@@ -153,7 +156,10 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
           setPendingTx(false)
           onDismiss()
         } else {
-          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          toastError(
+            t('Error'),
+            t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
+          )
           setPendingTx(false)
         }
       } catch (e) {
@@ -178,7 +184,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         onDismiss()
       } else {
         toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-        setPendingTx(false)        
+        setPendingTx(false)
       }
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))

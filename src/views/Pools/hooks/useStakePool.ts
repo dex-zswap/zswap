@@ -34,7 +34,9 @@ const useStakePool = (token: Token) => {
 
   const handleStake = useCallback(
     async (amount: string, decimals: number) => {
-      const res = isUsingDEX ? await stakeDEX(stakeContract, amount, token.decimals) : await stake(stakeContract, tokenAddress, amount, token.decimals)
+      const res = isUsingDEX
+        ? await stakeDEX(stakeContract, amount, token.decimals)
+        : await stake(stakeContract, tokenAddress, amount, token.decimals)
       return res
     },
     [isUsingDEX, tokenAddress, stakeContract],

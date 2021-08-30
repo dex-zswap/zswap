@@ -63,7 +63,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
     if (shouldCompound) {
       try {
         const success = await onStake(fullBalance, earningToken.decimals)
-        if(success) {
+        if (success) {
           toastSuccess(
             `${t('Compounded')}!`,
             t('Your %symbol% earnings have been re-invested into the pool!', {
@@ -73,7 +73,10 @@ const CollectModal: React.FC<CollectModalProps> = ({
           setPendingTx(false)
           onDismiss()
         } else {
-          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          toastError(
+            t('Error'),
+            t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
+          )
           setPendingTx(false)
         }
       } catch (e) {
@@ -95,8 +98,11 @@ const CollectModal: React.FC<CollectModalProps> = ({
           setPendingTx(false)
           onDismiss()
         } else {
-          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-          setPendingTx(false)          
+          toastError(
+            t('Error'),
+            t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
+          )
+          setPendingTx(false)
         }
       } catch (e) {
         toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
