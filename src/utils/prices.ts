@@ -1,4 +1,5 @@
 import { CurrencyAmount, Fraction, JSBI, Percent, TokenAmount, Trade } from 'zswap-sdk'
+import BigNumber from 'bignumber.js'
 import {
   BLOCKED_PRICE_IMPACT_NON_EXPERT,
   ALLOWED_PRICE_IMPACT_HIGH,
@@ -61,9 +62,15 @@ export function computeSlippageAdjustedAmounts(
   allowedSlippage: number,
 ): { [field in Field]?: CurrencyAmount } {
   const pct = basisPointsToPercent(allowedSlippage)
+  const reciveRate = FeeHelper.getRecivedRate(trade?.inputAmount?.currency)
+  const input = trade?.maximumAmountIn(pct)
+  const output = trade?.minimumAmountOut(pct)
+
+  // console.log(output?.toSignificant(6))
+
   return {
-    [Field.INPUT]: trade?.maximumAmountIn(pct),
-    [Field.OUTPUT]: trade?.minimumAmountOut(pct),
+    [Field.INPUT]: input,
+    [Field.OUTPUT]: output
   }
 }
 

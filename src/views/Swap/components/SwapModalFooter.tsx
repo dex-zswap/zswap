@@ -42,7 +42,7 @@ export default function SwapModalFooter({
   swapErrorMessage: string | undefined
   disabledConfirm: boolean
 }) {
-  const [showInverted, setShowInverted] = useState<boolean>(false)
+  const [showInverted, setShowInverted] = useState<boolean>(true)
   const slippageAdjustedAmounts = useMemo(
     () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
     [allowedSlippage, trade],

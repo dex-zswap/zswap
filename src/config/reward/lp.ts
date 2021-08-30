@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import ONLINE_TIME, { DATE_SECS } from 'config/constants/zswap/online-time'
+import { getOnlineDayOffset } from 'config/constants/zswap/online-time'
 
 const RATE = new BigNumber(0.7)
 const WEEK_DAYS = new BigNumber(7)
@@ -12,8 +12,7 @@ const REWARDS = {
 }
 
 export default function getLpReward(allWeight: number[], weight: number) {
-  const now = Date.now()
-  const dayOffset = Math.floor((now - ONLINE_TIME) / DATE_SECS)
+  const dayOffset = getOnlineDayOffset()
   let reward
 
   const totalWeights = allWeight.reduce((result, current) => result + current, 0)
