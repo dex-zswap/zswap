@@ -62,15 +62,20 @@ const CollectModal: React.FC<CollectModalProps> = ({
     // compounding
     if (shouldCompound) {
       try {
-        await onStake(fullBalance, earningToken.decimals)
-        toastSuccess(
-          `${t('Compounded')}!`,
-          t('Your %symbol% earnings have been re-invested into the pool!', {
-            symbol: earningToken.symbol,
-          }),
-        )
-        setPendingTx(false)
-        onDismiss()
+        const success = await onStake(fullBalance, earningToken.decimals)
+        if(success) {
+          toastSuccess(
+            `${t('Compounded')}!`,
+            t('Your %symbol% earnings have been re-invested into the pool!', {
+              symbol: earningToken.symbol,
+            }),
+          )
+          setPendingTx(false)
+          onDismiss()
+        } else {
+          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          setPendingTx(false)
+        }
       } catch (e) {
         toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
         console.error(e)
@@ -79,15 +84,20 @@ const CollectModal: React.FC<CollectModalProps> = ({
     } else {
       // harvesting
       try {
-        await onReward()
-        toastSuccess(
-          `${t('Harvested')}!`,
-          t('Your %symbol% earnings have been sent to your wallet!', {
-            symbol: earningToken.symbol,
-          }),
-        )
-        setPendingTx(false)
-        onDismiss()
+        const success = await onReward()
+        if (success) {
+          toastSuccess(
+            `${t('Harvested')}!`,
+            t('Your %symbol% earnings have been sent to your wallet!', {
+              symbol: earningToken.symbol,
+            }),
+          )
+          setPendingTx(false)
+          onDismiss()
+        } else {
+          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          setPendingTx(false)          
+        }
       } catch (e) {
         toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
         console.error(e)

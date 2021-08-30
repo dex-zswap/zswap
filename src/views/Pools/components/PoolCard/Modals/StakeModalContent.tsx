@@ -122,31 +122,40 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     if (isRemovingStake) {
       // unstaking
       try {
-        await onUnstake(stakeAmount, stakingToken.decimals)
-        toastSuccess(
-          `${t('Unstaked')}!`,
-          t('Your %symbol% earnings have also been harvested to your wallet!', {
-            symbol: earningToken.symbol,
-          }),
-        )
-        setPendingTx(false)
-        onDismiss()
+        const success = await onUnstake(stakeAmount, stakingToken.decimals)
+        if (success) {
+          toastSuccess(
+            `${t('Unstaked')}!`,
+            t('Your %symbol% earnings have also been harvested to your wallet!', {
+              symbol: earningToken.symbol,
+            }),
+          )
+          setPendingTx(false)
+          onDismiss()  
+        } else {
+          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          setPendingTx(false)
+        }
       } catch (e) {
         toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
         setPendingTx(false)
       }
     } else {
       try {
-        // staking
-        await onStake(stakeAmount, stakingToken.decimals)
-        toastSuccess(
-          `${t('Staked')}!`,
-          t('Your %symbol% funds have been staked in the pool!', {
-            symbol: stakingToken.symbol,
-          }),
-        )
-        setPendingTx(false)
-        onDismiss()
+        const success = await onStake(stakeAmount, stakingToken.decimals)
+        if (success) {
+          toastSuccess(
+            `${t('Staked')}!`,
+            t('Your %symbol% funds have been staked in the pool!', {
+              symbol: stakingToken.symbol,
+            }),
+          )
+          setPendingTx(false)
+          onDismiss()
+        } else {
+          toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+          setPendingTx(false)
+        }
       } catch (e) {
         toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
         setPendingTx(false)
@@ -157,15 +166,20 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   const handleHarvestConfirm = async () => {
     setPendingTx(true)
     try {
-      await onReward()
-      toastSuccess(
-        `${t('Harvested')}!`,
-        t('Your %symbol% earnings have been sent to your wallet!', {
-          symbol: earningToken.symbol,
-        }),
-      )
-      setPendingTx(false)
-      onDismiss()
+      const success = await onReward()
+      if (success) {
+        toastSuccess(
+          `${t('Harvested')}!`,
+          t('Your %symbol% earnings have been sent to your wallet!', {
+            symbol: earningToken.symbol,
+          }),
+        )
+        setPendingTx(false)
+        onDismiss()
+      } else {
+        toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
+        setPendingTx(false)        
+      }
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
       console.error(e)

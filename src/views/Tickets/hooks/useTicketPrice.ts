@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
-import { useZBToken, useZBCurrency } from 'hooks/Tokens'
+import { useZBToken, useZBSTCurrency } from 'hooks/Tokens'
 import { useCurrencyBalance } from 'state/wallet/hooks'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
@@ -24,6 +24,6 @@ export default function useTicketPrice() {
 
 export function useZBSTBalance() {
   const { account } = useActiveWeb3React()
-  const zbst = useZBCurrency()
+  const zbst = useZBSTCurrency()
   return useCurrencyBalance(account, zbst)
 }

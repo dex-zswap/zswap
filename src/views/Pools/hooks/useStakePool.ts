@@ -6,9 +6,13 @@ import { Token } from 'config/constants/types'
 import { getAddress } from 'utils/addressHelpers'
 
 const stake = async (contract, address, amount, decimals = 18) => {
-  const tx = await contract.depositToken(address, new BigNumber(amount).times(BIG_TEN.pow(decimals)).toString())
-  const receipt = await tx.wait()
-  return receipt.status
+  try {
+    const tx = await contract.depositToken(address, new BigNumber(amount).times(BIG_TEN.pow(decimals)).toString())
+    const receipt = await tx.wait()
+    return receipt.status
+  } catch (e) {
+    return false
+  }
 }
 
 const stakeDEX = async (contract, amount, decimals = 18) => {
@@ -19,7 +23,7 @@ const stakeDEX = async (contract, amount, decimals = 18) => {
     const receipt = await tx.wait()
     return receipt.status
   } catch (e) {
-    console.error(e)
+    return false
   }
 }
 
@@ -30,11 +34,8 @@ const useStakePool = (token: Token) => {
 
   const handleStake = useCallback(
     async (amount: string, decimals: number) => {
-      if (isUsingDEX) {
-        await stakeDEX(stakeContract, amount, token.decimals)
-      } else {
-        await stake(stakeContract, tokenAddress, amount, token.decimals)
-      }
+      const res = isUsingDEX ? await stakeDEX(stakeContract, amount, token.decimals) : await stake(stakeContract, tokenAddress, amount, token.decimals)
+      return res
     },
     [isUsingDEX, tokenAddress, stakeContract],
   )
