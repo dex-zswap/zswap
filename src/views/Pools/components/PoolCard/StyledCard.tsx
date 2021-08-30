@@ -21,7 +21,7 @@ export const StyledCard = styled(Card)<{
   isPromoted?: PromotedStyleCardProps
   isFinished?: boolean
 }>`
-  width: 360px;
+  min-width: 360px;
   height: 560px;
   margin: 0 8px 24px;
   display: flex;

@@ -9,6 +9,7 @@ import { AppHeader, AppBody } from 'components/App'
 import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import { useUserPairs } from './hooks'
 import WrappedPositionCard from './components/card'
+import ConnectWalletButton from 'components/ConnectWalletButton'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.background};
@@ -24,7 +25,7 @@ export default function Pool() {
     if (!account) {
       return (
         <Text color="textSubtle" textAlign="center">
-          {t('Connect to a wallet to view your liquidity.')}
+          {t('No liquidity found.')}
         </Text>
       )
     }
@@ -52,9 +53,9 @@ export default function Pool() {
     <SwapAndLiquidityPage>
       <AppBody>
         <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
-        <Body>
+        <Body marginBottom="20px">
           {renderBody()}
-          {account && !loading && !pairs?.length && (
+          {/* {account && !loading && !pairs?.length && (
             <Flex flexDirection="column" alignItems="center" mt="24px">
               <Text color="textSubtle" mb="8px">
                 {t("Don't see a pool you joined?")}
@@ -63,12 +64,16 @@ export default function Pool() {
                 {t('Find other LP tokens')}
               </Button>
             </Flex>
-          )}
+          )} */}
         </Body>
         <CardFooter style={{ textAlign: 'center' }}>
-          <Button id="join-pool-button" as={Link} to="/add" width="100%">
-            {t('Add Liquidity')}
-          </Button>
+          {!account ? (
+            <ConnectWalletButton style={{ width: '100%' }} />
+          ) : (
+            <Button id="join-pool-button" as={Link} to="/add" width="100%">
+              {t('Add Liquidity')}
+            </Button>
+          )}
         </CardFooter>
       </AppBody>
     </SwapAndLiquidityPage>

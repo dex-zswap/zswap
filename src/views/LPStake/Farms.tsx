@@ -65,7 +65,7 @@ const HeaderWrap = styled(PageHeader)`
 `
 
 const PairCardWrap = styled.div`
-  width: 360px;
+  min-width: 360px;
   height: 535px;
   background: #292929;
   box-shadow: 0px 0px 32px 0px rgba(19, 53, 93, 0.51);
@@ -303,7 +303,7 @@ const Farms: React.FC = () => {
         <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Heading as="h1" scale="lg" color="secondary" mb="10px">
-              {t('Earn ZBst by staking assets for market making')}
+              {t('Earn ZBST by staking assets for market making')}
               <HelpButton />
             </Heading>
             <Heading scale="xxl" color="pink">

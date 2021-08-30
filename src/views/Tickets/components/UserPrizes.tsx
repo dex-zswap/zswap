@@ -178,12 +178,7 @@ const UserPrizes = () => {
         {!account || !lotteryIds.length ? (
           <Flex height="238px" flexDirection="column" alignItems="center" justifyContent="center">
             {!account && <Text mb="20px">{t('Connect your wallet to check your prizes')}</Text>}
-            {account && !userTotalRewardInfo.hasPrizes && (
-              <>
-                {'1' != currentLotteryId && <Text mb="5px">{t('You have not won any prizes last round.')}</Text>}
-                <Text mb="20px">{t('Buy tickets for this draw!')}</Text>
-              </>
-            )}
+            {account && !lotteryIds.length && <Text mb="20px">{t('Buy tickets for this draw!')}</Text>}
             <BuyTicketsButton />
           </Flex>
         ) : (
@@ -203,11 +198,17 @@ const UserPrizes = () => {
                 <Text color="blue" fontSize="36px" bold>
                   ${userTotalRewardInfo.zust}
                 </Text>
-                <Text>{userTotalRewardInfo.zbst} ZBst</Text>
+                <Text>{userTotalRewardInfo.zbst} ZBST</Text>
               </div>
             </Flex>
             <Flex justifyContent="center">
-              <Button width="210px" mt="28px" onClick={collectReward} isLoading={collecting}>
+              <Button
+                width="210px"
+                mt="28px"
+                onClick={collectReward}
+                isLoading={collecting}
+                disabled={'0.0000' == userTotalRewardInfo.zbst}
+              >
                 {t('Collect Prizes')}
               </Button>
             </Flex>

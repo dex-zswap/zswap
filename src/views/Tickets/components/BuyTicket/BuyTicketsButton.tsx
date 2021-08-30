@@ -20,13 +20,13 @@ const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccount
   const [useBuyTicketsModal] = useModal(<BuyTicketsModal onDismiss={onDismiss} />)
   const timeRange = useTimeRange()
 
-  const [btnLabel, setBtnLabel] = useState(t('Buy Tickets'))
-  const [btnDisabled, setBtnDisabled] = useState(true)
+  const [btnLabel, setBtnLabel] = useState<string>(t('Buy Tickets'))
+  const [btnDisabled, setBtnDisabled] = useState<boolean>(true)
 
   useEffect(() => {
     const changeBtnStatus = () => {
-      const date = new Date().getTime()
       if (!timeRange) return
+      const date = new Date().getTime()
       if (!timeRange.start || timeRange.start > date) {
         setBtnLabel(t('Sales Immediately'))
         setBtnDisabled(true)
@@ -43,11 +43,11 @@ const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccount
     changeBtnStatus()
     const timer = setInterval(() => {
       changeBtnStatus()
-    }, 1000)
+    }, 5000)
     return () => {
       setBtnLabel(t('Buy Tickets'))
       setBtnDisabled(true)
-      clearInterval(timer)
+      timer && clearInterval(timer)
     }
   }, [timeRange, t])
 
@@ -59,7 +59,7 @@ const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccount
         </Text>
       )}
       {account ? (
-        <Button width="210px" {...props} disabled={btnDisabled} onClick={useBuyTicketsModal}>
+        <Button minWidth="210px" {...props} disabled={btnDisabled} onClick={useBuyTicketsModal}>
           {btnLabel}
         </Button>
       ) : (

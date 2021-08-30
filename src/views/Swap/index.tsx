@@ -428,12 +428,12 @@ export default function Swap({ history }: RouteComponentProps) {
                 >
                   {approval === ApprovalState.PENDING ? (
                     <AutoRow gap="6px" justify="center">
-                      {t('Enabling')} <CircleLoader stroke="white" />
+                      {t('Approving')} <CircleLoader stroke="white" />
                     </AutoRow>
                   ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
                     t('Enabled')
                   ) : (
-                    t('Enable %asset%', {
+                    t('Approve %asset%', {
                       asset: currencies[Field.INPUT]?.symbol ?? '',
                     })
                   )}
@@ -494,6 +494,9 @@ export default function Swap({ history }: RouteComponentProps) {
                     : t('Swap'))}
               </Button>
             )}
+            <Button width="100%" mt="10px" variant="secondary">
+              {t('Learn More')}
+            </Button>
             {showApproveFlow && (
               <Column style={{ marginTop: '1rem' }}>
                 <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />

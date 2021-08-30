@@ -84,7 +84,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setStakeAmount('')
     setPercent(0)
   }, [tabType])
-
   const usdValueStaked = stakeAmount && formatNumber(new BigNumber(stakeAmount).times(stakingTokenPrice).toNumber())
 
   useEffect(() => {
@@ -159,7 +158,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     try {
       await onReward()
       toastSuccess(
-        `${t('Harvested')}!`,
+        `${t('Rewarded')}!`,
         t('Your %symbol% earnings have been sent to your wallet!', {
           symbol: earningToken.symbol,
         }),
@@ -189,13 +188,13 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <Flex flexDirection="column">
           <Text mb="10px">{t('Reward Token')}</Text>
           <Flex>
-            <CurrencyLogo style={{ marginRight: '10px' }} currency={userData?.earningCurrency} size="18px" />
-            <Text bold>ZBst</Text>
+            <img style={{ marginRight: '10px' }} width="24px" src="/images/tokens/ZBST.png" />
+            <Text bold>ZBST</Text>
           </Flex>
         </Flex>
         <Flex flexDirection="column">
           <Text mb="10px">{t('APR')}</Text>
-          <Text bold>{apr}</Text>
+          <Text bold>{apr}%</Text>
         </Flex>
         <Flex flexDirection="column">
           <Text mb="10px">{t('Claimable Rewards')}</Text>
@@ -209,13 +208,13 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         </Text>
         {!isReward && (
           <Text bold>
-            {t('Available' + ': ')}
+            {t('Available') + ': '}
             {isRemovingStake
               ? userData?.stakedBalance.toFixed(4, BigNumber.ROUND_DOWN)
               : userData?.stakingTokenBalance.toFixed(4)}
-            <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
+            {/* <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
               {t('MAX')}
-            </span>
+            </span> */}
           </Text>
         )}
       </Flex>
@@ -225,7 +224,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             <Flex alignItems="center">
               <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" />
               <Text fontSize="16px" bold>
-                ZBst
+                ZBST
               </Text>
             </Flex>
             <Text fontSize="20px" bold>
@@ -291,10 +290,10 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             {pendingTx
               ? isRemovingStake
                 ? t('Withdrawing Principal')
-                : t('Staking')
+                : t('Stake')
               : isRemovingStake
               ? t('Withdraw Principal')
-              : t('Staking')}
+              : t('Stake')}
           </Button>
         </>
       )}

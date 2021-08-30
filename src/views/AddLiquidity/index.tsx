@@ -332,14 +332,7 @@ export default function AddLiquidity({
   return (
     <SwapAndLiquidityPage>
       <AppBody>
-        {/* <AppHeader
-          title={t('Add Liquidity')}
-          subtitle={t('Add liquidity to receive LP tokens')}
-          helper={t(
-            'Liquidity providers earn a 0.17% trading fee on all trades made for that token pair, proportional to their share of the liquidity pool.',
-          )}
-          backTo="/pool"
-        /> */}
+        <AppHeader title={t('Add Liquidity')} subtitle={t('Add liquidity to receive LP tokens')} backTo="/pool" />
         <CardBody>
           <AutoColumn gap="20px">
             {noLiquidity && (
@@ -424,12 +417,12 @@ export default function AddLiquidity({
                         >
                           {approvalA === ApprovalState.PENDING ? (
                             <Dots>
-                              {t('Enabling %asset%', {
+                              {t('Approving %asset%', {
                                 asset: currencies[Field.CURRENCY_A]?.symbol,
                               })}
                             </Dots>
                           ) : (
-                            t('Enable %asset%', {
+                            t('Approve %asset%', {
                               asset: currencies[Field.CURRENCY_A]?.symbol,
                             })
                           )}
@@ -443,12 +436,12 @@ export default function AddLiquidity({
                         >
                           {approvalB === ApprovalState.PENDING ? (
                             <Dots>
-                              {t('Enabling %asset%', {
+                              {t('Approving %asset%', {
                                 asset: currencies[Field.CURRENCY_B]?.symbol,
                               })}
                             </Dots>
                           ) : (
-                            t('Enable %asset%', {
+                            t('Approve %asset%', {
                               asset: currencies[Field.CURRENCY_B]?.symbol,
                             })
                           )}

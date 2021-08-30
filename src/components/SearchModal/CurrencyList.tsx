@@ -78,7 +78,7 @@ function CurrencyRow({
   // only show add or remove buttons if not on selected list
   return (
     <MenuItem
-      style={style}
+      // style={style}
       className={`token-item-${key}`}
       onClick={() => (isSelected ? null : onSelect())}
       disabled={isSelected}
@@ -149,28 +149,29 @@ export default function CurrencyList({
       const showImport = inactiveTokens && token && Object.keys(inactiveTokens).includes(token.address)
 
       if (index === breakIndex || !data) {
-        return (
-          <FixedContentRow style={style}>
-            <LightGreyCard padding="8px 12px" borderRadius="8px">
-              <RowBetween>
-                <Text small>{t('Expanded results from inactive Token Lists')}</Text>
-                <QuestionHelper
-                  text={t(
-                    "Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists.",
-                  )}
-                  ml="4px"
-                />
-              </RowBetween>
-            </LightGreyCard>
-          </FixedContentRow>
-        )
+        return <></>
+        // return (
+        //   <FixedContentRow style={style}>
+        //     <LightGreyCard padding="8px 12px" borderRadius="8px">
+        //       <RowBetween>
+        //         <Text small>{t('Expanded results from inactive Token Lists')}</Text>
+        //         <QuestionHelper
+        //           text={t(
+        //             "Tokens from inactive lists. Import specific tokens below or click 'Manage' to activate more lists.",
+        //           )}
+        //           ml="4px"
+        //         />
+        //       </RowBetween>
+        //     </LightGreyCard>
+        //   </FixedContentRow>
+        // )
       }
 
-      if (showImport && token) {
-        return (
-          <ImportRow style={style} token={token} showImportView={showImportView} setImportToken={setImportToken} dim />
-        )
-      }
+      // if (showImport && token) {
+      //   return (
+      //     <ImportRow style={style} token={token} showImportView={showImportView} setImportToken={setImportToken} dim />
+      //   )
+      // }
       return (
         <CurrencyRow
           style={style}

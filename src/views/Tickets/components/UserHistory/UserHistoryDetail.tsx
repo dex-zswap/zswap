@@ -64,7 +64,7 @@ const UserHistoryDetail = ({ lotteryId }) => {
           <Text fontSize="36px" lineHeight="36px" mb="5px" color="blue" bold>
             ${zbRewards.toFixed(2)}
           </Text>
-          <Text ml="4px">{zustValue.toFixed(2)} ZBst</Text>
+          <Text ml="4px">{zustValue.toFixed(2)} ZBST</Text>
         </div>
       </Flex>
       <Flex margin="25px 0 34px">
@@ -79,7 +79,7 @@ const UserHistoryDetail = ({ lotteryId }) => {
         </BallWrap>
       </Flex>
       <Text margin="0 auto 27px" textAlign="center" bold>
-        {t('You have')}
+        {t('You have lottery')}
         {` ${ticketsNum} `}
         {t('tickets this round.')}
       </Text>

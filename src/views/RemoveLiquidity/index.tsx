@@ -75,10 +75,11 @@ const BorderCard = styled.div`
 `
 
 const TokenWrap = styled.div`
-  padding: 18px 23px;
-  background: #2f2f2f;
   border-radius: 20px;
   margin-bottom: 45px;
+  > div {
+    background: #2f2f2f !important;
+  }
 `
 
 const ModalWrap = styled.div`
@@ -372,26 +373,26 @@ export default function RemoveLiquidity({
         <AutoColumn gap="md">
           <Text>{t('You will receive')}</Text>
           <RowBetween align="flex-end">
-            <Text fontSize="32px" bold>
+            <Text fontSize="28px" bold>
               {parsedAmounts[Field.CURRENCY_A]?.toSignificant(6)}
             </Text>
             <RowFixed gap="4px">
-              <CurrencyLogo currency={currencyA} size="32px" />
-              <Text fontSize="32px" ml="10px" bold>
+              <CurrencyLogo currency={currencyA} size="24px" />
+              <Text fontSize="28px" ml="10px" bold>
                 {currencyA?.symbol}
               </Text>
             </RowFixed>
           </RowBetween>
           <RowFixed margin="auto">
-            <AddIcon width="18px" />
+            <AddIcon width="22px" />
           </RowFixed>
           <RowBetween align="flex-end">
-            <Text fontSize="32px" bold>
+            <Text fontSize="28px" bold>
               {parsedAmounts[Field.CURRENCY_B]?.toSignificant(6)}
             </Text>
             <RowFixed gap="4px">
-              <CurrencyLogo currency={currencyB} size="32px" />
-              <Text fontSize="32px" ml="10px" bold>
+              <CurrencyLogo currency={currencyB} size="24px" />
+              <Text fontSize="28px" ml="10px" bold>
                 {currencyB?.symbol}
               </Text>
             </RowFixed>
@@ -513,6 +514,7 @@ export default function RemoveLiquidity({
       hash={txHash || ''}
       content={() => <ConfirmationModalContent topContent={modalHeader} bottomContent={modalBottom} />}
       pendingText={pendingText}
+      doneBackUrl="/liquidity"
     />,
     true,
     true,
@@ -738,11 +740,11 @@ export default function RemoveLiquidity({
                   mr="0.5rem"
                 >
                   {approval === ApprovalState.PENDING ? (
-                    <Dots>{t('Enabling')}</Dots>
+                    <Dots>{t('Approving')}</Dots>
                   ) : approval === ApprovalState.APPROVED || signatureData !== null ? (
                     t('Enabled')
                   ) : (
-                    t('Enable')
+                    t('Approve')
                   )}
                 </Button>
                 <Button

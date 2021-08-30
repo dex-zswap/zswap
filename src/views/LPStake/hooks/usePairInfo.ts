@@ -45,8 +45,16 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
 
   const pairContract = usePairContract(pair.pair, true)
 
+  const filterSymbol = (token) => {
+    if (!token || !token.symbol) return
+    if ('WDEX' == token.symbol) {
+      token.symbol = 'DEX'
+    }
+  }
   const token0 = useToken(pair.token0)
+  filterSymbol(token0)
   const token1 = useToken(pair.token1)
+  filterSymbol(token1)
 
   const currency0 = wrappedCurrency(token0, chainId)
   const currency1 = wrappedCurrency(token1, chainId)
@@ -278,7 +286,6 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
       }),
     )
   }, [dispatch, liquidityInfo.lockedValue, pair])
-
   return {
     lpSymbol: `${token0?.symbol}-${token1?.symbol} LP`,
     displayApr,

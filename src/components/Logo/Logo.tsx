@@ -15,7 +15,6 @@ const Logo: React.FC<LogoProps> = ({ srcs, alt, ...rest }) => {
 
   const src: string | undefined = srcs.find((s) => !BAD_SRCS[s])
   if (src) {
-console.log(src);
     return (
       <img
         {...rest}

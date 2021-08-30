@@ -48,16 +48,17 @@ const ViewEditNumbers = ({ count, numbersChange }) => {
   const getOrderStr = useCallback((index) => `#${(index + (pageNum - 1) * 5 + 1 + '').padStart(3, '0')}`, [pageNum])
   const numberChange = useCallback(
     (e, index, numIndex) => {
+      console.log(e.target.value)
       const value = e.target.value.trim()
-      const nums = numbers.map((nums, wrapIndex) => {
+      const nums = pageNumbers.map((nums, wrapIndex) => {
         if (index === wrapIndex) {
-          nums.splice(numIndex, 1, value ? Number(value) : 0)
+          nums[numIndex] = value ? Number(value) : 0
         }
         return nums
       })
-      setNumbers(nums)
+      setPageNumbers(nums)
     },
-    [numbers],
+    [pageNumbers],
   )
 
   useEffect(() => {
@@ -133,7 +134,7 @@ const PricePay = ({ count, ticketPrice }) => {
     <Flex mb="24px" justifyContent="space-between" alignItems="center">
       <Text>{t('You pay')}:</Text>
       <Text fontSize="20px" bold>
-        {count && ticketPrice?.multipliedBy(count)?.toFixed(2)} ZBst
+        {count && ticketPrice?.multipliedBy(count)?.toFixed(2)} ZBST
       </Text>
     </Flex>
   )
@@ -150,7 +151,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
 
   const lotteryNum = useCurrentLotteryId()
 
-  const { buyTickets, buying } = useBuy()
+  const { buyTickets, buying } = useBuy(onDismiss)
   const zbstBalance = useZBSTBalance()
   const ticketPrice = useTicketPrice()
 
@@ -188,7 +189,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
     if (needApprove) {
       return (
         <Button isLoading={approving} onClick={approve}>
-          {t('Enable')}
+          {t('Approve')}
         </Button>
       )
     }
@@ -222,10 +223,12 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
               value={count}
               onChange={countChange}
             />
-            <Text textAlign="right">{ticketPrice?.multipliedBy(1)?.toFixed(2)} ZBst</Text>
+            <Text textAlign="right">
+              {t('Ticket Price')}: {ticketPrice?.multipliedBy(1)?.toFixed(2)} ZBST
+            </Text>
           </InputWrap>
           <Text textAlign="right" mb="26px">
-            ZBst {t('Balance')}: {zbstBalance?.toFixed(2)}
+            ZBST {t('Balance')}: {zbstBalance?.toFixed(2)}
           </Text>
           <Line />
           <PricePay count={count} ticketPrice={ticketPrice} />
