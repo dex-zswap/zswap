@@ -21,6 +21,8 @@ import { ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/add
 
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
+const memoizedCache = new Map()
+
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
 function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -163,19 +165,53 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
   const decimals = useSingleCallResult(token ? undefined : tokenContract, 'decimals', undefined, NEVER_RELOAD)
 
   return useMemo(() => {
-    if (token) return token
-    if (!chainId || !address) return undefined
-    if (decimals.loading || symbol.loading || tokenName.loading) return null
-    if (decimals.result) {
-      return new Token(
-        chainId,
-        address,
-        decimals.result[0],
-        parseStringOrBytes32(symbol.result?.[0], symbolBytes32.result?.[0], 'UNKNOWN'),
-        parseStringOrBytes32(tokenName.result?.[0], tokenNameBytes32.result?.[0], 'Unknown Token'),
-      )
+    let tokenResult
+
+    if (address && memoizedCache.has(address)) {
+      tokenResult = memoizedCache.get(address)
     }
-    return undefined
+
+    if (!tokenResult) {
+      if (token) {
+        tokenResult = token
+      }
+
+      if (!chainId || !address) {
+        tokenResult = undefined
+      }
+
+      if (decimals.loading || symbol.loading || tokenName.loading) {
+        tokenResult = null
+      }
+
+      if (decimals.result) {
+        tokenResult = new Token(
+          chainId,
+          address as string,
+          decimals.result[0],
+          parseStringOrBytes32(symbol.result?.[0], symbolBytes32.result?.[0], 'UNKNOWN'),
+          parseStringOrBytes32(tokenName.result?.[0], tokenNameBytes32.result?.[0], 'Unknown Token'),
+        )
+      }
+    }
+
+    if (address && !memoizedCache.has(address) && tokenResult) {
+      memoizedCache.set(address, tokenResult)
+    }
+
+    // if (token) return token
+    // if (!chainId || !address) return undefined
+    // if (decimals.loading || symbol.loading || tokenName.loading) return null
+    // if (decimals.result) {
+    //   return new Token(
+    //     chainId,
+    //     address,
+    //     decimals.result[0],
+    //     parseStringOrBytes32(symbol.result?.[0], symbolBytes32.result?.[0], 'UNKNOWN'),
+    //     parseStringOrBytes32(tokenName.result?.[0], tokenNameBytes32.result?.[0], 'Unknown Token'),
+    //   )
+    // }
+    return tokenResult
   }, [
     address,
     chainId,
