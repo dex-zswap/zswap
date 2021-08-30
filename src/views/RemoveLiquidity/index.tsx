@@ -716,7 +716,6 @@ export default function RemoveLiquidity({
                   </Text>
                   <Text color="textSubtle" bold>
                     1{currencyB?.symbol} = {tokenB ? pair.priceOf(tokenB).toSignificant(6) : '-'} {currencyA?.symbol}
-                    {currencyB?.symbol}
                   </Text>
                 </Flex>
               </Flex>
