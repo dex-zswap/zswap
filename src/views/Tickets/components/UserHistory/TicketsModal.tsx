@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
 
 import styled from 'styled-components'
@@ -46,14 +46,11 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => 
   const [winNumber, setWinNumber] = useState([])
   const [totalTickNum, setTotalTickNum] = useState(0)
   const [winTickNum, setWinTickNum] = useState(0)
-  const setTickData = useCallback(
-    (winNumber = [], totalTickNum = 0, winTickNum = 0) => {
-      setWinNumber(winNumber)
-      setTotalTickNum(totalTickNum)
-      setWinTickNum(winTickNum)
-    },
-    [setWinNumber, setTotalTickNum, setWinTickNum],
-  )
+  const setTickData = (winNumber = [], totalTickNum = 0, winTickNum = 0) => {
+    setWinNumber(winNumber)
+    setTotalTickNum(totalTickNum)
+    setWinTickNum(winTickNum)
+  }
   const ballArr = new Array(6).fill('')
 
   return (
@@ -82,7 +79,7 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => 
         </Text>
         <Text bold>{winTickNum}</Text>
       </Flex>
-      <TicketsRecords setTickData={setTickData} />
+      <TicketsRecords id={lotteryId} setTickData={setTickData} />
     </Modal>
   )
 }

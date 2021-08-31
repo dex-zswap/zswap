@@ -15,7 +15,7 @@ const Wrap = styled(Flex)`
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
     }
     50% {
-      transform: translate3d(10px, 20px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+      transform: translate3d(15px, 25px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
     }
     100% {
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);

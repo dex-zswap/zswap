@@ -8,6 +8,7 @@ import { useBlockNumber } from 'state/application/hooks'
 import { AppDispatch, AppState } from 'state'
 import TxRepoter, { TransactionStatus } from 'reporter'
 import { checkedTransaction, finalizeTransaction } from './actions'
+import { useTranslation } from 'contexts/Localization'
 
 export function shouldCheck(
   lastBlockNumber: number,
@@ -41,6 +42,7 @@ export default function Updater(): null {
   const transactions = useMemo(() => (chainId ? state[chainId] ?? {} : {}), [chainId, state])
 
   const { toastError, toastSuccess } = useToast()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!chainId || !library || !lastBlockNumber) return
@@ -75,7 +77,7 @@ export default function Updater(): null {
 
               const toast = receipt.status === 1 ? toastSuccess : toastError
               toast(
-                'Transaction receipt',
+                t('Transaction receipt'),
                 <Flex flexDirection="column">
                   <Text>{transactions[hash]?.summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}</Text>
                   {chainId && (
@@ -84,7 +86,7 @@ export default function Updater(): null {
                       external
                       href={getBscScanLink(hash, 'transaction', chainId)}
                     >
-                      View on DEX Browser
+                      {t('View on DEX Browser')}
                     </Link>
                   )}
                 </Flex>,

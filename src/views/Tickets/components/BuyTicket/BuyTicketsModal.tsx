@@ -245,7 +245,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
           <PricePay count={count} ticketPrice={ticketPrice} />
         </>
       )}
-      {FooterButtons}
+      {FooterButtons()}
     </Modal>
   )
 }

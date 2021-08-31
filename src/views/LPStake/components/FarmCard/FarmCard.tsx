@@ -12,6 +12,7 @@ import { ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
 import DetailsSection from './DetailsSection'
 import CardHeading from './CardHeading'
 import CardActionsContainer from './CardActionsContainer'
+import ZbstLogo from 'components/Logo/tokens/ZBST.png'
 
 export interface FarmWithStakedValue extends Farm {
   apr?: number
@@ -139,7 +140,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
 
       <Flex mb="7px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Reward Token')}</Text>
-        <img width="24px" src="/images/tokens/ZBST.png" />
+        <img width="24px" src={ZbstLogo} />
         {/* <TokenPairImage secondaryToken={farm?.quoteToken} width={24} height={24} /> */}
       </Flex>
 
