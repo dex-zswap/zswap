@@ -76,7 +76,15 @@ export default function Swap({ history }: RouteComponentProps) {
 
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
-  const { v2Trade, v2TradeDisplay, currencyBalances, parsedAmount, parsedAmountDisplay, currencies, inputError: swapInputError } = useDerivedSwapInfo()
+  const {
+    v2Trade,
+    v2TradeDisplay,
+    currencyBalances,
+    parsedAmount,
+    parsedAmountDisplay,
+    currencies,
+    inputError: swapInputError,
+  } = useDerivedSwapInfo()
 
   const {
     wrapType,
