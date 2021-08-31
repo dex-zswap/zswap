@@ -218,7 +218,6 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     const stakedPercent = lpTokenBigNumber.isEqualTo(BIG_ZERO)
       ? BIG_ZERO
       : userSharesBigNumber.dividedBy(lpTokenBigNumber)
-    const realPercent = BIG_ONE.plus(stakedPercent)
     const token0DepositedBigNumber = new BigNumber(token0Deposited.toSignificant(token0.decimals))
     const token1DepositedBigNumber = new BigNumber(token1Deposited.toSignificant(token1.decimals))
     const lockedRate = pairBalanceOfBigNumber.dividedBy(userSharesBigNumber)
