@@ -91,7 +91,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
 
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
     quoteTokenAddress,
-    tokenAddress
+    tokenAddress,
   })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
   const lpAddress = getAddress(farm.lpAddresses)

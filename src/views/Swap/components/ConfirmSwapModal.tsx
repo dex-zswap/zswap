@@ -25,6 +25,7 @@ function tradeMeaningfullyDiffers(tradeA: Trade, tradeB: Trade): boolean {
 }
 interface ConfirmSwapModalProps {
   trade?: Trade
+  tradeDisplay?: Trade
   originalTrade?: Trade
   attemptingTxn: boolean
   txHash?: string
@@ -38,6 +39,7 @@ interface ConfirmSwapModalProps {
 
 const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = ({
   trade,
+  tradeDisplay,
   originalTrade,
   onAcceptChanges,
   allowedSlippage,
@@ -60,6 +62,7 @@ const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = (
     return trade ? (
       <SwapModalHeader
         trade={trade}
+        tradeDisplay={tradeDisplay}
         allowedSlippage={allowedSlippage}
         recipient={recipient}
         showAcceptChanges={showAcceptChanges}
@@ -73,6 +76,7 @@ const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = (
       <SwapModalFooter
         onConfirm={onConfirm}
         trade={trade}
+        tradeDisplay={tradeDisplay}
         disabledConfirm={showAcceptChanges}
         swapErrorMessage={swapErrorMessage}
         allowedSlippage={allowedSlippage}
@@ -84,7 +88,7 @@ const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = (
   const pendingText = t('Swapping %amountA% %symbolA% for %amountB% %symbolB%', {
     amountA: trade?.inputAmount?.toSignificant(6) ?? '',
     symbolA: trade?.inputAmount?.currency?.symbol ?? '',
-    amountB: trade?.outputAmount?.toSignificant(6) ?? '',
+    amountB: tradeDisplay?.outputAmount?.toSignificant(6) ?? '',
     symbolB: trade?.outputAmount?.currency?.symbol ?? '',
   })
 

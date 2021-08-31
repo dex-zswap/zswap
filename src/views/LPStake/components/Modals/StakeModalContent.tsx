@@ -66,7 +66,10 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   onDismiss,
 }) => {
   const { userData } = farm
-  const max = new BigNumber(isRemovingStake ? userData?.staked : userData?.tokenBalance).toFixed(2, BigNumber.ROUND_DOWN)
+  const max = new BigNumber(isRemovingStake ? userData?.staked : userData?.tokenBalance).toFixed(
+    2,
+    BigNumber.ROUND_DOWN,
+  )
   const stakingToken = farm.token
   const { t } = useTranslation()
   const { toastSuccess, toastError } = useToast()

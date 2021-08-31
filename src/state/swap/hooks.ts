@@ -14,6 +14,7 @@ import { computeSlippageAdjustedAmounts } from 'utils/prices'
 import { AppDispatch, AppState } from 'state'
 import { useCurrencyBalances } from 'state/wallet/hooks'
 import { useUserSlippageTolerance } from 'state/user/hooks'
+import FeeHelper from 'config/fee'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
 
@@ -109,7 +110,9 @@ export function useDerivedSwapInfo(): {
   currencies: { [field in Field]?: Currency }
   currencyBalances: { [field in Field]?: CurrencyAmount }
   parsedAmount: CurrencyAmount | undefined
+  parsedAmountDisplay: CurrencyAmount | undefined
   v2Trade: Trade | undefined
+  v2TradeDisplay: Trade | undefined
   inputError?: string
 } {
   const { account } = useActiveWeb3React()
@@ -134,12 +137,18 @@ export function useDerivedSwapInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
+  const typedRealValue = FeeHelper.getRealInput(inputCurrency, typedValue)
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
-
+  const parsedAmountDisplay = tryParseAmount(typedRealValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  
   const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
 
+  const bestTradeExactInDisplay = useTradeExactIn(isExactIn ? parsedAmountDisplay : undefined, outputCurrency ?? undefined)
+  const bestTradeExactOutDisplay = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmountDisplay : undefined)
+
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
+  const v2TradeDisplay = isExactIn ? bestTradeExactInDisplay : bestTradeExactOutDisplay
 
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
@@ -195,7 +204,9 @@ export function useDerivedSwapInfo(): {
     currencies,
     currencyBalances,
     parsedAmount,
+    parsedAmountDisplay,
     v2Trade: v2Trade ?? undefined,
+    v2TradeDisplay: v2TradeDisplay ?? undefined,
     inputError,
   }
 }
