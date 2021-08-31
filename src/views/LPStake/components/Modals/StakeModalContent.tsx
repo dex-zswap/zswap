@@ -5,7 +5,7 @@ import { TokenPairImage } from 'components/TokenImage'
 import { useTranslation } from 'contexts/Localization'
 import useToast from 'hooks/useToast'
 import BigNumber from 'bignumber.js'
-import { getFullDisplayBalance, formatNumber, getDecimalAmount } from 'utils/formatBalance'
+import { getFullDisplayBalance, getDecimalAmount } from 'utils/formatBalance'
 import { Farm } from 'state/types'
 import useHarvestFarm from 'views/LPStake/hooks/useHarvestFarm'
 import PercentageButton from './PercentageButton'
@@ -66,7 +66,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   onDismiss,
 }) => {
   const { userData } = farm
-  const max = isRemovingStake ? userData?.staked : userData?.tokenBalance
+  const max = new BigNumber(isRemovingStake ? userData?.staked : userData?.tokenBalance).toFixed(2, BigNumber.ROUND_DOWN)
   const stakingToken = farm.token
   const { t } = useTranslation()
   const { toastSuccess, toastError } = useToast()

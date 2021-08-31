@@ -18,10 +18,10 @@ export const PRICE_FEE = {
 }
 
 export const RECIVED_RATE = {
-  sevenEth: new Percent(JSBI.BigInt(200), JSBI.BigInt(1000)),
-  yearEth: new Percent(JSBI.BigInt(800), JSBI.BigInt(1000)),
-  normal: new Percent(JSBI.BigInt(998), JSBI.BigInt(1000)),
-  default: new Percent(JSBI.BigInt(1000), JSBI.BigInt(1000))
+  sevenEth: JSBI.divide(JSBI.BigInt(2000), JSBI.BigInt(10000)),
+  yearEth: JSBI.divide(JSBI.BigInt(8000), JSBI.BigInt(10000)),
+  normal: JSBI.divide(JSBI.BigInt(9980), JSBI.BigInt(10000)),
+  default: JSBI.divide(JSBI.BigInt(10000), JSBI.BigInt(10000))
 }
 
 export default class FeeHelper {
@@ -67,4 +67,3 @@ export default class FeeHelper {
     return RECIVED_RATE.default
   }
 }
-

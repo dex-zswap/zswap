@@ -8,6 +8,7 @@ import { useTranslation } from 'contexts/Localization'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import { getAddress } from 'utils/addressHelpers'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
+import { ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
 import DetailsSection from './DetailsSection'
 import CardHeading from './CardHeading'
 import CardActionsContainer from './CardActionsContainer'
@@ -84,11 +85,13 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
   const [showExpandableSection, setShowExpandableSection] = useState(false)
 
   const lpLabel = farm.lpSymbol
-  const earnLabel = farm.dual ? farm.dual.earnLabel : t('CAKE + Fees')
+
+  const quoteTokenAddress = farm.token.address === ZSWAP_DEX_ADDRESS ? 'DEX' : farm.token.address
+  const tokenAddress = farm.quoteToken.address === ZSWAP_DEX_ADDRESS ? 'DEX' : farm.quoteToken.address
 
   const liquidityUrlPathParts = getLiquidityUrlPathParts({
-    quoteTokenAddress: farm.quoteToken.address,
-    tokenAddress: farm.token.address,
+    quoteTokenAddress,
+    tokenAddress
   })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
   const lpAddress = getAddress(farm.lpAddresses)
