@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { LogoIcon } from '../../../components/Svg'
 import { Text } from 'zswap-uikit'
+import logo from './logo.png'
 import Flex from '../../../components/Box/Flex'
 import { HamburgerIcon, HamburgerCloseIcon, LogoIcon as LogoWithText } from '../icons'
 import MenuButton from './MenuButton'
@@ -60,7 +61,7 @@ const Logo: React.FC<Props> = ({ isPushed, togglePush, isDark, href }) => {
 
   const innerLogo = (
     <>
-      <img width="32px" src="/images/home/logo.png" />
+      <img width="32px" src={logo} />
       <Text ml="10px" fontSize="20px" fontWeight="bold">
         ZSwap
       </Text>

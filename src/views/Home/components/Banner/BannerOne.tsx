@@ -17,7 +17,7 @@ const ImgWrap = styled.div`
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-1deg) scale3d(1, 1, 1);
     }
     50% {
-      transform: translate3d(0, 5px, 0) perspective(50px) rotateX(0) rotateY(1deg) scale3d(1, 1, 1);
+      transform: translate3d(0, 10px, 0) perspective(50px) rotateX(0) rotateY(1deg) scale3d(1, 1, 1);
     }
     100% {
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-1deg) scale3d(1, 1, 1);
@@ -29,7 +29,7 @@ const ImgWrap = styled.div`
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
     }
     50% {
-      transform: translate3d(10px, 0, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+      transform: translate3d(15px, 0, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
     }
     100% {
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
@@ -41,13 +41,13 @@ const ImgWrap = styled.div`
       transform: translate3d(0, 0, 0) scale(0.98);
     }
     25% {
-      transform: translate3d(5px, 0, 0) scale(1.02);
+      transform: translate3d(10px, 0, 0) scale(1.02);
     }
     50% {
-      transform: translate3d(5px, 10px, 0) scale(1.02);
+      transform: translate3d(10px, 10px, 0) scale(1.02);
     }
     75% {
-      transform: translate3d(0, 10px, 0) scale(1.02);
+      transform: translate3d(0, 15px, 0) scale(1.02);
     }
     100% {
       transform: translate3d(0, 0, 0) scale(0.98);

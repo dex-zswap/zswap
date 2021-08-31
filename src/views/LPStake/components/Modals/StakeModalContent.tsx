@@ -9,6 +9,8 @@ import { getFullDisplayBalance, getDecimalAmount } from 'utils/formatBalance'
 import { Farm } from 'state/types'
 import useHarvestFarm from 'views/LPStake/hooks/useHarvestFarm'
 import PercentageButton from './PercentageButton'
+import ZbstLogo from 'components/Logo/tokens/ZBST.png'
+
 interface FarmProps extends Farm {
   apr?: number
   lpRewardsApr?: number
@@ -66,7 +68,10 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   onDismiss,
 }) => {
   const { userData } = farm
-  const max = new BigNumber(isRemovingStake ? userData?.staked : userData?.tokenBalance).toFixed(2, BigNumber.ROUND_DOWN)
+  const max = new BigNumber(isRemovingStake ? userData?.staked : userData?.tokenBalance).toFixed(
+    2,
+    BigNumber.ROUND_DOWN,
+  )
   const stakingToken = farm.token
   const { t } = useTranslation()
   const { toastSuccess, toastError } = useToast()
@@ -187,7 +192,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <Flex flexDirection="column">
           <Text mb="10px">{t('Reward Token')}</Text>
           <Flex>
-            <img style={{ marginRight: '10px' }} width="24px" src="/images/tokens/ZBST.png" />
+            <img style={{ marginRight: '10px' }} width="24px" src={ZbstLogo} />
             <Text bold>ZBST</Text>
           </Flex>
         </Flex>

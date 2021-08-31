@@ -10,7 +10,7 @@ import { validateSolidityTypeInstance } from '../utils'
  */
 export class Currency {
   public readonly decimals: number
-  public symbol?: string
+  public readonly symbol?: string
   public readonly name?: string
 
   /**
@@ -28,7 +28,7 @@ export class Currency {
     validateSolidityTypeInstance(JSBI.BigInt(decimals), SolidityType.uint8)
 
     this.decimals = decimals
-    this.symbol = symbol
+    this.symbol = 'WDEX' == symbol ? 'DEX' : symbol
     this.name = name
   }
 }

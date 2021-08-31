@@ -15,7 +15,7 @@ const ImgWrap = styled.div`
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
     }
     50% {
-      transform: translate3d(0, 6px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+      transform: translate3d(0, 15px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
     }
     100% {
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
@@ -75,7 +75,7 @@ const BannerTwo = () => {
           <span style={pinkColor}> {t('without Registration')}</span>
         </Text>
         <Text lineHeight="20px" color="text" fontSize="18px" marginTop="30px">
-          {t('Simply connect your wallet to trade any tokens on DEX Smart chain')}.
+          {t('Simply connect your wallet to trade any tokens on DEX Smart chain')}
         </Text>
         <ButtonWrap>
           <Button width="152px">{t('Trade Now')}</Button>

@@ -74,6 +74,9 @@ export default function Pool() {
               {t('Add Liquidity')}
             </Button>
           )}
+          <Button width="100%" mt="10px" variant="secondary">
+            {t('Learn More')}
+          </Button>
         </CardFooter>
       </AppBody>
     </SwapAndLiquidityPage>

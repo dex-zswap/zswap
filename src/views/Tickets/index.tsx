@@ -8,6 +8,10 @@ import LotteryFooter from './components/LotteryFooter'
 const LotteryPage = styled.div`
   position: relative;
   overflow: hidden;
+  > div {
+    position: relative;
+    z-index: 99;
+  }
 
   &::before {
     content: '';

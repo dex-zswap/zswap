@@ -11,6 +11,7 @@ import useStakePool from 'views/Pools/hooks/useStakePool'
 import useHarvestPool from 'views/Pools/hooks/useHarvestPool'
 import useUnstakePool from 'views/Pools/hooks/useUnstakePool'
 import PercentageButton from './PercentageButton'
+import ZbstLogo from 'components/Logo/tokens/ZBST.png'
 
 interface StakeModalContentProps {
   pool: Pool
@@ -203,7 +204,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <Flex flexDirection="column">
           <Text mb="10px">{t('Reward Token')}</Text>
           <Flex>
-            <img style={{ marginRight: '10px' }} width="24px" src="/images/tokens/ZBST.png" />
+            <img style={{ marginRight: '10px' }} width="24px" src={ZbstLogo} />
             <Text bold>ZBST</Text>
           </Flex>
         </Flex>

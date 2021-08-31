@@ -18,7 +18,7 @@ const ImgWrap = styled.div`
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
     }
     50% {
-      transform: translate3d(5px, 8px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
+      transform: translate3d(14px, 16px, 0) perspective(50px) rotateX(0) rotateY(2deg) scale3d(1, 1, 1);
     }
     100% {
       transform: translate3d(0, 0, 0) perspective(50px) rotateX(0) rotateY(-2deg) scale3d(1, 1, 1);
@@ -50,7 +50,7 @@ const BannerTwo = () => {
           <span> {t('banner through cryptocurrency')}</span>
         </Text>
         <Text lineHeight="20px" color="text" fontSize="18px" marginTop="30px">
-          {t('Earn more cryptocurrency income through pledge mining')}.
+          {t('Earn more cryptocurrency income through pledge mining')}
         </Text>
         <ButtonWrap>
           <Button width="152px">{t('Get it Now')}</Button>

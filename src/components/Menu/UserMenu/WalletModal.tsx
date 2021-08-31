@@ -50,7 +50,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ initialView = WalletView.WALL
   }
 
   return (
-    <ModalContainer minWidth="360px">
+    <ModalContainer minWidth="360px" height="50vh !important">
       <ModalHeader>
         <ModalTitle>
           <Heading>{t('Your Wallet')}</Heading>
@@ -65,7 +65,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ initialView = WalletView.WALL
           <ButtonMenuItem>{t('Transactions')}</ButtonMenuItem>
         </ButtonMenu>
       </Tabs>
-      <ModalBody p="24px" maxWidth="400px" width="100%">
+      <ModalBody p="24px" maxWidth="400px" width="100%" height="calc(50vh - 142px)">
         {view === WalletView.WALLET_INFO && <WalletInfo hasLowBnbBalance={hasLowBnbBalance} onDismiss={onDismiss} />}
         {view === WalletView.TRANSACTIONS && <WalletTransactions />}
       </ModalBody>

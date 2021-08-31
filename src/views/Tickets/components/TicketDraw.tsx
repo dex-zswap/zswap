@@ -16,6 +16,10 @@ import dayjs from 'dayjs'
 const TicketDrawWrap = styled.div`
   position: relative;
   margin-bottom: 200px;
+  > div {
+    position: relative;
+    z-index: 999;
+  }
   &::before {
     content: '';
     width: 300px;
