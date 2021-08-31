@@ -70,7 +70,7 @@ export function computeSlippageAdjustedAmounts(
 
   return {
     [Field.INPUT]: input,
-    [Field.OUTPUT]: output
+    [Field.OUTPUT]: output,
   }
 }
 
