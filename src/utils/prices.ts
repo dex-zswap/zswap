@@ -62,7 +62,6 @@ export function computeSlippageAdjustedAmounts(
   allowedSlippage: number,
 ): { [field in Field]?: CurrencyAmount } {
   const pct = basisPointsToPercent(allowedSlippage)
-  const reciveRate = FeeHelper.getRecivedRate(trade?.inputAmount?.currency)
   const input = trade?.maximumAmountIn(pct)
   const output = trade?.minimumAmountOut(pct)
 

@@ -1,7 +1,9 @@
+import BigNumber from 'bignumber.js'
 import { JSBI, Currency, ETHER, Token, currencyEquals } from 'zswap-sdk'
 import { Percent } from 'zswap-sdk/entities/fractions'
 import { getOnlineDayOffset } from 'config/constants/zswap/online-time'
 import { ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
+import { BIG_ONE } from 'utils/bigNumber'
 
 export const SWAP_FEE = {
   sevenEth: JSBI.BigInt(2000),
@@ -17,11 +19,11 @@ export const PRICE_FEE = {
   default: new Percent(JSBI.BigInt(0), JSBI.BigInt(1000))
 }
 
-export const RECIVED_RATE = {
-  sevenEth: JSBI.divide(JSBI.BigInt(2000), JSBI.BigInt(10000)),
-  yearEth: JSBI.divide(JSBI.BigInt(8000), JSBI.BigInt(10000)),
-  normal: JSBI.divide(JSBI.BigInt(9980), JSBI.BigInt(10000)),
-  default: JSBI.divide(JSBI.BigInt(10000), JSBI.BigInt(10000))
+export const SWAP_INPUT_RATE = {
+  sevenEth: new BigNumber(0.2),
+  yearEth: new BigNumber(0.8),
+  normal: new BigNumber(0.998),
+  default: BIG_ONE
 }
 
 export default class FeeHelper {
@@ -53,17 +55,20 @@ export default class FeeHelper {
     return PRICE_FEE.default
   }
 
-  static getRecivedRate(currency: Currency | Token) {
+  static getRealInput(currency: Currency | Token, input: string) {
     const dayOffset = getOnlineDayOffset()
+    const inputAmount = new BigNumber(input)
+
+    let rate = SWAP_INPUT_RATE.default
 
     if (currency) {
       if ((currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_DEX_ADDRESS)) {
-        return (dayOffset <= 7) ? RECIVED_RATE.sevenEth : RECIVED_RATE.yearEth
+        rate = (dayOffset <= 7) ? SWAP_INPUT_RATE.sevenEth : SWAP_INPUT_RATE.yearEth
+      } else {
+        rate = SWAP_INPUT_RATE.normal
       }
-
-      return RECIVED_RATE.normal
     }
 
-    return RECIVED_RATE.default
+    return rate.multipliedBy(inputAmount).toString()
   }
 }

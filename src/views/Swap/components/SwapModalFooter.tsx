@@ -31,12 +31,14 @@ const SwapModalFooterContainer = styled(AutoColumn)`
 
 export default function SwapModalFooter({
   trade,
+  tradeDisplay,
   onConfirm,
   allowedSlippage,
   swapErrorMessage,
   disabledConfirm,
 }: {
   trade: Trade
+  tradeDisplay: Trade
   allowedSlippage: number
   onConfirm: () => void
   swapErrorMessage: string | undefined
@@ -44,8 +46,8 @@ export default function SwapModalFooter({
 }) {
   const [showInverted, setShowInverted] = useState<boolean>(true)
   const slippageAdjustedAmounts = useMemo(
-    () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
-    [allowedSlippage, trade],
+    () => computeSlippageAdjustedAmounts(tradeDisplay, allowedSlippage),
+    [allowedSlippage, tradeDisplay],
   )
   const { priceImpactWithoutFee, realizedLPFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const severity = warningSeverity(priceImpactWithoutFee)
