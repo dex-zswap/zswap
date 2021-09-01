@@ -6,14 +6,13 @@ import { PairState, usePairs } from './usePairs'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
 import { useZBCurrency, useZBSTCurrency } from 'hooks/Tokens'
 
-const ZUSD_MAINNET = ZUSD[ChainId.MAINNET]
-
 /**
  * Returns the price in ZUSD of the input currency
  * @param currency currency to compute the ZUSD price of
  */
 export default function useZUSDPrice(currency?: Currency): Price | undefined {
   const { chainId } = useActiveWeb3React()
+  const ZUSD_MAINNET = ZUSD[chainId]
   const wrapped = wrappedCurrency(currency, chainId)
   const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
     () => [
@@ -45,20 +44,17 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
       return new Price(ZUSD_MAINNET, ZUSD_MAINNET, '1', '1')
     }
 
-    const ethPairETHAmount = ethPair?.reserveOf(WETH[chainId])
-    const ethPairETHUSDValue: JSBI =
-      ethPairETHAmount && usdEthPair ? usdEthPair.priceOf(WETH[chainId]).quote(ethPairETHAmount).raw : JSBI.BigInt(0)
-
     // all other tokens
-    // first try the busd pair
+    // first try the zusd pair
     if (
       usdPairState === PairState.EXISTS &&
-      usdPair &&
-      usdPair.reserveOf(ZUSD_MAINNET).greaterThan(ethPairETHUSDValue)
+      usdPair
     ) {
       const price = usdPair.priceOf(wrapped)
       return new Price(currency, ZUSD_MAINNET, price.denominator, price.numerator)
     }
+
+    // calculate token price like Token -> DEX, DEX -> ZUST, transmit with DEX Token to calculate
     if (ethPairState === PairState.EXISTS && ethPair && usdEthPairState === PairState.EXISTS && usdEthPair) {
       if (usdEthPair.reserveOf(ZUSD_MAINNET).greaterThan('0') && ethPair.reserveOf(WETH[chainId]).greaterThan('0')) {
         const ethusdPrice = usdEthPair.priceOf(ZUSD_MAINNET)
