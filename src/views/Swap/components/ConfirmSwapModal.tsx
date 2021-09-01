@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { currencyEquals, Trade } from 'zswap-sdk'
+import { currencyEquals, Trade, Pair } from 'zswap-sdk'
 import { InjectedModalProps } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import TransactionConfirmationModal, {
@@ -25,6 +25,7 @@ function tradeMeaningfullyDiffers(tradeA: Trade, tradeB: Trade): boolean {
 }
 interface ConfirmSwapModalProps {
   trade?: Trade
+  pair?: Pair
   originalTrade?: Trade
   attemptingTxn: boolean
   txHash?: string
@@ -38,6 +39,7 @@ interface ConfirmSwapModalProps {
 
 const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = ({
   trade,
+  pair,
   originalTrade,
   onAcceptChanges,
   allowedSlippage,
@@ -72,6 +74,7 @@ const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = (
     return trade ? (
       <SwapModalFooter
         onConfirm={onConfirm}
+        pair={pair}
         trade={trade}
         disabledConfirm={showAcceptChanges}
         swapErrorMessage={swapErrorMessage}

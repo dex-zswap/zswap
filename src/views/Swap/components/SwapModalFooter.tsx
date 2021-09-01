@@ -1,19 +1,18 @@
 import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { Trade, TradeType } from 'zswap-sdk'
-import { Button, Text, AutoRenewIcon } from 'zswap-uikit'
+import { Trade, TradeType, Pair } from 'zswap-sdk'
+import { Button, Text } from 'zswap-uikit'
 import { Field } from 'state/swap/actions'
 import {
   computeSlippageAdjustedAmounts,
   computeTradePriceBreakdown,
-  formatExecutionPrice,
   warningSeverity,
 } from 'utils/prices'
+import TradePrice from './TradePrice'
 import { AutoColumn } from 'components/Layout/Column'
-import QuestionHelper from 'components/QuestionHelper'
 import { AutoRow, RowBetween, RowFixed } from 'components/Layout/Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
-import { StyledBalanceMaxMini, SwapCallbackError } from './styleds'
+import { SwapCallbackError } from './styleds'
 
 const SwapModalFooterContainer = styled(AutoColumn)`
   max-width: 480px;
@@ -31,12 +30,14 @@ const SwapModalFooterContainer = styled(AutoColumn)`
 
 export default function SwapModalFooter({
   trade,
+  pair,
   onConfirm,
   allowedSlippage,
   swapErrorMessage,
   disabledConfirm,
 }: {
   trade: Trade
+  pair: Pair
   allowedSlippage: number
   onConfirm: () => void
   swapErrorMessage: string | undefined
@@ -64,10 +65,11 @@ export default function SwapModalFooter({
               paddingLeft: '10px',
             }}
           >
-            {formatExecutionPrice(trade, showInverted)}
-            <StyledBalanceMaxMini onClick={() => setShowInverted(!showInverted)}>
-              <AutoRenewIcon width="14px" />
-            </StyledBalanceMaxMini>
+            <TradePrice
+              price={pair.token0Price}
+              showInverted={showInverted}
+              setShowInverted={() => setShowInverted(!showInverted)}
+            />
           </Text>
         </RowBetween>
 
