@@ -3,11 +3,7 @@ import styled from 'styled-components'
 import { Trade, TradeType, Pair } from 'zswap-sdk'
 import { Button, Text } from 'zswap-uikit'
 import { Field } from 'state/swap/actions'
-import {
-  computeSlippageAdjustedAmounts,
-  computeTradePriceBreakdown,
-  warningSeverity,
-} from 'utils/prices'
+import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
 import TradePrice from './TradePrice'
 import { AutoColumn } from 'components/Layout/Column'
 import { AutoRow, RowBetween, RowFixed } from 'components/Layout/Row'

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from 'react'
+import React, { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { BigNumber } from '@ethersproject/bignumber'
