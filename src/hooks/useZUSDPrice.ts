@@ -44,10 +44,6 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
       return new Price(ZUSD_MAINNET, ZUSD_MAINNET, '1', '1')
     }
 
-    const ethPairETHAmount = ethPair?.reserveOf(WETH[chainId])
-    const ethPairETHUSDValue: JSBI =
-      ethPairETHAmount && usdEthPair ? usdEthPair.priceOf(WETH[chainId]).quote(ethPairETHAmount).raw : JSBI.BigInt(0)
-
     // all other tokens
     // first try the zusd pair
     if (
@@ -57,14 +53,13 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
       const price = usdPair.priceOf(wrapped)
       return new Price(currency, ZUSD_MAINNET, price.denominator, price.numerator)
     }
+
+    // calculate token price like Token -> DEX, DEX -> ZUST, transmit with DEX Token to calculate
     if (ethPairState === PairState.EXISTS && ethPair && usdEthPairState === PairState.EXISTS && usdEthPair) {
       if (usdEthPair.reserveOf(ZUSD_MAINNET).greaterThan('0') && ethPair.reserveOf(WETH[chainId]).greaterThan('0')) {
         const ethusdPrice = usdEthPair.priceOf(ZUSD_MAINNET)
         const currencyEthPrice = ethPair.priceOf(WETH[chainId])
         const usdPrice = ethusdPrice.multiply(currencyEthPrice).invert()
-        if (currency.symbol === 'ZB') {
-          console.log([[ethPairState, ethPair], [usdPairState, usdPair], [usdEthPairState, usdEthPair]])
-        }
         return new Price(currency, ZUSD_MAINNET, usdPrice.denominator, usdPrice.numerator)
       }
     }
