@@ -33,9 +33,8 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
     [bases],
   )
 
-  const allPairCombinations: [Token, Token][] = useMemo(
-    () => {
-      return tokenA && tokenB
+  const allPairCombinations: [Token, Token][] = useMemo(() => {
+    return tokenA && tokenB
       ? [
           // the direct pair
           [tokenA, tokenB],
@@ -63,9 +62,7 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
             return true
           })
       : []
-    },
-    [tokenA, tokenB, bases, basePairs, chainId],
-  )
+  }, [tokenA, tokenB, bases, basePairs, chainId])
 
   const allPairs = usePairs(allPairCombinations)
 

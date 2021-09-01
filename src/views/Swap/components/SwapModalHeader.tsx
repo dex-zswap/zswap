@@ -35,6 +35,10 @@ export default function SwapModalHeader({
     () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
     [trade, allowedSlippage],
   )
+  const slippageAdjustedAmountsDisplay = useMemo(
+    () => computeSlippageAdjustedAmounts(tradeDisplay, allowedSlippage),
+    [tradeDisplay, allowedSlippage],
+  )
   const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
@@ -101,7 +105,7 @@ export default function SwapModalHeader({
           <Text small color="pink" textAlign="left" style={{ width: '360px' }} bold>
             {`Output is estimated. You will receive at least `}
             <b>
-              {slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
+              {slippageAdjustedAmountsDisplay[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
             </b>
             {' or the transaction will revert.'}
           </Text>

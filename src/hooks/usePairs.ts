@@ -70,7 +70,10 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
 
         return [
           PairState.EXISTS,
-          new Pair(new TokenAmount(token0, token0Reverse.integerValue(BigNumber.ROUND_DOWN).toString()), new TokenAmount(token1, token1Reverse.integerValue(BigNumber.ROUND_DOWN).toString())),
+          new Pair(
+            new TokenAmount(token0, token0Reverse.integerValue(BigNumber.ROUND_DOWN).toString()),
+            new TokenAmount(token1, token1Reverse.integerValue(BigNumber.ROUND_DOWN).toString()),
+          ),
         ]
       }
       return [
