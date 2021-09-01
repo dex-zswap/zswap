@@ -24,7 +24,6 @@ const ZERO = JSBI.BigInt(0)
 export function useCurrencyExistZBPair(
   currencyA: Currency | null,
   currencyB: Currency | null,
-  noLiquidity: boolean,
 ): ExistZBPair {
   const ZB = useCurrency(ZB_ADDRESS)
   const DEX = useCurrency(DEX_ADDRESS)
@@ -37,21 +36,15 @@ export function useCurrencyExistZBPair(
     currencyB = DEX
   }
 
-  const [pairAState] = usePair(ZB, currencyA)
-  const [pairBState] = usePair(ZB, currencyB)
+  const [pairAState, pairA] = usePair(ZB, currencyA)
+  const [pairBState, pairB] = usePair(ZB, currencyB)
 
   return useMemo<ExistZBPair>(() => {
     const allReadyZB = currencyEquals(ZB, currencyA) || currencyEquals(ZB, currencyB)
-
-    return noLiquidity
-      ? {
-          zbWithcurrencyA: !currencyA || allReadyZB || pairAState === PairState.EXISTS,
-          zbWithcurrencyB: !currencyB || allReadyZB || pairBState === PairState.EXISTS,
-        }
-      : {
-          zbWithcurrencyA: true,
-          zbWithcurrencyB: true,
-        }
+    return {
+      zbWithcurrencyA: allReadyZB || pairAState === PairState.EXISTS,
+      zbWithcurrencyB: allReadyZB || pairBState === PairState.EXISTS,
+    }
   }, [pairAState, pairBState, currencyA, currencyB, ZB])
 }
 
@@ -150,8 +143,7 @@ export function useDerivedMintInfo(
   //  check each token has a allready exist trad pair with ZB
   const { zbWithcurrencyA, zbWithcurrencyB } = useCurrencyExistZBPair(
     currencies[Field.CURRENCY_A],
-    currencies[Field.CURRENCY_B],
-    noLiquidity,
+    currencies[Field.CURRENCY_B]
   )
   const allExist = useMemo<boolean>(() => zbWithcurrencyA && zbWithcurrencyB, [zbWithcurrencyA, zbWithcurrencyB])
   const createZBPairLink = useMemo<string>(

@@ -19,14 +19,12 @@ const RowWrap = styled.div`
 
 export default function SwapModalHeader({
   trade,
-  tradeDisplay,
   allowedSlippage,
   recipient,
   showAcceptChanges,
   onAcceptChanges,
 }: {
   trade: Trade
-  tradeDisplay: Trade
   allowedSlippage: number
   recipient: string | null
   showAcceptChanges: boolean
@@ -77,7 +75,7 @@ export default function SwapModalHeader({
                   : 'text'
               }
             >
-              {tradeDisplay.outputAmount.toSignificant(6)}
+              {trade.outputAmount.toSignificant(6)}
             </TruncatedText>
           </RowFixed>
           <RowFixed gap="0px">

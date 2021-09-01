@@ -71,4 +71,19 @@ export default class FeeHelper {
 
     return rate.multipliedBy(inputAmount).toString()
   }
+
+  static getIputAmount(currency: Currency | Token, input: string) {
+    const dayOffset = getOnlineDayOffset()
+    const inputAmount = new BigNumber(input)
+    let rate = SWAP_INPUT_RATE.default
+    if (currency) {
+      if ((currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_DEX_ADDRESS)) {
+        rate = (dayOffset <= 7) ? SWAP_INPUT_RATE.sevenEth : SWAP_INPUT_RATE.yearEth
+      } else {
+        rate = SWAP_INPUT_RATE.normal
+      }
+    }
+
+    return rate.multipliedBy(inputAmount).integerValue(BigNumber.ROUND_DOWN).toString()
+  }
 }

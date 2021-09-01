@@ -143,14 +143,14 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
       : [undefined, undefined]
 
   const tokenRate = useMemo(() => {
-    if (!token0Deposited || !token1Deposited || !token0 || !token1) {
+    if (!pairInfo || !token0 || !token1) {
       return BIG_ZERO
     }
 
-    return new BigNumber(token0Deposited.toSignificant(token0.decimals)).dividedBy(
-      new BigNumber(token1Deposited.toSignificant(token1.decimals)),
+    return new BigNumber(pairInfo.reserve0.toSignificant(token0.decimals)).dividedBy(
+      new BigNumber(pairInfo.reserve1.toSignificant(token1.decimals)),
     )
-  }, [token0Deposited, token1Deposited, token0, token1])
+  }, [pairInfo, token0, token1])
 
   const tokenLpAmount = useMemo(() => {
     return {
@@ -213,37 +213,30 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     }
 
     const lpTokenBigNumber = new BigNumber(lpTotalTokens)
-    const pairBalanceOfBigNumber = new BigNumber(pairBalanceOf.toSignificant(18))
     const userSharePercentBigNumber = new BigNumber(userSharePercent)
     const stakedPercent = lpTokenBigNumber.isEqualTo(BIG_ZERO)
       ? BIG_ZERO
       : userSharesBigNumber.dividedBy(lpTokenBigNumber)
-    const realPercent = BIG_ONE.plus(stakedPercent)
-    const realUserSharePercent = userSharePercentBigNumber.multipliedBy(realPercent)
     const token0DepositedBigNumber = new BigNumber(token0Deposited.toSignificant(token0.decimals))
     const token1DepositedBigNumber = new BigNumber(token1Deposited.toSignificant(token1.decimals))
-    const lockedRate = pairBalanceOfBigNumber.dividedBy(userSharesBigNumber)
 
-    const token0RealDeposited = tokenLpAmount.token0.multipliedBy(userSharePercentBigNumber)
-    const token1RealDeposited = tokenLpAmount.token1.multipliedBy(userSharePercentBigNumber)
+    const token0RealDeposited = tokenLpAmount.token0.multipliedBy(userSharePercentBigNumber).dividedBy(BIG_HUNDERED)
+    const token1RealDeposited = tokenLpAmount.token1.multipliedBy(userSharePercentBigNumber).dividedBy(BIG_HUNDERED)
 
     const userAvaliableZust = token0DepositedBigNumber
       .multipliedBy(tokenPrice.token0)
       .plus(token1DepositedBigNumber.multipliedBy(tokenPrice.token1))
       .multipliedBy(BIG_ONE.minus(stakedPercent))
       .toFixed(4, BigNumber.ROUND_DOWN)
-    const lockedValue = token0RealDeposited
+    const lockedValue = tokenLpAmount.token0
       .multipliedBy(tokenPrice.token0)
-      .plus(token0RealDeposited.multipliedBy(tokenPrice.token1))
-      .multipliedBy(lockedRate)
-    const zustValue = token0RealDeposited
-      .multipliedBy(tokenPrice.token0)
-      .plus(token1RealDeposited.multipliedBy(tokenPrice.token1))
+      .plus(tokenLpAmount.token1.multipliedBy(tokenPrice.token1))
+    const zustValue = lockedValue.multipliedBy(userSharePercentBigNumber).dividedBy(BIG_HUNDERED)
 
     return {
       tokenAmount: token0RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
       quoteTokenAmount: token1RealDeposited.toFixed(2, BigNumber.ROUND_DOWN),
-      userSharePercent: realUserSharePercent.toFixed(2, BigNumber.ROUND_DOWN),
+      userSharePercent: userSharePercentBigNumber.toFixed(2, BigNumber.ROUND_DOWN),
       zustValue: zustValue.toFixed(2, BigNumber.ROUND_DOWN),
       staked: userSharesBigNumber.toFixed(4, BigNumber.ROUND_DOWN),
       lockedValue,

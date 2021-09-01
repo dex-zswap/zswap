@@ -106,8 +106,8 @@ export function useCurrencyBalances(
   )
 
   const tokenBalances = useTokenBalances(account, tokens)
-  const containsBNB: boolean = useMemo(() => currencies?.some((currency) => currency === ETHER) ?? false, [currencies])
-  const ethBalance = useETHBalances(containsBNB ? [account] : [])
+  const containsDEX: boolean = useMemo(() => currencies?.some((currency) => currency === ETHER) ?? false, [currencies])
+  const ethBalance = useETHBalances(containsDEX ? [account] : [])
 
   return useMemo(
     () =>

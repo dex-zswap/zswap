@@ -80,9 +80,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   const [hasReachedStakeLimit, setHasReachedStakedLimit] = useState(false)
   const [percent, setPercent] = useState(0)
   const getCalculatedStakingLimit = () => {
-    if (isRemovingStake) {
-      return new BigNumber(userData.staked)
-    }
     return new BigNumber(max)
   }
   useEffect(() => {

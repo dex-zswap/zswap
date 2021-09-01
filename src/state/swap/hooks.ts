@@ -1,5 +1,5 @@
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from 'zswap-sdk'
+import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade, Pair } from 'zswap-sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +14,7 @@ import { computeSlippageAdjustedAmounts } from 'utils/prices'
 import { AppDispatch, AppState } from 'state'
 import { useCurrencyBalances } from 'state/wallet/hooks'
 import { useUserSlippageTolerance } from 'state/user/hooks'
+import { usePair } from 'hooks/usePairs'
 import FeeHelper from 'config/fee'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
@@ -110,9 +111,8 @@ export function useDerivedSwapInfo(): {
   currencies: { [field in Field]?: Currency }
   currencyBalances: { [field in Field]?: CurrencyAmount }
   parsedAmount: CurrencyAmount | undefined
-  parsedAmountDisplay: CurrencyAmount | undefined
   v2Trade: Trade | undefined
-  v2TradeDisplay: Trade | undefined
+  pair: Pair | undefined
   inputError?: string
 } {
   const { account } = useActiveWeb3React()
@@ -128,6 +128,7 @@ export function useDerivedSwapInfo(): {
 
   const inputCurrency = useCurrency(inputCurrencyId)
   const outputCurrency = useCurrency(outputCurrencyId)
+  const [, pair] = usePair(inputCurrency, outputCurrency)
   const recipientLookup = useENS(recipient ?? undefined)
   const to: string | null = (recipient === null ? account : recipientLookup.address) ?? null
 
@@ -137,19 +138,13 @@ export function useDerivedSwapInfo(): {
   ])
 
   const isExactIn: boolean = independentField === Field.INPUT
-  const typedRealValue = FeeHelper.getRealInput(inputCurrency, typedValue)
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
-  const parsedAmountDisplay = tryParseAmount(typedRealValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
   
   const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
 
-  const bestTradeExactInDisplay = useTradeExactIn(isExactIn ? parsedAmountDisplay : undefined, outputCurrency ?? undefined)
-  const bestTradeExactOutDisplay = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmountDisplay : undefined)
-
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
-  const v2TradeDisplay = isExactIn ? bestTradeExactInDisplay : bestTradeExactOutDisplay
-
+  
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
     [Field.OUTPUT]: relevantTokenBalances[1],
@@ -204,9 +199,8 @@ export function useDerivedSwapInfo(): {
     currencies,
     currencyBalances,
     parsedAmount,
-    parsedAmountDisplay,
     v2Trade: v2Trade ?? undefined,
-    v2TradeDisplay: v2TradeDisplay ?? undefined,
+    pair,
     inputError,
   }
 }

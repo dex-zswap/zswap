@@ -48,20 +48,22 @@ export function useTransactionAdder(): (
       if (!hash) {
         throw Error('No transaction hash found.')
       }
-      TxRepoter.cacheHash(
-        hash,
-        Object.assign(
-          {
-            hash,
-            from: account,
-            chainId,
-            summary,
-          },
-          {
-            reportData,
-          },
-        ),
-      )
+      if (reportData) {
+        TxRepoter.cacheHash(
+          hash,
+          Object.assign(
+            {
+              hash,
+              from: account,
+              chainId,
+              summary,
+            },
+            {
+              reportData,
+            },
+          ),
+        )
+      }
 
       dispatch(
         addTransaction({
