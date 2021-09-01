@@ -18,14 +18,12 @@ const RowWrap = styled.div`
 
 export default function SwapModalHeader({
   trade,
-  tradeDisplay,
   allowedSlippage,
   recipient,
   showAcceptChanges,
   onAcceptChanges,
 }: {
   trade: Trade
-  tradeDisplay: Trade
   allowedSlippage: number
   recipient: string | null
   showAcceptChanges: boolean
@@ -34,10 +32,6 @@ export default function SwapModalHeader({
   const slippageAdjustedAmounts = useMemo(
     () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
     [trade, allowedSlippage],
-  )
-  const slippageAdjustedAmountsDisplay = useMemo(
-    () => computeSlippageAdjustedAmounts(tradeDisplay, allowedSlippage),
-    [tradeDisplay, allowedSlippage],
   )
   const { priceImpactWithoutFee } = useMemo(() => computeTradePriceBreakdown(trade), [trade])
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
@@ -79,7 +73,7 @@ export default function SwapModalHeader({
                   : 'text'
               }
             >
-              {tradeDisplay.outputAmount.toSignificant(6)}
+              {trade.outputAmount.toSignificant(6)}
             </TruncatedText>
           </RowFixed>
           <RowFixed gap="0px">
@@ -105,7 +99,7 @@ export default function SwapModalHeader({
           <Text small color="pink" textAlign="left" style={{ width: '360px' }} bold>
             {`Output is estimated. You will receive at least `}
             <b>
-              {slippageAdjustedAmountsDisplay[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
+              {slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
             </b>
             {' or the transaction will revert.'}
           </Text>

@@ -78,10 +78,9 @@ export default function Swap({ history }: RouteComponentProps) {
   const { independentField, typedValue, recipient } = useSwapState()
   const {
     v2Trade,
-    v2TradeDisplay,
+    pair,
     currencyBalances,
     parsedAmount,
-    parsedAmountDisplay,
     currencies,
     inputError: swapInputError,
   } = useDerivedSwapInfo()
@@ -93,7 +92,6 @@ export default function Swap({ history }: RouteComponentProps) {
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const trade = showWrap ? undefined : v2Trade
-  const tradeDisplay = showWrap ? undefined : v2TradeDisplay
 
   const parsedAmounts = showWrap
     ? {
@@ -103,16 +101,6 @@ export default function Swap({ history }: RouteComponentProps) {
     : {
         [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
-      }
-
-  const parsedAmountsDisplay = showWrap
-    ? {
-        [Field.INPUT]: parsedAmountDisplay,
-        [Field.OUTPUT]: parsedAmountDisplay,
-      }
-    : {
-        [Field.INPUT]: independentField === Field.INPUT ? parsedAmountDisplay : tradeDisplay?.inputAmount,
-        [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmountDisplay : tradeDisplay?.outputAmount,
       }
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
@@ -150,13 +138,6 @@ export default function Swap({ history }: RouteComponentProps) {
     [dependentField]: showWrap
       ? parsedAmounts[independentField]?.toExact() ?? ''
       : parsedAmounts[dependentField]?.toSignificant(6) ?? '',
-  }
-
-  const formattedAmountsDisplay = {
-    [independentField]: typedValue,
-    [dependentField]: showWrap
-      ? parsedAmountsDisplay[independentField]?.toExact() ?? ''
-      : parsedAmountsDisplay[dependentField]?.toSignificant(6) ?? '',
   }
 
   const route = trade?.route
@@ -322,7 +303,6 @@ export default function Swap({ history }: RouteComponentProps) {
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwapModal
       trade={trade}
-      tradeDisplay={tradeDisplay}
       originalTrade={tradeToConfirm}
       onAcceptChanges={handleAcceptChanges}
       attemptingTxn={attemptingTxn}
@@ -346,7 +326,7 @@ export default function Swap({ history }: RouteComponentProps) {
           <AutoColumn gap="md">
             <CurrencyInputPanel
               label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
-              value={formattedAmountsDisplay[Field.INPUT]}
+              value={formattedAmounts[Field.INPUT]}
               showMaxButton={!atMaxAmountInput}
               currency={currencies[Field.INPUT]}
               onUserInput={handleTypeInput}
@@ -375,7 +355,7 @@ export default function Swap({ history }: RouteComponentProps) {
               </AutoRow>
             </AutoColumn>
             <CurrencyInputPanel
-              value={formattedAmountsDisplay[Field.OUTPUT]}
+              value={formattedAmounts[Field.OUTPUT]}
               onUserInput={handleTypeOutput}
               label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
               showMaxButton={false}
@@ -401,11 +381,11 @@ export default function Swap({ history }: RouteComponentProps) {
 
             {showWrap ? null : (
               <AutoColumn gap="8px" style={{ padding: '0 16px' }}>
-                {Boolean(trade) && (
+                {Boolean(pair) && (
                   <RowBetween align="center">
                     <Label>{t('Price')}</Label>
                     <TradePrice
-                      price={trade?.executionPrice}
+                      price={pair.token0Price}
                       showInverted={showInverted}
                       setShowInverted={setShowInverted}
                     />
@@ -534,7 +514,7 @@ export default function Swap({ history }: RouteComponentProps) {
         </Wrapper>
       </AppBody>
       {!swapIsUnsupported ? (
-        <AdvancedSwapDetailsDropdown trade={trade} tradeDisplay={tradeDisplay} />
+        <AdvancedSwapDetailsDropdown trade={trade} />
       ) : (
         <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
       )}

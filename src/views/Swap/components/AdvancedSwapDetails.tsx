@@ -10,16 +10,14 @@ import FormattedPriceImpact from './FormattedPriceImpact'
 
 function TradeSummary({
   trade,
-  tradeDisplay,
   allowedSlippage,
 }: {
   trade: Trade
-  tradeDisplay: Trade
   allowedSlippage: number
 }) {
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
-  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(tradeDisplay, allowedSlippage)
+  const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
 
   return (
     <AutoColumn>
@@ -74,10 +72,9 @@ function TradeSummary({
 
 export interface AdvancedSwapDetailsProps {
   trade?: Trade
-  tradeDisplay?: Trade
 }
 
-export function AdvancedSwapDetails({ trade, tradeDisplay }: AdvancedSwapDetailsProps) {
+export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const [allowedSlippage] = useUserSlippageTolerance()
 
   const showRoute = Boolean(trade && trade.route.path.length > 1)
@@ -94,7 +91,7 @@ export function AdvancedSwapDetails({ trade, tradeDisplay }: AdvancedSwapDetails
     >
       {trade && (
         <>
-          <TradeSummary trade={trade} tradeDisplay={tradeDisplay} allowedSlippage={allowedSlippage} />
+          <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
           {/* {showRoute && (
             <>
               <RowBetween style={{ padding: '0 16px' }}>

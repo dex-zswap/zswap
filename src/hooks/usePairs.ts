@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useRouteMatch } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { Interface } from '@ethersproject/abi'
@@ -11,7 +12,12 @@ import { wrappedCurrency } from 'utils/wrappedCurrency'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 
-const SCALE_RATE = new BigNumber(1.00001)
+const SCALE_RATE = new BigNumber(1.000001)
+
+const NEED_SCALE_PATHS = [
+  '/add/:currencyIdA',
+  '/add/:currencyIdA/:currencyIdB'
+]
 
 export enum PairState {
   LOADING,
@@ -21,8 +27,8 @@ export enum PairState {
 }
 
 export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
+  const routerMatch = useRouteMatch()
   const { chainId } = useActiveWeb3React()
-
   const tokens = useMemo(
     () =>
       currencies.map(([currencyA, currencyB]) => [
@@ -31,6 +37,8 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
       ]),
     [chainId, currencies],
   )
+
+  const needScale = !NEED_SCALE_PATHS.includes(routerMatch.path)
 
   const pairAddresses = useMemo(
     () =>
