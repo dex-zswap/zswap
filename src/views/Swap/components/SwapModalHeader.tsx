@@ -9,6 +9,7 @@ import { AutoColumn } from 'components/Layout/Column'
 import { CurrencyLogo } from 'components/Logo'
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import { TruncatedText, SwapShowAcceptChanges } from './styleds'
+import { useTranslation } from 'contexts/Localization'
 
 const RowWrap = styled.div`
   padding: 19px 23px;
@@ -29,6 +30,7 @@ export default function SwapModalHeader({
   showAcceptChanges: boolean
   onAcceptChanges: () => void
 }) {
+  const { t } = useTranslation()
   const slippageAdjustedAmounts = useMemo(
     () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
     [trade, allowedSlippage],
@@ -88,20 +90,20 @@ export default function SwapModalHeader({
           <RowBetween>
             <RowFixed>
               <ErrorIcon mr="8px" />
-              <Text bold> Price Updated</Text>
+              <Text bold>{' ' + t('Price Updated')}</Text>
             </RowFixed>
-            <Button onClick={onAcceptChanges}>Accept</Button>
+            <Button onClick={onAcceptChanges}>{t('Accept')}</Button>
           </RowBetween>
         </SwapShowAcceptChanges>
       ) : null}
       <AutoColumn justify="flex-start" gap="sm" style={{ padding: '0 30px' }}>
         {trade.tradeType === TradeType.EXACT_INPUT ? (
           <Text small color="pink" textAlign="left" style={{ width: '360px' }} bold>
-            {`Output is estimated. You will receive at least `}
+            {t('Output is estimated. You will receive at least ')}
             <b>
               {slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(6)} {trade.outputAmount.currency.symbol}
             </b>
-            {' or the transaction will revert.'}
+            {t(' or the transaction will revert.')}
           </Text>
         ) : (
           <Text small color="textSubtle" textAlign="left" style={{ width: '100%' }}>
@@ -109,14 +111,14 @@ export default function SwapModalHeader({
             <b>
               {slippageAdjustedAmounts[Field.INPUT]?.toSignificant(6)} {trade.inputAmount.currency.symbol}
             </b>
-            {' or the transaction will revert.'}
+            {t(' or the transaction will revert.')}
           </Text>
         )}
       </AutoColumn>
       {recipient !== null ? (
         <AutoColumn justify="flex-start" gap="sm" style={{ padding: '12px 0 0 0px' }}>
           <Text color="textSubtle">
-            Output will be sent to{' '}
+            {t('Output will be sent to ')}
             <b title={recipient}>{isAddress(recipient) ? shortenAddress(recipient) : recipient}</b>
           </Text>
         </AutoColumn>

@@ -7,7 +7,7 @@ import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import reporter from 'reporter'
 
-export default function useBuy(onDismiss: () => void) {
+export default function useBuy(onDismiss: () => void, toast) {
   const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const { chainId, account } = useActiveWeb3React()
@@ -38,9 +38,9 @@ export default function useBuy(onDismiss: () => void) {
           },
         })
         reporter.recordHash(tx.hash)
-
         setBuying(false)
         onDismiss()
+        toast(numbers.length, tx.hash, chainId)
       } catch (e) {
         setBuying(false)
       }
@@ -61,7 +61,6 @@ export function useCurrentLotteryId() {
     if (!lotteryId.result) {
       return '1'
     }
-
     return new BigNumber(lotteryId.result.toString()).toString()
   }, [lotteryId])
 }

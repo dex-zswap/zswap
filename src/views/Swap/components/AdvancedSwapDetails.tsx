@@ -7,8 +7,10 @@ import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from 'util
 import { AutoColumn } from 'components/Layout/Column'
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
+import { useTranslation } from 'contexts/Localization'
 
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
+  const { t } = useTranslation()
   const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
   const isExactIn = trade.tradeType === TradeType.EXACT_INPUT
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
@@ -17,7 +19,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
     <AutoColumn>
       <RowBetween marginY="3px">
         <RowFixed>
-          <Text color="textSubtle">{isExactIn ? 'Minimum received' : 'Maximum sold'}</Text>
+          <Text color="textSubtle">{isExactIn ? t('Minimum received') : t('Maximum sold')}</Text>
           {/* <QuestionHelper
             text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
             ml="4px"
@@ -34,7 +36,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
       </RowBetween>
       <RowBetween marginY="3px">
         <RowFixed>
-          <Text color="textSubtle">Price Impact</Text>
+          <Text color="textSubtle">{t('Price Impact')}</Text>
           {/* <QuestionHelper
             text="The difference between the market price and estimated price due to trade size."
             ml="4px"
@@ -45,7 +47,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 
       <RowBetween marginY="3px">
         <RowFixed>
-          <Text color="textSubtle">Liquidity Provider Fee</Text>
+          <Text color="textSubtle">{t('Liquidity Provider Fee')}</Text>
           {/* <QuestionHelper
             text={
               <>

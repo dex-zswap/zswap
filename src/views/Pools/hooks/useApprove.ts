@@ -57,7 +57,7 @@ export const useVaultApprove = (setLastUpdated: () => void) => {
     setRequestedApproval(true)
     const receipt = await tx.wait()
     if (receipt.status) {
-      toastSuccess(t('Contract Enabled'), t('You can now stake in!', { symbol: 'CAKE' }))
+      toastSuccess(t('Successfully Approved!'), t('You can now stake in!', { symbol: 'CAKE' }))
       setLastUpdated()
       setRequestedApproval(false)
     } else {

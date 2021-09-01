@@ -432,7 +432,7 @@ export default function Swap({ history }: RouteComponentProps) {
                       {t('Approving')} <CircleLoader stroke="white" />
                     </AutoRow>
                   ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
-                    t('Enabled')
+                    t('Approved')
                   ) : (
                     t('Approve %asset%', {
                       asset: currencies[Field.INPUT]?.symbol ?? '',

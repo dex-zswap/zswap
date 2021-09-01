@@ -1,11 +1,13 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
-
-import { Text, Input, Flex, Modal, Button } from 'zswap-uikit'
+import { getBscScanLink } from 'utils'
 import useTicketPrice, { useZBSTBalance } from 'views/Tickets/hooks/useTicketPrice'
 import useApprove, { useApproveStatus } from 'views/Tickets/hooks/useApprove'
 import useBuy, { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
 import { useTranslation } from 'contexts/Localization'
+import useToast from 'hooks/useToast'
+
+import { Text, Input, Link, Flex, Modal, Button } from 'zswap-uikit'
 import styled from 'styled-components'
 
 const InputWrap = styled(Flex)`
@@ -48,7 +50,6 @@ const ViewEditNumbers = ({ count, numbersChange }) => {
   const getOrderStr = useCallback((index) => `#${(index + (pageNum - 1) * 5 + 1 + '').padStart(3, '0')}`, [pageNum])
   const numberChange = useCallback(
     (e, index, numIndex) => {
-      console.log(e.target.value)
       const value = e.target.value.trim()
       const nums = pageNumbers.map((nums, wrapIndex) => {
         if (index === wrapIndex) {
@@ -151,7 +152,28 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
 
   const lotteryNum = useCurrentLotteryId()
 
-  const { buyTickets, buying } = useBuy(onDismiss)
+  const { toastSuccess } = useToast()
+
+  const toast = useCallback(
+    (nums, hash, chainId) => {
+      toastSuccess(
+        t('Transaction receipt'),
+        <Flex flexDirection="column">
+          <Text>{t('%asset% tickets have been purchased successfully!', { asset: nums })}</Text>
+          <Link
+            style={{ color: '#999', marginTop: '15px', fontSize: '14px' }}
+            external
+            href={getBscScanLink(hash, 'transaction', chainId)}
+          >
+            {t('View on DEX Browser')}
+          </Link>
+        </Flex>,
+      )
+    },
+    [t],
+  )
+
+  const { buyTickets, buying } = useBuy(onDismiss, toast)
   const zbstBalance = useZBSTBalance()
   const ticketPrice = useTicketPrice()
 

@@ -1,4 +1,4 @@
-const apiBase = process.env.REACT_APP_API_BASE
+const REACT_APP_REPORT_URL = process.env.REACT_APP_REPORT_URL
 
 export enum TransactionType {
   TRANSFER_IN = 1,
@@ -78,7 +78,7 @@ class Reporter implements ReporterInterface {
     const { retryCount } = body
     delete body.retryCount
 
-    fetch(`${apiBase}/walletTran/add`, {
+    fetch(REACT_APP_REPORT_URL, {
       mode: 'cors',
       credentials: 'omit',
       method: 'POST',
@@ -88,8 +88,9 @@ class Reporter implements ReporterInterface {
       },
       body: JSON.stringify(body),
     }).then(
-      (response) => {
+      (res) => {
         delete this.cachedHashMaps[hash]
+        return res.json()
       },
       () => {
         if (retryCount > 3) {
@@ -99,7 +100,11 @@ class Reporter implements ReporterInterface {
           this.reportTransaction(hash)
         }
       },
-    )
+    ).then(res => {
+      if (200!=res.code) {
+        console.error(res.msg);
+      }
+    })
   }
 
   private makeInfoFromReportData(hashInfo: HashInfoBaseStructure): TransactionRecord {

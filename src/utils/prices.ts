@@ -66,8 +66,6 @@ export function computeSlippageAdjustedAmounts(
   const input = trade?.maximumAmountIn(pct)
   const output = trade?.minimumAmountOut(pct)
 
-  // console.log(output?.toSignificant(6))
-
   return {
     [Field.INPUT]: input,
     [Field.OUTPUT]: output,

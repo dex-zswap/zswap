@@ -53,8 +53,8 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
     <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
       <Flex justifyContent="space-between" alignItems="center">
         <Flex flex="1" alignItems="center">
-          <TokenPairImage secondaryToken={quoteToken} width={31} height={31} />
-          <TokenPairImage style={{ margin: '0 10px 0 -3px' }} secondaryToken={token} width={32} height={32} />
+          <TokenPairImage secondaryToken={token} width={31} height={31} />
+          <TokenPairImage style={{ margin: '0 10px 0 -3px' }} secondaryToken={quoteToken} width={32} height={32} />
           <Heading>{lpLabel}</Heading>
         </Flex>
         <WeightWrap>Weight: {weight}</WeightWrap>

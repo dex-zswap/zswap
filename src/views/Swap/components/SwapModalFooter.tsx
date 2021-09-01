@@ -8,6 +8,7 @@ import TradePrice from './TradePrice'
 import { AutoColumn } from 'components/Layout/Column'
 import { AutoRow, RowBetween, RowFixed } from 'components/Layout/Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
+import { useTranslation } from 'contexts/Localization'
 import { SwapCallbackError } from './styleds'
 
 const SwapModalFooterContainer = styled(AutoColumn)`
@@ -39,6 +40,7 @@ export default function SwapModalFooter({
   swapErrorMessage: string | undefined
   disabledConfirm: boolean
 }) {
+  const { t } = useTranslation()
   const [showInverted, setShowInverted] = useState<boolean>(true)
   const slippageAdjustedAmounts = useMemo(
     () => computeSlippageAdjustedAmounts(trade, allowedSlippage),
@@ -51,7 +53,7 @@ export default function SwapModalFooter({
     <>
       <SwapModalFooterContainer>
         <RowBetween align="center">
-          <Text>Price</Text>
+          <Text>{t('Price')}</Text>
           <Text
             style={{
               justifyContent: 'center',
@@ -71,7 +73,7 @@ export default function SwapModalFooter({
 
         <RowBetween>
           <RowFixed>
-            <Text>{trade.tradeType === TradeType.EXACT_INPUT ? 'Minimum received' : 'Maximum sold'}</Text>
+            <Text>{trade.tradeType === TradeType.EXACT_INPUT ? t('Minimum received') : t('Maximum sold')}</Text>
             {/* <QuestionHelper
               text="Your transaction will revert if there is a large, unfavorable price movement before it is confirmed."
               ml="4px"
@@ -92,14 +94,14 @@ export default function SwapModalFooter({
         </RowBetween>
         <RowBetween>
           <RowFixed>
-            <Text>Price Impact</Text>
+            <Text>{t('Price Impact')}</Text>
             {/* <QuestionHelper text="The difference between the market price and your price due to trade size." ml="4px" /> */}
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
         </RowBetween>
         <RowBetween>
           <RowFixed>
-            <Text>Liquidity Provider Fee</Text>
+            <Text>{t('Liquidity Provider Fee')}</Text>
             {/* <QuestionHelper
               text={
                 <>
@@ -125,7 +127,7 @@ export default function SwapModalFooter({
           id="confirm-swap-or-send"
           width="100%"
         >
-          {severity > 2 ? 'Swap Anyway' : 'Confirm Swap'}
+          {severity > 2 ? t('Swap Anyway') : t('Confirm Swap')}
         </Button>
 
         {swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
