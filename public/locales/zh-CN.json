@@ -1484,6 +1484,8 @@
   "Your tickets": "您的彩票",
   "You have lottery": "本轮您有",
   "Drawn": "已开奖",
+  "Transaction rejected": "交易被拒绝",
+  "Swap failed": "兑换失败",
   "Connect your wallet to check your history": "连接您的钱包以查看您的历史记录",
   "Total tickets": "彩票总数",
   "Winning tickets": "中奖彩票",

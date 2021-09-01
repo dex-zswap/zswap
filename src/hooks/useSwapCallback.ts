@@ -10,6 +10,7 @@ import { calculateGasMargin, getRouterContract, isAddress, shortenAddress } from
 import isZero from 'utils/isZero'
 import useTransactionDeadline from './useTransactionDeadline'
 import useENS from './ENS/useENS'
+import { useTranslation } from 'contexts/Localization'
 
 export enum SwapCallbackState {
   INVALID,
@@ -100,6 +101,7 @@ export function useSwapCallback(
   callback: null | (() => Promise<string>)
   error: string | null
 } {
+  const { t } = useTranslation()
   const { account, chainId, library } = useActiveWeb3React()
 
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddressOrName)
@@ -225,11 +227,11 @@ export function useSwapCallback(
           .catch((error: any) => {
             // if the user rejected the tx, pass this along
             if (error?.code === 4001) {
-              throw new Error('Transaction rejected.')
+              throw new Error(t('Transaction rejected'))
             } else {
               // otherwise, the error was unexpected and we need to convey that
-              console.error(`Swap failed`, error, methodName, args, value)
-              throw new Error(`Swap failed: ${error.message}`)
+              console.error(t('Swap failed'), error, methodName, args, value)
+              throw new Error(`${t('Swap failed')}: ${error.message}`)
             }
           })
       },
