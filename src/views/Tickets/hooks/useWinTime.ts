@@ -12,7 +12,7 @@ export default function useWinTime(lotteryId: string | number) {
   return winTime ? format(new Date(winTime), 'yyyy.MM.dd HH:mm') : '-'
 }
 
-export function useHasOpened(lotteryId: string) {
+export function useHasOpened(lotteryId: string | number) {
   const [opened, setOpened] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
 

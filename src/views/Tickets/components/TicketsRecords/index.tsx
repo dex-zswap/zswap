@@ -141,7 +141,7 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
       )}
       {onlyShowWin && !numbers?.length && (
         <>
-          <Text textAlign="center">{t('You have not won any prizes.')}</Text>
+          <Text textAlign="center">{t('You have not won any prizes')}</Text>
           <Flex justifyContent="center" m="20px 0 0">
             <BuyTicketsButton />
           </Flex>

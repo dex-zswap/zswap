@@ -138,11 +138,10 @@ const TicketDraw = () => {
   const [showPreView, setShowPreView] = useState(false)
 
   const lotteryId = showPreView ? preLotteryId : currentLotteryId
-
   const winNumbers = useWinNumbers(lotteryId)
   const { zustValue, zbRewards } = useLotteryReward(lotteryId)
   const winTime = useWinTime(lotteryId)
-
+  console.log(zustValue, zbRewards)
   const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
   const timeRange = useTimeRange()
 

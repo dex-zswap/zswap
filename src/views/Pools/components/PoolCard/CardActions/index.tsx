@@ -55,7 +55,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
             </Flex>
 
             <Flex mb="7px" justifyContent="space-between" alignItems="center">
-              <Text fontSize="14px">{t('Pooled Balance')}</Text>
+              <Text fontSize="14px">{t('Pledge Number')}</Text>
               <Text fontSize="14px">
                 {pool.userData?.stakedBalance.toFixed(2)}
                 {' ' + stakingToken.symbol}

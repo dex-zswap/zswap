@@ -4,6 +4,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
 import { BIG_ZERO } from 'utils/bigNumber'
+import { useTranslation } from 'contexts/Localization'
 
 const apiBase = process.env.REACT_APP_API_BASE
 
@@ -23,6 +24,7 @@ const userGetReward = async (txId: string) => {
 }
 
 export function useCollectReward() {
+  const { t } = useTranslation()
   const [collecting, setCollecting] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const { toastSuccess, toastError } = useToast()
@@ -35,18 +37,21 @@ export function useCollectReward() {
       setCollecting(false)
       if (receipt.status) {
         userGetReward(tx.hash)
-        toastSuccess('Success Collected', 'You have success collected your ticket prizes')
+        toastSuccess(t('Successfully Collected'), t('You have success collected your ticket prizes'))
       } else {
         toastError(
-          'Collect Failed',
-          'Please try again. Confirm the transaction and make sure you are paying enough gas!',
+          t('Failed Collect'),
+          t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
         )
       }
     } catch (e) {
       setCollecting(false)
-      toastError('Collect Failed', 'Please try again. Confirm the transaction and make sure you are paying enough gas!')
+      toastError(
+        t('Failed Collect'),
+        t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
+      )
     }
-  }, [lotteryContract, toastError, toastSuccess])
+  }, [lotteryContract, t])
 
   return {
     collectReward,

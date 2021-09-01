@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-
+import { useEffect, useState, useCallback } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { useWinNumbers } from './usePrizes'
 
 const apiBase = process.env.REACT_APP_API_BASE
 
@@ -31,10 +31,8 @@ export default function useUserHistory(page: number = 1) {
       })
         .then((response) => response.json())
         .then((res) => {
-          const {
-            data: { currPage, totalCount, list },
-          } = res
-
+          const data = res?.data || { currPage: 1, totalCount: 0, list: [] }
+          const { currPage, totalCount, list } = data
           setHistory(() => ({
             list,
             page: currPage,
@@ -49,6 +47,77 @@ export default function useUserHistory(page: number = 1) {
   }, [page, account])
 
   return history
+}
+
+export function useAllUserLotteryIdsByLotteryNum(lotteryNum: string | number) {
+  const [rewardNums, setRewardNums] = useState([])
+
+  const winNumbers = useWinNumbers(lotteryNum)
+  const rewardLevelNums = new Array(6).fill(0)
+  const getRewardLevel = useCallback(
+    (num: string) => {
+      const numArr = num.split('')
+      const winNumbersStr = winNumbers.join('')
+      if (num == winNumbersStr) {
+        ++rewardLevelNums[0]
+        return
+      }
+      if (numArr[0] == winNumbers[0] && numArr[4] == winNumbers[4]) {
+        ++rewardLevelNums[1]
+        return
+      }
+      if (numArr[0] == winNumbers[0] && numArr[3] == winNumbers[3]) {
+        ++rewardLevelNums[2]
+        return
+      }
+      if (numArr[0] == winNumbers[0] && numArr[2] == winNumbers[2]) {
+        ++rewardLevelNums[3]
+        return
+      }
+      if (numArr[0] == winNumbers[0] && numArr[1] == winNumbers[1]) {
+        ++rewardLevelNums[4]
+        return
+      }
+      if (numArr[0] == winNumbers[0] || numArr[5] == winNumbers[5]) {
+        ++rewardLevelNums[5]
+        return
+      }
+      return
+    },
+    [lotteryNum, winNumbers],
+  )
+
+  useEffect(() => {
+    const getAllUserLotteryIds = async () => {
+      const res = await fetch(`${apiBase}/walletTran/queryList`, {
+        mode: 'cors',
+        credentials: 'omit',
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lotteryNum,
+          category: 7,
+          srcAddr: '',
+        }),
+      })
+      if (res.ok) {
+        const { data } = await res.json()
+        data
+          .map((d) => d.lottery.split(','))
+          .flat()
+          .forEach((d) => {
+            getRewardLevel(d)
+          }),
+          setRewardNums(rewardLevelNums)
+      }
+    }
+    getAllUserLotteryIds()
+  }, [lotteryNum, winNumbers])
+
+  return rewardNums
 }
 
 export function useUserLotteryIds(lotteryNum: string = '') {
@@ -75,22 +144,24 @@ export function useUserLotteryIds(lotteryNum: string = '') {
           const ids = []
           let findIndex
 
-          res.data.forEach(({ lotteryNum, lottery }) => {
-            if (lotteryNum) {
-              findIndex = ids.findIndex(({ id }) => id === lotteryNum)
-              if (findIndex === -1) {
-                ids.push({
-                  id: lotteryNum,
-                  numbers: lottery.split(','),
-                })
-              } else {
-                ids[findIndex] = {
-                  id: lotteryNum,
-                  numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+          if (res?.data && res?.data?.length) {
+            res.data.forEach(({ lotteryNum, lottery }) => {
+              if (lotteryNum) {
+                findIndex = ids.findIndex(({ id }) => id === lotteryNum)
+                if (findIndex === -1) {
+                  ids.push({
+                    id: lotteryNum,
+                    numbers: lottery.split(','),
+                  })
+                } else {
+                  ids[findIndex] = {
+                    id: lotteryNum,
+                    numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+                  }
                 }
               }
-            }
-          })
+            })
+          }
 
           setlotteryIds(() => ids)
         })
@@ -126,26 +197,28 @@ export function useUserAllLotteryIds() {
           const ids = []
           let findIndex
 
-          res.data.forEach(({ lotteryNum, srcAddr, lottery }) => {
-            if (lotteryNum) {
-              findIndex = ids.findIndex(({ id, srcAddr: addr }) => id === lotteryNum && srcAddr === addr)
-              if (findIndex === -1) {
-                ids.push({
-                  id: lotteryNum,
-                  srcAddr,
-                  isSelf: srcAddr === account,
-                  numbers: lottery.split(','),
-                })
-              } else {
-                ids[findIndex] = {
-                  id: lotteryNum,
-                  srcAddr,
-                  isSelf: srcAddr === account,
-                  numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+          if (res?.data && res?.data?.length) {
+            res.data.forEach(({ lotteryNum, srcAddr, lottery }) => {
+              if (lotteryNum) {
+                findIndex = ids.findIndex(({ id, srcAddr: addr }) => id === lotteryNum && srcAddr === addr)
+                if (findIndex === -1) {
+                  ids.push({
+                    id: lotteryNum,
+                    srcAddr,
+                    isSelf: srcAddr === account,
+                    numbers: lottery.split(','),
+                  })
+                } else {
+                  ids[findIndex] = {
+                    id: lotteryNum,
+                    srcAddr,
+                    isSelf: srcAddr === account,
+                    numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+                  }
                 }
               }
-            }
-          })
+            })
+          }
 
           setlotteryIds(() => ids)
         })

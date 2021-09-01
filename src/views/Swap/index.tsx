@@ -76,7 +76,15 @@ export default function Swap({ history }: RouteComponentProps) {
 
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
-  const { v2Trade, v2TradeDisplay, currencyBalances, parsedAmount, parsedAmountDisplay, currencies, inputError: swapInputError } = useDerivedSwapInfo()
+  const {
+    v2Trade,
+    v2TradeDisplay,
+    currencyBalances,
+    parsedAmount,
+    parsedAmountDisplay,
+    currencies,
+    inputError: swapInputError,
+  } = useDerivedSwapInfo()
 
   const {
     wrapType,
@@ -450,7 +458,7 @@ export default function Swap({ history }: RouteComponentProps) {
                       {t('Approving')} <CircleLoader stroke="white" />
                     </AutoRow>
                   ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
-                    t('Enabled')
+                    t('Approved')
                   ) : (
                     t('Approve %asset%', {
                       asset: currencies[Field.INPUT]?.symbol ?? '',

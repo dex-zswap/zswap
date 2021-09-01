@@ -12,22 +12,25 @@ import { useCurrentLotteryId } from './useBuy'
 export function useWinNumbers(lotteryId: string | number) {
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState([])
-  const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [lotteryId, index])
-
+  const hasOpened = useHasOpened(lotteryId)
   useEffect(() => {
     const fetchWinNumbers = async () => {
       try {
-        const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
-        const results = await Promise.all(callQueue)
-
-        if (results.length === idIndex.length) {
-          setWinNumber(() => results)
+        if (!hasOpened) {
+          setWinNumber([])
+        } else {
+          const idIndex = [0, 1, 2, 3, 4, 5].map((index) => [Number(lotteryId), index])
+          const callQueue = idIndex.map((args) => lotteryContract.lottoWinningNumbers(...args))
+          const results = await Promise.all(callQueue)
+          if (results.length === idIndex.length) {
+            setWinNumber(() => results)
+          }
         }
       } catch (e) {}
     }
 
     fetchWinNumbers()
-  }, [lotteryContract])
+  }, [hasOpened, lotteryContract, lotteryId])
 
   return winNumbers
 }

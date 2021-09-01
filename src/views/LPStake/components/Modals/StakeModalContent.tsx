@@ -223,7 +223,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <>
           <StakeTokenWrap>
             <Flex alignItems="center">
-              {/* <CurrencyLogo style={{ marginRight: '14px' }} currency={userData?.stakedCurrency} size="25px" /> */}
+              <img style={{ marginRight: '14px' }} width="24px" src={ZbstLogo} />
               <Text fontSize="16px" bold>
                 ZBST
               </Text>
@@ -247,8 +247,13 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
         <>
           <StakeTokenWrap>
             <Flex flex="1" alignItems="center">
-              <TokenPairImage secondaryToken={farm.quoteToken} width={24} height={24} />
-              <TokenPairImage style={{ margin: '0 14px 0 -3px' }} secondaryToken={farm.token} width={25} height={25} />
+              <TokenPairImage secondaryToken={farm.token} width={24} height={24} />
+              <TokenPairImage
+                style={{ margin: '0 14px 0 -3px' }}
+                secondaryToken={farm.quoteToken}
+                width={25}
+                height={25}
+              />
               <Text fontSize="16px" bold>
                 {farm.lpSymbol}
               </Text>
