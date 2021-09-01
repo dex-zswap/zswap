@@ -28,16 +28,15 @@ export function computeTradePriceBreakdown(trade?: Trade | null): {
   const realizedLPFee = !trade
     ? undefined
     : ONE_HUNDRED_PERCENT.subtract(
-        trade.route.pairs.reduce<Fraction>(
-          (currentFee: Fraction): Fraction => {
-            return currentFee.multiply(INPUT_FRACTION_AFTER_FEE)
-          },
-          ONE_HUNDRED_PERCENT,
-        ),
+        trade.route.pairs.reduce<Fraction>((currentFee: Fraction): Fraction => {
+          return currentFee.multiply(INPUT_FRACTION_AFTER_FEE)
+        }, ONE_HUNDRED_PERCENT),
       )
 
   // remove lp fees from price impact
   const priceImpactWithoutFeeFraction = trade && realizedLPFee ? trade.priceImpact.subtract(realizedLPFee) : undefined
+
+  console.log(realizedLPFee?.toSignificant(6), trade?.priceImpact?.toSignificant(6))
 
   // the x*y=k impact
   const priceImpactWithoutFeePercent = priceImpactWithoutFeeFraction

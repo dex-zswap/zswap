@@ -151,7 +151,7 @@ export function useDerivedMintInfo(
     [allExist],
   )
   const otherCurrencySymbol = useMemo<string>(
-    () => (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol),
+    () => currencyA && currencyB ? (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol) : '',
     [currencyA, currencyB, zbWithcurrencyA, allExist],
   )
 
