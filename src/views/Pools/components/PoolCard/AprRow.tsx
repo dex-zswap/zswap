@@ -22,7 +22,7 @@ interface AprRowProps {
 
 const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
   const { t } = useTranslation()
-  const { stakingToken, earningToken, isFinished, apr, earningTokenPrice, isAutoVault } = pool
+  const { stakingToken, earningToken, userData, apr, earningTokenPrice, isAutoVault } = pool
 
   const tooltipContent = isAutoVault
     ? t('APY includes compounding, APR doesn’t. This pool’s CAKE is compounded automatically, so we show APY.')
@@ -57,14 +57,13 @@ const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
         <Text fontSize="16px" mr="10px">
           {t('APR')}
         </Text>
-        {/* <TooltipText ref={targetRef}>{isAutoVault ? `${t('APY')}:` : `${t('APR')}:`}</TooltipText> */}
-        {isFinished || !apr ? (
+        {!userData ? (
           <Skeleton width="82px" height="32px" />
         ) : (
           <Flex alignItems="center">
             <Balance
               fontSize="32px"
-              isDisabled={isFinished}
+              isDisabled={false}
               value={earningsPercentageToDisplay}
               decimals={2}
               unit="%"

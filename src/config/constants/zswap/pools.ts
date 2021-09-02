@@ -1,11 +1,11 @@
 import { PoolConfig, PoolCategory } from 'config/constants/types'
 
-import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS, ZSWAP_STAKE_ADDRESS } from './address'
+import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_ZERO_ADDRESS } from './address'
 import EARNING_TOKEN from './earing-token'
 
 const tokens = {
-  dex: {
-    symbol: 'DEX',
+  wdex: {
+    symbol: 'WDEX',
     address: {
       3603102: ZSWAP_DEX_ADDRESS,
     },
@@ -32,8 +32,8 @@ const tokens = {
 
 const pools: PoolConfig[] = [
   {
-    sousId: 9,
-    stakingToken: tokens.dex,
+    sousId: 8,
+    stakingToken: tokens.wdex,
     earningToken: EARNING_TOKEN,
     contractAddress: {
       3603102: ZSWAP_STAKE_ADDRESS,

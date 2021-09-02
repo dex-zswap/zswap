@@ -170,11 +170,11 @@ const usePoolInfo = (pool: Pool) => {
           earningCurrency,
           totalStakedBalance,
           allowance: allowance ? new BigNumber(allowance.toExact()) : BIG_ZERO,
-          stakedUSDTValue,
-          stakedBalance: userStakedBalance,
+          stakedUSDTValue: stakedUSDTValue?.isNaN() ? BIG_ZERO : stakedUSDTValue,
+          stakedBalance: userStakedBalance?.isNaN() ? BIG_ZERO : userStakedBalance,
           stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toExact()) : BIG_ZERO,
           pendingReward: pendingReward.result,
-          stakedPercent: `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
+          stakedPercent: userSharePercent?.isNaN() ? '0.00%' : `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
         },
   }
 }

@@ -1,6 +1,3 @@
-import EARNING_TOKEN from './earing-token'
-import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_USDT_ADDRESS } from './address'
-
 type PairsInfo = {
   pair: string
   weight?: number
