@@ -129,7 +129,13 @@ const usePoolInfo = (pool: Pool) => {
   }, [currentWeight])
 
   const apr = useMemo(() => {
-    if (!totalWeight.result || totalStakedBalance.eq(BIG_ZERO) || !stakingBalance.balance || !zbstPrice || !stakedCurrency) {
+    if (
+      !totalWeight.result ||
+      totalStakedBalance.eq(BIG_ZERO) ||
+      !stakingBalance.balance ||
+      !zbstPrice ||
+      !stakedCurrency
+    ) {
       return 0
     }
 
@@ -139,11 +145,7 @@ const usePoolInfo = (pool: Pool) => {
     const rewardUsdtValue = priceBigNumber.multipliedBy(reward)
 
     return Number(
-      rewardUsdtValue
-        .dividedBy(totalStakedBalance)
-        .multipliedBy(BIG_ONE_YEAR)
-        .multipliedBy(BIG_HUNDERED)
-        .toFixed(2),
+      rewardUsdtValue.dividedBy(totalStakedBalance).multipliedBy(BIG_ONE_YEAR).multipliedBy(BIG_HUNDERED).toFixed(2),
     )
   }, [
     totalWeight,

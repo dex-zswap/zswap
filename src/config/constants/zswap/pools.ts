@@ -1,6 +1,6 @@
 import { PoolConfig, PoolCategory } from 'config/constants/types'
 
-import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_STAKE_ADDRESS } from './address'
+import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS, ZSWAP_STAKE_ADDRESS } from './address'
 import EARNING_TOKEN from './earing-token'
 
 const tokens = {
@@ -20,6 +20,14 @@ const tokens = {
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
   },
+  zbst: {
+    symbol: 'ZBST',
+    address: {
+      3603102: ZSWAP_ZBST_ADDRESS,
+    },
+    decimals: 18,
+    projectLink: 'https://pancakeswap.finance/',
+  },
 }
 
 const pools: PoolConfig[] = [
@@ -28,8 +36,6 @@ const pools: PoolConfig[] = [
     stakingToken: tokens.dex,
     earningToken: EARNING_TOKEN,
     contractAddress: {
-      97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',
-      56: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
       3603102: ZSWAP_STAKE_ADDRESS,
     },
     poolCategory: PoolCategory.CORE,
@@ -43,8 +49,19 @@ const pools: PoolConfig[] = [
     stakingToken: tokens.zb,
     earningToken: EARNING_TOKEN,
     contractAddress: {
-      97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',
-      56: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
+      3603102: ZSWAP_STAKE_ADDRESS,
+    },
+    poolCategory: PoolCategory.CORE,
+    harvest: true,
+    tokenPerBlock: '10',
+    sortOrder: 1,
+    isFinished: false,
+  },
+  {
+    sousId: 11,
+    stakingToken: tokens.zbst,
+    earningToken: EARNING_TOKEN,
+    contractAddress: {
       3603102: ZSWAP_STAKE_ADDRESS,
     },
     poolCategory: PoolCategory.CORE,
