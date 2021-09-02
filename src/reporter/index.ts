@@ -87,24 +87,26 @@ class Reporter implements ReporterInterface {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    }).then(
-      (res) => {
-        delete this.cachedHashMaps[hash]
-        return res.json()
-      },
-      () => {
-        if (retryCount > 3) {
-          this.cachedHashMaps[hash] = Object.assign({}, body, {
-            retryCount: retryCount + 1,
-          })
-          this.reportTransaction(hash)
-        }
-      },
-    ).then(res => {
-      if (200!=res.code) {
-        console.error(res.msg);
-      }
     })
+      .then(
+        (res) => {
+          delete this.cachedHashMaps[hash]
+          return res.json()
+        },
+        () => {
+          if (retryCount > 3) {
+            this.cachedHashMaps[hash] = Object.assign({}, body, {
+              retryCount: retryCount + 1,
+            })
+            this.reportTransaction(hash)
+          }
+        },
+      )
+      .then((res) => {
+        if (200 != res.code) {
+          console.error(res.msg)
+        }
+      })
   }
 
   private makeInfoFromReportData(hashInfo: HashInfoBaseStructure): TransactionRecord {

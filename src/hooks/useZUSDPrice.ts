@@ -46,10 +46,7 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
 
     // all other tokens
     // first try the zusd pair
-    if (
-      usdPairState === PairState.EXISTS &&
-      usdPair
-    ) {
+    if (usdPairState === PairState.EXISTS && usdPair) {
       const price = usdPair.priceOf(wrapped)
       return new Price(currency, ZUSD_MAINNET, price.denominator, price.numerator)
     }

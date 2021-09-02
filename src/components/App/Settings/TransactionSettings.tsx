@@ -89,7 +89,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
           /> */}
         </RowFixed>
         <RowFixed>
-          <Text style={{wordBreak:"break-word"}} fontSize="16px" margin="13px 0 25px" bold>
+          <Text style={{ wordBreak: 'break-word' }} fontSize="16px" margin="13px 0 25px" bold>
             {t('If the price disadvantage exceeds this percentage, your deal will be cancelled.')}
           </Text>
         </RowFixed>
@@ -173,7 +173,7 @@ export default function SlippageTabs({ rawSlippage, setRawSlippage, deadline, se
           {/* <QuestionHelper text={t('Your transaction will revert if it is pending for more than this long.')} ml="4px" /> */}
         </RowFixed>
         <RowFixed>
-          <Text style={{wordBreak:"break-word"}} fontSize="16px" margin="13px 0 25px" bold>
+          <Text style={{ wordBreak: 'break-word' }} fontSize="16px" margin="13px 0 25px" bold>
             {t('If the time to be processed exceeds this time, your transaction will be cancelled.')}
           </Text>
         </RowFixed>

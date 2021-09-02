@@ -46,7 +46,7 @@ const TransactionsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
 
   return (
     <Modal
-      style={{ width: '400px',height:'40vh' }}
+      style={{ width: '400px', height: '40vh' }}
       title={t('Recent Transactions')}
       headerBackground="gradients.cardHeader"
       onDismiss={onDismiss}

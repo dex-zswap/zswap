@@ -107,7 +107,7 @@ export default function CurrencyInputPanel({
                     ? t('Balance: %amount%', {
                         amount: (removeLiquidity ? currencyBalance : selectedCurrencyBalance).toSignificant(6) ?? '',
                       })
-                    :  ' -'}
+                    : ' -'}
                 </Text>
               )}
             </RowBetween>
