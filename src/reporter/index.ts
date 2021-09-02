@@ -156,8 +156,8 @@ class Reporter implements ReporterInterface {
       case 'ticket':
         info.tranType = TransactionType.TRANSFER_OUT
         info.category = TransactionCategory.TICKET
-        info.lottery = reportData.lottery
-        info.lotteryNum = reportData.lotteryNum
+        info.lottery = reportData.args.lottery
+        info.lotteryNum = reportData.args.lotteryNum
         break
     }
 

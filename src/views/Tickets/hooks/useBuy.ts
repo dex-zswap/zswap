@@ -22,9 +22,8 @@ export default function useBuy(onDismiss: () => void) {
         addTransaction(tx, {
           summary: `Buy ${length} ${length > 1 ? 'Ticket' : 'Tickets'} `,
           reportData: {
-            from: 'approve',
+            from: 'ticket',
             args: {
-              from: 'ticket',
               lottery: numbers.map((nums) => nums.join('')).join(','),
               lotteryNum,
             },
