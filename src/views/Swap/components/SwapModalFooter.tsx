@@ -12,7 +12,7 @@ import { useTranslation } from 'contexts/Localization'
 import { SwapCallbackError } from './styleds'
 
 const SwapModalFooterContainer = styled(AutoColumn)`
-  max-width: 480px;
+  max-width: 100%;
   margin: 35px 0;
   padding: 19px 23px;
   background: #2b2b2b;
@@ -24,6 +24,7 @@ const SwapModalFooterContainer = styled(AutoColumn)`
     }
   }
 `
+// max-width: 480px;
 
 export default function SwapModalFooter({
   trade,

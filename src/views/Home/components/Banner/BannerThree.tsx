@@ -3,7 +3,9 @@ import styled from 'styled-components'
 import { baseColors } from 'zswap-uikit/theme/colors'
 import { Wrap, ButtonWrap, TextWrap } from '../Wrapper'
 import { Text, Image, Button } from 'zswap-uikit'
+import LearMoreBtn from 'components/LearMoreBtn'
 import { useTranslation } from 'contexts/Localization'
+import history from '../../../../routerHistory'
 
 const ImgWrap = styled.div`
   width: 410px;
@@ -53,10 +55,10 @@ const BannerTwo = () => {
           {t('Earn more cryptocurrency income through pledge mining')}
         </Text>
         <ButtonWrap>
-          <Button width="152px">{t('Get it Now')}</Button>
-          <Button width="152px" variant="secondary">
-            {t('Learn More')}
+          <Button width="152px" onClick={() => history.push('/pools')}>
+            {t('Get it Now')}
           </Button>
+          <LearMoreBtn width="152px" href="https://www.baidu.com" />
         </ButtonWrap>
       </TextWrap>
     </Wrap>

@@ -1,6 +1,7 @@
 import { useTranslation } from 'contexts/Localization'
 
 import { Text, Flex, Button } from 'zswap-uikit'
+import LearMoreBtn from 'components/LearMoreBtn'
 import styled from 'styled-components'
 
 const Line = styled.div`
@@ -212,9 +213,7 @@ const LotteryHeader = () => {
         <Text fontSize="24px" mb="20px" bold>
           {t('Still got question?')}
         </Text>
-        <Button width="150px" variant="secondary">
-          {t('Learn More')}
-        </Button>
+        <LearMoreBtn width="150px" href="https://www.baidu.com" />
         <img width="405px" src="/images/home/obj_3.png" />
       </QaWrap>
     </Flex>

@@ -159,11 +159,7 @@ const StakeAction: React.FC<StakeActionsProps> = ({
             {t('Manage Stake')}
           </Button>
         ) : (
-          <Button
-            width="100%"
-            disabled={isFinished}
-            onClick={stakingTokenBalance.gt(0) ? onPresentStake : onPresentTokenRequired}
-          >
+          <Button width="100%" disabled={isFinished} onClick={onPresentStake}>
             {t('Join')}
           </Button>
         )}
