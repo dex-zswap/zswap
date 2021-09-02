@@ -12,14 +12,6 @@ const tokens = {
     decimals: 18,
     projectLink: 'https://pancakeswap.finance/',
   },
-  dex: {
-    symbol: 'DEX',
-    address: {
-      3603102: ZSWAP_ZERO_ADDRESS,
-    },
-    decimals: 18,
-    projectLink: 'https://pancakeswap.finance/',
-  },
   zb: {
     symbol: 'ZB',
     address: {
@@ -42,19 +34,6 @@ const pools: PoolConfig[] = [
   {
     sousId: 8,
     stakingToken: tokens.wdex,
-    earningToken: EARNING_TOKEN,
-    contractAddress: {
-      3603102: ZSWAP_STAKE_ADDRESS,
-    },
-    poolCategory: PoolCategory.CORE,
-    harvest: true,
-    tokenPerBlock: '10',
-    sortOrder: 1,
-    isFinished: false,
-  },
-  {
-    sousId: 9,
-    stakingToken: tokens.dex,
     earningToken: EARNING_TOKEN,
     contractAddress: {
       3603102: ZSWAP_STAKE_ADDRESS,
