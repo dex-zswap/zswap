@@ -147,9 +147,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
       return BIG_ZERO
     }
 
-    return new BigNumber(pairInfo.reserve0.toExact()).dividedBy(
-      new BigNumber(pairInfo.reserve1.toExact()),
-    )
+    return new BigNumber(pairInfo.reserve0.toExact()).dividedBy(new BigNumber(pairInfo.reserve1.toExact()))
   }, [pairInfo, token0, token1])
 
   const tokenLpAmount = useMemo(() => {
