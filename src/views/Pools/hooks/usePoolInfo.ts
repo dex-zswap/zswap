@@ -138,6 +138,13 @@ const usePoolInfo = (pool: Pool) => {
     const reward = getStakeReward(currentWeightBigNumber.dividedBy(totalWeightBigNumber))
     const rewardUsdtValue = priceBigNumber.multipliedBy(reward)
 
+    console.log({
+      rewardUsdtValue: rewardUsdtValue.toFixed(2),
+      totalStakedBalance: totalStakedBalance.toFixed(2),
+      BIG_ONE_YEAR: BIG_ONE_YEAR.toString(),
+      reward: reward.toString()
+    })
+
     return Number(
       rewardUsdtValue
         .dividedBy(totalStakedBalance)
