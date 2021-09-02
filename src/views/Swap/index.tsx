@@ -159,7 +159,37 @@ export default function Swap({ history }: RouteComponentProps) {
   // the callback to execute the swap
   const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee, realizedLPFee } = computeTradePriceBreakdown(trade)
+
+  const [dexFeePer, setDexFeePer] = useState('')
+  const [showDexFeePer, setShowDexFeePer] = useState(false)
+
+  useEffect(() => {
+    if (
+      realizedLPFee &&
+      formattedAmounts[Field.INPUT] &&
+      currencies[Field.INPUT] &&
+      'DEX' == currencies[Field.INPUT].symbol
+    ) {
+      const lPFee = Number(realizedLPFee.toSignificant(6))
+      const inputNum = Number(formattedAmounts[Field.INPUT])
+      setDexFeePer(Number((lPFee / inputNum).toFixed(2)) * 100 + '%')
+    }
+  }, [realizedLPFee, formattedAmounts[Field.INPUT]])
+
+  useEffect(() => {
+    if (
+      realizedLPFee &&
+      formattedAmounts[Field.INPUT] &&
+      currencies[Field.INPUT] &&
+      'DEX' == currencies[Field.INPUT].symbol &&
+      currencies[Field.OUTPUT]
+    ) {
+      setShowDexFeePer(true)
+    } else {
+      setShowDexFeePer(false)
+    }
+  }, [realizedLPFee, formattedAmounts[Field.INPUT], currencies[Field.INPUT], currencies[Field.OUTPUT]])
 
   const [singleHopOnly] = useUserSingleHopOnly()
 
@@ -330,6 +360,11 @@ export default function Swap({ history }: RouteComponentProps) {
               otherCurrency={currencies[Field.OUTPUT]}
               id="swap-currency-input"
             />
+            {showDexFeePer && (
+              <Text color="red" fontSize="14px" p="0 5px 0 1rem" bold>
+                {t('Using DEX to exchange other tokens will charge %assets% handling fee!', { assets: dexFeePer })}
+              </Text>
+            )}
             <AutoColumn justify="space-between">
               <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
                 <ArrowWrapper clickable>
@@ -359,7 +394,6 @@ export default function Swap({ history }: RouteComponentProps) {
               otherCurrency={currencies[Field.INPUT]}
               id="swap-currency-output"
             />
-
             {isExpertMode && recipient !== null && !showWrap ? (
               <>
                 <AutoRow justify="space-between" style={{ padding: '0 1rem' }}>
@@ -373,7 +407,6 @@ export default function Swap({ history }: RouteComponentProps) {
                 <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
               </>
             ) : null}
-
             {showWrap ? null : (
               <AutoColumn gap="8px" style={{ padding: '0 16px' }}>
                 {Boolean(pair) && (

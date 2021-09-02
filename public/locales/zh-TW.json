@@ -1500,5 +1500,6 @@
   "Slippage Tolerance": "滑動容限",
   "Manage": "管理",
   "Select a token": "選擇代幣",
-  "Your Address": "您的地址"
+  "Your Address": "您的地址",
+  "Using DEX to exchange other tokens will charge %assets% handling fee!": "使用DEX兌換其他代幣將收取%assets%手續費！"
 }
