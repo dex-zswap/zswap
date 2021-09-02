@@ -147,8 +147,8 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
       return BIG_ZERO
     }
 
-    return new BigNumber(pairInfo.reserve0.toSignificant(token0.decimals)).dividedBy(
-      new BigNumber(pairInfo.reserve1.toSignificant(token1.decimals)),
+    return new BigNumber(pairInfo.reserve0.toExact()).dividedBy(
+      new BigNumber(pairInfo.reserve1.toExact()),
     )
   }, [pairInfo, token0, token1])
 
@@ -179,7 +179,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
       return '0.00'
     }
 
-    const balance = new BigNumber(totalPoolTokens.toSignificant(4))
+    const balance = new BigNumber(totalPoolTokens.toExact())
     return userSharesBigNumber.dividedBy(balance).multipliedBy(BIG_HUNDERED).toFixed(4, BigNumber.ROUND_DOWN)
   }, [userSharesBigNumber, totalPoolTokens])
 
@@ -217,8 +217,8 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     const stakedPercent = lpTokenBigNumber.isEqualTo(BIG_ZERO)
       ? BIG_ZERO
       : userSharesBigNumber.dividedBy(lpTokenBigNumber)
-    const token0DepositedBigNumber = new BigNumber(token0Deposited.toSignificant(token0.decimals))
-    const token1DepositedBigNumber = new BigNumber(token1Deposited.toSignificant(token1.decimals))
+    const token0DepositedBigNumber = new BigNumber(token0Deposited.toExact())
+    const token1DepositedBigNumber = new BigNumber(token1Deposited.toExact())
 
     const token0RealDeposited = tokenLpAmount.token0.multipliedBy(userSharePercentBigNumber).dividedBy(BIG_HUNDERED)
     const token1RealDeposited = tokenLpAmount.token1.multipliedBy(userSharePercentBigNumber).dividedBy(BIG_HUNDERED)

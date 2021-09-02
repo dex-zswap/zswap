@@ -105,7 +105,7 @@ export default function CurrencyInputPanel({
                 <Text onClick={onMax} style={{ display: 'inline', cursor: 'pointer' }}>
                   {!hideBalance && !!currency && (currencyBalance || selectedCurrencyBalance)
                     ? t('Balance: %amount%', {
-                        amount: (removeLiquidity ? currencyBalance : selectedCurrencyBalance).toSignificant(6) ?? '',
+                        amount: (removeLiquidity ? currencyBalance : selectedCurrencyBalance).toFixed(3) ?? '',
                       })
                     :  ' -'}
                 </Text>
