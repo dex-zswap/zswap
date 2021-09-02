@@ -174,7 +174,9 @@ const usePoolInfo = (pool: Pool) => {
           stakedBalance: userStakedBalance?.isNaN() ? BIG_ZERO : userStakedBalance,
           stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toExact()) : BIG_ZERO,
           pendingReward: pendingReward.result,
-          stakedPercent: userSharePercent?.isNaN() ? '0.00%' : `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
+          stakedPercent: userSharePercent?.isNaN()
+            ? '0.00%'
+            : `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
         },
   }
 }

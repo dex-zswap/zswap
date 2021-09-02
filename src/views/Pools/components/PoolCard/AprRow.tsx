@@ -61,13 +61,7 @@ const AprRow: React.FC<AprRowProps> = ({ pool, performanceFee = 0 }) => {
           <Skeleton width="82px" height="32px" />
         ) : (
           <Flex alignItems="center">
-            <Balance
-              fontSize="32px"
-              isDisabled={false}
-              value={earningsPercentageToDisplay}
-              decimals={2}
-              unit="%"
-            />
+            <Balance fontSize="32px" isDisabled={false} value={earningsPercentageToDisplay} decimals={2} unit="%" />
             {/* <IconButton onClick={onPresentApyModal} variant="text" scale="sm">
             <CalculateIcon color="textSubtle" width="18px" />
           </IconButton> */}

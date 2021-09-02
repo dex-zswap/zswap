@@ -5,7 +5,7 @@ import EARNING_TOKEN from './earing-token'
 
 const tokens = {
   wdex: {
-    symbol: 'WDEX',
+    symbol: 'DEX',
     address: {
       3603102: ZSWAP_DEX_ADDRESS,
     },
