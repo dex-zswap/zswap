@@ -5,7 +5,6 @@ import useApprove, { useApproveStatus } from 'views/Tickets/hooks/useApprove'
 import useBuy, { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
 import { useTranslation } from 'contexts/Localization'
-import useToast from 'hooks/useToast'
 
 import { Text, Input, Link, Flex, Modal, Button } from 'zswap-uikit'
 import styled from 'styled-components'
@@ -152,28 +151,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
 
   const lotteryNum = useCurrentLotteryId()
 
-  const { toastSuccess } = useToast()
-
-  const toast = useCallback(
-    (nums, hash, chainId) => {
-      toastSuccess(
-        t('Transaction receipt'),
-        <Flex flexDirection="column">
-          <Text>{t('%asset% tickets have been purchased successfully!', { asset: nums })}</Text>
-          <Link
-            style={{ color: '#999', marginTop: '15px', fontSize: '14px' }}
-            external
-            href={getBscScanLink(hash, 'transaction', chainId)}
-          >
-            {t('View on DEX Browser')}
-          </Link>
-        </Flex>,
-      )
-    },
-    [t],
-  )
-
-  const { buyTickets, buying } = useBuy(onDismiss, toast)
+  const { buyTickets, buying } = useBuy(onDismiss)
   const zbstBalance = useZBSTBalance()
   const ticketPrice = useTicketPrice()
 
