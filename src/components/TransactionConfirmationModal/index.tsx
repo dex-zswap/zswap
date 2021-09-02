@@ -65,7 +65,7 @@ function TransactionSubmittedContent({
   hash: string | undefined
   chainId: ChainId
   currencyToAdd?: Currency | undefined
-  doneBackUrl?:string
+  doneBackUrl?: string
 }) {
   const { library } = useActiveWeb3React()
 
@@ -73,7 +73,7 @@ function TransactionSubmittedContent({
 
   const token: Token | undefined = wrappedCurrency(currencyToAdd, chainId)
 
-  const dismiss = () =>{
+  const dismiss = () => {
     if (doneBackUrl) {
       history.push(doneBackUrl)
     }
@@ -156,7 +156,7 @@ interface ConfirmationModalProps {
   pendingText: string
   currencyToAdd?: Currency | undefined
   minWidth?: string
-  doneBackUrl?:string
+  doneBackUrl?: string
 }
 
 const TransactionConfirmationModal: React.FC<InjectedModalProps & ConfirmationModalProps> = ({

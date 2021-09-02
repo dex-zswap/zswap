@@ -37,7 +37,7 @@ export default function CurrencyLogo({
   }, [currency, uriLocations])
 
   if (currency === ETHER) {
-    return <img style={{...style}} width={size} src={DexLogo} /> 
+    return <img style={{ ...style }} width={size} src={DexLogo} />
   }
   return <StyledLogo size={size} srcs={srcs} alt={`${currency?.symbol ?? 'token'} logo`} style={style} />
 }

@@ -11,9 +11,9 @@ type PairsInfo = {
 const AllLps: PairsInfo[] = [
   // DEX-ZB
   {
-    pair: "0x9C082F923F32985C24c9595b357Fa97D51793a6e",
-    token0: "0x2f6ba13d8bF3e3f7881EE8fA129a3839A3507fA3",
-    token1: "0xB23844ED8c6fd85CC6Ba692D3CF9eC8C92653b2d"
+    pair: '0x9C082F923F32985C24c9595b357Fa97D51793a6e',
+    token0: '0x2f6ba13d8bF3e3f7881EE8fA129a3839A3507fA3',
+    token1: '0xB23844ED8c6fd85CC6Ba692D3CF9eC8C92653b2d',
   },
   // USDT-ZB
   {
@@ -30,4 +30,3 @@ const AllLps: PairsInfo[] = [
 ]
 
 export default AllLps
-

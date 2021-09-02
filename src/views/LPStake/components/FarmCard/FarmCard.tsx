@@ -153,7 +153,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
       </Flex>
 
       <Flex mb="7px" justifyContent="space-between" alignItems="center">
-        <Text fontSize="14px">{t('Staked Balance')}</Text>
+        <Text fontSize="14px">{t('Pledge Number')}</Text>
         <Text fontSize="14px">
           {farm.tokenAmount} {farm.token.symbol} / {farm.quoteTokenAmount} {farm.quoteToken.symbol}
         </Text>

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text, Flex, CardBody, CardFooter, Button, AddIcon } from 'zswap-uikit'
+import LearMoreBtn from 'components/LearMoreBtn'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -74,9 +75,7 @@ export default function Pool() {
               {t('Add Liquidity')}
             </Button>
           )}
-          <Button width="100%" mt="10px" variant="secondary">
-            {t('Learn More')}
-          </Button>
+          <LearMoreBtn width="100%" mt="10px" href="https://www.baidu.com" />
         </CardFooter>
       </AppBody>
     </SwapAndLiquidityPage>

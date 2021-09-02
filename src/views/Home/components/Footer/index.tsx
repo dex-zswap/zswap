@@ -2,7 +2,9 @@ import styled from 'styled-components'
 import { baseColors } from 'zswap-uikit/theme/colors'
 import { ButtonWrap } from '../Wrapper'
 import { Flex, Text, Image, Button } from 'zswap-uikit'
+import LearMoreBtn from 'components/LearMoreBtn'
 import { useTranslation } from 'contexts/Localization'
+import history from '../../../../routerHistory'
 
 const Wrap = styled(Flex)`
   position: relative;
@@ -182,10 +184,10 @@ const Footer = () => {
         </TextWrap>
       </TextContainer>
       <ButtonWrap>
-        <Button width="152px">{t('Buy Now')}</Button>
-        <Button width="152px" variant="secondary">
-          {t('Learn More')}
+        <Button width="152px" onClick={() => history.push('/lottery')}>
+          {t('Buy Now')}
         </Button>
+        <LearMoreBtn width="152px" href="https://www.baidu.com" />
       </ButtonWrap>
       <Image className="banner_ab-img" width={47} height={46} src="/images/home/banner/obj_4_1.png" />
     </Wrap>

@@ -2,7 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Wrap, ButtonWrap, TextWrap } from '../Wrapper'
 import { Text, Image, Button } from 'zswap-uikit'
+import LearMoreBtn from 'components/LearMoreBtn'
 import { useTranslation } from 'contexts/Localization'
+import history from '../../../../routerHistory'
 
 const ImgWrap = styled.div`
   width: 434px;
@@ -138,10 +140,10 @@ const BannerOne = () => {
           {t('win bonuses')}
         </Text>
         <ButtonWrap>
-          <Button width="152px">{t('Join Now')}</Button>
-          <Button width="152px" variant="secondary">
-            {t('Learn More')}
+          <Button width="152px" onClick={() => history.push('/lottery')}>
+            {t('Join Now')}
           </Button>
+          <LearMoreBtn width="152px" href="https://www.baidu.com" />
         </ButtonWrap>
       </TextWrap>
     </Wrap>

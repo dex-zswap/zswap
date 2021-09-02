@@ -21,10 +21,7 @@ type ExistZBPair = {
 
 const ZERO = JSBI.BigInt(0)
 
-export function useCurrencyExistZBPair(
-  currencyA: Currency | null,
-  currencyB: Currency | null,
-): ExistZBPair {
+export function useCurrencyExistZBPair(currencyA: Currency | null, currencyB: Currency | null): ExistZBPair {
   const ZB = useCurrency(ZB_ADDRESS)
   const DEX = useCurrency(DEX_ADDRESS)
 
@@ -150,7 +147,7 @@ export function useDerivedMintInfo(
   //  check each token has a allready exist trad pair with ZB
   const { zbWithcurrencyA, zbWithcurrencyB } = useCurrencyExistZBPair(
     currencies[Field.CURRENCY_A],
-    currencies[Field.CURRENCY_B]
+    currencies[Field.CURRENCY_B],
   )
   const allExist = useMemo<boolean>(() => zbWithcurrencyA && zbWithcurrencyB, [zbWithcurrencyA, zbWithcurrencyB])
   const createZBPairLink = useMemo<string>(
@@ -158,7 +155,7 @@ export function useDerivedMintInfo(
     [allExist],
   )
   const otherCurrencySymbol = useMemo<string>(
-    () => currencyA && currencyB ? (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol) : '',
+    () => (currencyA && currencyB ? (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol) : ''),
     [currencyA, currencyB, zbWithcurrencyA, allExist],
   )
 

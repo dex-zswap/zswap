@@ -13,13 +13,22 @@ interface Props {
 }
 
 const LangSelector: React.FC<Props> = ({ currentLang, langs, setLang }) => (
- <Flex justifyContent="center" alignItems="center">
-    {langs.map((lang, index) => <Flex key={lang.locale} alignItems="center">
-    {0 != index && <span style={{color:'#fff', fontWeight:'bold',margin:"0 6px"}}>/</span>}
-    <Button style={{color: currentLang == lang.code ? '#0050ff' : '#fff'}} height="fit-content" padding="0" variant="text" onClick={() => setLang(lang)}>{lang.code}</Button>
-    </Flex>
-    )}
-   </Flex>
+  <Flex justifyContent="center" alignItems="center">
+    {langs.map((lang, index) => (
+      <Flex key={lang.locale} alignItems="center">
+        {0 != index && <span style={{ color: '#fff', fontWeight: 'bold', margin: '0 6px' }}>/</span>}
+        <Button
+          style={{ color: currentLang == lang.code ? '#0050ff' : '#fff' }}
+          height="fit-content"
+          padding="0"
+          variant="text"
+          onClick={() => setLang(lang)}
+        >
+          {lang.code}
+        </Button>
+      </Flex>
+    ))}
+  </Flex>
   // <Dropdown
   //   position="top-right"
   //   target={

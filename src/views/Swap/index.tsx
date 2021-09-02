@@ -36,6 +36,7 @@ import ProgressSteps from './components/ProgressSteps'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
 import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
 import SwapWarningModal from './components/SwapWarningModal'
+import LearMoreBtn from 'components/LearMoreBtn'
 
 const Label = styled(Text)`
   font-size: 12px;
@@ -495,9 +496,7 @@ export default function Swap({ history }: RouteComponentProps) {
                     : t('Swap'))}
               </Button>
             )}
-            <Button width="100%" mt="10px" variant="secondary">
-              {t('Learn More')}
-            </Button>
+            <LearMoreBtn width="100%" mt="10px" href="https://www.baidu.com" />
             {showApproveFlow && (
               <Column style={{ marginTop: '1rem' }}>
                 <ProgressSteps steps={[approval === ApprovalState.APPROVED]} />
