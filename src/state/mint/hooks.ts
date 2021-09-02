@@ -38,6 +38,13 @@ export function useCurrencyExistZBPair(currencyA: Currency | null, currencyB: Cu
 
   return useMemo<ExistZBPair>(() => {
     const allReadyZB = currencyEquals(ZB, currencyA) || currencyEquals(ZB, currencyB)
+    if (!currencyA || !currencyB) {
+      return {
+        zbWithcurrencyA: true,
+        zbWithcurrencyB: true,
+      }
+    }
+
     return {
       zbWithcurrencyA: allReadyZB || pairAState === PairState.EXISTS,
       zbWithcurrencyB: allReadyZB || pairBState === PairState.EXISTS,

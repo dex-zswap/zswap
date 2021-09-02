@@ -111,9 +111,6 @@ class Reporter implements ReporterInterface {
 
   private makeInfoFromReportData(hashInfo: HashInfoBaseStructure): TransactionRecord {
     const { hash, from, chainId, reportData } = hashInfo
-    if (!this.cachedHashMaps[hash]) {
-      return
-    }
     const info: TransactionRecord = {
       retryCount: 1,
       txId: hash,
@@ -172,6 +169,9 @@ class Reporter implements ReporterInterface {
   }
 
   public recordHash(hash: string, transitionInfo: TransactionRecord = {}): void {
+    if (!this.cachedHashMaps[hash]) {
+      return
+    }
     const storagedHash: TransactionRecord = this.cachedHashMaps[hash]
     this.cachedHashMaps[hash] = Object.assign(storagedHash, transitionInfo, {
       updateTime: Date.now(),

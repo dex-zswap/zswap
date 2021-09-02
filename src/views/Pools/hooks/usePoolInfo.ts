@@ -129,7 +129,13 @@ const usePoolInfo = (pool: Pool) => {
   }, [currentWeight])
 
   const apr = useMemo(() => {
-    if (!totalWeight.result || !stakingBalance.balance || !zbstPrice || !stakedCurrency) {
+    if (
+      !totalWeight.result ||
+      totalStakedBalance.eq(BIG_ZERO) ||
+      !stakingBalance.balance ||
+      !zbstPrice ||
+      !stakedCurrency
+    ) {
       return 0
     }
 
@@ -139,11 +145,7 @@ const usePoolInfo = (pool: Pool) => {
     const rewardUsdtValue = priceBigNumber.multipliedBy(reward)
 
     return Number(
-      rewardUsdtValue
-        .dividedBy(totalStakedBalance)
-        .multipliedBy(BIG_ONE_YEAR)
-        .multipliedBy(BIG_HUNDERED)
-        .toFixed(2, BigNumber.ROUND_DOWN),
+      rewardUsdtValue.dividedBy(totalStakedBalance).multipliedBy(BIG_ONE_YEAR).multipliedBy(BIG_HUNDERED).toFixed(2),
     )
   }, [
     totalWeight,
@@ -167,10 +169,10 @@ const usePoolInfo = (pool: Pool) => {
           stakedCurrency,
           earningCurrency,
           totalStakedBalance,
-          allowance: allowance ? new BigNumber(allowance.toSignificant(stakedToken.decimals)) : BIG_ZERO,
+          allowance: allowance ? new BigNumber(allowance.toExact()) : BIG_ZERO,
           stakedUSDTValue,
           stakedBalance: userStakedBalance,
-          stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toSignificant(10)) : BIG_ZERO,
+          stakingTokenBalance: stakedTokenBalance ? new BigNumber(stakedTokenBalance.toExact()) : BIG_ZERO,
           pendingReward: pendingReward.result,
           stakedPercent: `${userSharePercent.multipliedBy(BIG_HUNDERED).toFixed(2)}%`,
         },

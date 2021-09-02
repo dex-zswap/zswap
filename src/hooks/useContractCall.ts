@@ -68,11 +68,9 @@ export function useContractCalls(
     call()
   }, [])
 
-  return useMemo(() => {
-    return {
-      result,
-      loading,
-      error,
-    }
-  }, [result, loading, error])
+  return {
+    result,
+    loading,
+    error,
+  }
 }
