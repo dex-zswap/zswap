@@ -1,16 +1,13 @@
 import { useCallback, useMemo, useState } from 'react'
 import { hexlify } from '@ethersproject/bytes'
 import BigNumber from 'bignumber.js'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useTransactionAdder } from 'state/transactions/hooks'
-import reporter from 'reporter'
 
 export default function useBuy(onDismiss: () => void) {
   const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
-  const { chainId, account } = useActiveWeb3React()
   const addTransaction = useTransactionAdder()
 
   const buyTickets = useCallback(
@@ -24,20 +21,15 @@ export default function useBuy(onDismiss: () => void) {
 
         addTransaction(tx, {
           summary: `Buy ${length} ${length > 1 ? 'Ticket' : 'Tickets'} `,
-        })
-
-        reporter.cacheHash(tx.hash, {
-          hash: tx.hash,
-          from: account,
-          chainId,
-          summary: '',
           reportData: {
-            from: 'ticket',
-            lottery: numbers.map((nums) => nums.join('')).join(','),
-            lotteryNum,
+            from: 'approve',
+            args: {
+              from: 'ticket',
+              lottery: numbers.map((nums) => nums.join('')).join(','),
+              lotteryNum,
+            },
           },
         })
-        reporter.recordHash(tx.hash)
         setBuying(false)
         onDismiss()
       } catch (e) {
