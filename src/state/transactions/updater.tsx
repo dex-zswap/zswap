@@ -75,9 +75,10 @@ export default function Updater(): null {
                 tranState: receipt.status === 1 ? TransactionStatus.SUCCESS : TransactionStatus.FAILURE,
               })
 
-              const toast = receipt.status === 1 ? toastSuccess : toastError
+              const hasSuccess = receipt.status === 1
+              const toast = hasSuccess ? toastSuccess : toastError
               toast(
-                t('Transaction receipt'),
+                t(hasSuccess ? 'Transaction receipt' : 'Transaction failed'),
                 <Flex flexDirection="column">
                   <Text>{transactions[hash]?.summary ?? `Hash: ${hash.slice(0, 8)}...${hash.slice(58, 65)}`}</Text>
                   {chainId && (
