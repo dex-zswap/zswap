@@ -85,7 +85,10 @@ export function useAllWinNumbers() {
   return winNumbers
 }
 
-export default function usePrizes() {
+export default function usePrizes(lotteryId: number | string) {
+  lotteryId = Number(`${lotteryId}`)
+
+  const lastLotteryId = lotteryId === 1 ? 1 : lotteryId - 1
   const lotteryContract = useZSwapLotteryContract()
   const lpContract = useZSwapLPContract()
   const zbst = useZBToken()
@@ -93,24 +96,31 @@ export default function usePrizes() {
 
   const blockNumber = useBlockNumber()
 
-  const lotteryReward = useContractCall(lotteryContract, 'totalUsersCost', [])
+  const totalUsersCost = useContractCall(lotteryContract, 'totalUsersCost', [])
   const lpReward = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 10])
+  const totalRewardsTouser = useContractCall(lpContract, 'lottoTotalRewardsTouser', [lastLotteryId])
+  const lottoTotalRewards = useContractCall(lpContract, 'lottoTotalRewards', [lastLotteryId])
 
   return useMemo(() => {
     if (!zbst || !zbstPrice) {
       return BIG_ZERO
     }
 
-    const lotteryRewardBigNumber = lotteryReward.result
-      ? new BigNumber(lotteryReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+    const lottoTotalRewardsBigNumber = lottoTotalRewards.result ? new BigNumber(lottoTotalRewards.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
+    const totalRewardsTouserBigNumber = totalRewardsTouser.result ? new BigNumber(totalRewardsTouser.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
+
+    const unRewardAmount = lottoTotalRewardsBigNumber.minus(totalRewardsTouserBigNumber)
+
+    const lotteryRewardBigNumber = totalUsersCost.result
+      ? new BigNumber(totalUsersCost.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
       : BIG_ZERO
     const lpRewardBigNumber = lpReward.result
       ? new BigNumber(lpReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
       : BIG_ZERO
     const priceBigNumber = new BigNumber(zbstPrice.toSignificant(6))
 
-    return [lotteryRewardBigNumber, lpRewardBigNumber].reduce((res, cur) => {
+    return [lotteryRewardBigNumber, lpRewardBigNumber, unRewardAmount].reduce((res, cur) => {
       return res.plus(cur.multipliedBy(priceBigNumber))
     }, BIG_ZERO)
-  }, [lotteryReward, lpReward, zbst, zbstPrice])
+  }, [totalUsersCost, lpReward, zbst, zbstPrice, totalRewardsTouser, lottoTotalRewards])
 }
