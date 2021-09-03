@@ -9,7 +9,7 @@ import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import { useCollectReward, useUserCollected } from 'views/Tickets/hooks/useUserPrize'
 import { useAllWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useAllRewards } from 'views/Tickets/hooks/useLotteryReward'
-import { BIG_ZERO } from 'utils/bigNumber'
+import { BIG_ZERO, BIG_ONE } from 'utils/bigNumber'
 import useRefresh from 'hooks/useRefresh'
 import Card from './Card'
 import TicketsRecords from './TicketsRecords'
@@ -152,8 +152,9 @@ const UserPrizes = () => {
 
     if (userCollected.lt(zbstEarnedReward)) {
       const originalZbstAMount = zbstEarnedReward
-      zbstEarnedReward = zbstEarnedReward.minus(userCollected)
-      zustEarnedReward = zustEarnedReward.times(originalZbstAMount.minus(zbstEarnedReward))
+      const canCliamiedPercent = BIG_ONE.minus(userCollected.dividedBy(originalZbstAMount))
+      zbstEarnedReward = originalZbstAMount.multipliedBy(canCliamiedPercent)
+      zustEarnedReward = zustEarnedReward.multipliedBy(canCliamiedPercent)
     } else {
       zbstEarnedReward = BIG_ZERO
       zustEarnedReward = BIG_ZERO
