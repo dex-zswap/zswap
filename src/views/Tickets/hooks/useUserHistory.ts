@@ -62,19 +62,19 @@ export function useAllUserLotteryIdsByLotteryNum(lotteryNum: string | number) {
         ++rewardLevelNums[0]
         return
       }
-      if (numArr[0] == winNumbers[0] && numArr[4] == winNumbers[4]) {
+      if (num == winNumbersStr.slice(0, 5)) {
         ++rewardLevelNums[1]
         return
       }
-      if (numArr[0] == winNumbers[0] && numArr[3] == winNumbers[3]) {
+      if (num == winNumbersStr.slice(0, 4)) {
         ++rewardLevelNums[2]
         return
       }
-      if (numArr[0] == winNumbers[0] && numArr[2] == winNumbers[2]) {
+      if (num == winNumbersStr.slice(0, 3)) {
         ++rewardLevelNums[3]
         return
       }
-      if (numArr[0] == winNumbers[0] && numArr[1] == winNumbers[1]) {
+      if (num == winNumbersStr.slice(0, 2)) {
         ++rewardLevelNums[4]
         return
       }
