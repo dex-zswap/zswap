@@ -18,7 +18,8 @@ export default function useLotteryReward(lotteryId: string | number) {
     }
 
     return zbRewards.multipliedBy(new BigNumber(zbstPrice.toSignificant(18)))
-  }, [lotteryId, zbstPrice, zbRewards])
+  }, [zbstPrice, zbRewards])
+  console.log(zbstPrice, zustValue.toFixed(2), lotteryId)
   return {
     zustValue,
     zbRewards,

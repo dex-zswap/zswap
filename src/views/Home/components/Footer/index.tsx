@@ -184,7 +184,7 @@ const Footer = () => {
         </TextWrap>
       </TextContainer>
       <ButtonWrap>
-        <Button width="152px" onClick={() => history.push('/lottery')}>
+        <Button width="152px" onClick={() => history.push('/farms')}>
           {t('Buy Now')}
         </Button>
         <LearMoreBtn width="152px" href="https://www.baidu.com" />
