@@ -71,7 +71,7 @@ const ViewEditNumbers = ({ count, numbersChange }) => {
 
   return (
     <>
-      <Text mb="30px">{t('Your ticket numbers')}</Text>
+      <Text mb="30px">{t('Your ticket numbers') + ' ' + t('(Editable)')}</Text>
       {pageNumbers.map((nums, wrapperIndex) => {
         return (
           <Flex mb="15px" justifyContent="space-between" alignItems="center" key={nums.join('')}>

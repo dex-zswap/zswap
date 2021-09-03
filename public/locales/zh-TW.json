@@ -1509,5 +1509,6 @@
   "Buy %assets% Ticket": "購買%assets%張彩票",
   "Buy %assets% Tickets": "購買%assets%張彩票",
   "Rewarded": "獎勵",
-  "Buying": "正在購買"
+  "Buying": "正在購買",
+  "(Editable)": "（可編輯）"
 }
