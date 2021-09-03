@@ -93,16 +93,16 @@ const UserPrizes = () => {
           if (num == winNumbersStr) {
             level = 1
           }
-          if (num[0] === winNumbersStr[0] && num[4] === winNumbersStr[4] && level === -1) {
+          if (num == winNumbersStr.slice(0, 5) && level === -1) {
             level = 2
           }
-          if (num[0] === winNumbersStr[0] && num[3] === winNumbersStr[3] && level === -1) {
+          if (num == winNumbersStr.slice(0, 4) && level === -1) {
             level = 3
           }
-          if (num[0] === winNumbersStr[0] && num[2] === winNumbersStr[2] && level === -1) {
+          if (num == winNumbersStr.slice(0, 3) && level === -1) {
             level = 4
           }
-          if (num[0] === winNumbersStr[0] && num[1] === winNumbersStr[1] && level === -1) {
+          if (num == winNumbersStr.slice(0, 2) && level === -1) {
             level = 5
           }
           if ((num[0] == winNumbersStr[0] || num[5] == winNumbersStr[5]) && level === -1) {
@@ -207,10 +207,9 @@ const UserPrizes = () => {
                 width="210px"
                 mt="28px"
                 onClick={collectReward}
-                isLoading={collecting}
-                disabled={'0.0000' == userTotalRewardInfo.zbst}
+                disabled={collecting || '0.0000' == userTotalRewardInfo.zbst}
               >
-                {t('Collect Prizes')}
+                {collecting ? t('Collecting') + '...' : t('Collect Prizes')}
               </Button>
             </Flex>
           </>

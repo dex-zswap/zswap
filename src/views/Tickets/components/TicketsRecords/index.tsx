@@ -47,16 +47,16 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
       if (num == winNumbersStr) {
         return t('1st Prize')
       }
-      if (numArr[0] == winNumbers[0] && numArr[4] == winNumbers[4]) {
+      if (num == winNumbersStr.slice(0, 5)) {
         return t('2nd Prize')
       }
-      if (numArr[0] == winNumbers[0] && numArr[3] == winNumbers[3]) {
+      if (num == winNumbersStr.slice(0, 4)) {
         return t('3rd Prize')
       }
-      if (numArr[0] == winNumbers[0] && numArr[2] == winNumbers[2]) {
+      if (num == winNumbersStr.slice(0, 3)) {
         return t('4th Prize')
       }
-      if (numArr[0] == winNumbers[0] && numArr[1] == winNumbers[1]) {
+      if (num == winNumbersStr.slice(0, 2)) {
         return t('5th Prize')
       }
       if (numArr[0] == winNumbers[0] || numArr[5] == winNumbers[5]) {
