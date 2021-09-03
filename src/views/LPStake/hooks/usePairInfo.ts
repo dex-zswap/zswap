@@ -58,6 +58,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   const token1Amount = useLPTokenBalance(pair.token1, pair.pair)
 
   const userShares = useContractCall(lpContract, 'getUserShare', [pair.pair, account])
+  const allAmount = useContractCall(lpContract, 'lp_allAmount', [pair.pair])
 
   const [pairState, pairInfo] = usePair(currency0, currency1)
 
@@ -122,6 +123,10 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     }
   }, [pair, fastRefresh])
 
+  const lpTotalAmount = useMemo(() => {
+    return allAmount.result && pairInfo ? new BigNumber(allAmount.result.toString()).dividedBy(BIG_TEN.pow(pairInfo.liquidityToken.decimals)) : BIG_ZERO
+  }, [allAmount, pairInfo])
+
   const rewardZustValue = useMemo(() => {
     if (!zbstPrice || !zbstToken) {
       return BIG_ZERO
@@ -173,13 +178,12 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [userShares, pairInfo, tokenLpAmount])
 
   const userSharePercent = useMemo(() => {
-    if (!totalPoolTokens) {
+    if (lpTotalAmount.eq(BIG_ZERO)) {
       return '0.00'
     }
 
-    const balance = new BigNumber(totalPoolTokens.toExact())
-    return userSharesBigNumber.dividedBy(balance).multipliedBy(BIG_HUNDERED).toFixed(4, BigNumber.ROUND_DOWN)
-  }, [userSharesBigNumber, totalPoolTokens])
+    return userSharesBigNumber.dividedBy(lpTotalAmount).multipliedBy(BIG_HUNDERED).toFixed(4, BigNumber.ROUND_DOWN)
+  }, [userSharesBigNumber, lpTotalAmount])
 
   const lpTotalTokens = useMemo(() => {
     return tokenLpAmount.token0
