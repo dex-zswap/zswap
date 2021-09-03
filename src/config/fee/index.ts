@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { JSBI, Currency, ETHER, Token, currencyEquals } from 'zswap-sdk'
 import { Percent } from 'zswap-sdk/entities/fractions'
 import { getOnlineDayOffset } from 'config/constants/zswap/online-time'
-import { ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
+import { ZSWAP_WDEX_ADDRESS } from 'config/constants/zswap/address'
 import { BIG_ONE } from 'utils/bigNumber'
 
 export const SWAP_FEE = {
@@ -31,7 +31,7 @@ export default class FeeHelper {
     const dayOffset = getOnlineDayOffset()
 
     if (currency) {
-      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_DEX_ADDRESS) {
+      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
         return dayOffset <= 7 ? SWAP_FEE.sevenEth : SWAP_FEE.yearEth
       }
 
@@ -45,7 +45,7 @@ export default class FeeHelper {
     const dayOffset = getOnlineDayOffset()
 
     if (currency) {
-      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_DEX_ADDRESS) {
+      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
         return dayOffset <= 7 ? PRICE_FEE.sevenEth : PRICE_FEE.yearEth
       }
 
@@ -62,7 +62,7 @@ export default class FeeHelper {
     let rate = SWAP_INPUT_RATE.default
 
     if (currency) {
-      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_DEX_ADDRESS) {
+      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
         rate = dayOffset <= 7 ? SWAP_INPUT_RATE.sevenEth : SWAP_INPUT_RATE.yearEth
       } else {
         rate = SWAP_INPUT_RATE.normal
@@ -77,7 +77,7 @@ export default class FeeHelper {
     const inputAmount = new BigNumber(input)
     let rate = SWAP_INPUT_RATE.default
     if (currency) {
-      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_DEX_ADDRESS) {
+      if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
         rate = dayOffset <= 7 ? SWAP_INPUT_RATE.sevenEth : SWAP_INPUT_RATE.yearEth
       } else {
         rate = SWAP_INPUT_RATE.normal

@@ -29,7 +29,7 @@ type PairsInfo = {
 
 export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   const dispatch = useAppDispatch()
-  const { slowRefresh, fastRefresh } = useRefresh()
+  const { fastRefresh } = useRefresh()
   const { chainId, account } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
   const pairToken = useToken(pair.pair)
@@ -90,7 +90,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     if (account && pair.pair) {
       fetchAllowance()
     }
-  }, [slowRefresh, account, pair.pair])
+  }, [fastRefresh, account, pair.pair])
 
   // FIXME: 不知道为啥checkReward总是调用不起来所以用这种方式先完成功能
   useEffect(() => {
@@ -98,11 +98,15 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
       try {
         const res = await lpContract.predReward(pair.pair)
         if (res) {
+          const resString = res.toString()
           setReward(() => ({
             loading: false,
-            result: new BigNumber(res.toString())
-              .dividedBy(BIG_TEN.pow(pairInfo?.liquidityToken?.decimals))
-              .integerValue(BigNumber.ROUND_DOWN),
+            result:
+              resString === '0'
+                ? BIG_ZERO
+                : new BigNumber(resString)
+                    .dividedBy(BIG_TEN.pow(pairInfo?.liquidityToken?.decimals))
+                    .integerValue(BigNumber.ROUND_DOWN),
           }))
         } else {
           setReward(() => ({
@@ -123,7 +127,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     }
   }, [pair, fastRefresh])
 
-  const lpTotalAmount = useMemo(() => {
+  const lpAllAmount = useMemo(() => {
     return allAmount.result && pairInfo
       ? new BigNumber(allAmount.result.toString()).dividedBy(BIG_TEN.pow(pairInfo.liquidityToken.decimals))
       : BIG_ZERO
@@ -157,12 +161,33 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     return new BigNumber(pairInfo.reserve0.toExact()).dividedBy(new BigNumber(pairInfo.reserve1.toExact()))
   }, [pairInfo, token0, token1])
 
-  const tokenLpAmount = useMemo(() => {
+  const lpTotalSupply = useMemo(() => {
+    if (!totalPoolTokens) {
+      return BIG_ZERO
+    }
+
+    return new BigNumber(totalPoolTokens.toExact())
+  }, [totalPoolTokens])
+
+  const tokenAmount = useMemo(() => {
     return {
       token0: token0Amount.balance ? token0Amount.balance.div(BIG_TEN.pow(token0?.decimals)) : BIG_ZERO,
       token1: token1Amount.balance ? token1Amount.balance.div(BIG_TEN.pow(token1?.decimals)) : BIG_ZERO,
     }
   }, [token0Amount, token1Amount, token0, token1])
+
+  const tokenLpAmount = useMemo(() => {
+    if (lpTotalSupply.eq(BIG_ZERO)) {
+      return {
+        token0: BIG_ZERO,
+        token1: BIG_ZERO,
+      }
+    }
+    return {
+      token0: lpAllAmount.multipliedBy(tokenAmount.token0).dividedBy(lpTotalSupply),
+      token1: lpAllAmount.multipliedBy(tokenAmount.token1).dividedBy(lpTotalSupply),
+    }
+  }, [tokenAmount, lpAllAmount, lpTotalSupply])
 
   const tokenPrice = useMemo(() => {
     return {
@@ -180,12 +205,12 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [userShares, pairInfo, tokenLpAmount])
 
   const userSharePercent = useMemo(() => {
-    if (lpTotalAmount.eq(BIG_ZERO)) {
+    if (lpAllAmount.eq(BIG_ZERO)) {
       return '0.00'
     }
 
-    return userSharesBigNumber.dividedBy(lpTotalAmount).multipliedBy(BIG_HUNDERED).toFixed(4, BigNumber.ROUND_DOWN)
-  }, [userSharesBigNumber, lpTotalAmount])
+    return userSharesBigNumber.dividedBy(lpAllAmount).multipliedBy(BIG_HUNDERED).toFixed(4, BigNumber.ROUND_DOWN)
+  }, [userSharesBigNumber, lpAllAmount])
 
   const lpTotalTokens = useMemo(() => {
     return tokenLpAmount.token0
@@ -256,7 +281,6 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     tokenPrice,
     token0Deposited,
     token1Deposited,
-    slowRefresh,
     tokenLpAmount,
   ])
 

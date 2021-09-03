@@ -1,5 +1,4 @@
 import { Currency, ETHER, Token } from 'zswap-sdk'
-import { BinanceIcon } from 'zswap-uikit'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import useHttpLocations from 'hooks/useHttpLocations'

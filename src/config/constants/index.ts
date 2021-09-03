@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WETH } from 'zswap-sdk'
+import { ChainId, JSBI, Percent, Token, WDEX } from 'zswap-sdk'
 import { ZUSD, DAI, USDT, BTCB, CAKE, WBNB, UST, ETH, USDC } from './tokens'
 import { ZSWAP_ROUTER_ADDRESS } from './zswap/address'
 
@@ -11,8 +11,8 @@ type ChainTokenList = {
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList | any = {
-  [ChainId.MAINNET]: [WETH[ChainId.MAINNET], CAKE[ChainId.MAINNET], ZUSD[ChainId.MAINNET], USDT, BTCB, UST, ETH, USDC],
-  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
+  [ChainId.MAINNET]: [WDEX[ChainId.MAINNET], CAKE[ChainId.MAINNET], ZUSD[ChainId.MAINNET], USDT, BTCB, UST, ETH, USDC],
+  [ChainId.TESTNET]: [WDEX[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
 }
 
 /**
@@ -28,7 +28,7 @@ export const ADDITIONAL_BASES: {
 /**
  * Some tokens can only be swapped via certain pairs, so we override the list of bases that are considered for these
  * tokens.
- * @example [AMPL.address]: [DAI, WETH[ChainId.MAINNET]]
+ * @example [AMPL.address]: [DAI, WDEX[ChainId.MAINNET]]
  */
 export const CUSTOM_BASES: {
   [chainId in ChainId]?: { [tokenAddress: string]: Token[] }
@@ -39,13 +39,13 @@ export const CUSTOM_BASES: {
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.MAINNET]: [ZUSD[ChainId.MAINNET], CAKE[ChainId.MAINNET], BTCB],
-  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
+  [ChainId.TESTNET]: [WDEX[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
-  [ChainId.MAINNET]: [WETH[ChainId.MAINNET], DAI, ZUSD[ChainId.MAINNET], USDT],
-  [ChainId.TESTNET]: [WETH[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
+  [ChainId.MAINNET]: [WDEX[ChainId.MAINNET], DAI, ZUSD[ChainId.MAINNET], USDT],
+  [ChainId.TESTNET]: [WDEX[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
 }
 
 export const PINNED_PAIRS: {

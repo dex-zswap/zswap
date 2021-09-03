@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from 'zswap-sdk'
+import { Currency, currencyEquals, ETHER, TokenAmount, WDEX } from 'zswap-sdk'
 import { Button, Text, Flex, AddIcon, CardBody, Message, useModal } from 'zswap-uikit'
 import { RouteComponentProps } from 'react-router-dom'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
@@ -60,10 +60,10 @@ export default function AddLiquidity({
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
-  const oneCurrencyIsWETH = Boolean(
+  const oneCurrencyIsWDEX = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(currencyA, WETH[chainId])) ||
-        (currencyB && currencyEquals(currencyB, WETH[chainId]))),
+      ((currencyA && currencyEquals(currencyA, WDEX[chainId])) ||
+        (currencyB && currencyEquals(currencyB, WDEX[chainId]))),
   )
 
   const expertMode = useIsExpertMode()
@@ -495,7 +495,7 @@ export default function AddLiquidity({
               marginTop: '1rem',
             }}
           >
-            <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+            <MinimalPositionCard showUnwrapped={oneCurrencyIsWDEX} pair={pair} />
           </AutoColumn>
         ) : null
       ) : (
