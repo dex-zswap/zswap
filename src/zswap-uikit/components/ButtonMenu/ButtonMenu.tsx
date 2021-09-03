@@ -21,14 +21,14 @@ const StyledButtonMenu = styled.div<StyledButtonMenuProps>`
   height: ${({ height }) => height || '100%'};
 
   background-color: ${getBackgroundColor};
-  border-radius: 23px;
+  border-radius: 18px;
   display: ${({ fullWidth }) => (fullWidth ? 'flex' : 'inline-flex')};
   border: 2px solid #0050ff;
 
   & > a {
     width: 50%;
     height: 100%;
-    border-radius: 21px;
+    border-radius: 18px;
   }
 
   & > button,

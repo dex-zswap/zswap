@@ -163,6 +163,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
           symbol: 'CAKE',
         }),
       )
+      onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
       console.error(e)
@@ -229,14 +230,8 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
               {userData?.earnings.toString()}
             </Text>
           </StakeTokenWrap>
-          <Button
-            isLoading={pendingTx}
-            endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
-            onClick={handleHarvestConfirm}
-            disabled={!userData?.earnings.toString()}
-            mt="24px"
-          >
-            {pendingTx ? t('Withdrawing Reward') : t('Withdraw Reward')}
+          <Button onClick={handleHarvestConfirm} disabled={pendingTx || !userData?.earnings.toString()} mt="24px">
+            {pendingTx ? t('Withdrawing Reward') + '...' : t('Withdraw Reward')}
           </Button>
         </>
       )}
@@ -285,10 +280,9 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             </Text>
           </Flex> */}
           <Button
-            isLoading={pendingTx}
-            endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
             onClick={isRemovingStake ? unstakeConfirm : stakeConfirm}
             disabled={
+              pendingTx ||
               !stakeAmountNum ||
               !stakeAmountNum.isFinite() ||
               stakeAmountNum.eq(0) ||
@@ -298,8 +292,8 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
           >
             {pendingTx
               ? isRemovingStake
-                ? t('Withdrawing Lp')
-                : t('Stake')
+                ? t('Withdrawing Lp') + '...'
+                : t('Staking') + '...'
               : isRemovingStake
               ? t('Withdraw Lp')
               : t('Stake')}

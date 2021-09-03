@@ -31,12 +31,12 @@ const FarmTabButtons: React.FC<FarmTabButtonsProps> = ({ hasStakeInFinishedFarms
 
   return (
     <Wrapper>
-      <ButtonMenu activeIndex={activeIndex} scale="sm" variant="subtle">
-        <ButtonMenuItem as={Link} to={`${url}`}>
+      <ButtonMenu height="36px" activeIndex={activeIndex} scale="sm" variant="subtle">
+        <ButtonMenuItem style={{ fontSize: 'bold' }} width="50%" height="100%" as={Link} to={`${url}`}>
           {t('Live')}
         </ButtonMenuItem>
         <NotificationDot show={hasStakeInFinishedFarms}>
-          <ButtonMenuItem as={Link} to={`${url}/history`}>
+          <ButtonMenuItem style={{ fontSize: 'bold' }} width="50%" height="100%" as={Link} to={`${url}/history`}>
             {t('Finished')}
           </ButtonMenuItem>
         </NotificationDot>
@@ -51,13 +51,15 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  a {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    margin-left: 16px;
+  > div {
+    width: 180px;
+    a {
+      width: 100%;
+      padding: 0;
+    }
+    > a,
+    > span {
+      width: 50% !important;
+    }
   }
 `

@@ -57,9 +57,9 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => 
     <Modal onDismiss={onDismiss} title={t('Round') + lotteryId} minWidth="480px">
       <Text mb="28px">{t('Winning numbers')}</Text>
       <Flex alignItems="center" mb="35px">
-        <Text mr="55px" bold>
+        {/* <Text mr="55px" bold>
           #001
-        </Text>
+        </Text> */}
         <NumWrap>
           {ballArr.map((d, index) => (
             <div key={index}>{winNumber[index] || '-'}</div>

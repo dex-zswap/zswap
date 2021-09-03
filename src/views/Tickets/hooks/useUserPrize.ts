@@ -9,7 +9,7 @@ import { useTranslation } from 'contexts/Localization'
 const apiBase = process.env.REACT_APP_API_BASE
 
 const userGetReward = async (txId: string) => {
-  await fetch(`${apiBase}lottery/getReward`, {
+  await fetch(`${apiBase}/lottery/getReward`, {
     mode: 'cors',
     credentials: 'omit',
     method: 'POST',
@@ -65,7 +65,7 @@ export function useUserCollected() {
 
   useEffect(() => {
     const queryUserCollected = () => {
-      fetch(`${apiBase}lottery/queryTotalReward`, {
+      fetch(`${apiBase}/lottery/queryTotalReward`, {
         mode: 'cors',
         credentials: 'omit',
         method: 'POST',

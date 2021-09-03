@@ -5,7 +5,8 @@ import debounce from 'lodash/debounce'
 import { useTranslation } from 'contexts/Localization'
 
 const StyledInput = styled(Input)`
-  border-radius: 16px;
+  width: 400px;
+  border-radius: 14px;
   margin-left: auto;
 `
 
@@ -47,6 +48,7 @@ const SearchInput: React.FC<Props> = ({ onChange: onChangeCallback, placeholder 
           onChange={onChange}
           placeholder={t(placeholder)}
           onBlur={() => setToggled(false)}
+          hasBg
         />
       </InputWrapper>
     </Container>

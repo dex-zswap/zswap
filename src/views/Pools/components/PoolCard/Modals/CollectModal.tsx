@@ -148,13 +148,8 @@ const CollectModal: React.FC<CollectModalProps> = ({
         </Flex>
       </Flex>
 
-      <Button
-        mt="8px"
-        onClick={handleHarvestConfirm}
-        isLoading={pendingTx}
-        endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
-      >
-        {pendingTx ? t('Confirming') : t('Confirm')}
+      <Button mt="8px" onClick={handleHarvestConfirm} disabled={pendingTx}>
+        {pendingTx ? t('Confirming') + '...' : t('Confirm')}
       </Button>
       <Button variant="text" onClick={onDismiss} pb="0px">
         {t('Close Window')}

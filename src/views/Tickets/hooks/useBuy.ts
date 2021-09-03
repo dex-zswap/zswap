@@ -4,8 +4,10 @@ import BigNumber from 'bignumber.js'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useTransactionAdder } from 'state/transactions/hooks'
+import { useTranslation } from 'contexts/Localization'
 
 export default function useBuy(onDismiss: () => void) {
+  const { t } = useTranslation()
   const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const addTransaction = useTransactionAdder()
@@ -20,7 +22,7 @@ export default function useBuy(onDismiss: () => void) {
         await tx.wait()
 
         addTransaction(tx, {
-          summary: `Buy ${length} ${length > 1 ? 'Ticket' : 'Tickets'} `,
+          summary: t(`Buy %assets% ${length > 1 ? 'Tickets' : 'Ticket'}`, { assets: length }),
           reportData: {
             from: 'ticket',
             args: {

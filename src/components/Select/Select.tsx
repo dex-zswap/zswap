@@ -9,19 +9,17 @@ const DropDownHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0px 16px;
-  box-shadow: ${({ theme }) => theme.shadows.inset};
-  border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
   border-radius: 16px;
-  background: ${({ theme }) => theme.colors.input};
+  background: #2d2d2d;
   transition: border-radius 0.15s;
 `
 
 const DropDownListContainer = styled.div`
-  min-width: 136px;
+  min-width: 200px;
   height: 0;
   position: absolute;
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.input};
+  background: #2d2d2d;
   z-index: ${({ theme }) => theme.zIndices.dropdown};
   transition: transform 0.15s, opacity 0.15s;
   transform: scaleY(0);
@@ -30,7 +28,7 @@ const DropDownListContainer = styled.div`
   width: 100%;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    min-width: 168px;
+    min-width: 200px;
   }
 `
 
@@ -42,33 +40,28 @@ const DropDownContainer = styled.div<{
   cursor: pointer;
   width: ${({ width }) => width}px;
   position: relative;
-  background: ${({ theme }) => theme.colors.input};
-  border-radius: 16px;
+  background: #2d2d2d;
+  border-radius: 14px;
   height: 40px;
-  min-width: 136px;
+  min-width: 200px;
   user-select: none;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    min-width: 168px;
+    min-width: 200px;
   }
 
   ${(props) =>
     props.isOpen &&
     css`
       ${DropDownHeader} {
-        border-bottom: 1px solid ${({ theme }) => theme.colors.inputSecondary};
-        box-shadow: ${({ theme }) => theme.tooltip.boxShadow};
-        border-radius: 16px 16px 0 0;
+        border-radius: 14px 14px 0 0;
       }
 
       ${DropDownListContainer} {
         height: auto;
         transform: scaleY(1);
         opacity: 1;
-        border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
-        border-top-width: 0;
-        border-radius: 0 0 16px 16px;
-        box-shadow: ${({ theme }) => theme.tooltip.boxShadow};
+        border-radius: 0 0 14px 14px;
       }
     `}
 
@@ -91,7 +84,7 @@ const ListItem = styled.li`
   list-style: none;
   padding: 8px 16px;
   &:hover {
-    background: ${({ theme }) => theme.colors.inputSecondary};
+    background: #4d4d4d;
   }
 `
 
