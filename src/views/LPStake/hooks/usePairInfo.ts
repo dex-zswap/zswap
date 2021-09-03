@@ -66,19 +66,6 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
   const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
 
-  if (token0?.symbol === 'DEX') {
-    console.log('zbstPrice', zbstPrice?.toSignificant(6))
-    console.log('currency0USDTPrice', currency0USDTPrice?.toSignificant(6))
-    console.log('currency1USDTPrice', currency1USDTPrice?.toSignificant(6))
-    console.log('pairBalanceOf', pairBalanceOf?.toSignificant(6))
-    console.log('token0Amount', token0Amount.balance?.toString())
-    console.log('token1Amount', token1Amount.balance?.toString())
-    console.log('allAmount', allAmount.result?.toString())
-    console.log('userPoolBalance', userPoolBalance?.toSignificant(6))
-    console.log('userShares', userShares.result?.toString())
-    console.log('totalPoolTokens', totalPoolTokens?.toSignificant(6))
-  }
-
   const [reward, setReward] = useState({
     loading: true,
     result: BIG_ZERO,
