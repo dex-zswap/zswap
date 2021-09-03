@@ -10,8 +10,12 @@ import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import useWinTime from 'views/Tickets/hooks/useWinTime'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
+import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
+import usePrizes from 'views/Tickets/hooks/usePrizes'
 import useTimeRange from 'views/Tickets/hooks/useTimeRange'
 import dayjs from 'dayjs'
+import BigNumber from 'bignumber.js'
+import { BIG_ZERO } from 'utils/bigNumber'
 
 const TicketDrawWrap = styled.div`
   position: relative;
@@ -133,13 +137,26 @@ const RightContentWrap = styled(Flex)`
 const TicketDraw = () => {
   const { t } = useTranslation()
 
-  const currentLotteryId = Number(useCurrentLotteryId())
   const [preLotteryId, setPreLotteryId] = useState(0)
   const [showPreView, setShowPreView] = useState(false)
 
+  const currentLotteryId = Number(useCurrentLotteryId())
   const lotteryId = showPreView ? preLotteryId : currentLotteryId
+
+  const zbstPrice = useZBSTZUSTPrice()
+  const currentZustValue = usePrizes()
+  const zustValue = useLotteryReward(lotteryId).zustValue
+  const getZbVal = useCallback(
+    (val) => {
+      if (!val || !zbstPrice) return BIG_ZERO
+      console.log(new BigNumber(zbstPrice.toSignificant(6)).toString())
+      return val.div(new BigNumber(zbstPrice.toSignificant(6)))
+    },
+    [zbstPrice],
+  )
+  const zbRewards = showPreView ? getZbVal(zustValue) : getZbVal(currentZustValue)
+
   const winNumbers = useWinNumbers(lotteryId)
-  const { zustValue, zbRewards } = useLotteryReward(lotteryId)
   const winTime = useWinTime(lotteryId)
   const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
   const timeRange = useTimeRange()
@@ -307,7 +324,7 @@ const TicketDraw = () => {
             </Text>
             <div>
               <Text color="blue" fontSize="36px" bold>
-                ${zustValue.toFixed(2)}
+                ${showPreView ? zustValue.toFixed(2) : currentZustValue.toFixed(2)}
               </Text>
               <Text>{zbRewards.toFixed(2)} ZBST</Text>
             </div>
