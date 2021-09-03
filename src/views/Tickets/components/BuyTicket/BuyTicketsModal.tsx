@@ -188,8 +188,8 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
   const FooterButtons = () => {
     if (needApprove) {
       return (
-        <Button isLoading={approving} onClick={approve}>
-          {t('Approve')}
+        <Button disabled={approving} onClick={approve}>
+          {approving ? t('Approving') + '...' : t('Approve')}
         </Button>
       )
     }
@@ -203,8 +203,8 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
     }
 
     return (
-      <Button isLoading={buying} onClick={buy}>
-        {t('Confirm and Buy')}
+      <Button disabled={buying} isLoading={buying} onClick={buy}>
+        {buying ? t('Buying') + '...' : t('Confirm and Buy')}
       </Button>
     )
   }
