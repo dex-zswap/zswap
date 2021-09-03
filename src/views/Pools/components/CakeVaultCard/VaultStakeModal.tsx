@@ -205,13 +205,11 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
         <FeeSummary stakingTokenSymbol={stakingToken.symbol} stakeAmount={stakeAmount} />
       )}
       <Button
-        isLoading={pendingTx}
-        endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
         onClick={handleConfirmClick}
-        disabled={!stakeAmount || parseFloat(stakeAmount) === 0}
+        disabled={pendingTx || !stakeAmount || parseFloat(stakeAmount) === 0}
         mt="24px"
       >
-        {pendingTx ? t('Confirming') : t('Confirm')}
+        {pendingTx ? t('Confirming') + '...' : t('Confirm')}
       </Button>
       {!isRemovingStake && (
         <Button mt="8px" as="a" external href="/swap" variant="secondary">

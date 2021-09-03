@@ -101,9 +101,12 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
           const resString = res.toString()
           setReward(() => ({
             loading: false,
-            result: resString === '0' ? BIG_ZERO : new BigNumber(resString)
-              .dividedBy(BIG_TEN.pow(pairInfo?.liquidityToken?.decimals))
-              .integerValue(BigNumber.ROUND_DOWN),
+            result:
+              resString === '0'
+                ? BIG_ZERO
+                : new BigNumber(resString)
+                    .dividedBy(BIG_TEN.pow(pairInfo?.liquidityToken?.decimals))
+                    .integerValue(BigNumber.ROUND_DOWN),
           }))
         } else {
           setReward(() => ({

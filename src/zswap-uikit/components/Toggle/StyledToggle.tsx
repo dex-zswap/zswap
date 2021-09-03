@@ -3,13 +3,13 @@ import { ToggleProps, HandleProps, InputProps, ScaleKeys, scales } from './types
 
 const scaleKeyValues = {
   sm: {
-    handleHeight: '16px',
-    handleWidth: '16px',
+    handleHeight: '20px',
+    handleWidth: '20px',
     handleLeft: '2px',
     handleTop: '2px',
-    checkedLeft: 'calc(100% - 18px)',
-    toggleHeight: '20px',
-    toggleWidth: '36px',
+    checkedLeft: 'calc(100% - 22px)',
+    toggleHeight: '24px',
+    toggleWidth: '43px',
   },
   md: {
     handleHeight: '26px',
@@ -38,7 +38,7 @@ const getScale =
   }
 
 export const Handle = styled.div<HandleProps>`
-  background-color: ${({ theme }) => theme.toggle.handleBackground};
+  background-color: #fff;
   border-radius: 50%;
   cursor: pointer;
   height: ${getScale('handleHeight')};
@@ -73,14 +73,14 @@ export const Input = styled.input<InputProps>`
 
 const StyledToggle = styled.div<ToggleProps>`
   align-items: center;
-  background-color: ${({ theme, checked }) => theme.colors[checked ? 'success' : 'input']};
-  border-radius: 24px;
+  background: ${({ checked }) => (checked ? 'linear-gradient(to right, #f866ff 0%, #0050ff 100%)' : '#464646')};
+  border-radius: 12px;
   box-shadow: ${({ theme }) => theme.shadows.inset};
   cursor: pointer;
   display: inline-flex;
   height: ${getScale('toggleHeight')};
   position: relative;
-  transition: background-color 200ms;
+  transition: background 200ms;
   width: ${getScale('toggleWidth')};
 `
 

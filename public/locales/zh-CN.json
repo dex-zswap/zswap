@@ -117,7 +117,7 @@
   "Total prizes": "总奖金",
   "Round #%num%": "第 %num% 回合",
   "Total Pot:": "总奖池：",
-  "Staking Pool": "质押资金池",
+  "Staking Pool": "质押资金池...",
   "PancakeSwap": "PancakeSwap",
   "The #1 AMM and yield farm on Binance Smart Chain.": "Binance Smart Chain 上排名第一的 AMM 和收益农场。",
   "Stake CAKE to earn new tokens.": "质押 CAKE 以赚取新代币。",
@@ -339,7 +339,7 @@
   "Compound: collect and restake CAKE into pool.": "复投：收集 CAKE 并重新质押到资金池中。",
   "Harvest: collect CAKE and send to wallet": "收割：收集 CAKE 并发送到钱包",
   "%position% Entered": "已输入 %position%",
-  "Sort by": "排序依据",
+  "Sort by": "排序",
   "Expired": "已过期",
   "Calculating": "正在计算",
   "Next": "下一个",
@@ -1501,5 +1501,11 @@
   "Manage": "管理",
   "Select a token": "选择代币",
   "Your Address": "您的地址",
-  "Using DEX to exchange other tokens will charge %assets% handling fee!": "使用DEX兑换其他代币将收取%assets%手续费！"
+  "Using DEX to exchange other tokens will charge %assets% handling fee!": "使用DEX兑换其他代币将收取%assets%手续费！",
+  "Your Liquidity Only": "只显示您的流动性",
+  "Search Pools by name or pool address": "输入代币名称或地址",
+  "Weight": "权重",
+  "Buy %assets% Ticket": "购买%assets%张彩票",
+  "Buy %assets% Tickets": "购买%assets%张彩票",
+  "Rewarded": "奖励"
 }

@@ -32,6 +32,7 @@ export const useTotalValueLocked = () => {
   const lpLockedState = useSelector((state: any) => state.lpTotalValueLocked)
 
   return useMemo(() => {
+    if (!lpLockedState.lps) return 0
     return lpLockedState.lps.reduce((result, current) => result + current.lockedValue, 0).toFixed(2)
   }, [lpLockedState])
 }

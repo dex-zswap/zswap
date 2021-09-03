@@ -103,8 +103,8 @@ class Reporter implements ReporterInterface {
         },
       )
       .then((res) => {
-        if (200 != res.code) {
-          console.error(res.msg)
+        if (200 != res?.code) {
+          console.error(res?.msg)
         }
       })
   }

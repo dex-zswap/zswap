@@ -197,13 +197,12 @@ const ClaimInnerContainer: React.FC<ClaimInnerProps> = ({ onSuccess, roundsToCla
       </Flex>
       <Flex alignItems="center" justifyContent="center">
         <Button
-          isLoading={pendingTx}
-          endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
           mt="20px"
           width="100%"
+          disabled={pendingTx}
           onClick={() => (shouldBatchRequest ? handleBatchClaim() : handleClaim())}
         >
-          {pendingTx ? t('Claiming') : t('Claim')} {pendingBatchClaims > 1 ? `(${pendingBatchClaims})` : ''}
+          {pendingTx ? t('Claiming') + '...' : t('Claim')} {pendingBatchClaims > 1 ? `(${pendingBatchClaims})` : ''}
         </Button>
       </Flex>
     </>

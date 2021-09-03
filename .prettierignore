@@ -1,7 +1,7 @@
-src/zswap-uikit/*
-src/zswap-sdk/*
-src/components/*
-src/state/*
-src/reporter/*
-src/config/*
-src/contexts/*
+# src/zswap-uikit/*
+# src/zswap-sdk/*
+# src/components/*
+# src/state/*
+# src/reporter/*
+# src/config/*
+# src/contexts/*

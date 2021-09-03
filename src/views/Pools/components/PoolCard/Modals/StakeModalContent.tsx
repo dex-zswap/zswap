@@ -248,13 +248,11 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             </Text>
           </StakeTokenWrap>
           <Button
-            isLoading={pendingTx}
-            endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
             onClick={handleHarvestConfirm}
-            disabled={!parseFloat(userData?.pendingReward.toFixed(2))}
+            disabled={pendingTx || !parseFloat(userData?.pendingReward.toFixed(2))}
             mt="24px"
           >
-            {pendingTx ? t('Withdrawing Reward') : t('Withdraw Reward')}
+            {pendingTx ? t('Withdrawing Reward') + '...' : t('Withdraw Reward')}
           </Button>
         </>
       )}
@@ -297,16 +295,14 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             </Text>
           </Flex>
           <Button
-            isLoading={pendingTx}
-            endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
             onClick={handleConfirmClick}
-            disabled={!stakeAmount || parseFloat(stakeAmount) === 0 || hasReachedStakeLimit}
+            disabled={pendingTx || !stakeAmount || parseFloat(stakeAmount) === 0 || hasReachedStakeLimit}
             mt="24px"
           >
             {pendingTx
               ? isRemovingStake
-                ? t('Withdrawing Principal')
-                : t('Stake')
+                ? t('Withdrawing Principal') + '...'
+                : t('Staking') + '...'
               : isRemovingStake
               ? t('Withdraw Principal')
               : t('Stake')}

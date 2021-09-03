@@ -7,7 +7,7 @@ import { useTokenContract } from './useContract'
 
 function useTokenAllowance(token?: Token | Currency, owner?: string, spender?: string): TokenAmount | undefined {
   let address
-   if (token instanceof Token) {
+  if (token instanceof Token) {
     address = (token as Token).address
   }
 
@@ -17,20 +17,17 @@ function useTokenAllowance(token?: Token | Currency, owner?: string, spender?: s
   const inputs = useMemo(() => [owner, spender], [owner, spender])
   const allowance = useSingleCallResult(contract, 'allowance', inputs).result
 
-  return useMemo(
-    () => {
-      if (token instanceof Token) {
-        return allowance ? new TokenAmount(token, allowance.toString()) : undefined
-      } else {
-        if (token instanceof Currency) {
-          if (currencyEquals(ETHER, token)) {
-            return new TokenAmount(WDEX[chainId], constants.MaxInt256.toString())
-          }
+  return useMemo(() => {
+    if (token instanceof Token) {
+      return allowance ? new TokenAmount(token, allowance.toString()) : undefined
+    } else {
+      if (token instanceof Currency) {
+        if (currencyEquals(ETHER, token)) {
+          return new TokenAmount(WDEX[chainId], constants.MaxInt256.toString())
         }
       }
-    },
-    [token, allowance],
-  )
+    }
+  }, [token, allowance])
 }
 
 export default useTokenAllowance

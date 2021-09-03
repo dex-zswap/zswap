@@ -101,14 +101,12 @@ const BountyModal: React.FC<BountyModalProps> = ({ onDismiss, TooltipComponent }
       </Flex>
       {account ? (
         <Button
-          isLoading={pendingTx}
-          disabled={!dollarBountyToDisplay || !cakeBountyToDisplay || !callFee}
-          endIcon={pendingTx ? <AutoRenewIcon spin color="currentColor" /> : null}
+          disabled={pendingTx || !dollarBountyToDisplay || !cakeBountyToDisplay || !callFee}
           onClick={handleConfirmClick}
           mb="28px"
           id="autoCakeConfirmBounty"
         >
-          {pendingTx ? t('Confirming') : t('Confirm')}
+          {pendingTx ? t('Confirming') + '...' : t('Confirm')}
         </Button>
       ) : (
         <ConnectWalletButton mb="28px" />

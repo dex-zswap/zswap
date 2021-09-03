@@ -3,6 +3,7 @@ import { Route, useRouteMatch, useLocation, NavLink } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import { Image, Heading, RowType, Toggle, Text, Button, ArrowForwardIcon, Flex } from 'zswap-uikit'
+import Select from 'components/Select/Select'
 import { Spinner } from 'zswap-uikit'
 import HelpButton from 'components/HelpButton'
 import { ChainId } from 'zswap-sdk'
@@ -26,6 +27,36 @@ import WrapperedCard from './components/FarmCard/WrappedCard'
 import { ViewMode } from './components/types'
 import { useAllPairs } from './hooks/useAllPairs'
 import { useTotalValueLocked } from './hooks/useTotalValueLocked/state'
+import FarmTabButtons from './components/FarmTabButtons'
+import SearchInput from 'components/SearchInput'
+
+const ControlContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0 40px;
+  padding: 0 8px;
+`
+
+const ToggleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 60px;
+`
+
+const LabelWrapper = styled.div``
+
+const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: -24px;
+
+  ${({ theme }) => theme.mediaQueries.sm} {
+    width: auto;
+    padding: 0;
+  }
+`
 
 const HeaderWrap = styled(PageHeader)`
   position: relative;
@@ -320,30 +351,27 @@ const Farms: React.FC = () => {
         </Flex>
       </HeaderWrap>
       <Page>
-        {/* <ControlContainer>
-          <ViewControls>
-            <ToggleWrapper>
-              <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
-              <Text> {t('Staked only')}</Text>
-            </ToggleWrapper>
-            <FarmTabButtons hasStakeInFinishedFarms={stakedInactiveFarms.length > 0} />
-          </ViewControls>
+        <ControlContainer>
           <FilterContainer>
+            <LabelWrapper style={{ marginRight: 20 }}>
+              <Text mb="5px" bold>
+                {t('Search')}
+              </Text>
+              <SearchInput onChange={handleChangeQuery} placeholder="Search Pools by name or pool address" />
+            </LabelWrapper>
             <LabelWrapper>
-              <Text textTransform="uppercase">{t('Sort by')}</Text>
+              <Text mb="5px" bold>
+                {t('Sort by')}
+              </Text>
               <Select
                 options={[
-                  {
-                    label: t('Hot'),
-                    value: 'hot',
-                  },
                   {
                     label: t('APR'),
                     value: 'apr',
                   },
                   {
-                    label: t('Multiplier'),
-                    value: 'multiplier',
+                    label: t('Weight'),
+                    value: 'weight',
                   },
                   {
                     label: t('Earned'),
@@ -357,15 +385,21 @@ const Farms: React.FC = () => {
                 onChange={handleSortOptionChange}
               />
             </LabelWrapper>
-            <LabelWrapper style={{ marginLeft: 16 }}>
-              <Text textTransform="uppercase">{t('Search')}</Text>
-              <SearchInput onChange={handleChangeQuery} placeholder="Search Farms" />
-            </LabelWrapper>
           </FilterContainer>
-        </ControlContainer> */}
+          <Flex justifyContent="center" alignItems="center">
+            <FarmTabButtons hasStakeInFinishedFarms={stakedInactiveFarms.length > 0} />
+            <ToggleWrapper>
+              <Text mr="10px" bold>
+                {' '}
+                {t('Your Liquidity Only')}
+              </Text>
+              <Toggle checked={stakedOnly} onChange={() => setStakedOnly(!stakedOnly)} scale="sm" />
+            </ToggleWrapper>
+          </Flex>
+        </ControlContainer>
         {renderContent()}
         {account && loading && (
-          <Flex justifyContent="center">
+          <Flex height="400px" alignItems="center" justifyContent="center">
             <Spinner />
           </Flex>
         )}
