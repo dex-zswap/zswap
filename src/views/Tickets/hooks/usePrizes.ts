@@ -4,7 +4,7 @@ import { useZSwapLotteryContract, useZSwapLPContract } from 'hooks/useContract'
 import { useBlockNumber } from 'state/application/hooks'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
-import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
+import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 import { useHasOpened } from './useWinTime'
 import { useCurrentLotteryId } from './useBuy'
@@ -85,29 +85,33 @@ export function useAllWinNumbers() {
   return winNumbers
 }
 
-export default function usePrizes(lotteryId: number | string) {
-  lotteryId = Number(`${lotteryId}`)
+export default function usePrizes() {
+  const lotteryId = Number(useCurrentLotteryId())
 
   const lastLotteryId = lotteryId === 1 ? 1 : lotteryId - 1
   const lotteryContract = useZSwapLotteryContract()
   const lpContract = useZSwapLPContract()
   const zbst = useZBToken()
-  const zbstPrice = useZBZUSTPrice()
+  const zbstPrice = useZBSTZUSTPrice()
 
   const blockNumber = useBlockNumber()
 
   const totalUsersCost = useContractCall(lotteryContract, 'totalUsersCost', [])
   const lpReward = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 10])
-  const totalRewardsTouser = useContractCall(lpContract, 'lottoTotalRewardsTouser', [lastLotteryId])
-  const lottoTotalRewards = useContractCall(lpContract, 'lottoTotalRewards', [lastLotteryId])
+  const totalRewardsTouser = useContractCall(lotteryContract, 'lottoTotalRewardsToUser', [lastLotteryId])
+  const lottoTotalRewards = useContractCall(lotteryContract, 'lottoTotalRewards', [lastLotteryId])
 
   return useMemo(() => {
     if (!zbst || !zbstPrice) {
       return BIG_ZERO
     }
 
-    const lottoTotalRewardsBigNumber = lottoTotalRewards.result ? new BigNumber(lottoTotalRewards.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
-    const totalRewardsTouserBigNumber = totalRewardsTouser.result ? new BigNumber(totalRewardsTouser.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
+    const lottoTotalRewardsBigNumber = lottoTotalRewards.result
+      ? new BigNumber(lottoTotalRewards.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
+    const totalRewardsTouserBigNumber = totalRewardsTouser.result
+      ? new BigNumber(totalRewardsTouser.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
 
     const unRewardAmount = lottoTotalRewardsBigNumber.minus(totalRewardsTouserBigNumber)
 
