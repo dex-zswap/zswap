@@ -17,7 +17,7 @@ import useUserAddedTokens from 'state/user/hooks/useUserAddedTokens'
 import { isAddress } from 'utils'
 
 import { filterTokens } from 'components/SearchModal/filtering'
-import { ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/address'
+import { ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS, ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
 
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 
@@ -146,8 +146,14 @@ function parseStringOrBytes32(str: string | undefined, bytes32: string | undefin
 export function useToken(tokenAddress?: string): Token | undefined | null {
   const { chainId } = useActiveWeb3React()
   const tokens = useAllTokens()
+  // const isDEX = address
 
   const address = isAddress(tokenAddress)
+
+  // //  process DEX Address
+  // if (address === ZSWAP_DEX_ADDRESS) {
+  //   address = undefined
+  // }
 
   const tokenContract = useTokenContract(address || undefined, false)
   const tokenContractBytes32 = useBytes32TokenContract(address || undefined, false)
@@ -228,7 +234,7 @@ export function useToken(tokenAddress?: string): Token | undefined | null {
 }
 
 export function useCurrency(currencyId: string | undefined): Currency | null | undefined {
-  const isDEX = currencyId?.toUpperCase() === 'DEX'
+  const isDEX = currencyId?.toUpperCase() === 'DEX' || currencyId === ZSWAP_DEX_ADDRESS
   const token = useToken(isDEX ? undefined : currencyId)
   return isDEX ? ETHER : token
 }

@@ -14,7 +14,7 @@ import { getAddress } from 'utils/addressHelpers'
 import { useContractCall } from 'hooks/useContractCall'
 import { BIG_TEN, BIG_ZERO, BIG_HUNDERED, BIG_ONE_YEAR } from 'utils/bigNumber'
 import { Pool } from 'state/types'
-import { ZSWAP_DEX_ADDRESS, ZSWAP_ZERO_ADDRESS } from 'config/constants/zswap/address'
+import { ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
 import getStakeReward from 'config/reward/stake'
 
 const usePoolInfo = (pool: Pool) => {
@@ -27,7 +27,6 @@ const usePoolInfo = (pool: Pool) => {
 
   const stakedCurrency = useCurrency(stakingTokenAddress)
   const earningCurrency = useCurrency(earningTokenAddress)
-  const stakedToken = useToken(stakingTokenAddress)
   const earningToken = useToken(earningTokenAddress)
 
   const isDEX = stakingTokenAddress === ZSWAP_DEX_ADDRESS
@@ -38,13 +37,13 @@ const usePoolInfo = (pool: Pool) => {
   const currentWeight = useContractCall(stakeContract, 'weights', [stakingTokenAddress])
 
   const zbstPrice = useZBSTZUSTPrice()
-  const stakingTokenPrice = useZUSDPrice(stakedToken)
+  const stakingTokenPrice = useZUSDPrice(stakedCurrency)
 
-  const allowance = useTokenAllowance(stakedToken, account, contractAddress)
+  const allowance = useTokenAllowance(stakedCurrency, account, contractAddress)
   const stakingBalance = useStakedTokenBalance(stakingTokenAddress, contractAddress, isDEX)
 
   const userShare = useSingleCallResult(stakeContract, 'getUserShare', [
-    isDEX ? ZSWAP_ZERO_ADDRESS : stakingTokenAddress,
+    isDEX ? ZSWAP_DEX_ADDRESS : stakingTokenAddress,
     account,
   ])
 
@@ -57,7 +56,7 @@ const usePoolInfo = (pool: Pool) => {
   useEffect(() => {
     const fetchReward = async () => {
       try {
-        const address = isDEX ? ZSWAP_ZERO_ADDRESS : stakingTokenAddress
+        const address = isDEX ? ZSWAP_DEX_ADDRESS : stakingTokenAddress
         const res = await stakeContract.checkReward(address)
 
         setPendingReward(() => ({
@@ -74,10 +73,10 @@ const usePoolInfo = (pool: Pool) => {
       }
     }
 
-    if (ZSWAP_ZERO_ADDRESS && stakingTokenAddress) {
+    if (ZSWAP_DEX_ADDRESS && stakingTokenAddress) {
       fetchReward()
     }
-  }, [ZSWAP_ZERO_ADDRESS, stakingTokenAddress, isDEX, stakeContract, earningToken, stakingBalance, fastRefresh])
+  }, [ZSWAP_DEX_ADDRESS, stakingTokenAddress, isDEX, stakeContract, earningToken, stakingBalance, fastRefresh])
 
   const userSharePercent = useMemo(() => {
     if (!userShare.result || !stakingBalance.balance) {
@@ -92,8 +91,8 @@ const usePoolInfo = (pool: Pool) => {
     if (userSharePercent.eq(0)) {
       return BIG_ZERO
     }
-    return stakingBalance.balance.multipliedBy(userSharePercent).dividedBy(BIG_TEN.pow(stakedToken?.decimals))
-  }, [stakedToken, stakingBalance, userSharePercent])
+    return stakingBalance.balance.multipliedBy(userSharePercent).dividedBy(BIG_TEN.pow(stakedCurrency?.decimals))
+  }, [stakedCurrency, stakingBalance, userSharePercent])
 
   const anyLoading = useMemo(
     () => [userShare, pendingReward].some(({ loading }) => loading),
@@ -101,24 +100,24 @@ const usePoolInfo = (pool: Pool) => {
   )
 
   const stakeTokenPrice = useMemo(() => {
-    if (!stakingTokenPrice || !stakedToken) {
+    if (!stakingTokenPrice || !stakedCurrency) {
       return BIG_ZERO
     }
 
-    return new BigNumber(stakingTokenPrice.toSignificant(stakedToken.decimals))
-  }, [stakingTokenPrice, stakedToken])
+    return new BigNumber(stakingTokenPrice.toSignificant(stakedCurrency.decimals))
+  }, [stakingTokenPrice, stakedCurrency])
 
   const stakedUSDTValue = useMemo(() => {
     return userStakedBalance.multipliedBy(stakeTokenPrice)
   }, [userStakedBalance, stakeTokenPrice])
 
   const totalStakedBalance = useMemo(() => {
-    if (!stakingBalance.balance || !stakedToken) {
+    if (!stakingBalance.balance || !stakedCurrency) {
       return BIG_ZERO
     }
 
-    return stakingBalance.balance.multipliedBy(stakeTokenPrice).dividedBy(BIG_TEN.pow(stakedToken.decimals))
-  }, [stakingBalance, stakedToken, stakeTokenPrice])
+    return stakingBalance.balance.multipliedBy(stakeTokenPrice).dividedBy(BIG_TEN.pow(stakedCurrency.decimals))
+  }, [stakingBalance, stakedCurrency, stakeTokenPrice])
 
   const currentWeightBigNumber = useMemo(() => {
     if (!currentWeight.result) {

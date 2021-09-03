@@ -1,6 +1,6 @@
 import { PoolConfig, PoolCategory } from 'config/constants/types'
 
-import { ZSWAP_DEX_ADDRESS, ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_ZERO_ADDRESS } from './address'
+import { ZSWAP_ZB_ADDRESS, ZSWAP_ZBST_ADDRESS, ZSWAP_STAKE_ADDRESS, ZSWAP_DEX_ADDRESS } from './address'
 import EARNING_TOKEN from './earing-token'
 
 const tokens = {

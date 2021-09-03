@@ -1,10 +1,10 @@
-import { Currency, currencyEquals, ETHER, WETH } from 'zswap-sdk'
+import { Currency, currencyEquals, ETHER, WDEX } from 'zswap-sdk'
 import { useMemo } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { tryParseAmount } from 'state/swap/hooks'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import { useWETHContract } from './useContract'
+import { useWDEXContract } from './useContract'
 
 export enum WrapType {
   NOT_APPLICABLE,
@@ -29,7 +29,7 @@ export default function useWrapCallback(
   inputError?: string
 } {
   const { chainId, account } = useActiveWeb3React()
-  const wethContract = useWETHContract()
+  const wethContract = useWDEXContract()
   const balance = useCurrencyBalance(account ?? undefined, inputCurrency)
   // we can always parse the amount typed as the input currency, since wrapping is 1:1
   const inputAmount = useMemo(() => tryParseAmount(typedValue, inputCurrency), [inputCurrency, typedValue])
@@ -40,7 +40,7 @@ export default function useWrapCallback(
 
     const sufficientBalance = inputAmount && balance && !balance.lessThan(inputAmount)
 
-    if (inputCurrency === ETHER && currencyEquals(WETH[chainId], outputCurrency)) {
+    if (inputCurrency === ETHER && currencyEquals(WDEX[chainId], outputCurrency)) {
       return {
         wrapType: WrapType.WRAP,
         execute:
@@ -61,7 +61,7 @@ export default function useWrapCallback(
         inputError: sufficientBalance ? undefined : 'Insufficient BNB balance',
       }
     }
-    if (currencyEquals(WETH[chainId], inputCurrency) && outputCurrency === ETHER) {
+    if (currencyEquals(WDEX[chainId], inputCurrency) && outputCurrency === ETHER) {
       return {
         wrapType: WrapType.UNWRAP,
         execute:

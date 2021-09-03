@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, Percent, WETH, JSBI } from 'zswap-sdk'
+import { Currency, currencyEquals, ETHER, Percent, WDEX, JSBI } from 'zswap-sdk'
 import { Button, Text, AddIcon, ArrowDownIcon, CardBody, Slider, Box, Flex, useModal } from 'zswap-uikit'
 import { RouteComponentProps } from 'react-router'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -478,10 +478,10 @@ export default function RemoveLiquidity({
   )
 
   const oneCurrencyIsETH = currencyA === ETHER || currencyB === ETHER
-  const oneCurrencyIsWETH = Boolean(
+  const oneCurrencyIsWDEX = Boolean(
     chainId &&
-      ((currencyA && currencyEquals(WETH[chainId], currencyA)) ||
-        (currencyB && currencyEquals(WETH[chainId], currencyB))),
+      ((currencyA && currencyEquals(WDEX[chainId], currencyA)) ||
+        (currencyB && currencyEquals(WDEX[chainId], currencyB))),
   )
 
   const handleSelectCurrencyA = useCallback(
@@ -627,20 +627,20 @@ export default function RemoveLiquidity({
                     </Flex>
                     <Text small>{formattedAmounts[Field.CURRENCY_B] || '-'}</Text>
                   </Flex>
-                  {chainId && (oneCurrencyIsWETH || oneCurrencyIsETH) ? (
+                  {chainId && (oneCurrencyIsWDEX || oneCurrencyIsETH) ? (
                     <RowBetween style={{ justifyContent: 'flex-end', fontSize: '14px' }}>
                       {oneCurrencyIsETH ? (
                         <StyledInternalLink
-                          to={`/remove/${currencyA === ETHER ? WETH[chainId].address : currencyIdA}/${
-                            currencyB === ETHER ? WETH[chainId].address : currencyIdB
+                          to={`/remove/${currencyA === ETHER ? WDEX[chainId].address : currencyIdA}/${
+                            currencyB === ETHER ? WDEX[chainId].address : currencyIdB
                           }`}
                         >
                           {t('Receive WBNB')}
                         </StyledInternalLink>
-                      ) : oneCurrencyIsWETH ? (
+                      ) : oneCurrencyIsWDEX ? (
                         <StyledInternalLink
-                          to={`/remove/${currencyA && currencyEquals(currencyA, WETH[chainId]) ? 'DEX' : currencyIdA}/${
-                            currencyB && currencyEquals(currencyB, WETH[chainId]) ? 'DEX' : currencyIdB
+                          to={`/remove/${currencyA && currencyEquals(currencyA, WDEX[chainId]) ? 'DEX' : currencyIdA}/${
+                            currencyB && currencyEquals(currencyB, WDEX[chainId]) ? 'DEX' : currencyIdB
                           }`}
                         >
                           {t('Receive BNB')}
@@ -739,7 +739,7 @@ export default function RemoveLiquidity({
           )}
           {pair ? (
             <TokenWrap>
-              <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+              <MinimalPositionCard showUnwrapped={oneCurrencyIsWDEX} pair={pair} />
             </TokenWrap>
           ) : null}
           <Box position="relative" mt="16px">
@@ -791,7 +791,7 @@ export default function RemoveLiquidity({
             marginTop: '1rem',
           }}
         >
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWDEX} pair={pair} />
         </AutoColumn>
       ) : null} */}
     </RemoveLiquidityPage>

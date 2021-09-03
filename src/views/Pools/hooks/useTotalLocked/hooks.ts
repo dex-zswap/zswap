@@ -12,11 +12,11 @@ import { useStakedTokenBalance } from 'hooks/useTokenBalance'
 import { getAddress } from 'utils/addressHelpers'
 import { BIG_TEN, BIG_ZERO, BIG_HUNDERED } from 'utils/bigNumber'
 import { Pool } from 'state/types'
-import { ZSWAP_DEX_ADDRESS, ZSWAP_ZERO_ADDRESS } from 'config/constants/zswap/address'
+import { ZSWAP_WDEX_ADDRESS, ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
 
 const useLocked = (tokenAddress: string) => {
   const stakeContract = useZSwapStakeContract()
-  const isDEX = tokenAddress === ZSWAP_DEX_ADDRESS
+  const isDEX = tokenAddress === ZSWAP_WDEX_ADDRESS
 
   const token = useToken(tokenAddress)
 

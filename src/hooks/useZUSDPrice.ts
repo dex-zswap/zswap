@@ -1,4 +1,4 @@
-import { ChainId, Currency, currencyEquals, JSBI, Price, WETH } from 'zswap-sdk'
+import { ChainId, Currency, currencyEquals, JSBI, Price, WDEX } from 'zswap-sdk'
 import { useMemo } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ZUSD, CAKE } from 'config/constants/tokens'
@@ -17,11 +17,11 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
   const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(
     () => [
       [
-        chainId && wrapped && currencyEquals(WETH[chainId], wrapped) ? undefined : currency,
-        chainId ? WETH[chainId] : undefined,
+        chainId && wrapped && currencyEquals(WDEX[chainId], wrapped) ? undefined : currency,
+        chainId ? WDEX[chainId] : undefined,
       ],
       [wrapped?.equals(ZUSD_MAINNET) ? undefined : wrapped, ZUSD[chainId]],
-      [chainId ? WETH[chainId] : undefined, ZUSD[chainId]],
+      [chainId ? WDEX[chainId] : undefined, ZUSD[chainId]],
     ],
     [chainId, currency, wrapped],
   )
@@ -32,9 +32,9 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
       return undefined
     }
     // handle weth/eth
-    if (wrapped.equals(WETH[chainId])) {
+    if (wrapped.equals(WDEX[chainId])) {
       if (usdPair) {
-        const price = usdPair.priceOf(WETH[chainId])
+        const price = usdPair.priceOf(WDEX[chainId])
         return new Price(currency, ZUSD_MAINNET, price.denominator, price.numerator)
       }
       return undefined
@@ -53,9 +53,9 @@ export default function useZUSDPrice(currency?: Currency): Price | undefined {
 
     // calculate token price like Token -> DEX, DEX -> ZUST, transmit with DEX Token to calculate
     if (ethPairState === PairState.EXISTS && ethPair && usdEthPairState === PairState.EXISTS && usdEthPair) {
-      if (usdEthPair.reserveOf(ZUSD_MAINNET).greaterThan('0') && ethPair.reserveOf(WETH[chainId]).greaterThan('0')) {
+      if (usdEthPair.reserveOf(ZUSD_MAINNET).greaterThan('0') && ethPair.reserveOf(WDEX[chainId]).greaterThan('0')) {
         const ethusdPrice = usdEthPair.priceOf(ZUSD_MAINNET)
-        const currencyEthPrice = ethPair.priceOf(WETH[chainId])
+        const currencyEthPrice = ethPair.priceOf(WDEX[chainId])
         const usdPrice = ethusdPrice.multiply(currencyEthPrice).invert()
         return new Price(currency, ZUSD_MAINNET, usdPrice.denominator, usdPrice.numerator)
       }
