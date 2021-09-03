@@ -107,19 +107,6 @@ const PairCardWrap = styled.div`
 const CardContainer = styled(Flex)`
   flex-wrap: wrap;
 `
-const NUMBER_OF_FARMS_VISIBLE = 12
-
-const getDisplayApr = (cakeRewardsApr?: number, lpRewardsApr?: number) => {
-  if (cakeRewardsApr && lpRewardsApr) {
-    return (cakeRewardsApr + lpRewardsApr).toLocaleString('en-US', {
-      maximumFractionDigits: 2,
-    })
-  }
-  if (cakeRewardsApr) {
-    return cakeRewardsApr.toLocaleString('en-US', { maximumFractionDigits: 2 })
-  }
-  return null
-}
 
 const Farms: React.FC = () => {
   const { path } = useRouteMatch()

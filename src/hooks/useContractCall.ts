@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import useRefresh from 'hooks/useRefresh'
 import { Contract } from '@ethersproject/contracts'
 
-export function useContractCall(contract: Contract | null | any, methodName: string, inputs: Array<unknown> = []) {
+export function useContractCall(contract: Contract | null | any, methodName: string, inputs: Array<unknown> = [], reload: boolean = true) {
   const { slowRefresh } = useRefresh()
   const [result, setResult] = useState(null)
   const [error, setError] = useState(false)
@@ -27,7 +27,7 @@ export function useContractCall(contract: Contract | null | any, methodName: str
     }
 
     call()
-  }, [slowRefresh])
+  }, reload ? [slowRefresh] : [])
 
   return useMemo(() => {
     return {

@@ -8,7 +8,7 @@ import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export default function useLotteryReward(lotteryId: string | number) {
   const lotteryContract = useZSwapLotteryContract()
-  const reward = useContractCall(lotteryContract, 'lottoTotalRewards', [lotteryId])
+  const reward = useContractCall(lotteryContract, 'lottoTotalRewards', [lotteryId], false)
   const zbstPrice = useZBZUSTPrice()
   const zbRewards = reward.result ? new BigNumber(reward.result.toString()).dividedBy(BIG_TEN.pow(18)) : BIG_ZERO
 

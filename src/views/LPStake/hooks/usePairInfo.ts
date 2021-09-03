@@ -229,7 +229,7 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [userPoolBalance, userSharesBigNumber, tokenLpAmount])
 
   const liquidityInfo = useMemo(() => {
-    if (!token0Deposited || !token1Deposited || !token0 || !token1 || !pairBalanceOf) {
+    if (!token0 || !token1 || !pairBalanceOf) {
       return {
         tokenAmount: 0,
         quoteTokenAmount: 0,
@@ -246,8 +246,8 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
     const stakedPercent = lpTokenBigNumber.isEqualTo(BIG_ZERO)
       ? BIG_ZERO
       : userSharesBigNumber.dividedBy(lpTokenBigNumber)
-    const token0DepositedBigNumber = new BigNumber(token0Deposited.toExact())
-    const token1DepositedBigNumber = new BigNumber(token1Deposited.toExact())
+    const token0DepositedBigNumber = new BigNumber(token0Deposited?.toExact())
+    const token1DepositedBigNumber = new BigNumber(token1Deposited?.toExact())
 
     const token0RealDeposited = tokenLpAmount.token0.multipliedBy(userSharePercentBigNumber).dividedBy(BIG_HUNDERED)
     const token1RealDeposited = tokenLpAmount.token1.multipliedBy(userSharePercentBigNumber).dividedBy(BIG_HUNDERED)
