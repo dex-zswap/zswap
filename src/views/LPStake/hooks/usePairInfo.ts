@@ -124,7 +124,9 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   }, [pair, fastRefresh])
 
   const lpTotalAmount = useMemo(() => {
-    return allAmount.result && pairInfo ? new BigNumber(allAmount.result.toString()).dividedBy(BIG_TEN.pow(pairInfo.liquidityToken.decimals)) : BIG_ZERO
+    return allAmount.result && pairInfo
+      ? new BigNumber(allAmount.result.toString()).dividedBy(BIG_TEN.pow(pairInfo.liquidityToken.decimals))
+      : BIG_ZERO
   }, [allAmount, pairInfo])
 
   const rewardZustValue = useMemo(() => {
