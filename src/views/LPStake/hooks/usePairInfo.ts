@@ -66,15 +66,6 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
   const userPoolBalance = useTokenBalance(account ?? undefined, pairInfo?.liquidityToken)
   const totalPoolTokens = useTotalSupply(pairInfo?.liquidityToken)
 
-  if (token0 && token1) {
-    console.group(`${token0.symbol}-${token1.symbol} LP`)
-    console.log('totalSupply', totalPoolTokens?.toExact())
-    console.log('allAmount', allAmount.result?.toString())
-    console.log('token0Amount', token0Amount.balance?.toString())
-    console.log('token1Amount', token1Amount.balance?.toString())
-    console.groupEnd()
-  }
-
   const [reward, setReward] = useState({
     loading: true,
     result: BIG_ZERO,
