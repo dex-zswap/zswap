@@ -145,18 +145,20 @@ export function useUserLotteryIds(lotteryNum: string = '') {
           let findIndex
 
           if (res?.data && res?.data?.length) {
-            res.data.forEach(({ lotteryNum, lottery }) => {
+            res.data.forEach(({ lotteryNum, lottery, createTime }) => {
               if (lotteryNum) {
                 findIndex = ids.findIndex(({ id }) => id === lotteryNum)
                 if (findIndex === -1) {
                   ids.push({
                     id: lotteryNum,
                     numbers: lottery.split(','),
+                    createTime,
                   })
                 } else {
                   ids[findIndex] = {
                     id: lotteryNum,
                     numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+                    createTime,
                   }
                 }
               }

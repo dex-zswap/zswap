@@ -4,8 +4,8 @@ import BuyTicketsButton from '../BuyTicket/BuyTicketsButton'
 
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useUserHistory from 'views/Tickets/hooks/useUserHistory'
-import { useState, useCallback } from 'react'
+import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
+import { useState, useCallback, useEffect } from 'react'
 import dayjs from 'dayjs'
 
 const HistoryTable = styled.table`
@@ -28,7 +28,13 @@ const UserHistoryList = ({ showDetail }) => {
   const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const [pageNum, setPageNum] = useState(1)
-  const { list, pages, page } = useUserHistory(pageNum)
+  const [list, setList] = useState([])
+  const lotteryIds = useUserLotteryIds()
+  const pages = Math.ceil(lotteryIds.length / 5)
+
+  useEffect(() => {
+    setList(lotteryIds.slice((pageNum - 1) * 5, pageNum * 5))
+  }, [lotteryIds, pageNum])
 
   const getDrawTime = useCallback((time) => {
     const hour = new Date(time).getHours()
@@ -57,12 +63,12 @@ const UserHistoryList = ({ showDetail }) => {
             <th>{t('Purchase Quantity')}</th>
             <th>{t('Details')}</th>
           </tr>
-          {list.map(({ id, lotteryNum, createTime, lottery }) => {
+          {list.map(({ id, createTime, numbers }, index) => {
             return (
-              <tr key={id}>
-                <td>{lotteryNum || '-'}</td>
+              <tr key={index}>
+                <td>{id || '-'}</td>
                 <td>{getDrawTime(createTime)}</td>
-                <td>{lottery?.split(',').length || 0}</td>
+                <td>{numbers.length || 0}</td>
                 <td>
                   <Button
                     style={{ height: 'fit-content', fontSize: '14px', fontWeight: 'normal' }}
@@ -70,7 +76,7 @@ const UserHistoryList = ({ showDetail }) => {
                     variant="text"
                     padding="0"
                     onClick={() => {
-                      showDetail(lotteryNum, getDrawTime(createTime))
+                      showDetail(id, getDrawTime(createTime))
                     }}
                   >
                     {t('More details')}
@@ -91,7 +97,7 @@ const UserHistoryList = ({ showDetail }) => {
             disabled={pageNum == 1}
             onClick={() => setPageNum((pageNum) => --pageNum)}
           >{`<`}</Button>
-          <Text>{`Page ${page} of ${pages}`}</Text>
+          <Text>{`Page ${pageNum} of ${pages}`}</Text>
           <Button
             padding="0"
             scale="sm"
