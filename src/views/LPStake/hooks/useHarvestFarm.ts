@@ -9,7 +9,7 @@ const useHarvestFarm = (farmPid: string | number, lpSymbol: string = '') => {
     const tx = await lpContract.getlpReward(farmPid)
     if (lpSymbol) {
       addTransaction(tx, {
-        summary: `Claim ${lpSymbol} Stake Rewards`
+        summary: `Claim ${lpSymbol} Stake Rewards`,
       })
     }
     const receipt = await tx.wait()

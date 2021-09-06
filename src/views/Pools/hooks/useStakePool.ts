@@ -38,7 +38,7 @@ const useStakePool = (token: Token) => {
         ? await stakeDEX(stakeContract, amount, token.decimals)
         : await stake(stakeContract, tokenAddress, amount, token.decimals)
       addTransaction(tx, {
-        summary: `Stake ${amount} ${token.symbol}`
+        summary: `Stake ${amount} ${token.symbol}`,
       })
       const receipt = await tx.wait()
       return Boolean(receipt.status)

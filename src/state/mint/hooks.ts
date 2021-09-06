@@ -132,8 +132,16 @@ export function useDerivedMintInfo(
     currencyA: string | undefined
     currencyB: string | undefined
   } = {
-    currencyA: currencyEquals(currencyA, ETHER) ? 'DEX' : currencyA ? (currencyA as WrappedTokenInfo).address : undefined,
-    currencyB: currencyEquals(currencyB, ETHER) ? 'DEX' : currencyB ? (currencyB as WrappedTokenInfo).address : undefined,
+    currencyA: currencyEquals(currencyA, ETHER)
+      ? 'DEX'
+      : currencyA
+      ? (currencyA as WrappedTokenInfo).address
+      : undefined,
+    currencyB: currencyEquals(currencyB, ETHER)
+      ? 'DEX'
+      : currencyB
+      ? (currencyB as WrappedTokenInfo).address
+      : undefined,
   }
 
   // get pair with state

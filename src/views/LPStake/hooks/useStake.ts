@@ -11,7 +11,7 @@ const useStake = (pair: string, lpContract: Contract | null | any, decimals = 18
       const tx = await lpContract.addLpShare(pair, new BigNumber(amount).times(BIG_TEN.pow(decimals)).toString())
       if (lpSymbol) {
         addTransaction(tx, {
-          summary: `Stake ${amount} ${lpSymbol}`
+          summary: `Stake ${amount} ${lpSymbol}`,
         })
       }
       const receipt = await tx.wait()

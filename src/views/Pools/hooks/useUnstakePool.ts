@@ -20,7 +20,7 @@ const useUnstakePool = (token: Token) => {
         new BigNumber(amount).times(BIG_TEN.pow(decimals)).toString(),
       )
       addTransaction(tx, {
-        summary: `Withdraw ${amount} ${token.symbol}`
+        summary: `Withdraw ${amount} ${token.symbol}`,
       })
       const receipt = await tx.wait()
       return Boolean(receipt.status)

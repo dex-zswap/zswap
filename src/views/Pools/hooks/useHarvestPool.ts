@@ -14,7 +14,7 @@ const useHarvestPool = (token: Token) => {
   const handleHarvest = useCallback(async () => {
     const tx = await stakeContract.harvest(isUsingDEX ? ZSWAP_DEX_ADDRESS : tokenAddress)
     addTransaction(tx, {
-      summary: `Claim ${token.symbol} Stake Rewards`
+      summary: `Claim ${token.symbol} Stake Rewards`,
     })
     const receipt = await tx.wait()
     return Boolean(receipt.status)

@@ -11,10 +11,10 @@ methodKeys.forEach((methodName) => {
   originMethod = history[methodName]
 
   history[methodName] = (...args) => {
-    const [ target ] = args
+    const [target] = args
     const path = target.pathname ?? target
     originMethod(...args)
-    if (ignoreRoutes.some((route) => route.startsWith(path) || (path).startsWith(route))) {
+    if (ignoreRoutes.some((route) => route.startsWith(path) || path.startsWith(route))) {
       return
     }
     window.location.reload(true)
