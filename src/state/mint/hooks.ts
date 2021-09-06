@@ -194,7 +194,6 @@ export function useDerivedMintInfo(
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
         const price = pair.priceOf(dependentField === Field.CURRENCY_B ? tokenA : tokenB)
         const dependentTokenAmount = price.quote(wrappedIndependentAmount)
-        console.log(price.toFixed(100))
         return dependentCurrency === ETHER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
       }
       return undefined

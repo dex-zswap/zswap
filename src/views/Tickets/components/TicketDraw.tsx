@@ -149,7 +149,6 @@ const TicketDraw = () => {
   const getZbVal = useCallback(
     (val) => {
       if (!val || !zbstPrice) return BIG_ZERO
-      console.log(new BigNumber(zbstPrice.toSignificant(6)).toString())
       return val.div(new BigNumber(zbstPrice.toSignificant(6)))
     },
     [zbstPrice],
