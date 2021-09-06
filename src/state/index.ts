@@ -21,6 +21,7 @@ import lists from './lists/reducer'
 import burn from './burn/reducer'
 import multicall from './multicall/reducer'
 import lpTotalValueLocked from 'views/LPStake/hooks/useTotalValueLocked/state'
+import stakeTotalValueLocked from 'views/Pools/hooks/useTotalValueLocked/state'
 
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
@@ -50,6 +51,7 @@ const store = configureStore({
 
     // stake
     lpTotalValueLocked,
+    stakeTotalValueLocked
   },
   middleware: [...getDefaultMiddleware({ thunk: true, serializableCheck: false }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS }),

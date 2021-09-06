@@ -16,8 +16,8 @@ import TotalLocked from './components/TotalLocked'
 import { ViewMode } from './components/ToggleView/ToggleView'
 import WrapperedCard from './components/WrappedCard'
 import useAllPools from './hooks/usePools'
-import TotalLockedWrapper from './hooks/useTotalLocked/component'
 import { getAprData, getCakeVaultEarnings } from './helpers'
+import { useTotalValueLocked } from './hooks/useTotalValueLocked/state'
 
 const CardLayout = styled(Flex)`
   flex-wrap: wrap;
@@ -107,6 +107,7 @@ const Pools: React.FC = () => {
   const location = useLocation()
   const { t } = useTranslation()
   const { account } = useWeb3React()
+  const totalLocked = useTotalValueLocked()
   const allPools = useAllPools()
   const [stakedOnly, setStakedOnly] = usePersistState(false, {
     localStorageKey: 'pancake_pool_staked',
@@ -152,79 +153,78 @@ const Pools: React.FC = () => {
     }
   }, [observerIsSet])
 
-  const showFinishedPools = location.pathname.includes('history')
+  // const showFinishedPools = location.pathname.includes('history')
 
-  const handleChangeSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value)
-  }
+  // const handleChangeSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchQuery(event.target.value)
+  // }
 
-  const handleSortOptionChange = (option: OptionProps): void => {
-    setSortOption(option.value)
-  }
+  // const handleSortOptionChange = (option: OptionProps): void => {
+  //   setSortOption(option.value)
+  // }
 
-  const sortPools = (poolsToSort: Pool[]) => {
-    switch (sortOption) {
-      case 'apr':
-        // Ternary is needed to prevent pools without APR (like MIX) getting top spot
-        return orderBy(
-          poolsToSort,
-          (pool: Pool) => (pool.apr ? getAprData(pool, performanceFeeAsDecimal).apr : 0),
-          'desc',
-        )
-      case 'earned':
-        return orderBy(
-          poolsToSort,
-          (pool: Pool) => {
-            if (!pool.userData || !pool.earningTokenPrice) {
-              return 0
-            }
-            return pool.isAutoVault
-              ? getCakeVaultEarnings(
-                  account,
-                  cakeAtLastUserAction,
-                  userShares,
-                  pricePerFullShare,
-                  pool.earningTokenPrice,
-                ).autoUsdToDisplay
-              : pool.userData.pendingReward.times(pool.earningTokenPrice).toNumber()
-          },
-          'desc',
-        )
-      case 'totalStaked':
-        return orderBy(
-          poolsToSort,
-          (pool: Pool) => (pool.isAutoVault ? totalCakeInVault.toNumber() : pool.totalStaked.toNumber()),
-          'desc',
-        )
-      default:
-        return poolsToSort
-    }
-  }
+  // const sortPools = (poolsToSort: Pool[]) => {
+  //   switch (sortOption) {
+  //     case 'apr':
+  //       // Ternary is needed to prevent pools without APR (like MIX) getting top spot
+  //       return orderBy(
+  //         poolsToSort,
+  //         (pool: Pool) => (pool.apr ? getAprData(pool, performanceFeeAsDecimal).apr : 0),
+  //         'desc',
+  //       )
+  //     case 'earned':
+  //       return orderBy(
+  //         poolsToSort,
+  //         (pool: Pool) => {
+  //           if (!pool.userData || !pool.earningTokenPrice) {
+  //             return 0
+  //           }
+  //           return pool.isAutoVault
+  //             ? getCakeVaultEarnings(
+  //                 account,
+  //                 cakeAtLastUserAction,
+  //                 userShares,
+  //                 pricePerFullShare,
+  //                 pool.earningTokenPrice,
+  //               ).autoUsdToDisplay
+  //             : pool.userData.pendingReward.times(pool.earningTokenPrice).toNumber()
+  //         },
+  //         'desc',
+  //       )
+  //     case 'totalStaked':
+  //       return orderBy(
+  //         poolsToSort,
+  //         (pool: Pool) => (pool.isAutoVault ? totalCakeInVault.toNumber() : pool.totalStaked.toNumber()),
+  //         'desc',
+  //       )
+  //     default:
+  //       return poolsToSort
+  //   }
+  // }
 
   return (
     <>
-      <TotalLockedWrapper>
-        <HeaderWrap>
-          <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
-            <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
-              <Heading as="h1" scale="lg" color="secondary" mb="10px">
-                {t('Earn ZBST by staking assets for market making')}
-                <HelpButton />
-              </Heading>
-              <Heading scale="xxl" color="pink">
-                <TotalLocked />
-              </Heading>
-              <Heading scale="md" color="text">
-                {t('Total Value Locked (TVL)')}
-              </Heading>
-            </Flex>
-            {/* <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
+      <HeaderWrap>
+        <Flex justifyContent="space-between" flexDirection={['column', null, null, 'row']}>
+          <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
+            <Heading as="h1" scale="lg" color="secondary" mb="10px">
+              {t('Earn ZBST by staking assets for market making')}
               <HelpButton />
-              <BountyCard />
-            </Flex> */}
+            </Heading>
+            <Heading scale="xxl" color="pink">
+              $ {totalLocked}
+              {/* <TotalLocked /> */}
+            </Heading>
+            <Heading scale="md" color="text">
+              {t('Total Value Locked (TVL)')}
+            </Heading>
           </Flex>
-        </HeaderWrap>
-      </TotalLockedWrapper>
+          {/* <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
+            <HelpButton />
+            <BountyCard />
+          </Flex> */}
+        </Flex>
+      </HeaderWrap>
       <Page>
         {/* <PoolControls>
           <PoolTabButtons

@@ -17,7 +17,6 @@ export function useContractCall(
   useEffect(
     () => {
       const call = async () => {
-        console.log(contract, methodName)
         const method = contract?.[methodName]
         if (typeof method !== 'function') {
           throw new Error(`contract.${methodName} is not a function!`)
