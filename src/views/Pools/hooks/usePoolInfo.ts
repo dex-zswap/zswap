@@ -15,9 +15,12 @@ import { useContractCall } from 'hooks/useContractCall'
 import { BIG_TEN, BIG_ZERO, BIG_HUNDERED, BIG_ONE_YEAR } from 'utils/bigNumber'
 import { Pool } from 'state/types'
 import { ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
+import { useAppDispatch } from 'state'
 import getStakeReward from 'config/reward/stake'
+import { addLockedValue } from './useTotalValueLocked/state'
 
 const usePoolInfo = (pool: Pool) => {
+  const dispatch = useAppDispatch()
   const { fastRefresh } = useRefresh()
   const { account } = useActiveWeb3React()
   const stakeContract = useZSwapStakeContract()
@@ -155,6 +158,16 @@ const usePoolInfo = (pool: Pool) => {
     stakeTokenPrice,
     totalStakedBalance,
   ])
+
+  useEffect(() => {
+    const lockedValue = (totalStakedBalance.eq(BIG_ZERO) ? BIG_ZERO : new BigNumber(totalStakedBalance)).toNumber()
+    dispatch(
+      addLockedValue({
+        id: stakingTokenAddress,
+        lockedValue,
+      }),
+    )
+  }, [dispatch, totalStakedBalance.toString(), stakingTokenAddress])
 
   return {
     ...pool,
