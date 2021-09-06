@@ -160,9 +160,7 @@ const usePoolInfo = (pool: Pool) => {
   ])
 
   useEffect(() => {
-    const lockedValue = (
-      totalStakedBalance.eq(BIG_ZERO) ? BIG_ZERO : new BigNumber(totalStakedBalance)
-    ).toNumber()
+    const lockedValue = (totalStakedBalance.eq(BIG_ZERO) ? BIG_ZERO : new BigNumber(totalStakedBalance)).toNumber()
     dispatch(
       addLockedValue({
         id: stakingTokenAddress,

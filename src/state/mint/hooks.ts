@@ -132,8 +132,8 @@ export function useDerivedMintInfo(
     currencyA: string | undefined
     currencyB: string | undefined
   } = {
-    currencyA: currencyA === ETHER ? 'DEX' : currencyA ? (currencyA as WrappedTokenInfo).address : undefined,
-    currencyB: currencyB === ETHER ? 'DEX' : currencyB ? (currencyB as WrappedTokenInfo).address : undefined,
+    currencyA: currencyEquals(currencyA, ETHER) ? 'DEX' : currencyA ? (currencyA as WrappedTokenInfo).address : undefined,
+    currencyB: currencyEquals(currencyB, ETHER) ? 'DEX' : currencyB ? (currencyB as WrappedTokenInfo).address : undefined,
   }
 
   // get pair with state
@@ -248,7 +248,7 @@ export function useDerivedMintInfo(
   }
 
   if (!allExist) {
-    error = 'Create ZB Pair'
+    error = `Create ZB Pair`
   }
 
   const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts

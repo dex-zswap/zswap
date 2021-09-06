@@ -94,6 +94,7 @@ export default function CurrencyInputPanel({
       showCommonBases={showCommonBases}
     />,
   )
+  const isExist = !!(removeLiquidity ? currencyBalance : selectedCurrencyBalance)
   return (
     <InputPanel id={id}>
       <Container hideInput={hideInput}>
@@ -103,7 +104,7 @@ export default function CurrencyInputPanel({
               <Text>{translatedLabel}</Text>
               {account && (
                 <Text onClick={onMax} style={{ display: 'inline', cursor: 'pointer' }}>
-                  {!hideBalance && !!currency && (currencyBalance || selectedCurrencyBalance)
+                  {!hideBalance && !!currency && (currencyBalance || selectedCurrencyBalance) && isExist
                     ? t('Balance: %amount%', {
                         amount: (removeLiquidity ? currencyBalance : selectedCurrencyBalance).toFixed(3) ?? '',
                       })

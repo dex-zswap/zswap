@@ -64,7 +64,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   onDismiss,
 }) => {
   const { apr, stakingToken, userData, stakingLimit, earningToken } = pool
-
   const { t } = useTranslation()
   const { onStake } = useStakePool(pool.stakingToken)
   const { onUnstake } = useUnstakePool(pool.stakingToken)
@@ -124,12 +123,12 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
       try {
         const success = await onUnstake(stakeAmount, stakingToken.decimals)
         if (success) {
-          toastSuccess(
-            `${t('Unstaked')}!`,
-            t('Your %symbol% earnings have also been harvested to your wallet!', {
-              symbol: earningToken.symbol,
-            }),
-          )
+          // toastSuccess(
+          //   `${t('Unstaked')}!`,
+          //   t('Your %symbol% earnings have also been harvested to your wallet!', {
+          //     symbol: earningToken.symbol,
+          //   }),
+          // )
           setPendingTx(false)
           onDismiss()
         } else {
@@ -147,12 +146,12 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
       try {
         const success = await onStake(stakeAmount, stakingToken.decimals)
         if (success) {
-          toastSuccess(
-            `${t('Staked')}!`,
-            t('Your %symbol% funds have been staked in the pool!', {
-              symbol: stakingToken.symbol,
-            }),
-          )
+          // toastSuccess(
+          //   `${t('Staked')}!`,
+          //   t('Your %symbol% funds have been staked in the pool!', {
+          //     symbol: stakingToken.symbol,
+          //   }),
+          // )
           setPendingTx(false)
           onDismiss()
         } else {

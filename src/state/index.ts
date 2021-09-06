@@ -51,7 +51,7 @@ const store = configureStore({
 
     // stake
     lpTotalValueLocked,
-    stakeTotalValueLocked
+    stakeTotalValueLocked,
   },
   middleware: [...getDefaultMiddleware({ thunk: true, serializableCheck: false }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS }),

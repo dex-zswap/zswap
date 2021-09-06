@@ -127,7 +127,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setPendingTx(true)
     try {
       await handleStake(stakeAmount)
-      toastSuccess(t('Staked!'), t('Your funds have been staked in the farm'))
+      // toastSuccess(t('Staked!'), t('Your funds have been staked in the farm'))
       onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
@@ -141,7 +141,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setPendingTx(true)
     try {
       await handleUnstake(stakeAmount)
-      toastSuccess(t('Unstaked!'), t('Your earnings have also been harvested to your wallet'))
+      // toastSuccess(t('Unstaked!'), t('Your earnings have also been harvested to your wallet'))
       onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
@@ -151,7 +151,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     }
   }
 
-  const { onReward } = useHarvestFarm(farm.pair.pair)
+  const { onReward } = useHarvestFarm(farm.pair.pair, farm.lpSymbol)
 
   const handleHarvestConfirm = async () => {
     setPendingTx(true)

@@ -64,12 +64,12 @@ const CollectModal: React.FC<CollectModalProps> = ({
       try {
         const success = await onStake(fullBalance, earningToken.decimals)
         if (success) {
-          toastSuccess(
-            `${t('Compounded')}!`,
-            t('Your %symbol% earnings have been re-invested into the pool!', {
-              symbol: earningToken.symbol,
-            }),
-          )
+          // toastSuccess(
+          //   `${t('Compounded')}!`,
+          //   t('Your %symbol% earnings have been re-invested into the pool!', {
+          //     symbol: earningToken.symbol,
+          //   }),
+          // )
           setPendingTx(false)
           onDismiss()
         } else {
