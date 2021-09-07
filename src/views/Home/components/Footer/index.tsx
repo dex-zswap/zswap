@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import { baseColors } from 'zswap-uikit/theme/colors'
 import { ButtonWrap } from '../Wrapper'
 import { Flex, Text, Image, Button } from 'zswap-uikit'
 import LearMoreBtn from 'components/LearMoreBtn'
 import { useTranslation } from 'contexts/Localization'
-import history from '../../../../routerHistory'
+import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 
 const Wrap = styled(Flex)`
   position: relative;
@@ -78,6 +79,8 @@ const TextWrap = styled(Flex)`
 const Footer = () => {
   const pinkColor = { color: baseColors.primary }
   const { t } = useTranslation()
+  const history = useHistory()
+  const zbstPrice = useZBSTZUSTPrice()
 
   return (
     <Wrap>
@@ -134,8 +137,7 @@ const Footer = () => {
             {t('Current Price')}
           </Text>
           <Text color="text" fontSize="34px" bold>
-            <span style={pinkColor}>$0.8</span>
-            <span>{t('USDT')}</span>
+            <span style={pinkColor}>${zbstPrice?.toSignificant(6)}</span>
           </Text>
         </TextWrap>
         <TextWrap>
