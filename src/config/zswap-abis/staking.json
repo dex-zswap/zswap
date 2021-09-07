@@ -76,11 +76,11 @@
 			"inputs": [
 				{
 					"internalType": "address",
-					"name": "_zbst_addr",
+					"name": "new_owner",
 					"type": "address"
 				}
 			],
-			"name": "changeMintErcAddr",
+			"name": "changeOwner",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -99,6 +99,19 @@
 				}
 			],
 			"name": "changeWeight",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_zbst_addr",
+					"type": "address"
+				}
+			],
+			"name": "changeZbstAddr",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -214,6 +227,19 @@
 			"name": "harvest",
 			"outputs": [],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "tokenNumbers",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
