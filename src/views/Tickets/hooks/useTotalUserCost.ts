@@ -3,13 +3,13 @@ import BigNumber from 'bignumber.js'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZBToken } from 'hooks/Tokens'
-import { useZBZUSTPrice } from 'hooks/useZUSDPrice'
+import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export default function useTotalUserCost() {
   const lotteryContract = useZSwapLotteryContract()
   const zbst = useZBToken()
-  const zbstPrice = useZBZUSTPrice()
+  const zbstPrice = useZBSTZUSTPrice()
 
   const lotteryReward = useContractCall(lotteryContract, 'totalUsersCost', [])
 

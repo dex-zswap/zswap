@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
 import { Modal, Text, Flex, Button, HelpIcon, AutoRenewIcon, useTooltip } from 'zswap-uikit'
+import Dots from 'components/Loader/Dots'
 import { getBalanceNumber } from 'utils/formatBalance'
 import { useCakeVaultContract } from 'hooks/useContract'
 import useTheme from 'hooks/useTheme'
@@ -106,7 +107,7 @@ const BountyModal: React.FC<BountyModalProps> = ({ onDismiss, TooltipComponent }
           mb="28px"
           id="autoCakeConfirmBounty"
         >
-          {pendingTx ? t('Confirming') + '...' : t('Confirm')}
+          {pendingTx ? <Dots>{t('Confirming')}</Dots> : t('Confirm')}
         </Button>
       ) : (
         <ConnectWalletButton mb="28px" />

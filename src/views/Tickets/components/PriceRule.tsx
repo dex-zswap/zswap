@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useAllUserLotteryIdsByLotteryNum } from 'views/Tickets/hooks/useUserHistory'
+import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 
 import styled from 'styled-components'
 import { Flex, Text } from 'zswap-uikit'
@@ -25,9 +26,10 @@ const PriceWrap = styled(Flex)`
 
 const PriceRule = ({ lotteryId }) => {
   const { t } = useTranslation()
+  const currentLotteryId = Number(useCurrentLotteryId())
   const { zustValue, zbRewards } = useLotteryReward(lotteryId)
   const rewardNums = useAllUserLotteryIdsByLotteryNum(lotteryId)
-  const isDrawed = !!rewardNums?.length
+  const isDrawed = currentLotteryId != lotteryId
   const priceData = useMemo(
     () =>
       new Array(7).fill('').map((d, index) => {
@@ -43,8 +45,8 @@ const PriceRule = ({ lotteryId }) => {
           subTitle: t(`Match ${index ? 'first' : 'all'} ${6 - index}${5 == index ? ' or last 1' : ''}`),
           reward: zustValue.times(per[index]).integerValue().toFixed(0),
           zbReward: zbReward.toFixed(0),
-          earn: `${isDrawed ? (rewardNums[index] ? zbReward.idiv(rewardNums[index]) : 0) : '-'} ZBST ${t('each')}`,
-          winner: `${isDrawed ? rewardNums[index] : '-'} ${t('Winners')}`,
+          earn: `${rewardNums[index] ? zbReward.idiv(rewardNums[index]) : 0} ZBST ${t('each')}`,
+          winner: `${rewardNums[index]} ${t('Winners')}`,
         }
         return d
       }),
@@ -72,7 +74,7 @@ const PriceRule = ({ lotteryId }) => {
               ${reward}
             </Text>
             <Text>{zbReward} ZBST</Text>
-            {!isLast && (
+            {isDrawed && !isLast && (
               <>
                 <Text>{earn}</Text>
                 <Text>{winner}</Text>

@@ -51,6 +51,7 @@ const StakeModal: React.FC<StakeModalProps> = ({
         stakingTokenBalance={stakingTokenBalance}
         stakingTokenPrice={stakingTokenPrice}
         onDismiss={onDismiss}
+        fromStakeModal
       />
       {/* <Flex alignItems="center" justifyContent="space-between" mb="8px">
         <Text bold>{isRemovingStake ? t('Unstake') : t('Stake')}:</Text>

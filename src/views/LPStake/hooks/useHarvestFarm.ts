@@ -14,7 +14,7 @@ const useHarvestFarm = (farmPid: string | number, lpSymbol: string = '') => {
     }
     const receipt = await tx.wait()
     return Boolean(receipt.status)
-  }, [farmPid, lpContract, addTransaction])
+  }, [farmPid, lpContract, addTransaction, lpSymbol])
 
   return { onReward: handleHarvest }
 }

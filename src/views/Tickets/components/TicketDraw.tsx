@@ -7,15 +7,11 @@ import PriceRule from './PriceRule'
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
-import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import useWinTime from 'views/Tickets/hooks/useWinTime'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
-import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import usePrizes from 'views/Tickets/hooks/usePrizes'
 import useTimeRange from 'views/Tickets/hooks/useTimeRange'
 import dayjs from 'dayjs'
-import BigNumber from 'bignumber.js'
-import { BIG_ZERO } from 'utils/bigNumber'
 
 const TicketDrawWrap = styled.div`
   position: relative;
@@ -137,58 +133,45 @@ const RightContentWrap = styled(Flex)`
 const TicketDraw = () => {
   const { t } = useTranslation()
 
-  const [preLotteryId, setPreLotteryId] = useState(0)
+  const [preLotteryId, setPreLotteryId] = useState(1)
   const [showPreView, setShowPreView] = useState(false)
 
   const currentLotteryId = Number(useCurrentLotteryId())
   const lotteryId = showPreView ? preLotteryId : currentLotteryId
 
-  const zbstPrice = useZBSTZUSTPrice()
-  const currentZustValue = usePrizes()
-  const zustValue = useLotteryReward(lotteryId).zustValue
-  const getZbVal = useCallback(
-    (val) => {
-      if (!val || !zbstPrice) return BIG_ZERO
-      return val.div(new BigNumber(zbstPrice.toSignificant(6)))
-    },
-    [zbstPrice],
-  )
-  const zbRewards = showPreView ? getZbVal(zustValue) : getZbVal(currentZustValue)
+  const { zustValue, zbRewards } = usePrizes(lotteryId)
 
   const winNumbers = useWinNumbers(lotteryId)
   const winTime = useWinTime(lotteryId)
-  const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
   const timeRange = useTimeRange()
 
   const currentWinTime = useMemo(() => {
     const hour = new Date().getHours()
     const date = hour > 14 ? dayjs().add(1, 'day').format('YYYY.MM.DD') : dayjs().format('YYYY.MM.DD')
     return `${date} 14:00`
-  }, [timeRange])
+  }, [])
 
-  const getUntilDrawTime = () => {
-    setUntilDrawTime(() => {
-      const date = new Date()
-      let hour = date.getHours() - 1
-      hour = hour > 13 ? 36 - hour : 13 - hour
-      let min = 60 - date.getMinutes()
-      const h = hour > 10 ? hour + '' : '0' + hour
-      const m = min > 10 ? min + '' : '0' + min
-      return { h, m }
-    })
-  }
+  const changeUntilDrawTime = useCallback(() => {
+    const date = new Date()
+    let hour = date.getHours() - 1
+    hour = hour > 13 ? 36 - hour : 13 - hour
+    let min = 60 - date.getMinutes()
+    const h = hour > 10 ? hour + '' : '0' + hour
+    const m = min > 10 ? min + '' : '0' + min
+    return { h, m }
+  }, [])
 
   useEffect(() => {
-    getUntilDrawTime()
+    setUntilDrawTime(changeUntilDrawTime)
     const timer = setInterval(() => {
-      getUntilDrawTime()
+      setUntilDrawTime(changeUntilDrawTime)
     }, 60000)
     return () => {
-      setUntilDrawTime({ h: '00', m: '00' })
       clearInterval(timer)
     }
   }, [])
 
+  const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
   const untilDrawContent = useMemo(() => {
     const date = new Date().getTime()
     const showUntilDraw = !timeRange || !(timeRange.start > date) || timeRange.end > date
@@ -228,7 +211,7 @@ const TicketDraw = () => {
         setPreLotteryId(preLotteryId + num)
       }
     },
-    [preLotteryId],
+    [currentLotteryId, preLotteryId],
   )
 
   const rightContent = useMemo(() => {
@@ -323,7 +306,7 @@ const TicketDraw = () => {
             </Text>
             <div>
               <Text color="blue" fontSize="36px" bold>
-                ${showPreView ? zustValue.toFixed(2) : currentZustValue.toFixed(2)}
+                ${zustValue.toFixed(2)}
               </Text>
               <Text>{zbRewards.toFixed(2)} ZBST</Text>
             </div>

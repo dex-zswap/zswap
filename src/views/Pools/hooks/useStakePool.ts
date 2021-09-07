@@ -5,6 +5,7 @@ import { useZSwapStakeContract } from 'hooks/useContract'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { Token } from 'config/constants/types'
 import { getAddress } from 'utils/addressHelpers'
+import { useTranslation } from 'contexts/Localization'
 
 const stake = async (contract, address, amount, decimals = 18) => {
   try {
@@ -27,6 +28,7 @@ const stakeDEX = async (contract, amount, decimals = 18) => {
 }
 
 const useStakePool = (token: Token) => {
+  const { t } = useTranslation()
   const tokenAddress = getAddress(token.address)
   const isUsingDEX = token.symbol === 'DEX'
   const stakeContract = useZSwapStakeContract()
@@ -38,7 +40,7 @@ const useStakePool = (token: Token) => {
         ? await stakeDEX(stakeContract, amount, token.decimals)
         : await stake(stakeContract, tokenAddress, amount, token.decimals)
       addTransaction(tx, {
-        summary: `Stake ${amount} ${token.symbol}`,
+        summary: t(`Stake %assets%`, { assets: `${amount} ${token.symbol}` }),
       })
       const receipt = await tx.wait()
       return Boolean(receipt.status)

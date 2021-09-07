@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Tag, Flex, Heading } from 'zswap-uikit'
-import { CommunityTag, CoreTag } from 'components/Tags'
+import { Flex, Heading, useTooltip } from 'zswap-uikit'
 import { Token } from 'config/constants/types'
 import { TokenPairImage } from 'components/TokenImage'
+import { useTranslation } from 'contexts/Localization'
 
 export interface ExpandableSectionProps {
   weight?: number
@@ -24,10 +24,6 @@ const Wrapper = styled(Flex)`
   }
 `
 
-const MultiplierTag = styled(Tag)`
-  margin-left: 4px;
-`
-
 const WeightWrap = styled(Flex)`
   width: 80px;
   height: 24px;
@@ -38,17 +34,22 @@ const WeightWrap = styled(Flex)`
   align-items: center;
   font-size: 13px;
   font-weight: bold;
-  color: #ffffff;
+  color: #fff;
+  cursor: pointer;
 `
 
-const CardHeading: React.FC<ExpandableSectionProps> = ({
-  lpLabel,
-  multiplier,
-  isCommunityFarm,
-  token,
-  quoteToken,
-  weight,
-}) => {
+const CardHeading: React.FC<ExpandableSectionProps> = ({ lpLabel, token, quoteToken, weight }) => {
+  const { t } = useTranslation()
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(
+    t(
+      'Weight represents the ratio of ZBst reward from the pool to the ratio of the standard reward. In general, the higher the weight, the higher ZBst reward can be obtained by the pool.',
+    ),
+    {
+      placement: 'top',
+      trigger: 'hover',
+    },
+  )
+
   return (
     <Wrapper justifyContent="space-between" alignItems="center" mb="12px">
       <Flex justifyContent="space-between" alignItems="center">
@@ -57,16 +58,11 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({
           <TokenPairImage style={{ margin: '0 10px 0 -3px' }} secondaryToken={quoteToken} width={32} height={32} />
           <Heading>{lpLabel}</Heading>
         </Flex>
-        <WeightWrap>Weight: {weight}</WeightWrap>
+        {tooltipVisible && tooltip}
+        <WeightWrap ref={targetRef}>
+          {t('Weight')}: {weight}
+        </WeightWrap>
       </Flex>
-
-      {/* <Flex flexDirection="column" alignItems="flex-end">
-        <Heading mb="4px">{lpLabel.split(' ')[0]}</Heading>
-        <Flex justifyContent="center">
-          {isCommunityFarm ? <CommunityTag /> : <CoreTag />}
-          <MultiplierTag variant="secondary">{multiplier}</MultiplierTag>
-        </Flex>
-      </Flex> */}
     </Wrapper>
   )
 }

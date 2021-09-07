@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
-import { Text, Flex, Button, Slider, BalanceInput, AutoRenewIcon, Link } from 'zswap-uikit'
+import { HelpIcon, useTooltip, Text, Flex, Button, Slider, BalanceInput } from 'zswap-uikit'
 import { CurrencyLogo } from 'components/Logo'
 import { useTranslation } from 'contexts/Localization'
 import useToast from 'hooks/useToast'
@@ -12,6 +12,7 @@ import useHarvestPool from 'views/Pools/hooks/useHarvestPool'
 import useUnstakePool from 'views/Pools/hooks/useUnstakePool'
 import PercentageButton from './PercentageButton'
 import ZbstLogo from 'components/Logo/tokens/ZBST.png'
+import Dots from 'components/Loader/Dots'
 
 interface StakeModalContentProps {
   pool: Pool
@@ -20,6 +21,7 @@ interface StakeModalContentProps {
   tabType?: string
   isRemovingStake?: boolean
   isReward?: boolean
+  fromStakeModal?: boolean
   onDismiss?: () => void
 }
 
@@ -61,13 +63,14 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
   tabType,
   isRemovingStake = false,
   isReward = false,
+  fromStakeModal = false,
   onDismiss,
 }) => {
-  const { apr, stakingToken, userData, stakingLimit, earningToken } = pool
+  const { apr, stakingToken, userData, stakingLimit } = pool
   const { t } = useTranslation()
   const { onStake } = useStakePool(pool.stakingToken)
   const { onUnstake } = useUnstakePool(pool.stakingToken)
-  const { toastSuccess, toastError } = useToast()
+  const { toastError } = useToast()
   const { onReward } = useHarvestPool(stakingToken)
   const [pendingTx, setPendingTx] = useState(false)
   const [stakeAmount, setStakeAmount] = useState('')
@@ -123,12 +126,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
       try {
         const success = await onUnstake(stakeAmount, stakingToken.decimals)
         if (success) {
-          // toastSuccess(
-          //   `${t('Unstaked')}!`,
-          //   t('Your %symbol% earnings have also been harvested to your wallet!', {
-          //     symbol: earningToken.symbol,
-          //   }),
-          // )
           setPendingTx(false)
           onDismiss()
         } else {
@@ -146,12 +143,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
       try {
         const success = await onStake(stakeAmount, stakingToken.decimals)
         if (success) {
-          // toastSuccess(
-          //   `${t('Staked')}!`,
-          //   t('Your %symbol% funds have been staked in the pool!', {
-          //     symbol: stakingToken.symbol,
-          //   }),
-          // )
           setPendingTx(false)
           onDismiss()
         } else {
@@ -172,20 +163,21 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setPendingTx(true)
     try {
       await onReward()
-      toastSuccess(
-        `${t('Rewarded')}!`,
-        t('Your %symbol% earnings have been sent to your wallet!', {
-          symbol: earningToken.symbol,
-        }),
-      )
       setPendingTx(false)
       onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
-      console.error(e)
       setPendingTx(false)
     }
   }
+
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(
+    t('The amount of tokens you have staked. You can withdraw them at any time.'),
+    {
+      placement: 'right',
+      trigger: 'hover',
+    },
+  )
 
   return (
     <>
@@ -227,9 +219,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             {isRemovingStake
               ? userData?.stakedBalance.toFixed(4, BigNumber.ROUND_DOWN)
               : userData?.stakingTokenBalance.toFixed(4)}
-            {/* <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#0050FF', marginLeft: '10px' }}>
-              {t('MAX')}
-            </span> */}
           </Text>
         )}
       </Flex>
@@ -251,7 +240,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             disabled={pendingTx || !parseFloat(userData?.pendingReward.toFixed(2))}
             mt="24px"
           >
-            {pendingTx ? t('Withdrawing Reward') + '...' : t('Withdraw Reward')}
+            {pendingTx ? <Dots>{t('Withdrawing Reward')}</Dots> : t('Withdraw Reward')}
           </Button>
         </>
       )}
@@ -287,24 +276,36 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             <PercentageButton onClick={() => handleChangePercent(75)}>75%</PercentageButton>
             <PercentageButton onClick={() => handleChangePercent(100)}>{t('Max')}</PercentageButton>
           </PercentageButtonWrap>
-          <Flex>
+          <Flex alignItems="center">
             <Text fontSize="16px" bold>
               {isRemovingStake ? t('Amount Withdrawed') : t('Amount Staked')}: {stakeAmount || 0} ≈ $
               {usdValueStaked || 0}
             </Text>
+            {fromStakeModal && (
+              <>
+                {tooltipVisible && tooltip}
+                <div ref={targetRef}>
+                  <HelpIcon cursor="pointer" width="18px" ml="5px" mt="2px" />
+                </div>
+              </>
+            )}
           </Flex>
           <Button
             onClick={handleConfirmClick}
             disabled={pendingTx || !stakeAmount || parseFloat(stakeAmount) === 0 || hasReachedStakeLimit}
             mt="24px"
           >
-            {pendingTx
-              ? isRemovingStake
-                ? t('Withdrawing Principal') + '...'
-                : t('Staking') + '...'
-              : isRemovingStake
-              ? t('Withdraw Principal')
-              : t('Stake')}
+            {pendingTx ? (
+              isRemovingStake ? (
+                <Dots>{t('Withdrawing Principal')}</Dots>
+              ) : (
+                <Dots>{t('Staking')}</Dots>
+              )
+            ) : isRemovingStake ? (
+              t('Withdraw Principal')
+            ) : (
+              t('Stake')
+            )}
           </Button>
         </>
       )}

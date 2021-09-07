@@ -17,7 +17,7 @@ const useStake = (pair: string, lpContract: Contract | null | any, decimals = 18
       const receipt = await tx.wait()
       return Boolean(receipt.status)
     },
-    [lpContract, addTransaction],
+    [lpContract, addTransaction, lpSymbol],
   )
 
   return { onStake: handleStake }

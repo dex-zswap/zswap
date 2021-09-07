@@ -10,6 +10,7 @@ import { useTransactionAdder, useHasPendingApproval } from 'state/transactions/h
 import { computeSlippageAdjustedAmounts } from 'utils/prices'
 import { calculateGasMargin } from 'utils'
 import { useTokenContract } from './useContract'
+import { useTranslation } from 'contexts/Localization'
 
 export enum ApprovalState {
   UNKNOWN,
@@ -23,6 +24,7 @@ export function useApproveCallback(
   amountToApprove?: CurrencyAmount,
   spender?: string,
 ): [ApprovalState, () => Promise<void>] {
+  const { t } = useTranslation()
   const { account } = useActiveWeb3React()
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
   const currentAllowance = useTokenAllowance(token, account ?? undefined, spender)
@@ -85,7 +87,9 @@ export function useApproveCallback(
       })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: `Approve ${amountToApprove.currency.symbol}`,
+          summary: t('Approve %assets%', {
+            assets: amountToApprove.currency.symbol,
+          }),
           approval: { tokenAddress: token.address, spender },
           reportData: {
             from: 'approve',

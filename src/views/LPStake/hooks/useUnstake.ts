@@ -17,7 +17,7 @@ const useUnstake = (pair: string, lpContract: Contract | null | any, decimals = 
       const receipt = await tx.wait()
       return Boolean(receipt.status)
     },
-    [useTransactionAdder],
+    [useTransactionAdder, lpSymbol],
   )
 
   return { onUnstake: handleUnstake }
