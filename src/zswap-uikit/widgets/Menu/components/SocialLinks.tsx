@@ -1,51 +1,33 @@
 import React from 'react'
-import { SvgProps } from '../../../components/Svg'
+import useLinks from './useLinks'
+import { useTranslation } from 'contexts/Localization'
+
 import Flex from '../../../components/Box/Flex'
-import Dropdown from '../../../components/Dropdown/Dropdown'
 import Link from '../../../components/Link/Link'
-import * as IconModule from '../icons'
-import { socials } from '../config'
-import MenuButton from './MenuButton'
 
-const Icons = IconModule as unknown as { [key: string]: React.FC<SvgProps> }
+const localeToLinkLangKey = {
+  'en-US': 'enUrl',
+  'zh-CN': 'url',
+  'zh-TW': 'tcUrl',
+}
 
-const SocialLinks: React.FC = () => (
-  <Flex>
-    {socials.map((social, index) => {
-      const Icon = Icons[social.icon]
-      const iconProps = {
-        width: '24px',
-        color: 'textSubtle',
-        style: { cursor: 'pointer' },
-      }
-      const mr = index < socials.length - 1 ? '24px' : 0
-      // if (social.items) {
-      //   return (
-      //     <Dropdown key={social.label} position="top" target={<Icon {...iconProps} mr={mr} />}>
-      //       {social.items.map((item) => (
-      //         <MenuButton
-      //           key={item.label}
-      //           fullWidth
-      //           onClick={() => window.open(item.href)}
-      //           // Safari fix
-      //           style={{ minHeight: '32px', height: 'auto' }}
-      //         >
-      //           {item.label}
-      //         </MenuButton>
-      //         <Link external key={item.label} href={item.href} aria-label={item.label} color="textSubtle">
-      //           {item.label}
-      //         </Link>
-      //       ))}
-      //     </Dropdown>
-      //   )
-      // }
-      return (
-        <Link external key={social.label} href={social.href} aria-label={social.label} mr={mr}>
-          <Icon {...iconProps} />
-        </Link>
-      )
-    })}
-  </Flex>
-)
+const SocialLinks: React.FC = () => {
+  const { currentLanguage } = useTranslation()
+  const { locale } = currentLanguage
+  const links = useLinks()
+
+  return (
+    <Flex>
+      {links.map((link, index) => {
+        const mr = index < links.length - 1 ? '20px' : 0
+        return (
+          <Link external key={link.title} href={link[localeToLinkLangKey[locale]]} aria-label={link.title} mr={mr}>
+            <img style={{ cursor: 'pointer' }} width="24px" src={link.desc} />
+          </Link>
+        )
+      })}
+    </Flex>
+  )
+}
 
 export default React.memo(SocialLinks, () => true)

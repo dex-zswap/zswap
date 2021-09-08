@@ -42,7 +42,7 @@ const CardHeading: React.FC<ExpandableSectionProps> = ({ lpLabel, token, quoteTo
   const { t } = useTranslation()
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t(
-      'Weight represents the ratio of ZBst reward from the pool to the ratio of the standard reward. In general, the higher the weight, the higher ZBst reward can be obtained by the pool.',
+      'Weight represents the ratio of ZBST reward from the pool to the ratio of the standard reward. In general, the higher the weight, the higher ZBST reward can be obtained by the pool.',
     ),
     {
       placement: 'top',

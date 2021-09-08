@@ -155,7 +155,7 @@ const Carousel = () => {
         <Text color="text" fontSize="18px" margin="40px 0 30px">
           {t('More advanced and more convenient, easily complete the cryptocurrency exchange and win high bonuses')}
         </Text>
-        {!account && <ConnectWalletButton scale="sm" />}
+        {!account && <ConnectWalletButton scale="md" />}
         <BlueBg />
       </TextWrap>
       <ImgWrap>

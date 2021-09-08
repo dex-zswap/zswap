@@ -10,7 +10,10 @@ export default function useTimeRange() {
 
   return useMemo(() => {
     if (!startTime.result || !endTime.result) {
-      return null
+      return {
+        start: 0,
+        end: 0,
+      }
     }
 
     //  TODO: add timezone

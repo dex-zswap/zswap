@@ -128,7 +128,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setPendingTx(true)
     try {
       await handleStake(stakeAmount)
-      // toastSuccess(t('Staked!'), t('Your funds have been staked in the farm'))
       onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
@@ -142,7 +141,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setPendingTx(true)
     try {
       await handleUnstake(stakeAmount)
-      // toastSuccess(t('Unstaked!'), t('Your earnings have also been harvested to your wallet'))
       onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
@@ -158,12 +156,6 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
     setPendingTx(true)
     try {
       await onReward()
-      toastSuccess(
-        `${t('Rewarded')}!`,
-        t('Your %symbol% earnings have been sent to your wallet!', {
-          symbol: 'CAKE',
-        }),
-      )
       onDismiss()
     } catch (e) {
       toastError(t('Error'), t('Please try again. Confirm the transaction and make sure you are paying enough gas!'))
