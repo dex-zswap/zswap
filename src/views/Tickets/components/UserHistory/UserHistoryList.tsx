@@ -46,7 +46,7 @@ const UserHistoryList = ({ showDetail }) => {
     return (
       <Flex height="238px" flexDirection="column" alignItems="center" justifyContent="center">
         <BuyTicketsButton
-          accountTip={t('No lottery history found. Buy tickets for this draw!')}
+          accountTip={t('No lottery history found')}
           noAccountTip={t('Connect your wallet to check your history')}
         />
       </Flex>

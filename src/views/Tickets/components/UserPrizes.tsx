@@ -14,6 +14,7 @@ import useRefresh from 'hooks/useRefresh'
 import Card from './Card'
 import TicketsRecords from './TicketsRecords'
 import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
+import Dots from 'components/Loader/Dots'
 
 const Line = styled.div`
   width: 100%;
@@ -209,7 +210,7 @@ const UserPrizes = () => {
                 onClick={collectReward}
                 disabled={collecting || '0.0000' == userTotalRewardInfo.zbst}
               >
-                {collecting ? t('Collecting') + '...' : t('Collect Prizes')}
+                {collecting ? <Dots>{t('Collecting')}</Dots> : t('Collect Prizes')}
               </Button>
             </Flex>
           </>

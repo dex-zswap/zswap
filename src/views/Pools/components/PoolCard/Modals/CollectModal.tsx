@@ -18,6 +18,7 @@ import { Token } from 'config/constants/types'
 import { formatNumber } from 'utils/formatBalance'
 import useHarvestPool from 'views/Pools/hooks/useHarvestPool'
 import useStakePool from 'views/Pools/hooks/useStakePool'
+import Dots from 'components/Loader/Dots'
 
 interface CollectModalProps {
   formattedBalance: string
@@ -149,7 +150,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
       </Flex>
 
       <Button mt="8px" onClick={handleHarvestConfirm} disabled={pendingTx}>
-        {pendingTx ? t('Confirming') + '...' : t('Confirm')}
+        {pendingTx ? <Dots>{t('Confirming')}</Dots> : t('Confirm')}
       </Button>
       <Button variant="text" onClick={onDismiss} pb="0px">
         {t('Close Window')}

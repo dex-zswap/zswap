@@ -4,8 +4,10 @@ import { Token } from 'config/constants/types'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { ZSWAP_DEX_ADDRESS } from 'config/constants/zswap/address'
 import { getAddress } from 'utils/addressHelpers'
+import { useTranslation } from 'contexts/Localization'
 
 const useHarvestPool = (token: Token) => {
+  const { t } = useTranslation()
   const tokenAddress = getAddress(token.address)
   const isUsingDEX = token.symbol === 'DEX'
   const stakeContract = useZSwapStakeContract()
@@ -14,7 +16,7 @@ const useHarvestPool = (token: Token) => {
   const handleHarvest = useCallback(async () => {
     const tx = await stakeContract.harvest(isUsingDEX ? ZSWAP_DEX_ADDRESS : tokenAddress)
     addTransaction(tx, {
-      summary: `Claim ${token.symbol} Stake Rewards`,
+      summary: t(`Claim %assets% Stake Rewards`, { assets: token.symbol }),
     })
     const receipt = await tx.wait()
     return Boolean(receipt.status)

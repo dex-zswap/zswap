@@ -18,6 +18,7 @@ import { Pool } from 'state/types'
 import { getAddress } from 'utils/addressHelpers'
 import { convertCakeToShares } from 'views/Pools/helpers'
 import FeeSummary from './FeeSummary'
+import Dots from 'components/Loader/Dots'
 
 interface VaultStakeModalProps {
   pool: Pool
@@ -209,7 +210,7 @@ const VaultStakeModal: React.FC<VaultStakeModalProps> = ({ pool, stakingMax, isR
         disabled={pendingTx || !stakeAmount || parseFloat(stakeAmount) === 0}
         mt="24px"
       >
-        {pendingTx ? t('Confirming') + '...' : t('Confirm')}
+        {pendingTx ? <Dots>{t('Confirming')}</Dots> : t('Confirm')}
       </Button>
       {!isRemovingStake && (
         <Button mt="8px" as="a" external href="/swap" variant="secondary">

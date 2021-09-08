@@ -925,7 +925,6 @@
   "Match first %numberMatch%": "命中前 %numberMatch% 位",
   "Matched first": "命中首位",
   "Buy tickets for the next round!": "购买下一回合的彩票！",
-  "No lottery history found": "找不到彩票历史记录",
   "Contract enabled - you can now purchase tickets": "合约已批准 - 您可以购买彩票了",
   "Lottery tickets purchased!": "已购买彩票！",
   "The maximum number of tickets you can buy in one transaction is %maxTickets%": "您在一次交易中可以购买的最大彩票数量为 %maxTickets%",
@@ -1387,7 +1386,7 @@
   "Confirm and Buy": "确认购买",
   "Draw Time": "开奖时间",
   "Purchase Quantity": "购买数量",
-  "No lottery history found. Buy tickets for this draw!": "暂无历史彩票记录，前往购买本轮彩票！",
+  "No lottery history found": "暂无历史彩票记录",
   "More details": "更多详情",
   "tickets this round.": "张彩票",
   "View your Tickets": "查看您的彩票",
@@ -1510,5 +1509,12 @@
   "Buy %assets% Tickets": "购买%assets%张彩票",
   "Rewarded": "奖励",
   "Buying": "正在购买",
-  "(Editable)": "（可编辑）"
+  "(Editable)": "（可编辑）",
+  "Weight represents the ratio of ZBst reward from the pool to the ratio of the standard reward. In general, the higher the weight, the higher ZBst reward can be obtained by the pool.": "权重代表该质押池获得ZBst奖励与基准奖励的比值，通常来说，权重越高，该质押池获得ZBst的奖励越高。",
+  "Claim %assets% Stake Rewards": "提取 %assets% 奖励",
+  "Stake %assets%": "质押 %assets%",
+  "Approve %assets%": "授权 %assets%",
+  "Withdraw %assets%": "退回 %assets%",
+  "The amount of tokens you have staked. You can withdraw them at any time.": "您可以随时退回质押的代币。",
+  "No Prizes": "未开奖"
 }

@@ -1,6 +1,5 @@
 import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
 import { useTranslation } from 'contexts/Localization'
-import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import usePrizes from 'views/Tickets/hooks/usePrizes'
 
 import styled from 'styled-components'
@@ -47,7 +46,7 @@ const HeaderWrap = styled(Flex)`
 
 const LotteryHeader = () => {
   const { t } = useTranslation()
-  const zustValue = usePrizes()
+  const { zustValue } = usePrizes()
 
   return (
     <HeaderWrap>

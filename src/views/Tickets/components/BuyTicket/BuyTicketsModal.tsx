@@ -7,6 +7,7 @@ import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
 import { useTranslation } from 'contexts/Localization'
 
 import { Text, Input, Link, Flex, Modal, Button } from 'zswap-uikit'
+import Dots from 'components/Loader/Dots'
 import styled from 'styled-components'
 
 const InputWrap = styled(Flex)`
@@ -189,7 +190,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
     if (needApprove) {
       return (
         <Button disabled={approving} onClick={approve}>
-          {approving ? t('Approving') + '...' : t('Approve')}
+          {approving ? <Dots>{t('Approving')}</Dots> : t('Approve')}
         </Button>
       )
     }
@@ -204,7 +205,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
 
     return (
       <Button disabled={buying} isLoading={buying} onClick={buy}>
-        {buying ? t('Buying') + '...' : t('Confirm and Buy')}
+        {buying ? <Dots>{t('Buying')}</Dots> : t('Confirm and Buy')}
       </Button>
     )
   }

@@ -36,7 +36,9 @@ interface TicketsRecordsProps {
 
 const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false, setTickData }) => {
   const { t } = useTranslation()
-  const lotteryId = id || useCurrentLotteryId()
+  const currentLotteryId = useCurrentLotteryId()
+  const lotteryId = id || currentLotteryId
+  const isCurrentLottery = id == currentLotteryId
   const lotteryIds = useUserLotteryIds(lotteryId)
   const winNumbers = useWinNumbers(lotteryId)
 
@@ -62,15 +64,15 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ id, onlyShowWin = false
       if (numArr[0] == winNumbers[0] || numArr[5] == winNumbers[5]) {
         return t('6th Prize')
       }
-      return t('No Prize')
+      return t(isCurrentLottery ? 'No Prizes' : 'No Prize')
     },
-    [winNumbers],
+    [winNumbers, isCurrentLottery],
   )
 
   const totalTicks = useMemo(() => lotteryIds[0]?.numbers || [], [lotteryIds])
 
   const winTicks = useMemo(
-    () => totalTicks.filter((d: string) => t('No Prize') != getRewardLevel(d)) || [],
+    () => totalTicks.filter((d: string) => ![t('No Prize'), t('No Prizes')].includes(getRewardLevel(d))) || [],
     [totalTicks],
   )
 

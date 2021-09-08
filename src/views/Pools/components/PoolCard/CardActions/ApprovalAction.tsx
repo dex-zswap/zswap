@@ -5,6 +5,7 @@ import { useERC20 } from 'hooks/useContract'
 import { getAddress } from 'utils/addressHelpers'
 import { Pool } from 'state/types'
 import { useApprovePool } from 'views/Pools/hooks/useApprove'
+import Dots from 'components/Loader/Dots'
 
 interface ApprovalActionProps {
   pool: Pool
@@ -23,7 +24,7 @@ const ApprovalAction: React.FC<ApprovalActionProps> = ({ pool, isLoading = false
         <Skeleton width="100%" height="52px" />
       ) : (
         <Button disabled={requestedApproval} onClick={handleApprove} width="100%">
-          {requestedApproval ? t('Approving') + '...' : t('Approve')}
+          {requestedApproval ? <Dots>{t('Approving')}</Dots> : t('Approve')}
         </Button>
       )}
     </>

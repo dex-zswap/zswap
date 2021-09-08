@@ -10,6 +10,7 @@ import { Farm } from 'state/types'
 import useHarvestFarm from 'views/LPStake/hooks/useHarvestFarm'
 import PercentageButton from './PercentageButton'
 import ZbstLogo from 'components/Logo/tokens/ZBST.png'
+import Dots from 'components/Loader/Dots'
 
 interface FarmProps extends Farm {
   apr?: number
@@ -231,7 +232,7 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             </Text>
           </StakeTokenWrap>
           <Button onClick={handleHarvestConfirm} disabled={pendingTx || !userData?.earnings.toString()} mt="24px">
-            {pendingTx ? t('Withdrawing Reward') + '...' : t('Withdraw Reward')}
+            {pendingTx ? <Dots>{t('Withdrawing Reward')}</Dots> : t('Withdraw Reward')}
           </Button>
         </>
       )}
@@ -290,13 +291,17 @@ const StakeModalContent: React.FC<StakeModalContentProps> = ({
             }
             mt="24px"
           >
-            {pendingTx
-              ? isRemovingStake
-                ? t('Withdrawing Lp') + '...'
-                : t('Staking') + '...'
-              : isRemovingStake
-              ? t('Withdraw Lp')
-              : t('Stake')}
+            {pendingTx ? (
+              isRemovingStake ? (
+                <Dots>{t('Withdrawing Lp')}</Dots>
+              ) : (
+                <Dots>{t('Staking')}</Dots>
+              )
+            ) : isRemovingStake ? (
+              t('Withdraw Lp')
+            ) : (
+              t('Stake')
+            )}
           </Button>
         </>
       )}

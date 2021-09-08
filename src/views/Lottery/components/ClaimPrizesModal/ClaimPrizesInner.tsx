@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import { Flex, Button, Text, AutoRenewIcon, PresentWonIcon } from 'zswap-uikit'
+import { Flex, Button, Text, PresentWonIcon } from 'zswap-uikit'
+import Dots from 'components/Loader/Dots'
+
 import { useTranslation } from 'contexts/Localization'
 import { LotteryTicket, LotteryTicketClaimData } from 'config/constants/types'
 import { getBalanceAmount } from 'utils/formatBalance'
@@ -202,7 +204,8 @@ const ClaimInnerContainer: React.FC<ClaimInnerProps> = ({ onSuccess, roundsToCla
           disabled={pendingTx}
           onClick={() => (shouldBatchRequest ? handleBatchClaim() : handleClaim())}
         >
-          {pendingTx ? t('Claiming') + '...' : t('Claim')} {pendingBatchClaims > 1 ? `(${pendingBatchClaims})` : ''}
+          {pendingTx ? <Dots>{t('Claiming')}</Dots> : t('Claim')}{' '}
+          {pendingBatchClaims > 1 ? `(${pendingBatchClaims})` : ''}
         </Button>
       </Flex>
     </>
