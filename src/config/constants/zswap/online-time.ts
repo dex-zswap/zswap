@@ -16,7 +16,7 @@ export const DATE_SECS = 24 * 60 * 60 * 1000
 export default ONLINE_TIME
 
 export function getOnlineDayOffset(dateTime: number = 0) {
-  const now = dateTime ?? Date.now()
+  const now = dateTime > 0 ? dateTime : Date.now()
   return Math.floor((now - ONLINE_TIME) / DATE_SECS)
 }
 
