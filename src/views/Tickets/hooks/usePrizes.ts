@@ -124,13 +124,13 @@ export default function usePrizes(lotteryId?: number | string) {
       const zustValue = [lotteryRewardBigNumber, lpRewardBigNumber, unRewardAmount].reduce((res, cur) => {
         return res.plus(cur.multipliedBy(priceBigNumber))
       }, BIG_ZERO)
+      console.log(`块：${blockNumber} 值：$${zustValue} zbst：${zustValue.div(priceBigNumber)}`)
       return { zustValue, zbRewards: zustValue.div(priceBigNumber) }
     }, [totalUsersCost, lpReward, zbst, zbstPrice, totalRewardsTouser, lottoTotalRewards])
   }
   const zbRewards = lottoTotalRewards.result
     ? new BigNumber(lottoTotalRewards.result.toString()).dividedBy(BIG_TEN.pow(18))
     : BIG_ZERO
-  console.log(zbstPrice, zbRewards)
   const zustValue = useMemo(() => {
     if (!zbstPrice) {
       return BIG_ZERO

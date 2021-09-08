@@ -200,7 +200,7 @@ const LotteryHeader = () => {
           </Text>
           <Text fontSize="16px">
             {t(
-              'Chainlink VRF (Verifiable Random Function) is a provably-fair and verifiable source of randomness designed for smart contracts. Smart contract developers can use Chainlink VRF as a tamper-proof RNG to build reliable smart contracts for any applications which rely on unpredictable outcomes.',
+              'The winning number consists of the last 6 pure numbers of the hash value of the last BTC block before the draw. The hash value of the BTC chain block is traceable, unpredictable, and non-tamperable, ensuring that the source of the ZSwap winning numbers is fair and can be verified.',
             )}
           </Text>
         </Flex>
