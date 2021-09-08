@@ -1,10 +1,14 @@
+import { useState } from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import { baseColors } from 'zswap-uikit/theme/colors'
-import { ButtonWrap } from '../Wrapper'
 import { Flex, Text, Image, Button } from 'zswap-uikit'
 import LearMoreBtn from 'components/LearMoreBtn'
 import { useTranslation } from 'contexts/Localization'
-import history from '../../../../routerHistory'
+import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
+import useInterval from 'hooks/useInterval'
+import { getHalfDownInfo } from 'config/constants/zswap/online-time'
+import { ButtonWrap } from '../Wrapper'
 
 const Wrap = styled(Flex)`
   position: relative;
@@ -69,6 +73,12 @@ const TextContainer = styled(Flex)`
   }
 `
 
+const TextMinWidth = styled(Text)`
+  min-width: 34px;
+  max-width: auto;
+  text-align: center;
+`
+
 const TextWrap = styled(Flex)`
   align-items: center;
   justify-content: center;
@@ -76,55 +86,65 @@ const TextWrap = styled(Flex)`
 `
 
 const Footer = () => {
+  const [ halfDownInfo, setHalfDownInfo ] = useState(getHalfDownInfo())
+
   const pinkColor = { color: baseColors.primary }
   const { t } = useTranslation()
+  const history = useHistory()
+  const zbstPrice = useZBSTZUSTPrice()
+
+  useInterval(() => {
+    setHalfDownInfo(getHalfDownInfo())
+  }, 1000)
 
   return (
     <Wrap>
-      {/* <Text lineHeight="54px" color="text" fontSize="48px" marginBottom="60px" bold>
-        {t('Total Liquidity Bet')}
-        <span style={pinkColor}> 25888800</span>
-        <span> {t('USDT')}</span>
-      </Text> */}
-      <CountdowmnLabel>
-        <Text color="text" fontSize="18px" bold>
-          {t('Halving Countdown')}
-        </Text>
-      </CountdowmnLabel>
-      <NumBoxWrap>
-        <NumBox>
-          <Text color="text" fontSize="32px" bold>
-            26
-          </Text>
-        </NumBox>
-        <Text color="text" fontSize="24px" bold>
-          {t('DD')}
-        </Text>
-        <NumBox>
-          <Text color="text" fontSize="32px" bold>
-            06
-          </Text>
-        </NumBox>
-        <Text color="text" fontSize="24px" bold>
-          {t('HH')}
-        </Text>
-        <NumBox>
-          <Text color="text" fontSize="32px" bold>
-            23
-          </Text>
-        </NumBox>
-        <Text color="text" fontSize="24px" bold>
-          {t('MM')}
-        </Text>
-        <NumBox>
-          <Text color="text" fontSize="32px" bold>
-            28
-          </Text>
-        </NumBox>
-        <Text color="text" fontSize="24px" bold>
-          {t('SS')}
-        </Text>
-      </NumBoxWrap>
+      {
+        halfDownInfo?.isCounting &&
+        (
+          <>
+            <CountdowmnLabel>
+              <Text color="text" fontSize="18px" bold>
+                {t('Halving Countdown')}
+              </Text>
+            </CountdowmnLabel>
+            <NumBoxWrap>
+              <NumBox>
+                <TextMinWidth color="text" fontSize="32px" bold>
+                  {halfDownInfo?.days}
+                </TextMinWidth>
+              </NumBox>
+              <Text color="text" fontSize="24px" bold>
+                {t('DD')}
+              </Text>
+              <NumBox>
+                <TextMinWidth color="text" fontSize="32px" bold>
+                {halfDownInfo?.hours}
+                </TextMinWidth>
+              </NumBox>
+              <Text color="text" fontSize="24px" bold>
+                {t('HH')}
+              </Text>
+              <NumBox>
+                <TextMinWidth color="text" fontSize="32px" bold>
+                  {halfDownInfo?.minutes}
+                </TextMinWidth>
+              </NumBox>
+              <Text color="text" fontSize="24px" bold>
+                {t('MM')}
+              </Text>
+              <NumBox>
+                <TextMinWidth color="text" fontSize="32px" bold>
+                  {halfDownInfo?.seconds}
+                </TextMinWidth>
+              </NumBox>
+              <Text color="text" fontSize="24px" bold>
+                {t('SS')}
+              </Text>
+            </NumBoxWrap>   
+          </>
+        )
+      }
       <TextContainer>
         <TextWrap>
           <Text color="text" fontSize="20px" bold>
@@ -134,8 +154,7 @@ const Footer = () => {
             {t('Current Price')}
           </Text>
           <Text color="text" fontSize="34px" bold>
-            <span style={pinkColor}>$0.8</span>
-            <span>{t('USDT')}</span>
+            <span style={pinkColor}>${zbstPrice?.toSignificant(6)}</span>
           </Text>
         </TextWrap>
         <TextWrap>
