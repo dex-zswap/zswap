@@ -53,11 +53,10 @@ const NumBoxWrap = styled(Flex)`
 const NumBox = styled(Flex)`
   align-items: center;
   justify-content: center;
-  min-width: 58px;
   height: 58px;
   border-radius: 16px;
-  padding: 0 10px;
-  margin: 0 15px;
+  padding: 0 8px;
+  margin: 0 12px;
   background: linear-gradient(135deg, #f866ff 0%, #0050ff 100%);
   border-radius: 16px;
 `
@@ -74,7 +73,7 @@ const TextContainer = styled(Flex)`
 `
 
 const TextMinWidth = styled(Text)`
-  min-width: 34px;
+  min-width: 42px;
   max-width: auto;
   text-align: center;
 `
@@ -86,7 +85,7 @@ const TextWrap = styled(Flex)`
 `
 
 const Footer = () => {
-  const [ halfDownInfo, setHalfDownInfo ] = useState(getHalfDownInfo())
+  const [halfDownInfo, setHalfDownInfo] = useState(getHalfDownInfo())
 
   const pinkColor = { color: baseColors.primary }
   const { t } = useTranslation()
@@ -99,52 +98,49 @@ const Footer = () => {
 
   return (
     <Wrap>
-      {
-        halfDownInfo?.isCounting &&
-        (
-          <>
-            <CountdowmnLabel>
-              <Text color="text" fontSize="18px" bold>
-                {t('Halving Countdown')}
-              </Text>
-            </CountdowmnLabel>
-            <NumBoxWrap>
-              <NumBox>
-                <TextMinWidth color="text" fontSize="32px" bold>
-                  {halfDownInfo?.days}
-                </TextMinWidth>
-              </NumBox>
-              <Text color="text" fontSize="24px" bold>
-                {t('DD')}
-              </Text>
-              <NumBox>
-                <TextMinWidth color="text" fontSize="32px" bold>
+      {halfDownInfo?.isCounting && (
+        <>
+          <CountdowmnLabel>
+            <Text color="text" fontSize="18px" bold>
+              {t('Halving Countdown')}
+            </Text>
+          </CountdowmnLabel>
+          <NumBoxWrap>
+            <NumBox>
+              <TextMinWidth color="text" fontSize="32px" bold>
+                {halfDownInfo?.days}
+              </TextMinWidth>
+            </NumBox>
+            <Text color="text" fontSize="24px" bold>
+              {t('DD')}
+            </Text>
+            <NumBox>
+              <TextMinWidth color="text" fontSize="32px" bold>
                 {halfDownInfo?.hours}
-                </TextMinWidth>
-              </NumBox>
-              <Text color="text" fontSize="24px" bold>
-                {t('HH')}
-              </Text>
-              <NumBox>
-                <TextMinWidth color="text" fontSize="32px" bold>
-                  {halfDownInfo?.minutes}
-                </TextMinWidth>
-              </NumBox>
-              <Text color="text" fontSize="24px" bold>
-                {t('MM')}
-              </Text>
-              <NumBox>
-                <TextMinWidth color="text" fontSize="32px" bold>
-                  {halfDownInfo?.seconds}
-                </TextMinWidth>
-              </NumBox>
-              <Text color="text" fontSize="24px" bold>
-                {t('SS')}
-              </Text>
-            </NumBoxWrap>   
-          </>
-        )
-      }
+              </TextMinWidth>
+            </NumBox>
+            <Text color="text" fontSize="24px" bold>
+              {t('HH')}
+            </Text>
+            <NumBox>
+              <TextMinWidth color="text" fontSize="32px" bold>
+                {halfDownInfo?.minutes}
+              </TextMinWidth>
+            </NumBox>
+            <Text color="text" fontSize="24px" bold>
+              {t('MM')}
+            </Text>
+            <NumBox>
+              <TextMinWidth color="text" fontSize="32px" bold>
+                {halfDownInfo?.seconds}
+              </TextMinWidth>
+            </NumBox>
+            <Text color="text" fontSize="24px" bold>
+              {t('SS')}
+            </Text>
+          </NumBoxWrap>
+        </>
+      )}
       <TextContainer>
         <TextWrap>
           <Text color="text" fontSize="20px" bold>

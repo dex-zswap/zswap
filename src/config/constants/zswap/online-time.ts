@@ -8,7 +8,7 @@ const HALF_RANGE = [
   [0, 14],
   [15, 42],
   [43, 98],
-  [105, 365]
+  [105, 365],
 ]
 
 export const DATE_SECS = 24 * 60 * 60 * 1000
@@ -33,7 +33,7 @@ export function getHalfDownInfo() {
     const hours = Math.floor((offset / 1000 / 60 / 60) % 24)
     const minutes = Math.floor((offset / 1000 / 60) % 60)
     const seconds = Math.floor((offset / 1000) % 60)
-  
+
     return {
       isCounting: true,
       days: days > 9 ? days : `0${days}`,
