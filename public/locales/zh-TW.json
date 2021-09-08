@@ -1510,7 +1510,7 @@
   "Rewarded": "獎勵",
   "Buying": "正在購買",
   "(Editable)": "（可編輯）",
-  "Weight represents the ratio of ZBst reward from the pool to the ratio of the standard reward. In general, the higher the weight, the higher ZBst reward can be obtained by the pool.": "權重代表該質押池獲得ZBst獎勵與基準獎勵的比值，通常來說，權重越高，該質押池獲得ZBst的獎勵越高。",
+  "Weight represents the ratio of ZBST reward from the pool to the ratio of the standard reward. In general, the higher the weight, the higher ZBST reward can be obtained by the pool.": "權重代表該質押池獲得ZBst獎勵與基準獎勵的比值，通常來說，權重越高，該質押池獲得ZBst的獎勵越高。",
   "Claim %assets% Stake Rewards": "提取 %assets% 獎勵",
   "Stake %assets%": "質押 %assets%",
   "Approve %assets%": "授權 %assets%",

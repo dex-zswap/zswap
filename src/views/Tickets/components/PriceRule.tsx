@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
-import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
+import usePrizes from 'views/Tickets/hooks/usePrizes'
 import { useAllUserLotteryIdsByLotteryNum } from 'views/Tickets/hooks/useUserHistory'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 
@@ -27,7 +27,7 @@ const PriceWrap = styled(Flex)`
 const PriceRule = ({ lotteryId }) => {
   const { t } = useTranslation()
   const currentLotteryId = Number(useCurrentLotteryId())
-  const { zustValue, zbRewards } = useLotteryReward(lotteryId)
+  const { zustValue, zbRewards } = usePrizes(lotteryId)
   const rewardNums = useAllUserLotteryIdsByLotteryNum(lotteryId)
   const isDrawed = currentLotteryId != lotteryId
   const priceData = useMemo(
@@ -46,7 +46,7 @@ const PriceRule = ({ lotteryId }) => {
           reward: zustValue.times(per[index]).integerValue().toFixed(0),
           zbReward: zbReward.toFixed(0),
           earn: `${rewardNums[index] ? zbReward.idiv(rewardNums[index]) : 0} ZBST ${t('each')}`,
-          winner: `${rewardNums[index]} ${t('Winners')}`,
+          winner: `${rewardNums[index] ?? 0} ${t('Winners')}`,
         }
         return d
       }),
