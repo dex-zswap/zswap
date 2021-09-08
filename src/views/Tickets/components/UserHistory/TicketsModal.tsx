@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
 
 import styled from 'styled-components'
@@ -47,23 +47,23 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, currentLotteryId
   const [winNumber, setWinNumber] = useState([])
   const [totalTickNum, setTotalTickNum] = useState(0)
   const [winTickNum, setWinTickNum] = useState(0)
-  const setTickData = (winNumber = [], totalTickNum = 0, winTickNum = 0) => {
-    setWinNumber(winNumber)
-    setTotalTickNum(totalTickNum)
-    setWinTickNum(winTickNum)
-  }
+  const setTickData = useCallback(
+    (winNumber = [], totalTickNum = 0, winTickNum = 0) => {
+      setWinNumber(winNumber)
+      setTotalTickNum(totalTickNum)
+      setWinTickNum(winTickNum)
+    },
+    [setWinNumber, setTotalTickNum, setWinTickNum],
+  )
   const ballArr = new Array(6).fill('')
 
   return (
     <Modal onDismiss={onDismiss} title={t('Round') + lotteryId} minWidth="480px">
       <Text mb="28px">{t('Winning numbers')}</Text>
       <Flex alignItems="center" mb="35px">
-        {/* <Text mr="55px" bold>
-          #001
-        </Text> */}
         <NumWrap>
           {ballArr.map((d, index) => (
-            <div key={index}>{winNumber[index] || '-'}</div>
+            <div key={index}>{winNumber[index] ?? '-'}</div>
           ))}
         </NumWrap>
       </Flex>

@@ -42,7 +42,7 @@ enum Steps {
 
 const ViewEditNumbers = ({ count, numbersChange }) => {
   const { t } = useTranslation()
-  const [numbers, setNumbers] = useState(useRandomNumbers(count))
+  const numbers = useRandomNumbers(count)
   const pages = Math.ceil(numbers.length / 5)
   const [pageNum, setPageNum] = useState(1)
   const [pageNumbers, setPageNumbers] = useState(numbers.slice(0, 5))
