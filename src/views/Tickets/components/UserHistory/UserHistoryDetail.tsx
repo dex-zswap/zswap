@@ -39,14 +39,14 @@ const BallWrap = styled(Flex)`
   }
 `
 
-const UserHistoryDetail = ({ lotteryId, drawTime }) => {
+const UserHistoryDetail = ({ lotteryId, drawTime, currentLotteryId, currentZustValue, currentZbRewards }) => {
   const { t } = useTranslation()
   const { zustValue, zbRewards } = useLotteryReward(lotteryId)
   const winNumbers = useWinNumbers(lotteryId)
   const BallArr = new Array(6).fill('ball')
   const lotteryIds = useUserLotteryIds(lotteryId)
   const ticketsNum = useMemo(() => lotteryIds[0]?.numbers.length || '0', [lotteryIds])
-  const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} />)
+  const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} currentLotteryId={currentLotteryId} />)
 
   return (
     <>
@@ -60,9 +60,9 @@ const UserHistoryDetail = ({ lotteryId, drawTime }) => {
         </Text>
         <div>
           <Text fontSize="36px" lineHeight="36px" mb="5px" color="blue" bold>
-            ${zbRewards.toFixed(2)}
+            {zbRewards}
           </Text>
-          <Text ml="4px">{zustValue.toFixed(2)} ZBST</Text>
+          <Text ml="4px">{zustValue}</Text>
         </div>
       </Flex>
       <Flex margin="25px 0 34px">
@@ -84,7 +84,12 @@ const UserHistoryDetail = ({ lotteryId, drawTime }) => {
       <Flex justifyContent="center">
         <Button onClick={useTicketsModal}>{t('View your Tickets')}</Button>
       </Flex>
-      <PriceRule lotteryId={lotteryId} />
+      <PriceRule
+        lotteryId={lotteryId}
+        currentLotteryId={currentLotteryId}
+        currentZustValue={currentZustValue}
+        currentZbRewards={currentZbRewards}
+      />
     </>
   )
 }

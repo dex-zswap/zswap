@@ -1,12 +1,11 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
-import { getBscScanLink } from 'utils'
+import React, { useState, useCallback, useEffect } from 'react'
 import useTicketPrice, { useZBSTBalance } from 'views/Tickets/hooks/useTicketPrice'
 import useApprove, { useApproveStatus } from 'views/Tickets/hooks/useApprove'
 import useBuy, { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
 import { useTranslation } from 'contexts/Localization'
 
-import { Text, Input, Link, Flex, Modal, Button } from 'zswap-uikit'
+import { Text, Input, Flex, Modal, Button } from 'zswap-uikit'
 import Dots from 'components/Loader/Dots'
 import styled from 'styled-components'
 

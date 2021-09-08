@@ -37,11 +37,12 @@ const NumWrap = styled(Flex)`
 `
 
 interface TicketsModalProps {
+  currentLotteryId: number
   lotteryId: string
   onDismiss?: () => void
 }
 
-const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => {
+const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, currentLotteryId, onDismiss }) => {
   const { t } = useTranslation()
   const [winNumber, setWinNumber] = useState([])
   const [totalTickNum, setTotalTickNum] = useState(0)
@@ -79,7 +80,7 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => 
         </Text>
         <Text bold>{winTickNum}</Text>
       </Flex>
-      <TicketsRecords id={lotteryId} setTickData={setTickData} />
+      <TicketsRecords id={lotteryId} setTickData={setTickData} currentLotteryId={currentLotteryId} />
     </Modal>
   )
 }
