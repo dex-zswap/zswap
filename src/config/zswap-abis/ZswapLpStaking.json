@@ -57,6 +57,21 @@
 			"type": "event"
 		},
 		{
+			"constant": true,
+			"inputs": [],
+			"name": "OtherRewardsstartBlockNum",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"constant": false,
 			"inputs": [
 				{
@@ -761,6 +776,21 @@
 				}
 			],
 			"name": "setLotteryAddress",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_other_rewards_block_number",
+					"type": "uint256"
+				}
+			],
+			"name": "setOtherRewardsstartBlockNum",
 			"outputs": [],
 			"payable": false,
 			"stateMutability": "nonpayable",

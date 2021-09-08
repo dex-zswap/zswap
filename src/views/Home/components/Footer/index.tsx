@@ -11,6 +11,7 @@ import { getHalfDownInfo } from 'config/constants/zswap/online-time'
 import { ButtonWrap } from 'views/Home/components/Wrapper'
 import useBurnedZB from 'views/Home/hooks/useBurnedZB'
 import useBurnedZBST from 'views/Home/hooks/useBurnedZBST'
+import useTotalReward from 'views/Home/hooks/useTotalReward'
 
 const Wrap = styled(Flex)`
   position: relative;
@@ -95,6 +96,7 @@ const Footer = () => {
   const zbstPrice = useZBSTZUSTPrice()
   const burnedZB = useBurnedZB()
   const burnedZBST = useBurnedZBST()
+  const totalRewatd = useTotalReward()
 
   useInterval(() => {
     setHalfDownInfo(getHalfDownInfo())
@@ -165,7 +167,7 @@ const Footer = () => {
             {t('Amount')}
           </Text>
           <Text color="primary" fontSize="34px" bold>
-            $8088100
+            ${totalRewatd.toString()}
           </Text>
         </TextWrap>
         {/* <TextWrap>

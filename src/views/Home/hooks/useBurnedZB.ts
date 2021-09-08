@@ -29,7 +29,7 @@ export default function useBurnedZB() {
   const allPaires = usePairs(allPairsCurrencies)
 
   return useMemo(() => {
-    return allPaires.reduce((prev, [ pairState, pair ]) => {
+    return allPaires.reduce((prev, [pairState, pair]) => {
       let zbPriceValue = BIG_ZERO
       if (pairState === PairState.EXISTS) {
         const zbBefore = pair.token0.equals(zbToken)
@@ -37,12 +37,14 @@ export default function useBurnedZB() {
         const isDex = token.address === ZSWAP_WDEX_ADDRESS
         const zbPrice = zbBefore ? pair.token1Price : pair.token0Price
         let amount = allBalances[token.address]
-  
+
         if (!amount && isDex) {
           amount = allBalances[ZSWAP_ZB_BURNED_ADDRESS]
         }
-  
-        zbPriceValue = new BigNumber(amount.toExact()).multipliedBy(new BigNumber(zbPrice.toSignificant(18))).integerValue()
+
+        zbPriceValue = new BigNumber(amount.toExact())
+          .multipliedBy(new BigNumber(zbPrice.toSignificant(18)))
+          .integerValue()
       }
 
       return prev.plus(zbPriceValue)
