@@ -8,7 +8,7 @@ const REWARDS = {
   10080000: [0, 14],
   5040000: [15, 42],
   2520000: [43, 98],
-  1260000: [105, Number.MAX_SAFE_INTEGER],
+  1260000: [105, 365],
 }
 
 export default function getLpReward(allWeight: number[], weight: number) {
