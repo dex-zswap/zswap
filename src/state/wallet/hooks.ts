@@ -10,7 +10,7 @@ import { useSingleContractMultipleData, useMultipleContractSingleData } from 'st
 /**
  * Returns a map of the given addresses to their eventually consistent DEX balances.
  */
-export function useETHBalances(uncheckedAddresses?: (string | undefined)[]): {
+export function useDEXBalances(uncheckedAddresses?: (string | undefined)[]): {
   [address: string]: CurrencyAmount | undefined
 } {
   const multicallContract = useMulticallContract()
@@ -107,7 +107,7 @@ export function useCurrencyBalances(
 
   const tokenBalances = useTokenBalances(account, tokens)
   const containsDEX: boolean = useMemo(() => currencies?.some((currency) => currency === ETHER) ?? false, [currencies])
-  const ethBalance = useETHBalances(containsDEX ? [account] : [])
+  const ethBalance = useDEXBalances(containsDEX ? [account] : [])
 
   return useMemo(
     () =>

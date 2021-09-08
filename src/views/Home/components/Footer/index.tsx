@@ -8,7 +8,9 @@ import { useTranslation } from 'contexts/Localization'
 import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useInterval from 'hooks/useInterval'
 import { getHalfDownInfo } from 'config/constants/zswap/online-time'
-import { ButtonWrap } from '../Wrapper'
+import { ButtonWrap } from 'views/Home/components/Wrapper'
+import useBurnedZB from 'views/Home/hooks/useBurnedZB'
+import useBurnedZBST from 'views/Home/hooks/useBurnedZBST'
 
 const Wrap = styled(Flex)`
   position: relative;
@@ -91,6 +93,8 @@ const Footer = () => {
   const { t } = useTranslation()
   const history = useHistory()
   const zbstPrice = useZBSTZUSTPrice()
+  const burnedZB = useBurnedZB()
+  const burnedZBST = useBurnedZBST()
 
   useInterval(() => {
     setHalfDownInfo(getHalfDownInfo())
@@ -183,7 +187,7 @@ const Footer = () => {
             {t('ZBST')}
           </Text>
           <Text color="primary" fontSize="34px" bold>
-            882000
+            {burnedZBST.toString()}
           </Text>
         </TextWrap>
         <TextWrap>
@@ -194,7 +198,7 @@ const Footer = () => {
             {t('and Destroyed ZB')}
           </Text>
           <Text color="primary" fontSize="34px" bold>
-            88000000
+            {burnedZB.toString()}
           </Text>
         </TextWrap>
       </TextContainer>
