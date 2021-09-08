@@ -1454,7 +1454,7 @@
   "Ticket Price": "彩票價格",
   "Price is 6.25 ZBST worth in ZBST per ticket. You can only buy a maximum of 100 tickets in one purchase, but you can make unlimited purchases. Once purchased you will not be able to convert your ticket back to ZBST.": "6.25ZBST一張；單次最多可購買100張；購買次數不限；彩票不可再兌換成ZBST。",
   "Source of Winning Numbers": "中獎號碼來源",
-  "Chainlink VRF (Verifiable Random Function) is a provably-fair and verifiable source of randomness designed for smart contracts. Smart contract developers can use Chainlink VRF as a tamper-proof RNG to build reliable smart contracts for any applications which rely on unpredictable outcomes.": "Chainlink VRF（可驗證隨機函數）是一種可證明公平且可驗證的隨機性來源，專為智能合約而設計。智能合約開發人員可以使用 Chainlink VRF 作為防篡改 RNG，為任何依賴不可預測結果的應用程序構建可靠的智能合約。",
+  "The winning number consists of the last 6 pure numbers of the hash value of the last BTC block before the draw. The hash value of the BTC chain block is traceable, unpredictable, and non-tamperable, ensuring that the source of the ZSwap winning numbers is fair and can be verified.": "中獎號碼由開獎前最後一個BTC區塊hash值通過計算生成。 BTC鏈區塊的hash值可溯源且無法預測、不可篡改，確保ZSwap中獎號碼來源公平且可以被驗證。",
   "Still got question?": "仍有問題？",
   "Staking": "正在質押",
   "Earn": "賺取",

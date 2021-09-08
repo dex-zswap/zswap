@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
+import BigNumber from 'bignumber.js'
 import { useTranslation } from 'contexts/Localization'
-import usePrizes from 'views/Tickets/hooks/usePrizes'
+import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useAllUserLotteryIdsByLotteryNum } from 'views/Tickets/hooks/useUserHistory'
-import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 
 import styled from 'styled-components'
 import { Flex, Text } from 'zswap-uikit'
@@ -24,18 +24,19 @@ const PriceWrap = styled(Flex)`
   }
 `
 
-const PriceRule = ({ lotteryId }) => {
+const PriceRule = ({ lotteryId, currentLotteryId, currentZustValue, currentZbRewards }) => {
   const { t } = useTranslation()
-  const currentLotteryId = Number(useCurrentLotteryId())
-  const { zustValue, zbRewards } = usePrizes(lotteryId)
-  const rewardNums = useAllUserLotteryIdsByLotteryNum(lotteryId)
   const isDrawed = currentLotteryId != lotteryId
+  const { zustValue, zbRewards } = useLotteryReward(lotteryId)
+  const zust = isDrawed ? zustValue : currentZustValue
+  const zb = isDrawed ? zbRewards : currentZbRewards
+  const rewardNums = useAllUserLotteryIdsByLotteryNum(lotteryId)
   const priceData = useMemo(
     () =>
       new Array(7).fill('').map((d, index) => {
         const isLast = index == 6
         const per = [0.4, 0.2, 0.1, 0.05, 0.03, 0.02, 0.2]
-        const zbReward = zbRewards.times(per[index]).integerValue()
+        const zbReward = '- ZBST' == zb ? zb : new BigNumber(zb.split(' ZBST')[0]).times(per[index]).integerValue()
         d = {
           isLast,
           color: isLast ? 'pink' : 'blue',
@@ -43,14 +44,15 @@ const PriceRule = ({ lotteryId }) => {
             ? t('Burn')
             : t(`${index + 1}${!index ? 'st' : 1 == index ? 'nd' : 2 == index ? 'rd' : 'th'} Prize`),
           subTitle: t(`Match ${index ? 'first' : 'all'} ${6 - index}${5 == index ? ' or last 1' : ''}`),
-          reward: zustValue.times(per[index]).integerValue().toFixed(0),
-          zbReward: zbReward.toFixed(0),
-          earn: `${rewardNums[index] ? zbReward.idiv(rewardNums[index]) : 0} ZBST ${t('each')}`,
+          reward:
+            '$-' == zust ? zust : '$' + new BigNumber(zust.split('$')[1]).times(per[index]).integerValue().toFixed(0),
+          zbReward: '- ZBST' == zbReward ? zbReward : zbReward.toFixed(0) + ' ZBST',
+          earn: `${rewardNums[index] && '- ZBST' != zbReward ? zbReward.idiv(rewardNums[index]) : 0} ZBST ${t('each')}`,
           winner: `${rewardNums[index] ?? 0} ${t('Winners')}`,
         }
         return d
       }),
-    [lotteryId, zustValue, zbRewards],
+    [lotteryId, zust, zb, rewardNums, isDrawed],
   )
 
   return (
@@ -71,9 +73,9 @@ const PriceRule = ({ lotteryId }) => {
               </Text>
             )}
             <Text fontSize="24px" bold>
-              ${reward}
+              {reward}
             </Text>
-            <Text>{zbReward} ZBST</Text>
+            <Text>{zbReward}</Text>
             {isDrawed && !isLast && (
               <>
                 <Text>{earn}</Text>

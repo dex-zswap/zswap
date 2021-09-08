@@ -6,10 +6,9 @@ import PriceRule from './PriceRule'
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useWinTime from 'views/Tickets/hooks/useWinTime'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
-import usePrizes from 'views/Tickets/hooks/usePrizes'
+import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import useTimeRange from 'views/Tickets/hooks/useTimeRange'
 import dayjs from 'dayjs'
 
@@ -130,16 +129,15 @@ const RightContentWrap = styled(Flex)`
   }
 `
 
-const TicketDraw = () => {
+const TicketDraw = ({ currentLotteryId, currentZustValue, currentZbRewards }) => {
   const { t } = useTranslation()
 
   const [preLotteryId, setPreLotteryId] = useState(1)
   const [showPreView, setShowPreView] = useState(false)
 
-  const currentLotteryId = Number(useCurrentLotteryId())
   const lotteryId = showPreView ? preLotteryId : currentLotteryId
 
-  const { zustValue, zbRewards } = usePrizes(lotteryId)
+  const { zustValue, zbRewards } = useLotteryReward(lotteryId)
 
   const winNumbers = useWinNumbers(lotteryId)
   const winTime = useWinTime(lotteryId)
@@ -306,9 +304,9 @@ const TicketDraw = () => {
             </Text>
             <div>
               <Text color="blue" fontSize="36px" bold>
-                ${zustValue.toFixed(2)}
+                {showPreView ? zustValue : currentZustValue}
               </Text>
-              <Text>{zbRewards.toFixed(2)} ZBST</Text>
+              <Text>{showPreView ? zbRewards : currentZbRewards}</Text>
             </div>
           </Flex>
           <Flex>
@@ -328,7 +326,12 @@ const TicketDraw = () => {
               <BuyTicketsButton />
             )}
           </Flex>
-          <PriceRule lotteryId={lotteryId} />
+          <PriceRule
+            lotteryId={lotteryId}
+            currentLotteryId={currentLotteryId}
+            currentZustValue={currentZustValue}
+            currentZbRewards={currentZbRewards}
+          />
         </>
       </Card>
     </TicketDrawWrap>

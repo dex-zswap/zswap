@@ -1,6 +1,5 @@
 import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
 import { useTranslation } from 'contexts/Localization'
-import usePrizes from 'views/Tickets/hooks/usePrizes'
 
 import styled from 'styled-components'
 import { Text, Flex } from 'zswap-uikit'
@@ -44,9 +43,8 @@ const HeaderWrap = styled(Flex)`
   }
 `
 
-const LotteryHeader = () => {
+const LotteryHeader = ({ currentZustValue }) => {
   const { t } = useTranslation()
-  const { zustValue } = usePrizes()
 
   return (
     <HeaderWrap>
@@ -61,7 +59,7 @@ const LotteryHeader = () => {
         {t('ZSwap Lottery')}
       </Text>
       <Text fontSize="48px" lineHeight="60px" color="pink" bold>
-        ${zustValue.toFixed(2)}
+        {currentZustValue}
       </Text>
       <Text mb="25px" fontSize="48px" lineHeight="60px" bold>
         {t('in prizes')}

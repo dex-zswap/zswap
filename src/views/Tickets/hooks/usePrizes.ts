@@ -40,9 +40,9 @@ export function useAllWinNumbers() {
   const hasOpened = useHasOpened(lotteryId)
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState({})
-  let lotteryNum = hasOpened ? parseInt(lotteryId) : Number(lotteryId) - 1
+  let lotteryNum = hasOpened ? lotteryId : Number(lotteryId) - 1
   const idIndex = useMemo(() => {
-    lotteryNum = hasOpened ? parseInt(lotteryId) : Number(lotteryId) - 1
+    lotteryNum = hasOpened ? lotteryId : Number(lotteryId) - 1
 
     const lotteryIds = new Array(lotteryNum).fill(0)
     const idIndex = lotteryIds
@@ -85,61 +85,46 @@ export function useAllWinNumbers() {
   return winNumbers
 }
 
-export default function usePrizes(lotteryId?: number | string) {
-  const currentLotteryId = Number(useCurrentLotteryId())
-  const id = lotteryId ?? currentLotteryId
+export default function usePrizes(lotteryId) {
   const lotteryContract = useZSwapLotteryContract()
   const zbstPrice = useZBSTZUSTPrice()
-  const lottoTotalRewards = useContractCall(lotteryContract, 'lottoTotalRewards', [id])
+  const lottoTotalRewards = useContractCall(lotteryContract, 'lottoTotalRewards', [lotteryId])
 
   const lpContract = useZSwapLPContract()
   const zbst = useZBToken()
   const blockNumber = useBlockNumber()
   const totalUsersCost = useContractCall(lotteryContract, 'totalUsersCost', [])
   const lpReward = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 10])
-  const totalRewardsTouser = useContractCall(lotteryContract, 'lottoTotalRewardsToUser', [id])
-  if (currentLotteryId == id) {
-    return useMemo(() => {
-      if (!zbst || !zbstPrice) {
-        return { zustValue: BIG_ZERO, zbRewards: BIG_ZERO }
-      }
-
-      const lottoTotalRewardsBigNumber = lottoTotalRewards.result
-        ? new BigNumber(lottoTotalRewards.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
-        : BIG_ZERO
-      const totalRewardsTouserBigNumber = totalRewardsTouser.result
-        ? new BigNumber(totalRewardsTouser.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
-        : BIG_ZERO
-
-      const unRewardAmount = lottoTotalRewardsBigNumber.minus(totalRewardsTouserBigNumber)
-
-      const lotteryRewardBigNumber = totalUsersCost.result
-        ? new BigNumber(totalUsersCost.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
-        : BIG_ZERO
-      const lpRewardBigNumber = lpReward.result
-        ? new BigNumber(lpReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
-        : BIG_ZERO
-      const priceBigNumber = new BigNumber(zbstPrice.toSignificant(6))
-
-      const zustValue = [lotteryRewardBigNumber, lpRewardBigNumber, unRewardAmount].reduce((res, cur) => {
-        return res.plus(cur.multipliedBy(priceBigNumber))
-      }, BIG_ZERO)
-      return { zustValue, zbRewards: zustValue.div(priceBigNumber) }
-    }, [totalUsersCost, lpReward, zbst, zbstPrice, totalRewardsTouser, lottoTotalRewards])
-  }
-  const zbRewards = lottoTotalRewards.result
-    ? new BigNumber(lottoTotalRewards.result.toString()).dividedBy(BIG_TEN.pow(18))
-    : BIG_ZERO
-  console.log(zbstPrice, zbRewards)
-  const zustValue = useMemo(() => {
-    if (!zbstPrice) {
-      return BIG_ZERO
+  const totalRewardsTouser = useContractCall(lotteryContract, 'lottoTotalRewardsToUser', [lotteryId])
+  return useMemo(() => {
+    if (!zbst || !zbstPrice) {
+      return { currentZustValue: '$-', currentZbRewards: '- ZBST' }
     }
 
-    return zbRewards.multipliedBy(new BigNumber(zbstPrice.toSignificant(18)))
-  }, [zbstPrice, zbRewards])
-  return {
-    zustValue,
-    zbRewards,
-  }
+    const lottoTotalRewardsBigNumber = lottoTotalRewards.result
+      ? new BigNumber(lottoTotalRewards.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
+    const totalRewardsTouserBigNumber = totalRewardsTouser.result
+      ? new BigNumber(totalRewardsTouser.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
+
+    const unRewardAmount = lottoTotalRewardsBigNumber.minus(totalRewardsTouserBigNumber)
+
+    const lotteryRewardBigNumber = totalUsersCost.result
+      ? new BigNumber(totalUsersCost.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
+    const lpRewardBigNumber = lpReward.result
+      ? new BigNumber(lpReward.result.toString()).dividedBy(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
+    const priceBigNumber = new BigNumber(zbstPrice.toSignificant(6))
+
+    const zustValue = [lotteryRewardBigNumber, lpRewardBigNumber, unRewardAmount].reduce((res, cur) => {
+      return res.plus(cur.multipliedBy(priceBigNumber))
+    }, BIG_ZERO)
+
+    return {
+      currentZustValue: `$${zustValue.toFixed(2)}`,
+      currentZbRewards: `${zustValue.div(priceBigNumber).toFixed(2)} ZBST`,
+    }
+  }, [totalUsersCost, lpReward, zbst, zbstPrice, totalRewardsTouser, lottoTotalRewards])
 }

@@ -10,7 +10,9 @@ export default function useLotteryReward(lotteryId: string | number) {
   const lotteryContract = useZSwapLotteryContract()
   const reward = useContractCall(lotteryContract, 'lottoTotalRewards', [lotteryId], false)
   const zbstPrice = useZBSTZUSTPrice()
-  const zbRewards = reward.result ? new BigNumber(reward.result.toString()).dividedBy(BIG_TEN.pow(18)) : BIG_ZERO
+  const zbRewards = reward.result
+    ? new BigNumber(reward.result.toString()).dividedBy(BIG_TEN.pow(18)).dividedBy(0.8)
+    : BIG_ZERO
 
   const zustValue = useMemo(() => {
     if (!zbstPrice) {
@@ -20,8 +22,8 @@ export default function useLotteryReward(lotteryId: string | number) {
     return zbRewards.multipliedBy(new BigNumber(zbstPrice.toSignificant(18)))
   }, [zbstPrice, zbRewards])
   return {
-    zustValue,
-    zbRewards,
+    zustValue: BIG_ZERO == zustValue ? '$-' : `$${zustValue.toFixed(2)}`,
+    zbRewards: BIG_ZERO == zbRewards ? '- ZBST' : `${zbRewards.toFixed(2)} ZBST`,
   }
 }
 

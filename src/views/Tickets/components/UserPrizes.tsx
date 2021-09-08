@@ -5,7 +5,6 @@ import { Text, Flex, Button } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useUserAllLotteryIds } from 'views/Tickets/hooks/useUserHistory'
-import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import { useCollectReward, useUserCollected } from 'views/Tickets/hooks/useUserPrize'
 import { useAllWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useAllRewards } from 'views/Tickets/hooks/useLotteryReward'
@@ -72,11 +71,10 @@ const getPrizesLevels = (prizes, filterUser = true) => {
   return result
 }
 
-const UserPrizes = () => {
+const UserPrizes = ({ currentLotteryId }) => {
   const { t } = useTranslation()
   const { fastRefresh } = useRefresh()
   const { account } = useActiveWeb3React()
-  const currentLotteryId = useCurrentLotteryId()
   const lotteryIds = useUserAllLotteryIds()
   const allWinNumbers = useAllWinNumbers()
   const { collectReward, collecting } = useCollectReward()
@@ -185,7 +183,7 @@ const UserPrizes = () => {
           </Flex>
         ) : (
           <>
-            <TicketsRecords onlyShowWin />
+            <TicketsRecords currentLotteryId={currentLotteryId} onlyShowWin />
             <Line />
             <Flex justifyContent="space-between" alignItems="center">
               <div>
