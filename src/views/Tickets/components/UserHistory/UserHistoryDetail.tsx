@@ -72,7 +72,7 @@ const UserHistoryDetail = ({ lotteryId, drawTime, currentLotteryId, currentZustV
         </div>
         <BallWrap>
           {BallArr.map((num, index) => (
-            <div key={num + index}>{winNumbers[index] || '-'}</div>
+            <div key={num + index}>{winNumbers[index] ?? '-'}</div>
           ))}
         </BallWrap>
       </Flex>
