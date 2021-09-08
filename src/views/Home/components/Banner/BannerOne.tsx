@@ -1,10 +1,12 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import { Wrap, ButtonWrap, TextWrap } from '../Wrapper'
 import { Text, Image, Button } from 'zswap-uikit'
 import LearMoreBtn from 'components/LearMoreBtn'
+import { Wrap, ButtonWrap, TextWrap } from 'views/Home/components/Wrapper'
+import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
+import usePrizes from 'views/Tickets/hooks/usePrizes'
 import { useTranslation } from 'contexts/Localization'
-import history from '../../../../routerHistory'
 
 const ImgWrap = styled.div`
   width: 434px;
@@ -96,6 +98,9 @@ const ImgWrap = styled.div`
 
 const BannerOne = () => {
   const { t } = useTranslation()
+  const history = useHistory()
+  const lotteryId = useCurrentLotteryId()
+  const { currentZustValue } = usePrizes(lotteryId)
 
   return (
     <Wrap>
@@ -131,7 +136,7 @@ const BannerOne = () => {
           {t('Win more than')}
         </Text>
         <Text lineHeight="54px" color="blue" fontSize="48px" bold>
-          $2250000
+          {currentZustValue}
         </Text>
         <Text lineHeight="20px" color="text" fontSize="18px" marginTop="30px">
           {t('Fair game on a chain')}
