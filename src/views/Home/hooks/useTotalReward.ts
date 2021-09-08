@@ -52,6 +52,9 @@ export default function useTotalReward() {
   }, [lpMinBlockNumber, stakeMinBlockNumber, blockNumber])
 
   return useMemo(() => {
+    if (!zbstPrice) {
+      return BIG_ZERO
+    }
     return blockNumberInfo.lp
       .multipliedBy(REWARD_BASE)
       .multipliedBy(zbstPrice.toSignificant(18))
