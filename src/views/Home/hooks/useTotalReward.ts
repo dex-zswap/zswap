@@ -10,8 +10,6 @@ import { REWARD_BASE } from 'config/constants/zswap/earing-token'
 import { getAddress } from 'utils/addressHelpers'
 import pools from 'config/constants/zswap/pools'
 
-// token_last_reward_block
-
 export default function useTotalReward() {
   const lpContract = useZSwapLPContract()
   const stakeContract = useZSwapStakeContract()
@@ -20,7 +18,7 @@ export default function useTotalReward() {
 
   const poolIds = useMemo(() => pools.map(({ stakingToken }) => [getAddress(stakingToken.address)]), [])
 
-  const lpBlockNumber = useContractCall(lpContract, 'OtherRewardsstartBlockNum', [])
+  const lpBlockNumber = useContractCall(lpContract, 'OtherRewardsstartBlockNum', [], true)
   const stakeMinBlockNumbers = useSingleContractMultipleData(stakeContract, 'token_last_reward_block', poolIds)
 
   const stakeMinBlockNumber = useMemo(() => {
