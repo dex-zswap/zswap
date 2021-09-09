@@ -9,7 +9,7 @@ import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useInterval from 'hooks/useInterval'
 import { getHalfDownInfo } from 'config/constants/zswap/online-time'
 import { ButtonWrap } from 'views/Home/components/Wrapper'
-import useLpBlocks from 'views/Home/hooks/useLpBlocks'
+import { useBlockNumber } from 'state/application/hooks'
 import useBurnedZB from 'views/Home/hooks/useBurnedZB'
 import useBurnedZBST from 'views/Home/hooks/useBurnedZBST'
 import useTotalReward from 'views/Home/hooks/useTotalReward'
@@ -89,8 +89,9 @@ const TextWrap = styled(Flex)`
 `
 
 const Footer = () => {
-  const lpBlocks = useLpBlocks()
-  const [halfDownInfo, setHalfDownInfo] = useState(getHalfDownInfo())
+  const blockNumber = useBlockNumber()
+
+  const [halfDownInfo, setHalfDownInfo] = useState(getHalfDownInfo(blockNumber))
 
   const pinkColor = { color: baseColors.primary }
   const { t } = useTranslation()
@@ -101,7 +102,7 @@ const Footer = () => {
   const totalRewatd = useTotalReward()
 
   useInterval(() => {
-    setHalfDownInfo(getHalfDownInfo())
+    setHalfDownInfo(getHalfDownInfo(blockNumber))
   }, 1000)
 
   return (

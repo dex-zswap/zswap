@@ -13,6 +13,8 @@ export default function useBurnedZBST() {
   const otherTotalRewards = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 15], true)
 
   return useMemo(() => {
-    return (otherTotalRewards.result && zbst) ? new BigNumber(otherTotalRewards.result.toString()).div(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
+    return otherTotalRewards.result && zbst
+      ? new BigNumber(otherTotalRewards.result.toString()).div(BIG_TEN.pow(zbst.decimals))
+      : BIG_ZERO
   }, [otherTotalRewards, zbst])
 }

@@ -21,7 +21,7 @@ export function getOnlineDayOffset(down: boolean = true) {
   return down ? Math.floor(offset) : Math.ceil(offset)
 }
 
-export function getHalfDownInfo() {
+export function getHalfDownInfo(blockNumber: number) {
   const now = Date.now()
   const dayOffset = getOnlineDayOffset(false)
   const rangeIndex = HALF_RANGE.findIndex((range) => range[0] <= dayOffset && range[1] >= dayOffset)

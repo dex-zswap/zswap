@@ -21,7 +21,7 @@ export default function useBurnedZB() {
   const tokenBalance = useTokenBalances(ZSWAP_ZB_BURNED_ADDRESS, allTokens)
   const otherTotalRewards = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 5], true)
 
-  const [zbstzbPairState,  zbstzbPair] = usePair(zbstCurrency, zbCurrency)
+  const [zbstzbPairState, zbstzbPair] = usePair(zbstCurrency, zbCurrency)
 
   const allBalances = useMemo(() => {
     return Object.assign({}, tokenBalance)
@@ -48,8 +48,7 @@ export default function useBurnedZB() {
         zbPrice = zbBefore ? pair.token1Price : pair.token0Price
         amount = allBalances[token.address]
 
-        zbPriceValue = new BigNumber(amount.toExact())
-          .multipliedBy(new BigNumber(zbPrice.toSignificant(18)))
+        zbPriceValue = new BigNumber(amount.toExact()).multipliedBy(new BigNumber(zbPrice.toSignificant(18)))
       }
 
       return prev.plus(zbPriceValue)
@@ -60,7 +59,9 @@ export default function useBurnedZB() {
     if (zbstzbPairState === PairState.EXISTS && otherTotalRewards.result) {
       zbBefore = zbstzbPair.token0.equals(zbToken)
       zbPrice = zbBefore ? zbstzbPair.token1Price : zbstzbPair.token0Price
-      feeAmount = new BigNumber(otherTotalRewards.result.toString()).multipliedBy(new BigNumber(zbPrice.toSignificant(18))).dividedBy(BIG_TEN.pow(18))
+      feeAmount = new BigNumber(otherTotalRewards.result.toString())
+        .multipliedBy(new BigNumber(zbPrice.toSignificant(18)))
+        .dividedBy(BIG_TEN.pow(18))
       totalBurned = total.plus(feeAmount).integerValue(BigNumber.ROUND_HALF_UP)
     }
 

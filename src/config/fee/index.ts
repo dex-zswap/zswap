@@ -26,8 +26,14 @@ export const SWAP_INPUT_RATE = {
   default: BIG_ONE,
 }
 
-export default class FeeHelper {
-  static getFeeOnSwap(currency: Currency | Token) {
+class FeeHelper {
+  private currentBlock: number = 0
+
+  setBlock(blockNumber: number) {
+    this.currentBlock = Math.max(this.currentBlock, blockNumber)
+  }
+
+  getFeeOnSwap(currency: Currency | Token) {
     const dayOffset = getOnlineDayOffset()
 
     if (currency) {
@@ -41,7 +47,7 @@ export default class FeeHelper {
     return SWAP_FEE.default
   }
 
-  static getPriceFee(currency: Currency | Token) {
+  getPriceFee(currency: Currency | Token) {
     const dayOffset = getOnlineDayOffset()
 
     if (currency) {
@@ -55,7 +61,7 @@ export default class FeeHelper {
     return PRICE_FEE.default
   }
 
-  static getRealInput(currency: Currency | Token, input: string) {
+  getRealInput(currency: Currency | Token, input: string) {
     const dayOffset = getOnlineDayOffset()
     const inputAmount = new BigNumber(input)
 
@@ -72,7 +78,7 @@ export default class FeeHelper {
     return rate.multipliedBy(inputAmount).toString()
   }
 
-  static getIputAmount(currency: Currency | Token, input: string) {
+  getIputAmount(currency: Currency | Token, input: string) {
     const dayOffset = getOnlineDayOffset()
     const inputAmount = new BigNumber(input)
     let rate = SWAP_INPUT_RATE.default
@@ -87,3 +93,7 @@ export default class FeeHelper {
     return rate.multipliedBy(inputAmount).integerValue(BigNumber.ROUND_DOWN).toString()
   }
 }
+
+const feeHelper = new FeeHelper()
+
+export default feeHelper

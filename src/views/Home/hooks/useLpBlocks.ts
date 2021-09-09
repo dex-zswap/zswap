@@ -11,7 +11,9 @@ export default function useLpBlocks() {
   const lpBlockNumber = useContractCall(lpContract, 'OtherRewardsstartBlockNum', [], true)
 
   const lpMinBlockNumber = useMemo(() => {
-    return (lpBlockNumber.result && blockNumber) ? new BigNumber(blockNumber).minus(new BigNumber(lpBlockNumber.result.toString())) : BIG_ZERO
+    return (lpBlockNumber.result && blockNumber
+      ? new BigNumber(blockNumber).minus(new BigNumber(lpBlockNumber.result.toString()))
+      : BIG_ZERO).toNumber()
   }, [lpBlockNumber, blockNumber])
 
   return lpMinBlockNumber
