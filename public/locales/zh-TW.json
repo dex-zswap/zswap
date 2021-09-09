@@ -1034,7 +1034,7 @@
   "Enable %asset%": "啟用 %asset%",
   "Share of Pool": "資金池中的持份",
   "%assetA% per %assetB%": "%assetA%/%assetB%",
-  "%asset% Deposited": "已儲值 %asset%",
+  "%asset% Deposited": "注入 %asset%",
   "Rates": "匯率",
   "Create Pool & Supply": "創造資金池並供應",
   "Confirm Supply": "確認供應",

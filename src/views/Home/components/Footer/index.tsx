@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { baseColors } from 'zswap-uikit/theme/colors'
 import { Flex, Text, Image, Button } from 'zswap-uikit'
-import LearMoreBtn from 'components/LearMoreBtn'
+import LearnMoreBtn from 'components/LearnMoreBtn'
 import { useTranslation } from 'contexts/Localization'
 import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useInterval from 'hooks/useInterval'
@@ -208,7 +208,7 @@ const Footer = () => {
         <Button width="152px" onClick={() => history.push('/farms')}>
           {t('Buy Now')}
         </Button>
-        <LearMoreBtn width="152px" href="https://www.baidu.com" />
+        <LearnMoreBtn width="152px" href="https://zswap.gitbook.io/zswap/dai-bi/dai-bi-zbst" />
       </ButtonWrap>
       <Image className="banner_ab-img" width={47} height={46} src="/images/home/banner/obj_4_1.png" />
     </Wrap>

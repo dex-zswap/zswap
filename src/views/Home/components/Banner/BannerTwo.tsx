@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { baseColors } from 'zswap-uikit/theme/colors'
 import { Wrap, ButtonWrap, TextWrap } from '../Wrapper'
 import { Text, Image, Button } from 'zswap-uikit'
-import LearMoreBtn from 'components/LearMoreBtn'
+import LearnMoreBtn from 'components/LearnMoreBtn'
 import { useTranslation } from 'contexts/Localization'
 import history from '../../../../routerHistory'
 
@@ -83,7 +83,7 @@ const BannerTwo = () => {
           <Button width="152px" onClick={() => history.push('/swap')}>
             {t('Trade Now')}
           </Button>
-          <LearMoreBtn width="152px" href="https://www.baidu.com" />
+          <LearnMoreBtn width="152px" href="https://zswap.gitbook.io/zswap/chan-p/untitled/dai-bi-jiao-huan" />
         </ButtonWrap>
       </TextWrap>
       <ImgWrap>

@@ -204,7 +204,7 @@ const Pools: React.FC = () => {
           <Flex flex="1" flexDirection="column" mr={['8px', 0]}>
             <Heading as="h1" scale="lg" color="secondary" mb="10px">
               {t('Earn ZBST by staking assets for market making')}
-              <HelpButton />
+              <HelpButton href="https://zswap.gitbook.io/zswap/chan-p/untitled/ru-he-jin-hang-dan-bi-zhi-ya" />
             </Heading>
             <Heading scale="xxl" color="pink">
               $ {totalLocked}

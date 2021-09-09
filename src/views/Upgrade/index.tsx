@@ -5,6 +5,11 @@ import { Flex, Text } from 'zswap-uikit'
 const UpgradeWrap = styled(Flex)`
   position: relative;
   margin: auto;
+  > img,
+  > div {
+    position: relative;
+    z-index: 99;
+  }
 
   &::before {
     content: '';

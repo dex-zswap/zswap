@@ -1,7 +1,7 @@
-import LearMoreBtn from 'components/LearMoreBtn'
+import LearnMoreBtn from './LearnMoreBtn'
 
-const HelpButton = () => {
-  return <LearMoreBtn scale="medium" href="https://www.baidu.com" ml="20px" />
+const HelpButton = ({ href }) => {
+  return <LearnMoreBtn scale="medium" href={href} ml="20px" />
 }
 
 export default HelpButton
