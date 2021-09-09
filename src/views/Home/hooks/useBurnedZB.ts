@@ -1,23 +1,31 @@
 import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { useAllTokens } from 'hooks/Tokens'
-import { useTokenBalances, useDEXBalances } from 'state/wallet/hooks'
-import { ZSWAP_ZB_BURNED_ADDRESS, ZSWAP_WDEX_ADDRESS } from 'config/constants/zswap/address'
-import { useZBCurrency, useZBToken } from 'hooks/Tokens'
-import { usePairs, PairState } from 'hooks/usePairs'
-import { BIG_ZERO } from 'utils/bigNumber'
+import { useTokenBalances } from 'state/wallet/hooks'
+import { useZSwapLPContract } from 'hooks/useContract'
+import { useBlockNumber } from 'state/application/hooks'
+import { ZSWAP_ZB_BURNED_ADDRESS } from 'config/constants/zswap/address'
+import { useZBCurrency, useZBSTCurrency, useZBToken } from 'hooks/Tokens'
+import { useContractCall } from 'hooks/useContractCall'
+import { usePairs, usePair, PairState } from 'hooks/usePairs'
+import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export default function useBurnedZB() {
   const tokenMap = useAllTokens()
   const zbCurrency = useZBCurrency()
+  const zbstCurrency = useZBSTCurrency()
+  const lpContract = useZSwapLPContract()
   const zbToken = useZBToken()
+  const blockNumber = useBlockNumber()
   const allTokens = useMemo(() => Object.keys(tokenMap).map((address) => tokenMap[address]), [tokenMap])
   const tokenBalance = useTokenBalances(ZSWAP_ZB_BURNED_ADDRESS, allTokens)
-  const dexBalance = useDEXBalances([ZSWAP_ZB_BURNED_ADDRESS])
+  const otherTotalRewards = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 5], true)
+
+  const [zbstzbPairState,  zbstzbPair] = usePair(zbstCurrency, zbCurrency)
 
   const allBalances = useMemo(() => {
-    return Object.assign({}, dexBalance, tokenBalance)
-  }, [dexBalance, tokenBalance])
+    return Object.assign({}, tokenBalance)
+  }, [tokenBalance])
 
   const allPairsCurrencies = useMemo(() => {
     if (!zbCurrency || !zbToken) {
@@ -29,25 +37,33 @@ export default function useBurnedZB() {
   const allPaires = usePairs(allPairsCurrencies)
 
   return useMemo(() => {
-    return allPaires.reduce((prev, [pairState, pair]) => {
-      let zbPriceValue = BIG_ZERO
-      if (pairState === PairState.EXISTS) {
-        const zbBefore = pair.token0.equals(zbToken)
-        const token = zbBefore ? pair.token1 : pair.token0
-        const isDex = token.address === ZSWAP_WDEX_ADDRESS
-        const zbPrice = zbBefore ? pair.token1Price : pair.token0Price
-        let amount = allBalances[token.address]
+    let zbBefore, token, zbPrice, amount
+    let zbPriceValue = BIG_ZERO
+    let totalBurned, feeAmount
 
-        if (!amount && isDex) {
-          amount = allBalances[ZSWAP_ZB_BURNED_ADDRESS]
-        }
+    let total = allPaires.reduce((prev, [pairState, pair]) => {
+      if (pairState === PairState.EXISTS) {
+        zbBefore = pair.token0.equals(zbToken)
+        token = zbBefore ? pair.token1 : pair.token0
+        zbPrice = zbBefore ? pair.token1Price : pair.token0Price
+        amount = allBalances[token.address]
 
         zbPriceValue = new BigNumber(amount.toExact())
           .multipliedBy(new BigNumber(zbPrice.toSignificant(18)))
-          .integerValue()
       }
 
       return prev.plus(zbPriceValue)
     }, BIG_ZERO)
-  }, [allPaires, allBalances])
+
+    totalBurned = total
+
+    if (zbstzbPairState === PairState.EXISTS && otherTotalRewards.result) {
+      zbBefore = zbstzbPair.token0.equals(zbToken)
+      zbPrice = zbBefore ? zbstzbPair.token1Price : zbstzbPair.token0Price
+      feeAmount = new BigNumber(otherTotalRewards.result.toString()).multipliedBy(new BigNumber(zbPrice.toSignificant(18))).dividedBy(BIG_TEN.pow(18))
+      totalBurned = total.plus(feeAmount).integerValue(BigNumber.ROUND_HALF_UP)
+    }
+
+    return totalBurned
+  }, [allPaires, allBalances, zbstzbPairState, zbstzbPair, otherTotalRewards])
 }

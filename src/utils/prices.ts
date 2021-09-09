@@ -29,9 +29,13 @@ export function computeTradePriceBreakdown(trade?: Trade | null): {
     ? undefined
     : ONE_HUNDRED_PERCENT.subtract(
         trade.route.pairs.reduce<Fraction>((currentFee: Fraction): Fraction => {
+          // console.log(currentFee.multiply(INPUT_FRACTION_AFTER_FEE).toSignificant(6))
           return currentFee.multiply(INPUT_FRACTION_AFTER_FEE)
         }, ONE_HUNDRED_PERCENT),
       )
+
+  // console.log(trade?.route.pairs)
+  // console.log(INPUT_FRACTION_AFTER_FEE.toSignificant(6))
 
   // remove lp fees from price impact
   const priceImpactWithoutFeeFraction = trade && realizedLPFee ? trade.priceImpact.subtract(realizedLPFee) : undefined
@@ -48,6 +52,11 @@ export function computeTradePriceBreakdown(trade?: Trade | null): {
     (trade.inputAmount instanceof TokenAmount
       ? new TokenAmount(trade.inputAmount.token, realizedLPFee.multiply(trade.inputAmount.raw).quotient)
       : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient))
+
+  if (realizedLPFee && trade) {
+    console.log(trade.priceImpact.toSignificant(10))
+    console.log(trade.priceImpact.subtract(realizedLPFee).toSignificant(10))
+  }
 
   return {
     priceImpactWithoutFee: priceImpactWithoutFeePercent,

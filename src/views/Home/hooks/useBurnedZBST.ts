@@ -1,19 +1,18 @@
 import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import { useTokenBalances } from 'state/wallet/hooks'
-import { ZSWAP_ZB_BURNED_ADDRESS } from 'config/constants/zswap/address'
+import { useZSwapLPContract } from 'hooks/useContract'
 import { useZBSTToken } from 'hooks/Tokens'
-import { BIG_ZERO } from 'utils/bigNumber'
+import { useBlockNumber } from 'state/application/hooks'
+import { useContractCall } from 'hooks/useContractCall'
+import { BIG_ZERO, BIG_TEN } from 'utils/bigNumber'
 
 export default function useBurnedZBST() {
-  const zbstToken = useZBSTToken()
-  const tokenBalance = useTokenBalances(ZSWAP_ZB_BURNED_ADDRESS, zbstToken ? [zbstToken] : [])
+  const lpContract = useZSwapLPContract()
+  const blockNumber = useBlockNumber()
+  const zbst = useZBSTToken()
+  const otherTotalRewards = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 15], true)
 
   return useMemo(() => {
-    if (!tokenBalance && !zbstToken) {
-      return BIG_ZERO
-    }
-
-    return new BigNumber(tokenBalance[zbstToken.address]?.toSignificant(zbstToken.decimals)).integerValue()
-  }, [tokenBalance, zbstToken])
+    return (otherTotalRewards.result && zbst) ? new BigNumber(otherTotalRewards.result.toString()).div(BIG_TEN.pow(zbst.decimals)) : BIG_ZERO
+  }, [otherTotalRewards, zbst])
 }
