@@ -6,7 +6,7 @@ import {
   ALLOWED_PRICE_IMPACT_LOW,
   ALLOWED_PRICE_IMPACT_MEDIUM,
 } from 'config/constants'
-import FeeHelper from 'config/fee'
+import FeeHelper from 'utils/fee'
 
 import { Field } from 'state/swap/actions'
 import { basisPointsToPercent } from './index'

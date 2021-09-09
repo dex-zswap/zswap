@@ -2,21 +2,22 @@ import React, { useMemo, useEffect, ReactNode } from 'react'
 import ReactDOM from 'react-dom'
 import useActiveWeb3React from './hooks/useActiveWeb3React'
 import { BLOCKED_ADDRESSES } from './config/constants'
-import FeeHelper from './config/fee'
+import OnlineInfo from './utils/online-info'
 import ApplicationUpdater from './state/application/updater'
-import { useBlockNumber } from './state/application/hooks'
+import { useBlockNumber, useBlockTime } from './state/application/hooks'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import App from './App'
 import Providers from './Providers'
 
-function FeeUpdater() {
+function BlockUpdater() {
   const blockNumber = useBlockNumber()
+  const blockTime = useBlockTime()
 
   useEffect(() => {
     if (blockNumber > 0) {
-      FeeHelper.setBlock(blockNumber)
+      OnlineInfo.setBlock(blockNumber, blockTime)
     }
   }, [blockNumber])
 
@@ -30,7 +31,7 @@ function Updaters() {
       <ApplicationUpdater />
       <TransactionUpdater />
       <MulticallUpdater />
-      <FeeUpdater />
+      <BlockUpdater />
     </>
   )
 }

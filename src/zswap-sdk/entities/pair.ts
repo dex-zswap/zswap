@@ -5,7 +5,7 @@ import JSBI from 'jsbi'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
 
-import FeeHelper from 'config/fee'
+import FeeHelper from 'utils/fee'
 
 import {
   BigintIsh,
@@ -15,7 +15,6 @@ import {
   ZERO,
   ONE,
   FIVE,
-  FEES_NUMERATOR,
   FEES_DENOMINATOR,
   ChainId,
 } from '../constants'
