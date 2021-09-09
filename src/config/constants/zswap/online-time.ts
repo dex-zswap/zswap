@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 
 const isBuild = ['dev', 'test'].includes(process.env.BUILD_TYPE)
-const ONLINE_TIME = +new Date('2021-08-25 18:00:00')
+const ONLINE_TIME = +new Date('2021-09-08 12:00:00')
 const ONLINE_DAYJS = dayjs(ONLINE_TIME)
 
 const HALF_RANGE = [
@@ -15,15 +15,17 @@ export const DATE_SECS = 24 * 60 * 60 * 1000
 
 export default ONLINE_TIME
 
-export function getOnlineDayOffset(dateTime: number = 0) {
-  const now = dateTime > 0 ? dateTime : Date.now()
-  return Math.floor((now - ONLINE_TIME) / DATE_SECS)
+export function getOnlineDayOffset(down: boolean = true) {
+  const now = Date.now()
+  const offset = (now - ONLINE_TIME) / DATE_SECS
+  return down ? Math.floor(offset) : Math.ceil(offset)
 }
 
 export function getHalfDownInfo() {
   const now = Date.now()
-  const dayOffset = getOnlineDayOffset(now)
-  const daysRange = HALF_RANGE.find((range) => range[0] <= dayOffset && range[1] >= dayOffset)
+  const dayOffset = getOnlineDayOffset(false)
+  const rangeIndex = HALF_RANGE.findIndex((range) => range[0] <= dayOffset && range[1] >= dayOffset)
+  const daysRange = HALF_RANGE[rangeIndex]
 
   if (daysRange) {
     const halfDownDate = ONLINE_DAYJS.clone().add(daysRange[1], 'days').toDate()
