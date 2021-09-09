@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Link, Button } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 
-const LearMoreBtn = ({ href, ...props }) => {
+const LearnMoreBtn = ({ href, ...props }) => {
   const { t } = useTranslation()
 
   return (
@@ -18,4 +18,4 @@ const LearMoreBtn = ({ href, ...props }) => {
   )
 }
 
-export default LearMoreBtn
+export default LearnMoreBtn

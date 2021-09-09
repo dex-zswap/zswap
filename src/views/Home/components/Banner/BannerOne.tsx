@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Text, Image, Button } from 'zswap-uikit'
-import LearMoreBtn from 'components/LearMoreBtn'
+import LearnMoreBtn from 'components/LearnMoreBtn'
 import { Wrap, ButtonWrap, TextWrap } from 'views/Home/components/Wrapper'
 import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import usePrizes from 'views/Tickets/hooks/usePrizes'
@@ -148,7 +148,7 @@ const BannerOne = () => {
           <Button width="152px" onClick={() => history.push('/lottery')}>
             {t('Join Now')}
           </Button>
-          <LearMoreBtn width="152px" href="https://www.baidu.com" />
+          <LearnMoreBtn width="152px" href="https://zswap.gitbook.io/zswap/chan-p/cai-piao" />
         </ButtonWrap>
       </TextWrap>
     </Wrap>

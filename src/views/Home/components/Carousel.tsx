@@ -65,7 +65,8 @@ const TextWrap = styled.div`
   width: 560px;
   position: relative;
   word-breal: break-word;
-  > div {
+  > div,
+  > button {
     position: relative;
     z-index: 99;
   }

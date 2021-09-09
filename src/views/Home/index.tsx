@@ -42,7 +42,7 @@ const BlueBg = styled.div`
   position: absolute !important;
   left: 0;
   bottom: 0;
-  z-index: 66 !important;
+  z-index: 0 !important;
 `
 
 const PinkBg = styled.div`
@@ -54,7 +54,7 @@ const PinkBg = styled.div`
   position: absolute !important;
   right: 0;
   bottom: 0;
-  z-index: 66 !important;
+  z-index: 0 !important;
 `
 
 const Home: React.FC = () => {

@@ -54,7 +54,7 @@ const config: (t: ContextApi['t']) => MenuEntry[] = (t) => [
   {
     label: t('Help'),
     icon: 'HelpIcon',
-    href: '/help',
+    href: 'https://zswap.gitbook.io/zswap',
   },
   // {
   //   label: t('Farms'),
