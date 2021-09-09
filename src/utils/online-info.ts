@@ -47,11 +47,18 @@ class OnlineInfo {
     const blockDayBigNumber = new BigNumber(blockDay)
 
     if (!savedMaxDay || savedMaxDay !== maxDay) {
-      this.countDownTime = this.blockTimeBigNumber.plus(OFFSET_DAY_SECS).plus(maxDayBigNumber.minus(blockDayBigNumber).multipliedBy(EVERY_DAY_SECS)).integerValue(BigNumber.ROUND_CEIL).toNumber()
-      localStorage.setItem('zswap_count_down_info', JSON.stringify({
-        maxDay,
-        time: this.countDownTime
-      }))
+      this.countDownTime = this.blockTimeBigNumber
+        .plus(OFFSET_DAY_SECS)
+        .plus(maxDayBigNumber.minus(blockDayBigNumber).multipliedBy(EVERY_DAY_SECS))
+        .integerValue(BigNumber.ROUND_CEIL)
+        .toNumber()
+      localStorage.setItem(
+        'zswap_count_down_info',
+        JSON.stringify({
+          maxDay,
+          time: this.countDownTime,
+        }),
+      )
     }
   }
 

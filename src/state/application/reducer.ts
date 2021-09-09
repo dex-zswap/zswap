@@ -8,7 +8,7 @@ export interface ApplicationState {
 
 const initialState: ApplicationState = {
   blockNumber: {},
-  blockTime: {}
+  blockTime: {},
 }
 
 export default createReducer(initialState, (builder) =>

@@ -49,9 +49,9 @@ export default function Updater(): null {
 
     const interval = setInterval(() => {
       library
-      .getBlockNumber()
-      .then(blockNumberCallback)
-      .catch((error) => console.error(`Failed to get block number for chainId: ${chainId}`, error))
+        .getBlockNumber()
+        .then(blockNumberCallback)
+        .catch((error) => console.error(`Failed to get block number for chainId: ${chainId}`, error))
     }, 3000)
 
     library.on('block', blockNumberCallback)
