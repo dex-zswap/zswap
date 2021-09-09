@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { JSBI, Currency, ETHER, Token, currencyEquals } from 'zswap-sdk'
 import { Percent } from 'zswap-sdk/entities/fractions'
-import { getOnlineDayOffset } from 'config/constants/zswap/online-time'
+import onlineInfo from 'utils/online-info'
 import { ZSWAP_WDEX_ADDRESS } from 'config/constants/zswap/address'
 import { BIG_ONE } from 'utils/bigNumber'
 
@@ -27,14 +27,8 @@ export const SWAP_INPUT_RATE = {
 }
 
 class FeeHelper {
-  private currentBlock: number = 0
-
-  setBlock(blockNumber: number) {
-    this.currentBlock = Math.max(this.currentBlock, blockNumber)
-  }
-
   getFeeOnSwap(currency: Currency | Token) {
-    const dayOffset = getOnlineDayOffset()
+    const { floor: dayOffset } = onlineInfo.getDayOffset()
 
     if (currency) {
       if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
@@ -48,7 +42,7 @@ class FeeHelper {
   }
 
   getPriceFee(currency: Currency | Token) {
-    const dayOffset = getOnlineDayOffset()
+    const { floor: dayOffset } = onlineInfo.getDayOffset()
 
     if (currency) {
       if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
@@ -62,9 +56,8 @@ class FeeHelper {
   }
 
   getRealInput(currency: Currency | Token, input: string) {
-    const dayOffset = getOnlineDayOffset()
+    const { floor: dayOffset } = onlineInfo.getDayOffset()
     const inputAmount = new BigNumber(input)
-
     let rate = SWAP_INPUT_RATE.default
 
     if (currency) {
@@ -79,7 +72,7 @@ class FeeHelper {
   }
 
   getIputAmount(currency: Currency | Token, input: string) {
-    const dayOffset = getOnlineDayOffset()
+    const { floor: dayOffset } = onlineInfo.getDayOffset()
     const inputAmount = new BigNumber(input)
     let rate = SWAP_INPUT_RATE.default
     if (currency) {

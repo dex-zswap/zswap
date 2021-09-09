@@ -15,7 +15,7 @@ import { AppDispatch, AppState } from 'state'
 import { useCurrencyBalances } from 'state/wallet/hooks'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { usePair } from 'hooks/usePairs'
-import FeeHelper from 'config/fee'
+import FeeHelper from 'utils/fee'
 import { Field, replaceSwapState, selectCurrency, setRecipient, switchCurrencies, typeInput } from './actions'
 import { SwapState } from './reducer'
 
