@@ -104,6 +104,13 @@ export function useAllLists(): {
   return useSelector<AppState, AppState['lists']['byUrl']>((state) => state.lists.byUrl)
 }
 
+export function useTokenLists() {
+  const data = useAllLists()
+  return useMemo(() => {
+    return data[Object.keys(data)[0]]?.current?.tokens || []
+  }, [data])
+}
+
 function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddressMap {
   return {
     [ChainId.MAINNET]: { ...map1[ChainId.MAINNET], ...map2[ChainId.MAINNET] },

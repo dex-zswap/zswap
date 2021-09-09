@@ -39,6 +39,7 @@ export default async function getTokenList(
   } else {
     urls = uriToHttp(listUrl, true)
   }
+  // urls = uriToHttp(listUrl, true)
   for (let i = 0; i < urls.length; i++) {
     const url = urls[i]
     const isLast = i === urls.length - 1
@@ -58,12 +59,13 @@ export default async function getTokenList(
 
     const json = await response.json()
     if (!tokenListValidator(json)) {
-      const validationErrors: string =
-        tokenListValidator.errors?.reduce<string>((memo, error) => {
-          const add = `${(error as any).dataPath} ${error.message ?? ''}`
-          return memo.length > 0 ? `${memo}; ${add}` : `${add}`
-        }, '') ?? 'unknown error'
-      throw new Error(`Token list failed validation: ${validationErrors}`)
+      return json.data[0] as TokenList
+      // const validationErrors: string =
+      //   tokenListValidator.errors?.reduce<string>((memo, error) => {
+      //     const add = `${(error as any).dataPath} ${error.message ?? ''}`
+      //     return memo.length > 0 ? `${memo}; ${add}` : `${add}`
+      //   }, '') ?? 'unknown error'
+      // throw new Error(`Token list failed validation: ${validationErrors}`)
     }
     return json as TokenList
   }

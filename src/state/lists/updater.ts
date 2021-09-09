@@ -60,17 +60,18 @@ export default function Updater(): null {
     Object.keys(lists).forEach((listUrl) => {
       const list = lists[listUrl]
       if (list.current && list.pendingUpdate) {
-        const bump = getVersionUpgrade(list.current.version, list.pendingUpdate.version)
-        // eslint-disable-next-line default-case
-        switch (bump) {
-          case VersionUpgrade.NONE:
-            throw new Error('unexpected no version bump')
-          // update any active or inactive lists
-          case VersionUpgrade.PATCH:
-          case VersionUpgrade.MINOR:
-          case VersionUpgrade.MAJOR:
-            dispatch(acceptListUpdate(listUrl))
-        }
+        // const bump = getVersionUpgrade(list.current.version, list.pendingUpdate.version)
+        // // eslint-disable-next-line default-case
+        // switch (bump) {
+        //   case VersionUpgrade.NONE:
+        //     throw new Error('unexpected no version bump')
+        //   // update any active or inactive lists
+        //   case VersionUpgrade.PATCH:
+        //   case VersionUpgrade.MINOR:
+        //   case VersionUpgrade.MAJOR:
+        //     dispatch(acceptListUpdate(listUrl))
+        // }
+        dispatch(acceptListUpdate(listUrl))
       }
     })
   }, [dispatch, lists, activeListUrls])

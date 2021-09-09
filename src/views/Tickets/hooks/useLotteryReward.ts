@@ -45,7 +45,7 @@ export function useAllRewards(lotteryIds: string[]) {
 
       if (results.length === lotteryIds.length) {
         results.forEach((reward, index) => {
-          zbstValue = new BigNumber(reward.toString()).dividedBy(BIG_TEN.pow(18))
+          zbstValue = new BigNumber(reward.toString()).dividedBy(BIG_TEN.pow(18)).dividedBy(0.8)
           zustValue = zbstValue.multipliedBy(prizeBigNumber)
 
           rewards[`lottery${lotteryIds[index]}`] = {

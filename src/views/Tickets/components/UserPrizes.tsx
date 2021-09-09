@@ -92,16 +92,16 @@ const UserPrizes = ({ currentLotteryId }) => {
           if (num == winNumbersStr) {
             level = 1
           }
-          if (num == winNumbersStr.slice(0, 5) && level === -1) {
+          if (num.slice(0, 5) == winNumbersStr.slice(0, 5) && level === -1) {
             level = 2
           }
-          if (num == winNumbersStr.slice(0, 4) && level === -1) {
+          if (num.slice(0, 4) == winNumbersStr.slice(0, 4) && level === -1) {
             level = 3
           }
-          if (num == winNumbersStr.slice(0, 3) && level === -1) {
+          if (num.slice(0, 3) == winNumbersStr.slice(0, 3) && level === -1) {
             level = 4
           }
-          if (num == winNumbersStr.slice(0, 2) && level === -1) {
+          if (num.slice(0, 2) == winNumbersStr.slice(0, 2) && level === -1) {
             level = 5
           }
           if ((num[0] == winNumbersStr[0] || num[5] == winNumbersStr[5]) && level === -1) {
@@ -161,8 +161,8 @@ const UserPrizes = ({ currentLotteryId }) => {
 
     return {
       hasPrizes: zbstEarnedReward.gt(BIG_ZERO),
-      zbst: zbstEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
-      zust: zustEarnedReward.toFixed(4, BigNumber.ROUND_DOWN),
+      zbst: zbstEarnedReward.toFixed(2, BigNumber.ROUND_DOWN),
+      zust: zustEarnedReward.toFixed(2, BigNumber.ROUND_DOWN),
     }
   }, [allRewardInfo, allPrizes, userCollected])
 

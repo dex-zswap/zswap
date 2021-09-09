@@ -121,13 +121,14 @@ export default function usePrizes(lotteryId) {
     const zustValue = [lotteryRewardBigNumber, lpRewardBigNumber, unRewardAmount].reduce((res, cur) => {
       return res.plus(cur.multipliedBy(priceBigNumber))
     }, BIG_ZERO)
-    // console.group()
-    // console.log(`用户买票: ${lotteryRewardBigNumber.toFixed(2)}`)
-    // console.log(`上期遗留: ${lottoTotalRewardsBigNumber.toFixed(2)}`)
-    // console.log(`上期领奖: ${totalRewardsTouserBigNumber.toFixed(2)}`)
-    // console.log(`Block:   ${blockNumber}`)
-    // console.log(`ZBST:    ${zustValue.div(priceBigNumber).toFixed(2)}`)
-    // console.groupEnd()
+    console.group()
+    console.log(`用户买票: ${lotteryRewardBigNumber.toFixed(2)}`)
+    console.log(`LP奖励:  ${lpRewardBigNumber}`)
+    console.log(`上期遗留: ${lottoTotalRewardsBigNumber.toFixed(2)}`)
+    console.log(`上期领奖: ${totalRewardsTouserBigNumber.toFixed(2)}`)
+    console.log(`Block:   ${blockNumber}`)
+    console.log(`ZBST:    ${zustValue.div(priceBigNumber).toFixed(2)}`)
+    console.groupEnd()
     return {
       currentZustValue: `$${zustValue.toFixed(2)}`,
       currentZbRewards: `${zustValue.div(priceBigNumber).toFixed(2)} ZBST`,

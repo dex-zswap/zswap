@@ -51,30 +51,29 @@ export default function useUserHistory(page: number = 1) {
 
 export function useAllUserLotteryIdsByLotteryNum(lotteryNum: string | number) {
   const [rewardNums, setRewardNums] = useState([])
-
   const winNumbers = useWinNumbers(lotteryNum)
+  const winNumbersStr = winNumbers.join('')
   const rewardLevelNums = new Array(6).fill(0)
   const getRewardLevel = useCallback(
     (num: string) => {
       const numArr = num.split('')
-      const winNumbersStr = winNumbers.join('')
       if (num == winNumbersStr) {
         ++rewardLevelNums[0]
         return
       }
-      if (num == winNumbersStr.slice(0, 5)) {
+      if (num.slice(0, 5) == winNumbersStr.slice(0, 5)) {
         ++rewardLevelNums[1]
         return
       }
-      if (num == winNumbersStr.slice(0, 4)) {
+      if (num.slice(0, 4) == winNumbersStr.slice(0, 4)) {
         ++rewardLevelNums[2]
         return
       }
-      if (num == winNumbersStr.slice(0, 3)) {
+      if (num.slice(0, 3) == winNumbersStr.slice(0, 3)) {
         ++rewardLevelNums[3]
         return
       }
-      if (num == winNumbersStr.slice(0, 2)) {
+      if (num.slice(0, 2) == winNumbersStr.slice(0, 2)) {
         ++rewardLevelNums[4]
         return
       }
