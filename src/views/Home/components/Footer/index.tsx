@@ -5,6 +5,7 @@ import { baseColors } from 'zswap-uikit/theme/colors'
 import { Flex, Text, Image, Button } from 'zswap-uikit'
 import LearnMoreBtn from 'components/LearnMoreBtn'
 import { useTranslation } from 'contexts/Localization'
+import { ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/address'
 import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import useInterval from 'hooks/useInterval'
 import { getHalfDownInfo } from 'config/constants/zswap/online-time'
@@ -208,7 +209,7 @@ const Footer = () => {
         </TextWrap>
       </TextContainer>
       <ButtonWrap>
-        <Button width="152px" onClick={() => history.push('/farms')}>
+        <Button width="152px" onClick={() => history.push(`/swap?outputCurrency=${ZSWAP_ZBST_ADDRESS}`)}>
           {t('Buy Now')}
         </Button>
         <LearnMoreBtn width="152px" href="https://zswap.gitbook.io/zswap/dai-bi/dai-bi-zbst" />

@@ -13,7 +13,7 @@ import Providers from './Providers'
 
 function FeeUpdater() {
   const blockNumber = useBlockNumber()
-  
+
   useEffect(() => {
     if (blockNumber > 0) {
       FeeHelper.setBlock(blockNumber)
