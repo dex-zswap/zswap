@@ -47,9 +47,9 @@ const BannerTwo = () => {
       </ImgWrap>
       <TextWrap>
         <Text lineHeight="54px" color="text" fontSize="48px" bold>
-          {t('Banner Earn')}
+          {t('Earn ')}
           <span style={blueColor}> {t('Passive income')}</span>
-          <span> {t('banner through cryptocurrency')}</span>
+          <span> {t('through cryptocurrency')}</span>
         </Text>
         <Text lineHeight="20px" color="text" fontSize="18px" marginTop="30px">
           {t('Earn more cryptocurrency income through pledge mining')}

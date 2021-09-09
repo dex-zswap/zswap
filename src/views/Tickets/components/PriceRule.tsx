@@ -52,7 +52,7 @@ const PriceRule = ({ lotteryId, currentLotteryId, currentZustValue, currentZbRew
         }
         return d
       }),
-    [lotteryId, zust, zb, rewardNums, isDrawed],
+    [lotteryId, zust, zb, rewardNums, isDrawed, t],
   )
 
   return (

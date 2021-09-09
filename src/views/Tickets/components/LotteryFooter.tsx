@@ -176,12 +176,12 @@ const LotteryHeader = () => {
               `Each bracket's prize pool is a portion of the total amount of ZBST in each Lottery round at a fixed ratio.`,
             )}
           </Text>
-          <Text fontSize="16px">{t('1st Prize - 40%')}</Text>
-          <Text fontSize="16px">{t('2st Prize - 20%')}</Text>
-          <Text fontSize="16px">{t('3st Prize - 10%')}</Text>
-          <Text fontSize="16px">{t('4st Prize - 5%')}</Text>
-          <Text fontSize="16px">{t('5st Prize - 3%')}</Text>
-          <Text fontSize="16px">{t('6st Prize - 2%')}</Text>
+          <Text fontSize="16px">{t('1st Prize') + ' - 40%'}</Text>
+          <Text fontSize="16px">{t('2nd Prize') + ' - 20%'}</Text>
+          <Text fontSize="16px">{t('3rd Prize') + ' - 10%'}</Text>
+          <Text fontSize="16px">{t('4th Prize') + ' - 5%'}</Text>
+          <Text fontSize="16px">{t('5th Prize') + ' - 3%'}</Text>
+          <Text fontSize="16px">{t('6th Prize') + ' - 2%'}</Text>
           <Text fontSize="16px" mb="45px">
             {t('Burn - 20%')}
           </Text>
