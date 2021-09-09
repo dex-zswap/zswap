@@ -88,14 +88,14 @@ export function useAllWinNumbers() {
 export default function usePrizes(lotteryId) {
   const lotteryContract = useZSwapLotteryContract()
   const zbstPrice = useZBSTZUSTPrice()
-  const lottoTotalRewards = useContractCall(lotteryContract, 'lottoTotalRewards', [lotteryId])
+  const lottoTotalRewards = useContractCall(lotteryContract, 'lottoTotalRewards', [lotteryId - 1 || 1])
 
   const lpContract = useZSwapLPContract()
   const zbst = useZBToken()
   const blockNumber = useBlockNumber()
   const totalUsersCost = useContractCall(lotteryContract, 'totalUsersCost', [])
   const lpReward = useContractCall(lpContract, 'getOtherTotalRewards', [blockNumber, 10])
-  const totalRewardsTouser = useContractCall(lotteryContract, 'lottoTotalRewardsToUser', [lotteryId])
+  const totalRewardsTouser = useContractCall(lotteryContract, 'lottoTotalRewardsToUser', [lotteryId - 1 || 1])
   return useMemo(() => {
     if (!zbst || !zbstPrice) {
       return { currentZustValue: '$-', currentZbRewards: '- ZBST' }
@@ -121,7 +121,13 @@ export default function usePrizes(lotteryId) {
     const zustValue = [lotteryRewardBigNumber, lpRewardBigNumber, unRewardAmount].reduce((res, cur) => {
       return res.plus(cur.multipliedBy(priceBigNumber))
     }, BIG_ZERO)
-
+    console.group()
+    console.log(`用户买票: ${lotteryRewardBigNumber.toFixed(2)}`)
+    console.log(`上期遗留: ${lottoTotalRewardsBigNumber.toFixed(2)}`)
+    console.log(`上期领奖: ${totalRewardsTouserBigNumber.toFixed(2)}`)
+    console.log(`Block:   ${blockNumber}`)
+    console.log(`ZBST:    ${zustValue.div(priceBigNumber).toFixed(2)}`)
+    console.groupEnd()
     return {
       currentZustValue: `$${zustValue.toFixed(2)}`,
       currentZbRewards: `${zustValue.div(priceBigNumber).toFixed(2)} ZBST`,

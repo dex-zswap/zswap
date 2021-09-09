@@ -42,10 +42,10 @@ const Tooltip = styled.div<{ isTooltipDisplayed: boolean }>`
   top: -38px;
   right: 0;
   text-align: center;
-  background-color: ${({ theme }) => theme.colors.contrast};
-  color: ${({ theme }) => theme.colors.invertedContrast};
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
   border-radius: 16px;
-  opacity: 0.7;
   width: 100px;
 `
 

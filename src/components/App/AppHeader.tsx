@@ -15,7 +15,6 @@ interface Props {
 }
 
 const AppHeaderContainer = styled(Flex)`
-  align-items: center;
   justify-content: space-between;
   padding: 24px;
   width: 100%;
@@ -42,7 +41,7 @@ const AppHeader: React.FC<Props> = ({ title, subtitle, helper, backTo, noConfig 
         </Flex>
       </Flex>
       {!noConfig && (
-        <Flex>
+        <Flex marginTop="-5px">
           <Settings />
           <Transactions />
         </Flex>
