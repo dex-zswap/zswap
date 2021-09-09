@@ -4,7 +4,7 @@ import useActiveWeb3React from './hooks/useActiveWeb3React'
 import { BLOCKED_ADDRESSES } from './config/constants'
 import OnlineInfo from './utils/online-info'
 import ApplicationUpdater from './state/application/updater'
-import { useBlockNumber } from './state/application/hooks'
+import { useBlockNumber, useBlockTime } from './state/application/hooks'
 import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
@@ -13,10 +13,11 @@ import Providers from './Providers'
 
 function BlockUpdater() {
   const blockNumber = useBlockNumber()
+  const blockTime = useBlockTime()
 
   useEffect(() => {
     if (blockNumber > 0) {
-      OnlineInfo.setBlock(blockNumber)
+      OnlineInfo.setBlock(blockNumber, blockTime)
     }
   }, [blockNumber])
 

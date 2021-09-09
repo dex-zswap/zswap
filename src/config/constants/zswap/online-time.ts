@@ -4,12 +4,11 @@ import onlineInfo from 'utils/online-info'
 export const EVERY_DAY_SECS = 24 * 60 * 60 * 1000
 
 export function getHalfDownInfo() {
-  const now = (new Date()).getTime()
-  const { maxDay, blockDay } = onlineInfo.getDayOffset()
+  const now = new Date().getTime()
+  const { countDownTime } = onlineInfo
 
-  if (blockDay > 0) {
-    const endTimeStamp = Math.floor(now + (maxDay - blockDay) * EVERY_DAY_SECS)
-    const halfDownDate = dayjs(endTimeStamp).toDate()
+  if (countDownTime > 0) {
+    const halfDownDate = dayjs(countDownTime).toDate()
     const offset = +halfDownDate - now
 
     const days = Math.max(Math.floor(offset / 1000 / 60 / 60 / 24), 0)
@@ -32,5 +31,13 @@ export function getHalfDownInfo() {
       minutes: -1,
       seconds: -1,
     }
+  }
+
+  return {
+    isCounting: false,
+    days: -1,
+    hours: -1,
+    minutes: -1,
+    seconds: -1,
   }
 }

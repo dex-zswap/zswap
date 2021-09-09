@@ -13,23 +13,29 @@ export default function Updater(): null {
 
   const [state, setState] = useState<{
     chainId: number | undefined
+    blockTime: number | null
     blockNumber: number | null
   }>({
     chainId,
+    blockTime: null,
     blockNumber: null,
   })
 
   const blockNumberCallback = useCallback(
     (blockNumber: number) => {
-      setState((prev) => {
-        if (chainId === prev.chainId) {
-          if (typeof prev.blockNumber !== 'number') return { chainId, blockNumber }
-          return {
-            chainId,
-            blockNumber: Math.max(blockNumber, prev.blockNumber),
+      library.getBlock(blockNumber).then((response) => {
+        const blockTime = response.timestamp * 1000
+        setState((prev) => {
+          if (chainId === prev.chainId) {
+            if (typeof prev.blockNumber !== 'number') return { chainId, blockNumber, blockTime }
+            return {
+              chainId,
+              blockTime,
+              blockNumber: Math.max(blockNumber, prev.blockNumber),
+            }
           }
-        }
-        return prev
+          return prev
+        })
       })
     },
     [chainId, setState],
@@ -39,15 +45,18 @@ export default function Updater(): null {
   useEffect(() => {
     if (!library || !chainId || !windowVisible) return undefined
 
-    setState({ chainId, blockNumber: null })
+    setState({ chainId, blockNumber: null, blockTime: null })
 
-    library
+    const interval = setInterval(() => {
+      library
       .getBlockNumber()
       .then(blockNumberCallback)
       .catch((error) => console.error(`Failed to get block number for chainId: ${chainId}`, error))
+    }, 3000)
 
     library.on('block', blockNumberCallback)
     return () => {
+      clearInterval(interval)
       library.removeListener('block', blockNumberCallback)
     }
   }, [dispatch, chainId, library, blockNumberCallback, windowVisible])
@@ -60,6 +69,7 @@ export default function Updater(): null {
       updateBlockNumber({
         chainId: debouncedState.chainId,
         blockNumber: debouncedState.blockNumber,
+        blockTime: debouncedState.blockTime,
       }),
     )
   }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId])
