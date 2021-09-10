@@ -28,11 +28,11 @@ export const SWAP_INPUT_RATE = {
 
 class FeeHelper {
   getFeeOnSwap(currency: Currency | Token) {
-    const { floor: dayOffset } = onlineInfo.getDayOffset()
+    const outFirstWeek = onlineInfo.outFirstWeek()
 
     if (currency) {
       if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
-        return dayOffset <= 7 ? SWAP_FEE.sevenEth : SWAP_FEE.yearEth
+        return outFirstWeek ? SWAP_FEE.yearEth : SWAP_FEE.sevenEth
       }
 
       return SWAP_FEE.normal
@@ -42,11 +42,11 @@ class FeeHelper {
   }
 
   getPriceFee(currency: Currency | Token) {
-    const { floor: dayOffset } = onlineInfo.getDayOffset()
+    const outFirstWeek = onlineInfo.outFirstWeek()
 
     if (currency) {
       if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
-        return dayOffset <= 7 ? PRICE_FEE.sevenEth : PRICE_FEE.yearEth
+        return outFirstWeek ? PRICE_FEE.yearEth : PRICE_FEE.sevenEth
       }
 
       return PRICE_FEE.normal
@@ -56,13 +56,13 @@ class FeeHelper {
   }
 
   getRealInput(currency: Currency | Token, input: string) {
-    const { floor: dayOffset } = onlineInfo.getDayOffset()
+    const outFirstWeek = onlineInfo.outFirstWeek()
     const inputAmount = new BigNumber(input)
     let rate = SWAP_INPUT_RATE.default
 
     if (currency) {
       if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
-        rate = dayOffset <= 7 ? SWAP_INPUT_RATE.sevenEth : SWAP_INPUT_RATE.yearEth
+        rate = outFirstWeek ? SWAP_INPUT_RATE.yearEth : SWAP_INPUT_RATE.sevenEth
       } else {
         rate = SWAP_INPUT_RATE.normal
       }
@@ -72,12 +72,12 @@ class FeeHelper {
   }
 
   getIputAmount(currency: Currency | Token, input: string) {
-    const { floor: dayOffset } = onlineInfo.getDayOffset()
+    const outFirstWeek = onlineInfo.outFirstWeek()
     const inputAmount = new BigNumber(input)
     let rate = SWAP_INPUT_RATE.default
     if (currency) {
       if (currencyEquals(ETHER, currency) || (currency as Token).address === ZSWAP_WDEX_ADDRESS) {
-        rate = dayOffset <= 7 ? SWAP_INPUT_RATE.sevenEth : SWAP_INPUT_RATE.yearEth
+        rate = outFirstWeek ? SWAP_INPUT_RATE.yearEth : SWAP_INPUT_RATE.sevenEth
       } else {
         rate = SWAP_INPUT_RATE.normal
       }

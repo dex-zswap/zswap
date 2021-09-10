@@ -6,6 +6,8 @@ import { BIG_ONE, BIG_ZERO } from 'utils/bigNumber'
 export const EVERY_DAY_SECS = new BigNumber(24 * 60 * 60 * 1000)
 export const OFFSET_DAY_SECS = new BigNumber(4 * 60 * 60 * 1000)
 
+const FIRST_WEEK_BLOCK_NUMBER = 10800000
+
 const keys = Object.keys(LP_REWARDS).reverse()
 
 const daysAMount = []
@@ -101,6 +103,10 @@ class OnlineInfo {
       ceil: Math.ceil(blockDay),
       floor: Math.floor(blockDay),
     }
+  }
+
+  outFirstWeek() {
+    return this.blockNumber > FIRST_WEEK_BLOCK_NUMBER
   }
 }
 
