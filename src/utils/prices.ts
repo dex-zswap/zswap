@@ -53,11 +53,6 @@ export function computeTradePriceBreakdown(trade?: Trade | null): {
       ? new TokenAmount(trade.inputAmount.token, realizedLPFee.multiply(trade.inputAmount.raw).quotient)
       : CurrencyAmount.ether(realizedLPFee.multiply(trade.inputAmount.raw).quotient))
 
-  if (realizedLPFee && trade) {
-    console.log(trade.priceImpact.toSignificant(10))
-    console.log(trade.priceImpact.subtract(realizedLPFee).toSignificant(10))
-  }
-
   return {
     priceImpactWithoutFee: priceImpactWithoutFeePercent,
     realizedLPFee: realizedLPFeeAmount,
