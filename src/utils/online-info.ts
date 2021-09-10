@@ -28,8 +28,12 @@ class OnlineInfo {
     const maxDayBigNumber = new BigNumber(maxDay)
     const blockDayBigNumber = new BigNumber(blockDay)
     const currentTimeStamp = new BigNumber(+new Date())
-    const onlineTime = currentTimeStamp.minus(EVERY_DAY_SECS.multipliedBy(blockDayBigNumber)).integerValue(BigNumber.ROUND_HALF_UP)
-    const countDownTime = onlineTime.plus(EVERY_DAY_SECS.multipliedBy(maxDayBigNumber)).integerValue(BigNumber.ROUND_HALF_UP)
+    const onlineTime = currentTimeStamp
+      .minus(EVERY_DAY_SECS.multipliedBy(blockDayBigNumber))
+      .integerValue(BigNumber.ROUND_HALF_UP)
+    const countDownTime = onlineTime
+      .plus(EVERY_DAY_SECS.multipliedBy(maxDayBigNumber))
+      .integerValue(BigNumber.ROUND_HALF_UP)
 
     this.countDownTime = countDownTime.toNumber()
     this.onlineTime = onlineTime.toNumber()

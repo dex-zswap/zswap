@@ -42,9 +42,9 @@ export default function Updater(): null {
     setState({ chainId, blockNumber: null })
 
     library
-    .getBlockNumber()
-    .then(blockNumberCallback)
-    .catch((error) => console.error(`Failed to get block number for chainId: ${chainId}`, error))
+      .getBlockNumber()
+      .then(blockNumberCallback)
+      .catch((error) => console.error(`Failed to get block number for chainId: ${chainId}`, error))
 
     library.on('block', blockNumberCallback)
     return () => {
@@ -59,7 +59,7 @@ export default function Updater(): null {
     dispatch(
       updateBlockNumber({
         chainId: debouncedState.chainId,
-        blockNumber: debouncedState.blockNumber
+        blockNumber: debouncedState.blockNumber,
       }),
     )
   }, [windowVisible, dispatch, debouncedState.blockNumber, debouncedState.chainId])

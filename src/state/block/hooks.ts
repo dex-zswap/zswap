@@ -10,8 +10,10 @@ export const usePollBlockNumber = () => {
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      const blockNumber = await simpleRpcProvider.getBlockNumber()
-      dispatch(setBlock(blockNumber))
+      try {
+        const blockNumber = await simpleRpcProvider.getBlockNumber()
+        dispatch(setBlock(blockNumber))
+      } catch (e) {}
     }, 6000)
 
     return () => clearInterval(interval)

@@ -7,7 +7,7 @@ import useActiveWeb3React from './useActiveWeb3React'
 import { useContractCall } from './useContractCall'
 
 export default function useLpMinBlockInfo() {
-  const [ blockTime, setBlockTime ] = useState(0)
+  const [blockTime, setBlockTime] = useState(0)
   const { library } = useActiveWeb3React()
   const lpContract = useZSwapLPContract()
   const blockNumber = useBlockNumber()
@@ -35,6 +35,6 @@ export default function useLpMinBlockInfo() {
 
   return {
     blockTime,
-    blockNumber: lpMinBlockNumber
+    blockNumber: lpMinBlockNumber,
   }
 }
