@@ -41,6 +41,7 @@ const BallWrap = styled(Flex)`
 
 const UserHistoryDetail = ({ lotteryId, drawTime, currentLotteryId, currentZustValue, currentZbRewards }) => {
   const { t } = useTranslation()
+  const isCurrent = lotteryId == currentLotteryId
   const { zustValue, zbRewards } = useLotteryReward(lotteryId)
   const winNumbers = useWinNumbers(lotteryId)
   const BallArr = new Array(6).fill('ball')
@@ -60,9 +61,9 @@ const UserHistoryDetail = ({ lotteryId, drawTime, currentLotteryId, currentZustV
         </Text>
         <div>
           <Text fontSize="36px" lineHeight="36px" mb="5px" color="blue" bold>
-            {zbRewards}
+            {isCurrent ? currentZbRewards : zbRewards}
           </Text>
-          <Text ml="4px">{zustValue}</Text>
+          <Text ml="4px">{isCurrent ? currentZustValue : zustValue}</Text>
         </div>
       </Flex>
       <Flex margin="25px 0 34px">

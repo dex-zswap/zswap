@@ -5,7 +5,7 @@ import {
   TokenImage as UIKitTokenImage,
   ImageProps,
 } from 'zswap-uikit'
-import tokens from 'config/constants/tokens'
+import { useTokenLists } from 'state/lists/hooks'
 import { Token } from 'config/constants/types'
 import { getAddress } from 'utils/addressHelpers'
 import DexLogo from 'components/Logo/tokens/DEX.png'
@@ -23,7 +23,18 @@ const getImageUrlFromToken = (token: Token) => {
 }
 
 export const TokenPairImage: React.FC<TokenPairImageProps> = ({ secondaryToken, ...props }) => {
-  return <UIKitTokenPairImage secondarySrc={getImageUrlFromToken(secondaryToken)} {...props} />
+  const tokenList = useTokenLists()
+
+  let imgSrc = tokenList.filter(({ symbol }) => secondaryToken.symbol == symbol)[0]?.logoURI ?? ''
+
+  if (secondaryToken.symbol === 'DEX') {
+    imgSrc = DexLogo
+  }
+  if (secondaryToken.symbol === 'ZBST') {
+    imgSrc = ZbstLogo
+  }
+
+  return <UIKitTokenPairImage secondarySrc={imgSrc} {...props} />
 }
 
 interface TokenImageProps extends ImageProps {
@@ -31,5 +42,16 @@ interface TokenImageProps extends ImageProps {
 }
 
 export const TokenImage: React.FC<TokenImageProps> = ({ token, ...props }) => {
-  return <UIKitTokenImage src={getImageUrlFromToken(token)} {...props} />
+  const tokenList = useTokenLists()
+
+  let imgSrc = tokenList.filter(({ symbol }) => token.symbol == symbol)[0]?.logoURI ?? ''
+
+  if (token.symbol === 'DEX') {
+    imgSrc = DexLogo
+  }
+  if (token.symbol === 'ZBST') {
+    imgSrc = ZbstLogo
+  }
+
+  return <UIKitTokenImage src={imgSrc} {...props} />
 }

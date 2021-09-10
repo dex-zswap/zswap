@@ -1,6 +1,6 @@
 import { useTranslation } from 'contexts/Localization'
 
-import { Text, Flex, Button } from 'zswap-uikit'
+import { Text, Flex } from 'zswap-uikit'
 import LearnMoreBtn from 'components/LearnMoreBtn'
 import styled from 'styled-components'
 

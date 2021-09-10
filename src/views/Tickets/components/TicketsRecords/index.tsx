@@ -48,16 +48,16 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ currentLotteryId, id, o
       if (num == winNumbersStr) {
         return t('1st Prize')
       }
-      if (num == winNumbersStr.slice(0, 5)) {
+      if (num.slice(0, 5) == winNumbersStr.slice(0, 5)) {
         return t('2nd Prize')
       }
-      if (num == winNumbersStr.slice(0, 4)) {
+      if (num.slice(0, 4) == winNumbersStr.slice(0, 4)) {
         return t('3rd Prize')
       }
-      if (num == winNumbersStr.slice(0, 3)) {
+      if (num.slice(0, 3) == winNumbersStr.slice(0, 3)) {
         return t('4th Prize')
       }
-      if (num == winNumbersStr.slice(0, 2)) {
+      if (num.slice(0, 2) == winNumbersStr.slice(0, 2)) {
         return t('5th Prize')
       }
       if (numArr[0] == winNumbers[0] || numArr[5] == winNumbers[5]) {
