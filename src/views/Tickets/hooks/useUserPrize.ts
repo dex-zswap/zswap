@@ -36,7 +36,7 @@ export function useCollectReward() {
       setCollecting(true)
       const tx = await lotteryContract.claimReward()
       addTransaction(tx, {
-        summary: t('You have success collected your ticket prizes')
+        summary: t('You have success collected your ticket prizes'),
       })
       const receipt = await tx.wait()
       setCollecting(false)
