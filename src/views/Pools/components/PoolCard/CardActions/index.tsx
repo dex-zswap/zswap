@@ -50,7 +50,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
             <Flex mb="7px" justifyContent="space-between" alignItems="center">
               <Text fontSize="14px">{t('Your Share')}</Text>
               <Text fontSize="14px">
-                ${pool.userData?.stakedUSDTValue.toFixed(2)}（{pool.userData?.stakedPercent.toString()}）
+                ${pool.userData?.stakedUSDTValue.toFixed(2)} ({pool.userData?.stakedPercent.toString()})
               </Text>
             </Flex>
 

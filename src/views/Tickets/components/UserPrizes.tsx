@@ -1,8 +1,7 @@
-import { useMemo } from 'react'
-import styled from 'styled-components'
-import BigNumber from 'bignumber.js'
-import { Text, Flex, Button } from 'zswap-uikit'
+import { useContext, useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
+import { LotteryContext } from 'contexts/Lottery'
+import BigNumber from 'bignumber.js'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useUserAllLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import { useCollectReward, useUserCollected } from 'views/Tickets/hooks/useUserPrize'
@@ -10,6 +9,9 @@ import { useAllWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useAllRewards } from 'views/Tickets/hooks/useLotteryReward'
 import { BIG_ZERO, BIG_ONE } from 'utils/bigNumber'
 import useRefresh from 'hooks/useRefresh'
+
+import styled from 'styled-components'
+import { Text, Flex, Button } from 'zswap-uikit'
 import Card from './Card'
 import TicketsRecords from './TicketsRecords'
 import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
@@ -71,15 +73,16 @@ const getPrizesLevels = (prizes, filterUser = true) => {
   return result
 }
 
-const UserPrizes = ({ currentLotteryId }) => {
+const UserPrizes = () => {
   const { t } = useTranslation()
+  const { currentLotteryId } = useContext(LotteryContext)
+
   const { fastRefresh } = useRefresh()
   const { account } = useActiveWeb3React()
   const lotteryIds = useUserAllLotteryIds()
-  const allWinNumbers = useAllWinNumbers()
+  const allWinNumbers = useAllWinNumbers(currentLotteryId)
   const { collectReward, collecting } = useCollectReward()
   const userCollected = useUserCollected()
-
   const allPrizes = useMemo(() => {
     const prizes = {}
     let level = -1
@@ -128,6 +131,9 @@ const UserPrizes = ({ currentLotteryId }) => {
   }, [lotteryIds, allWinNumbers, fastRefresh])
 
   const lotteryRewardIds = useMemo(() => Object.keys(allPrizes).map((key) => key.substr(7)), [allPrizes])
+
+  const isLastDrawReward = lotteryRewardIds.includes(currentLotteryId - 1 + '')
+
   const allRewardInfo = useAllRewards(lotteryRewardIds)
 
   const userTotalRewardInfo = useMemo(() => {
@@ -165,7 +171,6 @@ const UserPrizes = ({ currentLotteryId }) => {
       zust: zustEarnedReward.toFixed(2, BigNumber.ROUND_DOWN),
     }
   }, [allRewardInfo, allPrizes, userCollected])
-
   return (
     <Flex mb="260px" alignItems="center" flexDirection="column">
       <Text textAlign="center" fontSize="48px" bold>
@@ -175,15 +180,15 @@ const UserPrizes = ({ currentLotteryId }) => {
         {t('Ready to see if you have won a prize?')}
       </Text>
       <Card width="420px" title={t('Your Prizes')}>
-        {!account || !lotteryIds.length ? (
+        {!account || !isLastDrawReward ? (
           <Flex height="238px" flexDirection="column" alignItems="center" justifyContent="center">
             {!account && <Text mb="20px">{t('Connect your wallet to check your prizes')}</Text>}
-            {account && !lotteryIds.length && <Text mb="20px">{t('Buy tickets for this draw!')}</Text>}
+            {account && !isLastDrawReward && <Text mb="20px">{t('Buy tickets for this draw!')}</Text>}
             <BuyTicketsButton />
           </Flex>
         ) : (
           <>
-            <TicketsRecords currentLotteryId={currentLotteryId} onlyShowWin />
+            <TicketsRecords onlyShowWin />
             <Line />
             <Flex justifyContent="space-between" alignItems="center">
               <div>

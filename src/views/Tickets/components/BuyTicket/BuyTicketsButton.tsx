@@ -1,13 +1,12 @@
+import { useState, useContext, useEffect } from 'react'
+import { useTranslation } from 'contexts/Localization'
+import { LotteryContext } from 'contexts/Lottery'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+
 import { Text, Button, useModal } from 'zswap-uikit'
 import { LayoutProps, SpaceProps } from 'styled-system'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import BuyTicketsModal from './BuyTicketsModal'
-
-import { useTranslation } from 'contexts/Localization'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import useTimeRange from 'views/Tickets/hooks/useTimeRange'
-import { useState, useEffect } from 'react'
-
 interface btnProps extends LayoutProps, SpaceProps {
   accountTip?: string
   noAccountTip?: string
@@ -16,9 +15,10 @@ interface btnProps extends LayoutProps, SpaceProps {
 
 const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccountTip, ...props }) => {
   const { t } = useTranslation()
+  const { timeRange } = useContext(LotteryContext)
+
   const { account } = useActiveWeb3React()
   const [useBuyTicketsModal] = useModal(<BuyTicketsModal onDismiss={onDismiss} />)
-  const timeRange = useTimeRange()
 
   const [btnLabel, setBtnLabel] = useState<string>(t('Buy Tickets'))
   const [btnDisabled, setBtnDisabled] = useState<boolean>(true)

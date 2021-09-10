@@ -19,8 +19,8 @@ class OnlineInfo {
     this.blockTime = blockTime
     this.calcCountDownTime()
 
-    console.log('当前产块数量: ', this.blockNumber)
-    console.log('初始块高时间: ', this.blockTime)
+    // console.log('当前产块数量: ', this.blockNumber)
+    // console.log('初始块高时间: ', this.blockTime)
   }
 
   calcCountDownTime() {

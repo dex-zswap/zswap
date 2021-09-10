@@ -1,5 +1,6 @@
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
+import { LotteryContext } from 'contexts/Lottery'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
@@ -39,15 +40,18 @@ const BallWrap = styled(Flex)`
   }
 `
 
-const UserHistoryDetail = ({ lotteryId, drawTime, currentLotteryId, currentZustValue, currentZbRewards }) => {
+const UserHistoryDetail = ({ lotteryId, drawTime }) => {
   const { t } = useTranslation()
+  const { currentLotteryId, currentZustValue, currentZbRewards } = useContext(LotteryContext)
+
   const isCurrent = lotteryId == currentLotteryId
   const { zustValue, zbRewards } = useLotteryReward(lotteryId)
   const winNumbers = useWinNumbers(lotteryId)
   const BallArr = new Array(6).fill('ball')
   const lotteryIds = useUserLotteryIds(lotteryId)
   const ticketsNum = useMemo(() => lotteryIds[0]?.numbers.length || '0', [lotteryIds])
-  const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} currentLotteryId={currentLotteryId} />)
+
+  const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} />)
 
   return (
     <>
@@ -85,12 +89,7 @@ const UserHistoryDetail = ({ lotteryId, drawTime, currentLotteryId, currentZustV
       <Flex justifyContent="center">
         <Button onClick={useTicketsModal}>{t('View your Tickets')}</Button>
       </Flex>
-      <PriceRule
-        lotteryId={lotteryId}
-        currentLotteryId={currentLotteryId}
-        currentZustValue={currentZustValue}
-        currentZbRewards={currentZbRewards}
-      />
+      <PriceRule lotteryId={lotteryId} />
     </>
   )
 }

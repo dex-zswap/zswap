@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
-import { Heading, Flex, Text } from 'zswap-uikit'
+import { Heading, Skeleton, Flex, Text } from 'zswap-uikit'
 import { useTranslation } from 'contexts/Localization'
 import usePersistState from 'hooks/usePersistState'
 import { useCakeVault } from 'state/pools/hooks'
@@ -207,8 +207,11 @@ const Pools: React.FC = () => {
               <HelpButton href="https://zswap.gitbook.io/zswap/chan-p/untitled/ru-he-jin-hang-dan-bi-zhi-ya" />
             </Heading>
             <Heading scale="xxl" color="pink">
-              $ {totalLocked}
-              {/* <TotalLocked /> */}
+              {['0.00', 0].includes(totalLocked) ? (
+                <Skeleton width="300px" height="70px" margin="10px 0" />
+              ) : (
+                '$' + totalLocked
+              )}
             </Heading>
             <Heading scale="md" color="text">
               {t('Total Value Locked (TVL)')}

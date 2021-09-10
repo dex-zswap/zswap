@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import styled from 'styled-components'
 import BigNumber from 'bignumber.js'
-import { Button, Flex, Text } from 'zswap-uikit'
+import { Button } from 'zswap-uikit'
 import { getAddress } from 'utils/addressHelpers'
 import { Farm } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
@@ -9,7 +8,6 @@ import { useERC20 } from 'hooks/useContract'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import useApproveLp from 'views/LPStake/hooks/useApprove'
 import StakeAction from './StakeAction'
-import HarvestAction from './HarvestAction'
 
 export interface FarmWithStakedValue extends Farm {
   apr?: number
@@ -30,12 +28,10 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
     allowance: allowanceAsString = 0,
     tokenBalance: tokenBalanceAsString = 0,
     stakedBalance: stakedBalanceAsString = 0,
-    earnings: earningsAsString = 0,
   } = farm.userData || {}
   const allowance = new BigNumber(allowanceAsString)
   const tokenBalance = new BigNumber(tokenBalanceAsString)
   const stakedBalance = new BigNumber(stakedBalanceAsString)
-  const earnings = new BigNumber(earningsAsString)
   const lpAddress = getAddress(lpAddresses)
   const isApproved = account && allowance.isGreaterThan(0)
 
@@ -71,28 +67,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
     )
   }
 
-  return (
-    <>
-      {/* <Flex>
-        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="4px">
-          CAKE
-        </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-          {t('Earned')}
-        </Text>
-      </Flex>
-      <HarvestAction earnings={earnings} pid={pid} pair={farm.pair.pair} />
-      <Flex>
-        <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="4px">
-          {farm.lpSymbol}
-        </Text>
-        <Text bold textTransform="uppercase" color="textSubtle" fontSize="12px">
-          {t('Staked')}
-        </Text>
-      </Flex> */}
-      {!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}
-    </>
-  )
+  return <>{!account ? <ConnectWalletButton mt="8px" width="100%" /> : renderApprovalOrStakeButton()}</>
 }
 
 export default CardActions

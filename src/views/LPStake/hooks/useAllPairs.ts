@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Interface } from '@ethersproject/abi'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { useFactoryContract, useZSwapLPContract } from 'hooks/useContract'
@@ -20,6 +20,7 @@ type AllPairs = {
 }
 
 export function useAllPairs(): AllPairs {
+  const [loading, setLoading] = useState(true)
   const factoryContract = useFactoryContract()
   const lpContract = useZSwapLPContract()
 
@@ -27,7 +28,7 @@ export function useAllPairs(): AllPairs {
 
   const pairsIndexArgs = useMemo<Array<Array<number>>>(() => {
     const indexs: Array<Array<number>> = []
-    const length = allPairsLength.result ? allPairsLength.result.toNumber() : 0
+    const length = allPairsLength?.result ? allPairsLength?.result.toNumber() : 0
     for (let i = 0; i < length; i++) {
       indexs.push([i])
     }
@@ -36,7 +37,7 @@ export function useAllPairs(): AllPairs {
 
   const allPairs = useSingleContractMultipleData(factoryContract, 'allPairs', pairsIndexArgs)
   const allPairsIdArgs = useMemo(() => {
-    return allPairs.map((pairResult) => pairResult.result?.[0] ?? undefined)
+    return allPairs.map((pairResult) => pairResult?.result?.[0] ?? undefined)
   }, [allPairs])
   const allPairsWeightArgs = useMemo(() => {
     const ids = []
@@ -52,23 +53,20 @@ export function useAllPairs(): AllPairs {
   const allToken1 = useMultipleContractSingleData(allPairsIdArgs, PAIR_INTERFACE, 'token1', [])
 
   const allLPWeights = useSingleContractMultipleData(lpContract, 'lp_weight', allPairsWeightArgs)
-
-  const loading: boolean = useMemo<boolean>(
-    () => [allPairs, allToken0, allToken1, allLPWeights].flat().some(({ loading }) => loading),
-    [allPairs, allToken0, allToken1, allLPWeights],
-  )
+  const data = [allPairs, allToken0, allToken1, allLPWeights].flat()
+  const isLoading: boolean = !!!data?.length || data.some(({ loading, result }) => loading || !result)
 
   return useMemo<AllPairs>(() => {
     const pairs = []
     let token0, token1, weight
 
-    if (!loading) {
+    if (!isLoading) {
       allPairsIdArgs.forEach((id, idx) => {
-        weight = allLPWeights[idx].result
-        token0 = allToken0[idx].result ?? []
-        token1 = allToken1[idx].result ?? []
+        weight = allLPWeights[idx]?.result
+        token0 = allToken0[idx]?.result ?? []
+        token1 = allToken1[idx]?.result ?? []
 
-        if (weight[0].gt(0)) {
+        if (weight && weight[0].gt(0)) {
           pairs.push({
             pair: id,
             weight: weight[0].toNumber(),
@@ -77,8 +75,8 @@ export function useAllPairs(): AllPairs {
           })
         }
       })
+      setLoading(false)
     }
-
     return {
       loading,
       pairs,

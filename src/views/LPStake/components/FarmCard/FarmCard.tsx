@@ -79,10 +79,8 @@ interface FarmCardProps {
   account?: string
 }
 
-const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePrice, account }) => {
+const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, account }) => {
   const { t } = useTranslation()
-
-  const [showExpandableSection, setShowExpandableSection] = useState(false)
 
   const lpLabel = farm.lpSymbol
 
@@ -120,24 +118,9 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
           <Divider />
         </>
       )}
-      {/* <Flex justifyContent="space-between">
-        <Text>{t('Earn')}:</Text>
-        <Text bold>{earnLabel}</Text>
-      </Flex>
-      <Flex justifyContent="space-between">
-        <Text>{t('Remain')}:</Text>
-        <Text bold>
-          {farm.tokenAmount}
-          {farm.token.symbol}/{farm.quoteTokenAmount}
-          {farm.quoteToken.symbol}
-
-        </Text>
-      </Flex> */}
-
       <Flex mb="7px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Reward Token')}</Text>
         <img width="24px" src={ZbstLogo} />
-        {/* <TokenPairImage secondaryToken={farm?.quoteToken} width={24} height={24} /> */}
       </Flex>
 
       <Flex mb="7px" justifyContent="space-between" alignItems="center">
@@ -148,7 +131,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
       <Flex mb="7px" justifyContent="space-between" alignItems="center">
         <Text fontSize="14px">{t('Your Share')}</Text>
         <Text fontSize="14px">
-          ${userData.stakedBalance.toString()}（{userData.userSharePercent}）
+          ${userData.stakedBalance.toString()} ({userData.userSharePercent})
         </Text>
       </Flex>
 
@@ -172,20 +155,6 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
         lpLabel={lpLabel}
         addLiquidityUrl={addLiquidityUrl}
       />
-      {/* <ExpandableSectionButton
-        onClick={() => setShowExpandableSection(!showExpandableSection)}
-        expanded={showExpandableSection}
-      />
-      <ExpandingWrapper expanded={showExpandableSection}>
-        <DetailsSection
-          removed={removed}
-          bscScanAddress={getBscScanLink(lpAddress, 'address')}
-          infoAddress={`https://pancakeswap.info/pool/${lpAddress}`}
-          totalValueFormatted={farm.lpTotalTokens}
-          lpLabel={lpLabel}
-          addLiquidityUrl={addLiquidityUrl}
-        />
-      </ExpandingWrapper> */}
     </FCard>
   )
 }

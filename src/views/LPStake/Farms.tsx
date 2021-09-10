@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react'
 import { Route, useRouteMatch, useLocation, NavLink } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { Image, Heading, RowType, Toggle, Text, Button, ArrowForwardIcon, Flex } from 'zswap-uikit'
+import { Image, Skeleton, Heading, RowType, Toggle, Text, Button, ArrowForwardIcon, Flex } from 'zswap-uikit'
 import Select from 'components/Select/Select'
 import { Spinner } from 'zswap-uikit'
 import HelpButton from 'components/HelpButton'
@@ -276,7 +276,12 @@ const Farms: React.FC = () => {
   const renderContent = (): JSX.Element => {
     return (
       <CardContainer>
-        <Route exact path={`${path}`}>
+        {pairs.map((pair) => (
+          <PairCardWrap key={pair.pair}>
+            <WrapperedCard pair={pair} pairs={pairs} />
+          </PairCardWrap>
+        ))}
+        {/* <Route exact path={`${path}`}>
           {pairs.map((pair) => (
             <PairCardWrap key={pair.pair}>
               <WrapperedCard pair={pair} pairs={pairs} />
@@ -296,7 +301,7 @@ const Farms: React.FC = () => {
               <WrapperedCard pair={pair} pairs={pairs} />
             </PairCardWrap>
           ))}
-        </Route>
+        </Route> */}
       </CardContainer>
     )
   }
@@ -311,7 +316,11 @@ const Farms: React.FC = () => {
               <HelpButton href="https://zswap.gitbook.io/zswap/chan-p/untitled/ru-he-jin-hang-lp-zhi-ya" />
             </Heading>
             <Heading scale="xxl" color="pink">
-              ${totalLocked}
+              {['0.00', 0].includes(totalLocked) ? (
+                <Skeleton width="300px" height="70px" margin="10px 0" />
+              ) : (
+                '$' + totalLocked
+              )}
             </Heading>
             <Heading scale="md" color="text">
               {t('Total Value Locked (TVL)')}
@@ -372,7 +381,7 @@ const Farms: React.FC = () => {
           </Flex>
         )}
         <div ref={loadMoreRef} />
-        {!loading && pairs.length === 0 && (
+        {!loading && pairs && pairs.length === 0 && (
           <Text>{t('You are not currently providing liquidity for any LP pools.')}</Text>
         )}
       </Page>

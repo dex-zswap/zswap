@@ -30,7 +30,7 @@ const HistoryWrap = styled.div`
   }
 `
 
-const UserHistory = ({ currentLotteryId, currentZustValue, currentZbRewards }) => {
+const UserHistory = () => {
   const { t } = useTranslation()
 
   const [lotteryId, setLotteryId] = useState<string | number>('')
@@ -49,18 +49,12 @@ const UserHistory = ({ currentLotteryId, currentZustValue, currentZbRewards }) =
     () =>
       lotteryId ? (
         <Card title={`${t('Round')} ${lotteryId}`} back={backList}>
-          <UserHistoryDetail
-            currentLotteryId={currentLotteryId}
-            currentZustValue={currentZustValue}
-            currentZbRewards={currentZbRewards}
-            lotteryId={lotteryId}
-            drawTime={drawTime}
-          />
+          <UserHistoryDetail lotteryId={lotteryId} drawTime={drawTime} />
         </Card>
       ) : (
         <Card title={t('Your History')}>{<UserHistoryList showDetail={showDetail} />}</Card>
       ),
-    [lotteryId, t, currentZustValue, currentZbRewards],
+    [lotteryId, t],
   )
 
   return (

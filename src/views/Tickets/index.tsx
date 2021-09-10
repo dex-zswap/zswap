@@ -1,5 +1,4 @@
-import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
-import usePrizes from 'views/Tickets/hooks/usePrizes'
+import { LotteryProvider } from 'contexts/Lottery'
 
 import styled from 'styled-components'
 import LotteryHeader from './components/LotteryHeader'
@@ -44,25 +43,16 @@ const LotteryPage = styled.div`
 `
 
 const Ticket = () => {
-  const currentLotteryId = useCurrentLotteryId()
-  const { currentZustValue, currentZbRewards } = usePrizes(currentLotteryId)
-
   return (
-    <LotteryPage>
-      <LotteryHeader currentZustValue={currentZustValue} />
-      <UserHistory
-        currentLotteryId={currentLotteryId}
-        currentZustValue={currentZustValue}
-        currentZbRewards={currentZbRewards}
-      />
-      <TicketDraw
-        currentLotteryId={currentLotteryId}
-        currentZustValue={currentZustValue}
-        currentZbRewards={currentZbRewards}
-      />
-      <UserPrizes currentLotteryId={currentLotteryId} />
-      <LotteryFooter />
-    </LotteryPage>
+    <LotteryProvider>
+      <LotteryPage>
+        <LotteryHeader />
+        <UserHistory />
+        <TicketDraw />
+        <UserPrizes />
+        <LotteryFooter />
+      </LotteryPage>
+    </LotteryProvider>
   )
 }
 

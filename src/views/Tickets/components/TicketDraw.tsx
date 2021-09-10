@@ -1,16 +1,16 @@
-import styled from 'styled-components'
-import { Text, Flex, Button, NextArrowIcon, EndArrowIcon, PreArrowIcon } from 'zswap-uikit'
-import Card from './Card'
-import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
-import PriceRule from './PriceRule'
-
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
+import { LotteryContext } from 'contexts/Lottery'
 import useWinTime from 'views/Tickets/hooks/useWinTime'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
-import useTimeRange from 'views/Tickets/hooks/useTimeRange'
 import dayjs from 'dayjs'
+
+import styled from 'styled-components'
+import { Skeleton, Text, Flex, Button, NextArrowIcon, EndArrowIcon, PreArrowIcon } from 'zswap-uikit'
+import Card from './Card'
+import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
+import PriceRule from './PriceRule'
 
 const TicketDrawWrap = styled.div`
   position: relative;
@@ -129,8 +129,9 @@ const RightContentWrap = styled(Flex)`
   }
 `
 
-const TicketDraw = ({ currentLotteryId, currentZustValue, currentZbRewards }) => {
+const TicketDraw = () => {
   const { t } = useTranslation()
+  const { timeRange, currentLotteryId, currentZustValue, currentZbRewards } = useContext(LotteryContext)
 
   const [preLotteryId, setPreLotteryId] = useState(1)
   const [showPreView, setShowPreView] = useState(false)
@@ -141,7 +142,6 @@ const TicketDraw = ({ currentLotteryId, currentZustValue, currentZbRewards }) =>
 
   const winNumbers = useWinNumbers(lotteryId)
   const winTime = useWinTime(lotteryId)
-  const timeRange = useTimeRange()
 
   const currentWinTime = useMemo(() => {
     const hour = new Date().getHours()
@@ -304,9 +304,31 @@ const TicketDraw = ({ currentLotteryId, currentZustValue, currentZbRewards }) =>
             </Text>
             <div>
               <Text color="blue" fontSize="36px" bold>
-                {showPreView ? zustValue : currentZustValue}
+                {showPreView ? (
+                  '$-' == zustValue ? (
+                    <Skeleton width="220px" height="45px" margin="0 0 10px 0" />
+                  ) : (
+                    zustValue
+                  )
+                ) : '$-' == currentZustValue ? (
+                  <Skeleton width="220px" height="45px" margin="0 0 10px 0" />
+                ) : (
+                  currentZustValue
+                )}
               </Text>
-              <Text>{showPreView ? zbRewards : currentZbRewards}</Text>
+              <Text>
+                {showPreView ? (
+                  '- ZBST' == zbRewards ? (
+                    <Skeleton width="220px" height="45px" margin="0 0 10px 0" />
+                  ) : (
+                    zbRewards
+                  )
+                ) : '- ZBST' == currentZbRewards ? (
+                  <Skeleton width="220px" height="45px" margin="0 0 10px 0" />
+                ) : (
+                  currentZbRewards
+                )}
+              </Text>
             </div>
           </Flex>
           <Flex>
@@ -326,12 +348,7 @@ const TicketDraw = ({ currentLotteryId, currentZustValue, currentZbRewards }) =>
               <BuyTicketsButton />
             )}
           </Flex>
-          <PriceRule
-            lotteryId={lotteryId}
-            currentLotteryId={currentLotteryId}
-            currentZustValue={currentZustValue}
-            currentZbRewards={currentZbRewards}
-          />
+          <PriceRule lotteryId={lotteryId} />
         </>
       </Card>
     </TicketDrawWrap>

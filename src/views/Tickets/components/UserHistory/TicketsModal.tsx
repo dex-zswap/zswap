@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import { useTranslation } from 'contexts/Localization'
 
 import styled from 'styled-components'
@@ -37,16 +37,19 @@ const NumWrap = styled(Flex)`
 `
 
 interface TicketsModalProps {
-  currentLotteryId: number
   lotteryId: string
   onDismiss?: () => void
 }
 
-const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, currentLotteryId, onDismiss }) => {
+const ballArr = new Array(6).fill('')
+
+const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => {
   const { t } = useTranslation()
+
   const [winNumber, setWinNumber] = useState([])
   const [totalTickNum, setTotalTickNum] = useState(0)
   const [winTickNum, setWinTickNum] = useState(0)
+
   const setTickData = useCallback(
     (winNumber = [], totalTickNum = 0, winTickNum = 0) => {
       setWinNumber(winNumber)
@@ -55,7 +58,6 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, currentLotteryId
     },
     [setWinNumber, setTotalTickNum, setWinTickNum],
   )
-  const ballArr = new Array(6).fill('')
 
   return (
     <Modal onDismiss={onDismiss} title={t('Round') + lotteryId} minWidth="480px">
@@ -80,7 +82,7 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, currentLotteryId
         </Text>
         <Text bold>{winTickNum}</Text>
       </Flex>
-      <TicketsRecords id={lotteryId} setTickData={setTickData} currentLotteryId={currentLotteryId} />
+      <TicketsRecords lotteryId={lotteryId} setTickData={setTickData} />
     </Modal>
   )
 }

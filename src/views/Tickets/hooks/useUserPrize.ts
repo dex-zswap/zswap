@@ -9,12 +9,9 @@ import { useTranslation } from 'contexts/Localization'
 
 const apiBase = process.env.REACT_APP_API_BASE
 
-const userGetReward = async (txId: string) => {
-  await fetch(`${apiBase}/lottery/getReward`, {
-    mode: 'cors',
-    credentials: 'omit',
+const userGetReward = (txId: string) => {
+  fetch(`${apiBase}/lottery/getReward`, {
     method: 'POST',
-    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -79,7 +76,9 @@ export function useUserCollected() {
         .then((response) => response.json())
         .then((res) => {
           if (res.data) {
-            setTotalCollected(new BigNumber(res.data))
+            setTotalCollected(new BigNumber(res.data.totalReward))
+          } else {
+            setTotalCollected(BIG_ZERO)
           }
         })
     }

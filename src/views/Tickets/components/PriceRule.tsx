@@ -1,11 +1,13 @@
-import { useMemo } from 'react'
-import BigNumber from 'bignumber.js'
+import { useContext, useMemo } from 'react'
 import { useTranslation } from 'contexts/Localization'
+import { LotteryContext } from 'contexts/Lottery'
+import BigNumber from 'bignumber.js'
+import { useHasOpened } from 'views/Tickets/hooks/useWinTime'
 import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import { useAllUserLotteryIdsByLotteryNum } from 'views/Tickets/hooks/useUserHistory'
 
 import styled from 'styled-components'
-import { Flex, Text } from 'zswap-uikit'
+import { Skeleton, Flex, Text } from 'zswap-uikit'
 
 const Line = styled.div`
   width: 100%;
@@ -24,12 +26,14 @@ const PriceWrap = styled(Flex)`
   }
 `
 
-const PriceRule = ({ lotteryId, currentLotteryId, currentZustValue, currentZbRewards }) => {
+const PriceRule = ({ lotteryId }) => {
   const { t } = useTranslation()
-  const isDrawed = currentLotteryId != lotteryId
+  const { currentLotteryId, currentZustValue, currentZbRewards } = useContext(LotteryContext)
+
+  const isCurrent = currentLotteryId == lotteryId
   const { zustValue, zbRewards } = useLotteryReward(lotteryId)
-  const zust = isDrawed ? zustValue : currentZustValue
-  const zb = isDrawed ? zbRewards : currentZbRewards
+  const zust = !isCurrent ? zustValue : currentZustValue
+  const zb = !isCurrent ? zbRewards : currentZbRewards
   const rewardNums = useAllUserLotteryIdsByLotteryNum(lotteryId)
   const priceData = useMemo(
     () =>
@@ -52,7 +56,7 @@ const PriceRule = ({ lotteryId, currentLotteryId, currentZustValue, currentZbRew
         }
         return d
       }),
-    [lotteryId, zust, zb, rewardNums, isDrawed, t],
+    [lotteryId, zust, zb, rewardNums, isCurrent, t],
   )
 
   return (
@@ -73,10 +77,10 @@ const PriceRule = ({ lotteryId, currentLotteryId, currentZustValue, currentZbRew
               </Text>
             )}
             <Text fontSize="24px" bold>
-              {reward}
+              {'$-' == reward ? <Skeleton width="175px" height="35px" margin="10px 0" /> : reward}
             </Text>
-            <Text>{zbReward}</Text>
-            {isDrawed && !isLast && (
+            <Text>{'- ZBST' == zbReward ? <Skeleton width="175px" height="25px" /> : zbReward}</Text>
+            {!isCurrent && !isLast && (
               <>
                 <Text>{earn}</Text>
                 <Text>{winner}</Text>
