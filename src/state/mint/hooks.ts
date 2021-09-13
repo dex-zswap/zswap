@@ -128,21 +128,23 @@ export function useDerivedMintInfo(
     [currencyA, currencyB],
   )
 
-  const currencyId: {
+  const currencyId = useMemo<{
     currencyA: string | undefined
     currencyB: string | undefined
-  } = {
-    currencyA: currencyEquals(currencyA, ETHER)
-      ? 'DEX'
-      : currencyA
-      ? (currencyA as WrappedTokenInfo).address
-      : undefined,
-    currencyB: currencyEquals(currencyB, ETHER)
-      ? 'DEX'
-      : currencyB
-      ? (currencyB as WrappedTokenInfo).address
-      : undefined,
-  }
+  }>(() => {
+    return {
+      currencyA: currencyEquals(currencyA, ETHER)
+        ? 'DEX'
+        : currencyA
+        ? (currencyA as WrappedTokenInfo).address
+        : undefined,
+      currencyB: currencyEquals(currencyB, ETHER)
+        ? 'DEX'
+        : currencyB
+        ? (currencyB as WrappedTokenInfo).address
+        : undefined,
+    }
+  }, [currencyA, currencyB])
 
   // get pair with state
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B])
@@ -160,7 +162,7 @@ export function useDerivedMintInfo(
   const allExist = useMemo<boolean>(() => zbWithcurrencyA && zbWithcurrencyB, [zbWithcurrencyA, zbWithcurrencyB])
   const createZBPairLink = useMemo<string>(
     () => (allExist ? null : `/add/${ZB_ADDRESS}/${zbWithcurrencyA ? currencyId.currencyB : currencyId.currencyA}`),
-    [allExist],
+    [allExist, zbWithcurrencyA, currencyId],
   )
   const otherCurrencySymbol = useMemo<string>(
     () => (currencyA && currencyB ? (allExist ? `` : zbWithcurrencyA ? currencyB.symbol : currencyA.symbol) : ''),

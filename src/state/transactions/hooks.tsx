@@ -81,11 +81,20 @@ export function useTransactionAdder(): (
 }
 
 // returns all the transactions for the current chain
-export function useAllTransactions(): { [txHash: string]: TransactionDetails } {
-  const { chainId } = useActiveWeb3React()
+export function useAllTransactions(isSelf: boolean = false): { [txHash: string]: TransactionDetails } {
+  const { chainId, account } = useActiveWeb3React()
 
   const state = useSelector<AppState, AppState['transactions']>((s) => s.transactions)
-
+  const transactions = chainId ? state[chainId] ?? {} : {}
+  if (isSelf) {
+    let row
+    Object.keys(transactions).forEach((key) => {
+      row = transactions[key]
+      if (row.from !== account) {
+        delete transactions[key]
+      }
+    })
+  }
   return chainId ? state[chainId] ?? {} : {}
 }
 

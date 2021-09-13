@@ -13,7 +13,7 @@ const WalletTransactions: React.FC = () => {
   const { chainId } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
   const { t } = useTranslation()
-  const allTransactions = useAllTransactions()
+  const allTransactions = useAllTransactions(true)
   const sortedTransactions = orderBy(allTransactions, 'addedTime', 'desc')
 
   const handleClearAll = () => {
