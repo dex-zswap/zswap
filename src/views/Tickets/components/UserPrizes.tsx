@@ -7,6 +7,7 @@ import { useUserAllLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import { useCollectReward, useUserCollected } from 'views/Tickets/hooks/useUserPrize'
 import { useAllWinNumbers } from 'views/Tickets/hooks/usePrizes'
 import { useAllRewards } from 'views/Tickets/hooks/useLotteryReward'
+import { useHasOpened } from 'views/Tickets/hooks/useWinTime'
 import { BIG_ZERO, BIG_ONE } from 'utils/bigNumber'
 import useRefresh from 'hooks/useRefresh'
 
@@ -132,7 +133,9 @@ const UserPrizes = () => {
 
   const lotteryRewardIds = useMemo(() => Object.keys(allPrizes).map((key) => key.substr(7)), [allPrizes])
 
-  const isLastDrawReward = lotteryRewardIds.includes(currentLotteryId - 1 + '')
+  const hasOpened = useHasOpened(currentLotteryId)
+
+  const isLastDrawReward = lotteryRewardIds.includes(hasOpened ? currentLotteryId + '' : currentLotteryId - 1 + '')
 
   const allRewardInfo = useAllRewards(lotteryRewardIds)
 
@@ -211,7 +214,7 @@ const UserPrizes = () => {
                 width="210px"
                 mt="28px"
                 onClick={collectReward}
-                disabled={collecting || '0.0000' == userTotalRewardInfo.zbst}
+                disabled={collecting || '0.00' == userTotalRewardInfo.zbst}
               >
                 {collecting ? <Dots>{t('Collecting')}</Dots> : t('Collect Prizes')}
               </Button>

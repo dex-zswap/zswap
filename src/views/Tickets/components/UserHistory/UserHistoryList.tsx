@@ -1,12 +1,12 @@
+import { useContext, useState, useCallback, useEffect } from 'react'
+import { useTranslation } from 'contexts/Localization'
+import { LotteryContext } from 'contexts/Lottery'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import dayjs from 'dayjs'
+
 import styled from 'styled-components'
 import { Text, Flex, ArrowRightIcon, Button } from 'zswap-uikit'
 import BuyTicketsButton from '../BuyTicket/BuyTicketsButton'
-
-import { useTranslation } from 'contexts/Localization'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
-import { useState, useCallback, useEffect } from 'react'
-import dayjs from 'dayjs'
 
 const HistoryTable = styled.table`
   width: 100%;
@@ -26,15 +26,16 @@ const HistoryTable = styled.table`
 
 const UserHistoryList = ({ showDetail }) => {
   const { t } = useTranslation()
+  const { userLotteryIds } = useContext(LotteryContext)
   const { account } = useActiveWeb3React()
+
   const [pageNum, setPageNum] = useState(1)
   const [list, setList] = useState([])
-  const lotteryIds = useUserLotteryIds()
-  const pages = Math.ceil(lotteryIds.length / 5)
+  const pages = Math.ceil(userLotteryIds.length / 5)
 
   useEffect(() => {
-    setList(lotteryIds.slice((pageNum - 1) * 5, pageNum * 5))
-  }, [lotteryIds, pageNum])
+    setList(userLotteryIds.slice((pageNum - 1) * 5, pageNum * 5))
+  }, [userLotteryIds, pageNum])
 
   const getDrawTime = useCallback((time) => {
     const hour = new Date(time).getHours()

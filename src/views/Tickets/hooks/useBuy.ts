@@ -6,8 +6,9 @@ import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useTranslation } from 'contexts/Localization'
 
-export default function useBuy(onDismiss: () => void) {
+export default function useBuy(onDismiss: () => void, cb?: () => void) {
   const { t } = useTranslation()
+
   const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const addTransaction = useTransactionAdder()
@@ -31,8 +32,10 @@ export default function useBuy(onDismiss: () => void) {
             },
           },
         })
+
         setBuying(false)
         onDismiss()
+        cb()
       } catch (e) {
         setBuying(false)
       }

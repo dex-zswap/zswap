@@ -7,6 +7,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from 'contexts/Localization'
 
 const Wrap = styled(Flex)`
+  width: 100%;
   align-items: center;
   justify-content: center;
   padding-top: 150px;
@@ -62,9 +63,14 @@ const Wrap = styled(Flex)`
 `
 
 const TextWrap = styled.div`
-  width: 560px;
   position: relative;
-  word-breal: break-word;
+  word-break: break-word;
+  @media screen and (min-width: 1550px) {
+    width: 560px;
+  }
+  @media screen and (max-width: 1550px) {
+    width: 450px;
+  }
   > div,
   > button {
     position: relative;
@@ -73,9 +79,14 @@ const TextWrap = styled.div`
 `
 
 const ImgWrap = styled.div`
-  width: 490px;
   position: relative;
   margin-left: 20px;
+  @media screen and (min-width: 1550px) {
+    width: 490px;
+  }
+  @media screen and (max-width: 1550px) {
+    width: 420px;
+  }
   > div {
     z-index: 99;
   }
@@ -114,6 +125,12 @@ const AbsoluteImgZ = styled.div`
   bottom: -110px;
   left: -60px;
   z-index: 66 !important;
+  @media screen and (min-width: 1550px) {
+    width: 647px;
+  }
+  @media screen and (max-width: 1550px) {
+    width: 580px;
+  }
 `
 
 const AbsoluteImgPlus = styled.div`

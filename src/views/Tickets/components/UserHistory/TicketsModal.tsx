@@ -56,7 +56,7 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => 
       setTotalTickNum(totalTickNum)
       setWinTickNum(winTickNum)
     },
-    [setWinNumber, setTotalTickNum, setWinTickNum],
+    [lotteryId, setWinNumber, setTotalTickNum, setWinTickNum],
   )
 
   return (

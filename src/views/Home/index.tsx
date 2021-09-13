@@ -14,6 +14,9 @@ export const HomeWrap = styled.div`
   }
   .home_icon {
     position: absolute !important;
+    @media screen and (max-width: 1650px) {
+      display: none;
+    }
   }
   .home_icon1 {
     left: 40px;
