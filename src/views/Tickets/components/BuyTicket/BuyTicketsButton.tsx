@@ -1,7 +1,8 @@
 import { useState, useContext, useEffect } from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { LotteryContext } from 'contexts/Lottery'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import { fetchLotteryIds } from 'views/Tickets/hooks/useUserHistory'
+import { LotteryContext } from 'contexts/Lottery'
 
 import { Text, Button, useModal } from 'zswap-uikit'
 import { LayoutProps, SpaceProps } from 'styled-system'
@@ -15,10 +16,20 @@ interface btnProps extends LayoutProps, SpaceProps {
 
 const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccountTip, ...props }) => {
   const { t } = useTranslation()
-  const { timeRange } = useContext(LotteryContext)
+  const { timeRange, setUserLotteryIds } = useContext(LotteryContext)
 
   const { account } = useActiveWeb3React()
-  const [useBuyTicketsModal] = useModal(<BuyTicketsModal onDismiss={onDismiss} />)
+  const [useBuyTicketsModal] = useModal(
+    <BuyTicketsModal
+      cb={() => {
+        setTimeout(async () => {
+          const lotteryIds = await fetchLotteryIds(account)
+          setUserLotteryIds(lotteryIds)
+        }, 1000)
+      }}
+      onDismiss={onDismiss}
+    />,
+  )
 
   const [btnLabel, setBtnLabel] = useState<string>(t('Buy Tickets'))
   const [btnDisabled, setBtnDisabled] = useState<boolean>(true)

@@ -17,7 +17,7 @@ const HistoryWrap = styled.div`
     margin: auto;
     &:first-child {
       top: -20px;
-      transform: translateX(-480px);
+      transform: translateX(-430px);
     }
     &:nth-child(2) {
       top: 280px;
@@ -25,7 +25,7 @@ const HistoryWrap = styled.div`
     }
     &:nth-child(3) {
       top: 170px;
-      transform: translateX(500px);
+      transform: translateX(490px);
     }
   }
 `

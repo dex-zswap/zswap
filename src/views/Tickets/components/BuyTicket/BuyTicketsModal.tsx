@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { useTranslation } from 'contexts/Localization'
 import useTicketPrice, { useZBSTBalance } from 'views/Tickets/hooks/useTicketPrice'
 import useApprove, { useApproveStatus } from 'views/Tickets/hooks/useApprove'
 import useBuy, { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import useRandomNumbers from 'views/Tickets/hooks/useRandomNumbers'
-import { useTranslation } from 'contexts/Localization'
 
 import { Text, Input, Flex, Modal, Button } from 'zswap-uikit'
 import Dots from 'components/Loader/Dots'
@@ -125,6 +125,7 @@ const ViewEditNumbers = ({ count, numbersChange }) => {
 
 interface BuyTicketModalProps {
   onDismiss?: () => void
+  cb?: () => void
 }
 
 const PricePay = ({ count, ticketPrice }) => {
@@ -140,8 +141,9 @@ const PricePay = ({ count, ticketPrice }) => {
   )
 }
 
-const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
+const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss, cb }) => {
   const { t } = useTranslation()
+
   const [step, setStep] = useState(Steps.INPUT_COUNT)
   const [count, setCount] = useState<number | string>(1)
   const [numbers, setNumbers] = useState([])
@@ -151,7 +153,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
 
   const lotteryNum = useCurrentLotteryId()
 
-  const { buyTickets, buying } = useBuy(onDismiss)
+  const { buyTickets, buying } = useBuy(onDismiss, cb)
   const zbstBalance = useZBSTBalance()
   const ticketPrice = useTicketPrice()
 
@@ -173,7 +175,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss }) => {
     setNumbers(nums)
   }, [])
 
-  const buy = useCallback(() => {
+  const buy = useCallback(async () => {
     buyTickets(numbers, lotteryNum)
   }, [buyTickets, numbers])
 

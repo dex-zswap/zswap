@@ -119,59 +119,60 @@ export function useAllUserLotteryIdsByLotteryNum(lotteryNum: string | number) {
   return rewardNums
 }
 
+export async function fetchLotteryIds(account, lotteryNum = '') {
+  const res = await fetch(`${apiBase}/walletTran/queryList`, {
+    mode: 'cors',
+    credentials: 'omit',
+    method: 'POST',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      lotteryNum,
+      category: 7,
+      srcAddr: account,
+    }),
+  })
+  const { data } = await res.json()
+  const ids = []
+  let findIndex
+  if (data && data?.length) {
+    data.forEach(({ lotteryNum, lottery, createTime }) => {
+      if (lotteryNum) {
+        findIndex = ids.findIndex(({ id }) => id === lotteryNum)
+        if (findIndex === -1) {
+          ids.push({
+            id: lotteryNum,
+            numbers: lottery.split(','),
+            createTime,
+          })
+        } else {
+          ids[findIndex] = {
+            id: lotteryNum,
+            numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+            createTime,
+          }
+        }
+      }
+    })
+  }
+  return ids
+}
+
 export function useUserLotteryIds(lotteryNum: string = '') {
   const [lotteryIds, setlotteryIds] = useState([])
   const { account } = useActiveWeb3React()
   useEffect(() => {
-    const fetchLotteryIds = () => {
-      fetch(`${apiBase}/walletTran/queryList`, {
-        mode: 'cors',
-        credentials: 'omit',
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          lotteryNum,
-          category: 7,
-          srcAddr: account,
-        }),
-      })
-        .then((response) => response.json())
-        .then((res) => {
-          const ids = []
-          let findIndex
-
-          if (res?.data && res?.data?.length) {
-            res.data.forEach(({ lotteryNum, lottery, createTime }) => {
-              if (lotteryNum) {
-                findIndex = ids.findIndex(({ id }) => id === lotteryNum)
-                if (findIndex === -1) {
-                  ids.push({
-                    id: lotteryNum,
-                    numbers: lottery.split(','),
-                    createTime,
-                  })
-                } else {
-                  ids[findIndex] = {
-                    id: lotteryNum,
-                    numbers: ids[findIndex].numbers.concat(lottery.split(',')),
-                    createTime,
-                  }
-                }
-              }
-            })
-          }
-
-          setlotteryIds(() => ids)
-        })
+    const getLotteryIds = async () => {
+      const data = await fetchLotteryIds(account, lotteryNum)
+      setlotteryIds(data)
     }
 
     if (account) {
-      fetchLotteryIds()
+      getLotteryIds()
     }
-  }, [account])
+  }, [account, lotteryNum])
 
   return lotteryIds
 }

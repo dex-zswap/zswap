@@ -65,9 +65,9 @@ const UserHistoryDetail = ({ lotteryId, drawTime }) => {
         </Text>
         <div>
           <Text fontSize="36px" lineHeight="36px" mb="5px" color="blue" bold>
-            {isCurrent ? currentZbRewards : zbRewards}
+            {isCurrent ? currentZustValue : zustValue}
           </Text>
-          <Text ml="4px">{isCurrent ? currentZustValue : zustValue}</Text>
+          <Text ml="4px">{isCurrent ? currentZbRewards : zbRewards}</Text>
         </div>
       </Flex>
       <Flex margin="25px 0 34px">
