@@ -6,6 +6,7 @@ import { useTransactionAdder } from 'state/transactions/hooks'
 import useToast from 'hooks/useToast'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { useTranslation } from 'contexts/Localization'
+import useRefresh from 'hooks/useRefresh'
 
 const apiBase = process.env.REACT_APP_API_BASE
 
@@ -58,6 +59,7 @@ export function useCollectReward() {
 export function useUserCollected() {
   const [totalCollected, setTotalCollected] = useState(BIG_ZERO)
   const { account } = useActiveWeb3React()
+  const { fastRefresh } = useRefresh()
 
   useEffect(() => {
     const queryUserCollected = () => {
@@ -86,7 +88,7 @@ export function useUserCollected() {
     if (account) {
       queryUserCollected()
     }
-  }, [account])
+  }, [account, fastRefresh])
 
   return totalCollected
 }
