@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useContractCall } from 'hooks/useContractCall'
-import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import { format } from 'date-fns'
 
 export default function useWinTime(lotteryId: string | number) {
@@ -13,14 +12,14 @@ export default function useWinTime(lotteryId: string | number) {
   return winTime ? format(new Date(winTime), 'yyyy.MM.dd HH:mm') : '-'
 }
 
-export function useHasOpened(lotteryId?: string | number) {
+export function useHasOpened(lotteryId: string | number) {
   const [opened, setOpened] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
-  const currentLotteryId = useCurrentLotteryId()
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await lotteryContract.lottoWinningTime(lotteryId || currentLotteryId)
+      const res = await lotteryContract.lottoWinningTime(lotteryId)
+
       if (res) {
         setOpened(res.gt(0))
       }

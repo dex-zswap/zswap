@@ -132,7 +132,7 @@ const UserPrizes = () => {
   }, [lotteryIds, allWinNumbers, fastRefresh])
 
   const lotteryRewardIds = useMemo(() => Object.keys(allPrizes).map((key) => key.substr(7)), [allPrizes])
-  const hasOpened = useHasOpened()
+  const hasOpened = useHasOpened(currentLotteryId)
 
   const isLastDrawReward = useMemo(
     () => lotteryRewardIds.includes(hasOpened ? currentLotteryId + '' : currentLotteryId - 1 + ''),
