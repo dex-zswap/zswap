@@ -4,6 +4,8 @@ import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import usePrizes from 'views/Tickets/hooks/usePrizes'
 
+import PageLoader from 'components/Loader/PageLoader'
+
 export const LotteryContext = createContext(undefined)
 
 export const LotteryProvider: React.FC = ({ children }) => {
@@ -17,6 +19,10 @@ export const LotteryProvider: React.FC = ({ children }) => {
   }, [lotteryIds])
 
   const { currentZustValue, currentZbRewards } = usePrizes(currentLotteryId)
+
+  if (!currentLotteryId) {
+    return <PageLoader />
+  }
 
   return (
     <LotteryContext.Provider

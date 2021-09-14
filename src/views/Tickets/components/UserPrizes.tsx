@@ -132,10 +132,12 @@ const UserPrizes = () => {
   }, [lotteryIds, allWinNumbers, fastRefresh])
 
   const lotteryRewardIds = useMemo(() => Object.keys(allPrizes).map((key) => key.substr(7)), [allPrizes])
+  const hasOpened = useHasOpened()
 
-  const hasOpened = useHasOpened(currentLotteryId)
-
-  const isLastDrawReward = lotteryRewardIds.includes(hasOpened ? currentLotteryId + '' : currentLotteryId - 1 + '')
+  const isLastDrawReward = useMemo(
+    () => lotteryRewardIds.includes(hasOpened ? currentLotteryId + '' : currentLotteryId - 1 + ''),
+    [hasOpened, currentLotteryId],
+  )
 
   const allRewardInfo = useAllRewards(lotteryRewardIds)
 
@@ -174,6 +176,7 @@ const UserPrizes = () => {
       zust: zustEarnedReward.toFixed(2, BigNumber.ROUND_DOWN),
     }
   }, [allRewardInfo, allPrizes, userCollected])
+
   return (
     <Flex mb="260px" alignItems="center" flexDirection="column">
       <Text textAlign="center" fontSize="48px" bold>
@@ -184,43 +187,41 @@ const UserPrizes = () => {
       </Text>
       <Card width="420px" title={t('Your Prizes')}>
         {!account || !isLastDrawReward ? (
-          <Flex height="238px" flexDirection="column" alignItems="center" justifyContent="center">
+          <Flex height="100px" flexDirection="column" alignItems="center" justifyContent="center">
             {!account && <Text mb="20px">{t('Connect your wallet to check your prizes')}</Text>}
             {account && !isLastDrawReward && <Text mb="20px">{t('Buy tickets for this draw!')}</Text>}
             <BuyTicketsButton />
           </Flex>
         ) : (
-          <>
-            <TicketsRecords onlyShowWin />
-            <Line />
-            <Flex justifyContent="space-between" alignItems="center">
-              <div>
-                <Text fontSize="16px" bold>
-                  {t('Amount of your')}
-                </Text>
-                <Text fontSize="16px" bold>
-                  {t('winning prizes')}
-                </Text>
-              </div>
-              <div>
-                <Text color="blue" fontSize="36px" bold>
-                  ${userTotalRewardInfo.zust}
-                </Text>
-                <Text>{userTotalRewardInfo.zbst} ZBST</Text>
-              </div>
-            </Flex>
-            <Flex justifyContent="center">
-              <Button
-                width="210px"
-                mt="28px"
-                onClick={collectReward}
-                disabled={collecting || '0.00' == userTotalRewardInfo.zbst}
-              >
-                {collecting ? <Dots>{t('Collecting')}</Dots> : t('Collect Prizes')}
-              </Button>
-            </Flex>
-          </>
+          <TicketsRecords onlyShowWin />
         )}
+        <Line />
+        <Flex justifyContent="space-between" alignItems="center">
+          <div>
+            <Text fontSize="16px" bold>
+              {t('Amount of your')}
+            </Text>
+            <Text fontSize="16px" bold>
+              {t('winning prizes')}
+            </Text>
+          </div>
+          <div>
+            <Text color="blue" fontSize="36px" bold>
+              ${userTotalRewardInfo.zust}
+            </Text>
+            <Text>{userTotalRewardInfo.zbst} ZBST</Text>
+          </div>
+        </Flex>
+        <Flex justifyContent="center">
+          <Button
+            width="210px"
+            mt="28px"
+            onClick={collectReward}
+            disabled={collecting || !userTotalRewardInfo.hasPrizes}
+          >
+            {collecting ? <Dots>{t('Collecting')}</Dots> : t('Collect Prizes')}
+          </Button>
+        </Flex>
       </Card>
     </Flex>
   )

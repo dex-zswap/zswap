@@ -54,7 +54,7 @@ export function useCurrentLotteryId() {
   const lotteryId = useContractCall(lotteryContract, 'lotteryId', [])
   return useMemo(() => {
     if (!lotteryId.result) {
-      return 1
+      return null
     }
     return new BigNumber(lotteryId.result.toString()).toNumber()
   }, [lotteryId])
