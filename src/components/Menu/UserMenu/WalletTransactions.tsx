@@ -10,10 +10,10 @@ import { orderBy } from 'lodash'
 import TransactionRow from './TransactionRow'
 
 const WalletTransactions: React.FC = () => {
-  const { chainId } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React()
   const dispatch = useDispatch<AppDispatch>()
   const { t } = useTranslation()
-  const allTransactions = useAllTransactions(true)
+  const allTransactions = useAllTransactions()
   const sortedTransactions = orderBy(allTransactions, 'addedTime', 'desc')
 
   const handleClearAll = () => {
@@ -35,7 +35,7 @@ const WalletTransactions: React.FC = () => {
         )} */}
       </Flex>
       {sortedTransactions.length > 0 ? (
-        sortedTransactions.map((txn) => <TransactionRow key={txn.hash} txn={txn} />)
+        sortedTransactions.map((txn) => txn.from === account ? <TransactionRow key={txn.hash} txn={txn} /> : null)
       ) : (
         <Text textAlign="center">{t('No recent transactions')}</Text>
       )}
