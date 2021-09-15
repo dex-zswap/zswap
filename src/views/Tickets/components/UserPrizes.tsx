@@ -136,7 +136,7 @@ const UserPrizes = () => {
 
   const isLastDrawReward = useMemo(
     () => lotteryRewardIds.includes(hasOpened ? currentLotteryId + '' : currentLotteryId - 1 + ''),
-    [hasOpened, currentLotteryId],
+    [lotteryRewardIds],
   )
 
   const allRewardInfo = useAllRewards(lotteryRewardIds)
@@ -193,7 +193,7 @@ const UserPrizes = () => {
             <BuyTicketsButton />
           </Flex>
         ) : (
-          <TicketsRecords onlyShowWin />
+          <TicketsRecords currentLotteryId={currentLotteryId} onlyShowWin />
         )}
         <Line />
         <Flex justifyContent="space-between" alignItems="center">

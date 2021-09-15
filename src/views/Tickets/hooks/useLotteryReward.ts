@@ -58,7 +58,7 @@ export function useAllRewards(lotteryIds: string[]) {
       }
     }
 
-    if (lotteryIds) {
+    if (lotteryIds && lotteryIds?.length) {
       fetchRewards()
     }
   }, [lotteryIds, prizeBigNumber, lotteryContract])

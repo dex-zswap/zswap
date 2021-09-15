@@ -5,6 +5,9 @@ import { useContractCall } from 'hooks/useContractCall'
 import { format } from 'date-fns'
 
 export default function useWinTime(lotteryId: string | number) {
+  if (!Number(lotteryId)) {
+    return '-'
+  }
   const lotteryContract = useZSwapLotteryContract()
   const data = useContractCall(lotteryContract, 'lottoWinningTime', [lotteryId])
   const winTime = data.result ? new BigNumber(data.result.toString()).multipliedBy(1000).toNumber() : 0
@@ -13,6 +16,9 @@ export default function useWinTime(lotteryId: string | number) {
 }
 
 export function useHasOpened(lotteryId: string | number) {
+  if (!Number(lotteryId)) {
+    return false
+  }
   const [opened, setOpened] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
 

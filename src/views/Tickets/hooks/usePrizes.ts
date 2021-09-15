@@ -11,6 +11,9 @@ import { useHasOpened } from './useWinTime'
 const apiBase = process.env.REACT_APP_API_BASE
 
 export function useWinNumbers(lotteryId: string | number) {
+  if (!Number(lotteryId)) {
+    return []
+  }
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState([])
   const hasOpened = useHasOpened(lotteryId)
@@ -30,13 +33,18 @@ export function useWinNumbers(lotteryId: string | number) {
       } catch (e) {}
     }
 
-    fetchWinNumbers()
+    if (Number(lotteryId)) {
+      fetchWinNumbers()
+    }
   }, [hasOpened, lotteryContract, lotteryId])
 
   return winNumbers
 }
 
 export function useAllWinNumbers(currentLotteryId) {
+  if (!Number(currentLotteryId)) {
+    return {}
+  }
   const hasOpened = useHasOpened(currentLotteryId)
   const lotteryContract = useZSwapLotteryContract()
   const [winNumbers, setWinNumber] = useState({})
@@ -44,7 +52,7 @@ export function useAllWinNumbers(currentLotteryId) {
   const idIndex = useMemo(() => {
     lotteryNum = hasOpened ? currentLotteryId : Number(currentLotteryId) - 1
 
-    const lotteryIds = new Array(lotteryNum).fill(0)
+    const lotteryIds = lotteryNum ? new Array(lotteryNum).fill(0) : []
     const idIndex = lotteryIds
       .map((item, index) => {
         return [
@@ -142,15 +150,15 @@ export default function usePrizes(lotteryId) {
       return res.plus(cur.multipliedBy(priceBigNumber))
     }, BIG_ZERO)
 
-    console.group()
-    console.log(`用户买票:    ${lotteryRewardBigNumber.toFixed(2)}`)
-    console.log(`LP奖励:     ${lpRewardBigNumber}`)
-    console.log(`上期LP奖励:  ${lastLpReward}`)
-    console.log(`上期遗留:    ${lottoTotalRewardsBigNumber.toFixed(2)}`)
-    console.log(`上期领奖:    ${totalRewardsTouserBigNumber.toFixed(2)}`)
-    console.log(`Block:      ${blockNumber}`)
-    console.log(`ZBST:       ${zustValue.div(priceBigNumber).minus(lastLpReward).toFixed(2)}`)
-    console.groupEnd()
+    // console.group()
+    // console.log(`用户买票:    ${lotteryRewardBigNumber.toFixed(2)}`)
+    // console.log(`LP奖励:     ${lpRewardBigNumber}`)
+    // console.log(`上期LP奖励:  ${lastLpReward}`)
+    // console.log(`上期遗留:    ${lottoTotalRewardsBigNumber.toFixed(2)}`)
+    // console.log(`上期领奖:    ${totalRewardsTouserBigNumber.toFixed(2)}`)
+    // console.log(`Block:      ${blockNumber}`)
+    // console.log(`ZBST:       ${zustValue.div(priceBigNumber).minus(lastLpReward).toFixed(2)}`)
+    // console.groupEnd()
 
     return {
       currentZustValue: `$${zustValue.toFixed(2)}`,

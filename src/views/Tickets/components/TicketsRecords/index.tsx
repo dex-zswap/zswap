@@ -1,6 +1,5 @@
 import { useMemo, useEffect, useCallback, useState } from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { useCurrentLotteryId } from 'views/Tickets/hooks/useBuy'
 import { useUserLotteryIds } from 'views/Tickets/hooks/useUserHistory'
 import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
 
@@ -29,19 +28,24 @@ const NumWrap = styled(Flex)`
 `
 
 interface TicketsRecordsProps {
+  currentLotteryId: string | number
   lotteryId?: string
   onlyShowWin?: boolean
   setTickData?: (winNumber: any, totalTickNum: number, winTickNum: number) => void
 }
 
-const TicketsRecords: React.FC<TicketsRecordsProps> = ({ lotteryId, onlyShowWin = false, setTickData }) => {
+const TicketsRecords: React.FC<TicketsRecordsProps> = ({
+  lotteryId,
+  onlyShowWin = false,
+  currentLotteryId,
+  setTickData,
+}) => {
   const { t } = useTranslation()
-  const currentLotteryId = useCurrentLotteryId()
 
-  const isCurrentLottery = !lotteryId || Number(lotteryId) == currentLotteryId
-  const lotteryIds = useUserLotteryIds(lotteryId || currentLotteryId - 1 + '')
+  const isCurrentLottery = !lotteryId || Number(lotteryId) == Number(currentLotteryId)
+  const lotteryIds = useUserLotteryIds(lotteryId || Number(currentLotteryId) - 1 + '')
 
-  const winNumbers = useWinNumbers(lotteryId || currentLotteryId - 1)
+  const winNumbers = useWinNumbers(lotteryId || Number(currentLotteryId) - 1)
 
   const getRewardLevel = useCallback(
     (num: string) => {
@@ -73,7 +77,7 @@ const TicketsRecords: React.FC<TicketsRecordsProps> = ({ lotteryId, onlyShowWin 
   const totalTicks = useMemo(() => lotteryIds[0]?.numbers || [], [lotteryIds])
   const winTicks = useMemo(
     () => totalTicks.filter((d: string) => ![t('No Prize'), t('No Prizes')].includes(getRewardLevel(d))) || [],
-    [totalTicks],
+    [winNumbers, isCurrentLottery, lotteryIds],
   )
 
   const numbers = onlyShowWin ? winTicks : totalTicks

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
 
 import styled from 'styled-components'
@@ -37,13 +37,14 @@ const NumWrap = styled(Flex)`
 `
 
 interface TicketsModalProps {
+  currentLotteryId: string | number
   lotteryId: string
   onDismiss?: () => void
 }
 
 const ballArr = new Array(6).fill('')
 
-const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => {
+const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, currentLotteryId, onDismiss }) => {
   const { t } = useTranslation()
 
   const [winNumber, setWinNumber] = useState([])
@@ -82,7 +83,7 @@ const TicketsModal: React.FC<TicketsModalProps> = ({ lotteryId, onDismiss }) => 
         </Text>
         <Text bold>{winTickNum}</Text>
       </Flex>
-      <TicketsRecords lotteryId={lotteryId} setTickData={setTickData} />
+      <TicketsRecords lotteryId={lotteryId} currentLotteryId={currentLotteryId} setTickData={setTickData} />
     </Modal>
   )
 }
