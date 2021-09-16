@@ -151,20 +151,20 @@ const TicketDraw = () => {
 
   const changeUntilDrawTime = useCallback(() => {
     const date = new Date()
-    let hour = date.getHours() - 1
+    let hour = date.getHours()
     hour = hour > 14 ? 38 - hour : 14 - hour
     let min = 60 - date.getMinutes()
-    hour = min ? hour : hour - 1
-    const h = hour > 10 ? hour + '' : '0' + hour
-    const m = min > 10 ? min + '' : '0' + min
+    hour = min ? hour - 1 : hour
+    const h = hour < 10 ? '0' + hour : hour + ''
+    const m = min < 10 ? '0' + min : min + ''
     return { h, m }
   }, [])
 
   useEffect(() => {
-    setUntilDrawTime(changeUntilDrawTime)
     const timer = setInterval(() => {
       setUntilDrawTime(changeUntilDrawTime)
     }, 60000)
+    setUntilDrawTime(changeUntilDrawTime)
     return () => {
       clearInterval(timer)
     }
