@@ -165,7 +165,7 @@ const TicketDraw = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setUntilDrawTime(changeUntilDrawTime())
-    }, 60000)
+    }, 30000)
     setUntilDrawTime(changeUntilDrawTime())
     return () => {
       clearInterval(timer)
