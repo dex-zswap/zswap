@@ -217,7 +217,7 @@ const UserPrizes = () => {
             width="210px"
             mt="28px"
             onClick={collectReward}
-            disabled={collecting || !userTotalRewardInfo.hasPrizes}
+            disabled={collecting || '0.00' == userTotalRewardInfo.zbst}
           >
             {collecting ? <Dots>{t('Collecting')}</Dots> : t('Collect Prizes')}
           </Button>
