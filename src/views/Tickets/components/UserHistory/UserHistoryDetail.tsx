@@ -51,7 +51,7 @@ const UserHistoryDetail = ({ lotteryId, drawTime }) => {
   const lotteryIds = useUserLotteryIds(lotteryId)
   const ticketsNum = useMemo(() => lotteryIds[0]?.numbers.length || '0', [lotteryIds])
 
-  const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} />)
+  const [useTicketsModal] = useModal(<TicketsModal lotteryId={lotteryId} currentLotteryId={currentLotteryId} />)
 
   return (
     <>
