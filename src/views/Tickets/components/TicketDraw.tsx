@@ -149,6 +149,8 @@ const TicketDraw = () => {
     return `${date} 14:00`
   }, [])
 
+  const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
+
   const changeUntilDrawTime = useCallback(() => {
     const date = new Date()
     let hour = date.getHours()
@@ -162,15 +164,14 @@ const TicketDraw = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setUntilDrawTime(changeUntilDrawTime)
+      setUntilDrawTime(changeUntilDrawTime())
     }, 60000)
-    setUntilDrawTime(changeUntilDrawTime)
+    setUntilDrawTime(changeUntilDrawTime())
     return () => {
       clearInterval(timer)
     }
   }, [])
 
-  const [untilDrawTime, setUntilDrawTime] = useState({ h: '00', m: '00' })
   const untilDrawContent = useMemo(() => {
     const date = new Date().getTime()
     const showUntilDraw = !timeRange || !(timeRange.start > date) || timeRange.end > date
@@ -200,7 +201,7 @@ const TicketDraw = () => {
         {tip}
       </Text>
     )
-  }, [timeRange, t])
+  }, [untilDrawTime, timeRange, t])
 
   const changeDrawPage = useCallback(
     (num) => {
