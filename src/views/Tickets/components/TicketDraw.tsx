@@ -154,7 +154,7 @@ const TicketDraw = () => {
   const changeUntilDrawTime = useCallback(() => {
     const date = new Date()
     let hour = date.getHours()
-    hour = hour > 14 ? 38 - hour : 14 - hour
+    hour = hour < 14 ? 14 - hour : 38 - hour
     let min = 60 - date.getMinutes()
     hour = min ? hour - 1 : hour
     const h = hour < 10 ? '0' + hour : hour + ''
