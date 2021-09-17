@@ -27,7 +27,7 @@ export function useAllTickets() {
           const ids = []
           let findIndex
 
-          res.data.forEach(({ lotteryNum, lottery }) => {
+          res.data.filter(({ tranState }) => tranState === 1).forEach(({ lotteryNum, lottery }) => {
             if (lotteryNum) {
               findIndex = ids.findIndex(({ id }) => id === lotteryNum)
               if (findIndex === -1) {

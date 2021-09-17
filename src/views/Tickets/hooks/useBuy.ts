@@ -5,13 +5,27 @@ import { useContractCall } from 'hooks/useContractCall'
 import { useZSwapLotteryContract } from 'hooks/useContract'
 import { useTransactionAdder } from 'state/transactions/hooks'
 import { useTranslation } from 'contexts/Localization'
+import useInterval from 'hooks/useInterval'
+
+const DISABLE_BUY_TIME = 30 * 1000
 
 export default function useBuy(onDismiss: () => void, cb?: () => void) {
   const { t } = useTranslation()
 
+  let now = Date.now()
+  const waitCanBuyTime = localStorage.getItem('nextCanBuyTime') ?? '0'
+
+  const [disableBuy, setDisableBuy] = useState(waitCanBuyTime !== '0' ? Number(waitCanBuyTime) > now : false)
   const [buying, setBuying] = useState(false)
   const lotteryContract = useZSwapLotteryContract()
   const addTransaction = useTransactionAdder()
+
+  useInterval(() => {
+    now = Date.now()
+    if (waitCanBuyTime && now < Number(waitCanBuyTime) && !disableBuy) {
+      setDisableBuy(true);
+    }
+  }, 1000)
 
   const buyTickets = useCallback(
     async (numbers, lotteryNum) => {
@@ -20,6 +34,9 @@ export default function useBuy(onDismiss: () => void, cb?: () => void) {
         const { length } = numbers
         const tickets = numbers.map(hexlify)
         const tx = await lotteryContract.batchBuyLottoTicket(tickets)
+
+        localStorage.setItem('nextCanBuyTime', `${Date.now() + DISABLE_BUY_TIME}`)
+
         await tx.wait()
 
         addTransaction(tx, {
@@ -46,6 +63,7 @@ export default function useBuy(onDismiss: () => void, cb?: () => void) {
   return {
     buyTickets,
     buying,
+    disableBuy
   }
 }
 

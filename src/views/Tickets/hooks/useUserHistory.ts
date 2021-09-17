@@ -105,11 +105,12 @@ export function useAllUserLotteryIdsByLotteryNum(lotteryNum: string | number) {
       if (res.ok) {
         const { data } = await res.json()
         data
+          .filter(({ tranState }) => tranState === 1)
           .map((d) => d.lottery.split(','))
           .flat()
           .forEach((d) => {
             getRewardLevel(d)
-          }),
+          })
           setRewardNums(rewardLevelNums)
       }
     }
@@ -138,7 +139,7 @@ export async function fetchLotteryIds(account, lotteryNum = '') {
   const ids = []
   let findIndex
   if (data && data?.length) {
-    data.forEach(({ lotteryNum, lottery, createTime }) => {
+    data.filter(({ tranState }) => tranState === 1).forEach(({ lotteryNum, lottery, createTime }) => {
       if (lotteryNum) {
         findIndex = ids.findIndex(({ id }) => id === lotteryNum)
         if (findIndex === -1) {
@@ -200,7 +201,7 @@ export function useUserAllLotteryIds() {
           let findIndex
 
           if (res?.data && res?.data?.length) {
-            res.data.forEach(({ lotteryNum, srcAddr, lottery }) => {
+            res.data.filter(({ tranState }) => tranState === 1).forEach(({ lotteryNum, srcAddr, lottery }) => {
               if (lotteryNum) {
                 findIndex = ids.findIndex(({ id, srcAddr: addr }) => id === lotteryNum && srcAddr === addr)
                 if (findIndex === -1) {

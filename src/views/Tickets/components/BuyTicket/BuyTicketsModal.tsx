@@ -153,7 +153,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss, cb }) => {
 
   const lotteryNum = useCurrentLotteryId()
 
-  const { buyTickets, buying } = useBuy(onDismiss, cb)
+  const { buyTickets, disableBuy, buying } = useBuy(onDismiss, cb)
   const zbstBalance = useZBSTBalance()
   const ticketPrice = useTicketPrice()
 
@@ -205,7 +205,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss, cb }) => {
     }
 
     return (
-      <Button disabled={buying} isLoading={buying} onClick={buy}>
+      <Button disabled={buying || disableBuy} isLoading={buying} onClick={buy}>
         {buying ? <Dots>{t('Buying')}</Dots> : t('Confirm and Buy')}
       </Button>
     )

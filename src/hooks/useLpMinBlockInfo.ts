@@ -33,11 +33,6 @@ export default function useLpMinBlockInfo() {
     }
   }, [library, lpMinBlockNumber])
 
-  console.group('block number info')
-  console.log('lp block:', lpMinBlockNumber)
-  console.log('current block:', blockNumber)
-  console.groupEnd()
-
   return {
     blockTime,
     blockNumber: lpMinBlockNumber,
