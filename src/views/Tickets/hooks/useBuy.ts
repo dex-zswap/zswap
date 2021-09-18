@@ -23,7 +23,7 @@ export default function useBuy(onDismiss: () => void, cb?: () => void) {
   useInterval(() => {
     now = Date.now()
     if (waitCanBuyTime && now < Number(waitCanBuyTime) && !disableBuy) {
-      setDisableBuy(true);
+      setDisableBuy(true)
     }
   }, 1000)
 
@@ -63,7 +63,7 @@ export default function useBuy(onDismiss: () => void, cb?: () => void) {
   return {
     buyTickets,
     buying,
-    disableBuy
+    disableBuy,
   }
 }
 

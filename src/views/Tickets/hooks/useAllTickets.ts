@@ -27,22 +27,24 @@ export function useAllTickets() {
           const ids = []
           let findIndex
 
-          res.data.filter(({ tranState }) => tranState === 1).forEach(({ lotteryNum, lottery }) => {
-            if (lotteryNum) {
-              findIndex = ids.findIndex(({ id }) => id === lotteryNum)
-              if (findIndex === -1) {
-                ids.push({
-                  id: lotteryNum,
-                  numbers: lottery.split(','),
-                })
-              } else {
-                ids[findIndex] = {
-                  id: lotteryNum,
-                  numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+          res.data
+            .filter(({ tranState }) => tranState === 1)
+            .forEach(({ lotteryNum, lottery }) => {
+              if (lotteryNum) {
+                findIndex = ids.findIndex(({ id }) => id === lotteryNum)
+                if (findIndex === -1) {
+                  ids.push({
+                    id: lotteryNum,
+                    numbers: lottery.split(','),
+                  })
+                } else {
+                  ids[findIndex] = {
+                    id: lotteryNum,
+                    numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+                  }
                 }
               }
-            }
-          })
+            })
 
           setlotteryIds(() => ids)
         })

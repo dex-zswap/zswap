@@ -111,7 +111,7 @@ export function useAllUserLotteryIdsByLotteryNum(lotteryNum: string | number) {
           .forEach((d) => {
             getRewardLevel(d)
           })
-          setRewardNums(rewardLevelNums)
+        setRewardNums(rewardLevelNums)
       }
     }
     getAllUserLotteryIds()
@@ -139,24 +139,26 @@ export async function fetchLotteryIds(account, lotteryNum = '') {
   const ids = []
   let findIndex
   if (data && data?.length) {
-    data.filter(({ tranState }) => tranState === 1).forEach(({ lotteryNum, lottery, createTime }) => {
-      if (lotteryNum) {
-        findIndex = ids.findIndex(({ id }) => id === lotteryNum)
-        if (findIndex === -1) {
-          ids.push({
-            id: lotteryNum,
-            numbers: lottery.split(','),
-            createTime,
-          })
-        } else {
-          ids[findIndex] = {
-            id: lotteryNum,
-            numbers: ids[findIndex].numbers.concat(lottery.split(',')),
-            createTime,
+    data
+      .filter(({ tranState }) => tranState === 1)
+      .forEach(({ lotteryNum, lottery, createTime }) => {
+        if (lotteryNum) {
+          findIndex = ids.findIndex(({ id }) => id === lotteryNum)
+          if (findIndex === -1) {
+            ids.push({
+              id: lotteryNum,
+              numbers: lottery.split(','),
+              createTime,
+            })
+          } else {
+            ids[findIndex] = {
+              id: lotteryNum,
+              numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+              createTime,
+            }
           }
         }
-      }
-    })
+      })
   }
   return ids
 }
@@ -201,26 +203,28 @@ export function useUserAllLotteryIds() {
           let findIndex
 
           if (res?.data && res?.data?.length) {
-            res.data.filter(({ tranState }) => tranState === 1).forEach(({ lotteryNum, srcAddr, lottery }) => {
-              if (lotteryNum) {
-                findIndex = ids.findIndex(({ id, srcAddr: addr }) => id === lotteryNum && srcAddr === addr)
-                if (findIndex === -1) {
-                  ids.push({
-                    id: lotteryNum,
-                    srcAddr,
-                    isSelf: srcAddr === account,
-                    numbers: lottery.split(','),
-                  })
-                } else {
-                  ids[findIndex] = {
-                    id: lotteryNum,
-                    srcAddr,
-                    isSelf: srcAddr === account,
-                    numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+            res.data
+              .filter(({ tranState }) => tranState === 1)
+              .forEach(({ lotteryNum, srcAddr, lottery }) => {
+                if (lotteryNum) {
+                  findIndex = ids.findIndex(({ id, srcAddr: addr }) => id === lotteryNum && srcAddr === addr)
+                  if (findIndex === -1) {
+                    ids.push({
+                      id: lotteryNum,
+                      srcAddr,
+                      isSelf: srcAddr === account,
+                      numbers: lottery.split(','),
+                    })
+                  } else {
+                    ids[findIndex] = {
+                      id: lotteryNum,
+                      srcAddr,
+                      isSelf: srcAddr === account,
+                      numbers: ids[findIndex].numbers.concat(lottery.split(',')),
+                    }
                   }
                 }
-              }
-            })
+              })
           }
 
           setlotteryIds(() => ids)
