@@ -17,6 +17,7 @@ interface btnProps extends LayoutProps, SpaceProps {
 const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccountTip, ...props }) => {
   const { t } = useTranslation()
   const { timeRange, setUserLotteryIds } = useContext(LotteryContext)
+  console.log(timeRange)
 
   const { account } = useActiveWeb3React()
   const [useBuyTicketsModal] = useModal(

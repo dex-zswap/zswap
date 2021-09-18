@@ -121,7 +121,7 @@ const Menu: React.FC<NavProps> = ({
           {globalMenu} {userMenu}
         </Flex>
       </StyledNav>
-      <BodyWrapper style={{ padding: '30px' }}>
+      <BodyWrapper>
         <Panel
           isPushed={isPushed}
           isMobile={isMobile}
