@@ -10,17 +10,16 @@ const keys = Object.keys(LP_REWARDS).reverse()
 class OnlineInfo {
   private blockNumber: number = 0
   private blockTime: number = 0
+  private dexFeeStartTime: number = 0
 
   public countDownTime: number = 0
   public onlineTime: number = 0
 
-  setBlock(blockNumber: number, blockTime: number) {
+  setBlock(blockNumber: number, blockTime: number, dexFeeStartTime: number = 0) {
     this.blockNumber = blockNumber
     this.blockTime = blockTime
+    this.dexFeeStartTime = dexFeeStartTime
     this.calcCountDownTime()
-
-    // console.log('当前产块数量: ', this.blockNumber)
-    // console.log('初始块高时间: ', this.blockTime)
   }
 
   calcCountDownTime() {
@@ -60,8 +59,7 @@ class OnlineInfo {
   }
 
   outFirstWeek() {
-    const { blockDay } = this.getDayOffset()
-    return blockDay > 7
+    return new BigNumber(this.dexFeeStartTime).dividedBy(EVERY_DAY_SECS).gt(7)
   }
 }
 

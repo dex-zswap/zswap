@@ -146,6 +146,10 @@ export default function Swap({ history }: RouteComponentProps) {
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 
+  const disableOutput = useMemo(() => {
+    return currencies[Field.INPUT] && currencies[Field.INPUT].symbol === 'DEX'
+  }, [currencies])
+
   // mark when a user has submitted an approval, reset onTokenSelection for input field
   useEffect(() => {
     if (approval === ApprovalState.PENDING) {
@@ -392,6 +396,7 @@ export default function Swap({ history }: RouteComponentProps) {
               currency={currencies[Field.OUTPUT]}
               onCurrencySelect={handleOutputSelect}
               otherCurrency={currencies[Field.INPUT]}
+              disabled={disableOutput}
               id="swap-currency-output"
             />
             {isExpertMode && recipient !== null && !showWrap ? (

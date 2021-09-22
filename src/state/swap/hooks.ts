@@ -1,7 +1,7 @@
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade, Pair } from 'zswap-sdk'
+import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade, Pair, currencyEquals } from 'zswap-sdk'
 import { ParsedQs } from 'qs'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useENS from 'hooks/ENS/useENS'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -28,9 +28,16 @@ export function useSwapActionHandlers(): {
   onUserInput: (field: Field, typedValue: string) => void
   onChangeRecipient: (recipient: string | null) => void
 } {
+  const { currencies } = useDerivedSwapInfo()
   const dispatch = useDispatch<AppDispatch>()
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
+      const containDEX = (currencyEquals(currencies?.INPUT, ETHER) || currencyEquals(currencies?.OUTPUT, ETHER)) && field === Field.INPUT
+      if (containDEX) {
+        dispatch(typeInput({ field: Field.INPUT, typedValue: '' }))
+        dispatch(typeInput({ field: Field.OUTPUT, typedValue: '' }))
+      }
+
       dispatch(
         selectCurrency({
           field,

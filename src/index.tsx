@@ -8,16 +8,19 @@ import ListsUpdater from './state/lists/updater'
 import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import useLpMinBlockInfo from './hooks/useLpMinBlockInfo'
+import useDexFeeTime from './hooks/useDexFeeTime'
 import App from './App'
 import Providers from './Providers'
 
 function BlockUpdater() {
   const { blockNumber, blockTime } = useLpMinBlockInfo()
+  const startTime = useDexFeeTime()
+
   useEffect(() => {
     if (blockNumber > 0 && blockTime > 0) {
-      OnlineInfo.setBlock(blockNumber, blockTime)
+      OnlineInfo.setBlock(blockNumber, blockTime, startTime)
     }
-  }, [blockNumber, blockTime])
+  }, [blockNumber, blockTime, startTime])
 
   return null
 }
