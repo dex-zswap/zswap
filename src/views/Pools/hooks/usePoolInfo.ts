@@ -146,6 +146,14 @@ const usePoolInfo = (pool: Pool) => {
     const reward = getStakeReward(currentWeightBigNumber.dividedBy(totalWeightBigNumber))
     const rewardUsdtValue = priceBigNumber.multipliedBy(reward)
 
+    console.group(stakedCurrency.symbol)
+    console.log('reward', reward.toString())
+    console.log('totalWeight', totalWeightBigNumber.toString())
+    console.log('currentWeight', currentWeightBigNumber.toString())
+    console.log('zbstPrice', zbstPrice.toSignificant(18))
+    console.log('lockedValue', totalStakedBalance.toString())
+    console.groupEnd()  
+
     return Number(
       rewardUsdtValue.dividedBy(totalStakedBalance).multipliedBy(BIG_ONE_YEAR).multipliedBy(BIG_HUNDERED).toFixed(2),
     )
