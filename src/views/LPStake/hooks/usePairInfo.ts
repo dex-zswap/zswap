@@ -296,6 +296,14 @@ export function usePairInfo(pair: PairsInfo, allWeights: number[]): any {
           .toFixed(2, BigNumber.ROUND_DOWN)
   }, [liquidityInfo, rewardZustValue])
 
+  if (token0 && token1) {
+    console.group(`${token0.symbol}-${token1.symbol} LP`)
+    console.log('lpReward', lpReward.toString())
+    console.log('zbstPrice', zbstPrice?.toSignificant(18))
+    console.log('lockedValue', liquidityInfo.lockedValue.toString())
+    console.groupEnd()
+  }
+
   useEffect(() => {
     const lockedValue = (
       liquidityInfo.lockedValue === 0 ? BIG_ZERO : new BigNumber(liquidityInfo.lockedValue)

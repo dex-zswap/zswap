@@ -24,15 +24,17 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
     ? [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
     : [undefined, undefined]
 
-    const bases: Token[] = useMemo(() => {
-      if (!chainId) return []
-  
-      const common = BASES_TO_CHECK_TRADES_AGAINST[chainId] ?? []
-      const additionalA = tokenA ? ADDITIONAL_BASES[chainId]?.[tokenA.address] ?? [] : []
-      const additionalB = tokenB ? ADDITIONAL_BASES[chainId]?.[tokenB.address] ?? [] : []
-  
-      return (currencyEquals(currencyA, ETHER) || currencyEquals(currencyB, ETHER)) ? [] : [...common, ...additionalA, ...additionalB]
-    }, [chainId, tokenA, tokenB, currencyA, currencyB])
+  const bases: Token[] = useMemo(() => {
+    if (!chainId) return []
+
+    const common = BASES_TO_CHECK_TRADES_AGAINST[chainId] ?? []
+    const additionalA = tokenA ? ADDITIONAL_BASES[chainId]?.[tokenA.address] ?? [] : []
+    const additionalB = tokenB ? ADDITIONAL_BASES[chainId]?.[tokenB.address] ?? [] : []
+
+    return currencyEquals(currencyA, ETHER) || currencyEquals(currencyB, ETHER)
+      ? []
+      : [...common, ...additionalA, ...additionalB]
+  }, [chainId, tokenA, tokenB, currencyA, currencyB])
 
   const basePairs: [Token, Token][] = useMemo(
     () => flatMap(bases, (base): [Token, Token][] => bases.map((otherBase) => [base, otherBase])),
