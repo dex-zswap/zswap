@@ -1,4 +1,4 @@
-import { CurrencyAmount, Fraction, JSBI, Percent, TokenAmount, Trade } from 'zswap-sdk'
+import { CurrencyAmount, Fraction, JSBI, Percent, TokenAmount, Trade, Pair } from 'zswap-sdk'
 import BigNumber from 'bignumber.js'
 import {
   BLOCKED_PRICE_IMPACT_NON_EXPERT,
@@ -29,13 +29,9 @@ export function computeTradePriceBreakdown(trade?: Trade | null): {
     ? undefined
     : ONE_HUNDRED_PERCENT.subtract(
         trade.route.pairs.reduce<Fraction>((currentFee: Fraction): Fraction => {
-          // console.log(currentFee.multiply(INPUT_FRACTION_AFTER_FEE).toSignificant(6))
           return currentFee.multiply(INPUT_FRACTION_AFTER_FEE)
         }, ONE_HUNDRED_PERCENT),
       )
-
-  // console.log(trade?.route.pairs)
-  // console.log(INPUT_FRACTION_AFTER_FEE.toSignificant(6))
 
   // remove lp fees from price impact
   const priceImpactWithoutFeeFraction = trade && realizedLPFee ? trade.priceImpact.subtract(realizedLPFee) : undefined

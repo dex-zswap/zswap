@@ -7,6 +7,7 @@ import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from 'util
 import { AutoColumn } from 'components/Layout/Column'
 import { RowBetween, RowFixed } from 'components/Layout/Row'
 import FormattedPriceImpact from './FormattedPriceImpact'
+import SwapRoute from './SwapRoute'
 import { useTranslation } from 'contexts/Localization'
 
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
@@ -88,20 +89,16 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
       {trade && (
         <>
           <TradeSummary trade={trade} allowedSlippage={allowedSlippage} />
-          {/* {showRoute && (
+          {showRoute && (
             <>
-              <RowBetween style={{ padding: '0 16px' }}>
+              <RowBetween>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
                   <Text color="textSubtle">Route</Text>
-                  <QuestionHelper
-                    text="Routing through these tokens resulted in the best price for your trade."
-                    ml="4px"
-                  />
                 </span>
                 <SwapRoute trade={trade} />
               </RowBetween>
             </>
-          )} */}
+          )}
         </>
       )}
     </AutoColumn>

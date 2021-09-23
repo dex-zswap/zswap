@@ -1,5 +1,5 @@
 import { ChainId, Token } from 'zswap-sdk'
-import { ZSWAP_USDT_ADDRESS } from './zswap/address'
+import { ZSWAP_USDT_ADDRESS, ZSWAP_ZBST_ADDRESS, ZSWAP_ZB_ADDRESS } from './zswap/address'
 
 export const CAKE: { [chainId: number]: Token } = {
   [ChainId.MAINNET]: new Token(
@@ -22,9 +22,19 @@ export const ZUSD: { [chainId: number]: Token } = {
   [ChainId.TESTNET]: new Token(ChainId.TESTNET, ZSWAP_USDT_ADDRESS, 18, 'ZUSD', 'ZSwap USD'),
 }
 
+export const ZBST: { [chainId: number]: Token } = {
+  [ChainId.MAINNET]: new Token(ChainId.TESTNET, ZSWAP_ZBST_ADDRESS, 18, 'ZBST', 'ZSwap ZBST'),
+  [ChainId.TESTNET]: new Token(ChainId.TESTNET, ZSWAP_ZBST_ADDRESS, 18, 'ZBST', 'ZSwap ZBST'),
+}
+
+export const ZB: { [chainId: number]: Token } = {
+  [ChainId.MAINNET]: new Token(ChainId.TESTNET, ZSWAP_ZB_ADDRESS, 18, 'ZB', 'ZSwap ZB'),
+  [ChainId.TESTNET]: new Token(ChainId.TESTNET, ZSWAP_ZB_ADDRESS, 18, 'ZB', 'ZSwap ZB'),
+}
+
 export const WBNB = new Token(ChainId.MAINNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB')
 export const DAI = new Token(ChainId.MAINNET, '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', 18, 'DAI', 'Dai Stablecoin')
-export const USDT = new Token(ChainId.MAINNET, '0x55d398326f99059fF775485246999027B3197955', 18, 'USDT', 'Tether USD')
+export const USDT = new Token(ChainId.MAINNET, ZSWAP_USDT_ADDRESS, 18, 'USDT', 'Tether USD')
 export const BTCB = new Token(ChainId.MAINNET, '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c', 18, 'BTCB', 'Binance BTC')
 export const UST = new Token(
   ChainId.MAINNET,

@@ -1,5 +1,5 @@
 import { ChainId, JSBI, Percent, Token, WDEX } from 'zswap-sdk'
-import { ZUSD, DAI, USDT, BTCB, CAKE, WBNB, UST, ETH, USDC } from './tokens'
+import { ZUSD, DAI, USDT, BTCB, CAKE, WBNB, ZB, ZBST } from './tokens'
 import { ZSWAP_ROUTER_ADDRESS } from './zswap/address'
 
 export const ROUTER_ADDRESS = ZSWAP_ROUTER_ADDRESS
@@ -11,8 +11,8 @@ type ChainTokenList = {
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList | any = {
-  [ChainId.MAINNET]: [WDEX[ChainId.MAINNET], CAKE[ChainId.MAINNET], ZUSD[ChainId.MAINNET], USDT, BTCB, UST, ETH, USDC],
-  [ChainId.TESTNET]: [WDEX[ChainId.TESTNET], CAKE[ChainId.TESTNET], ZUSD[ChainId.TESTNET]],
+  [ChainId.MAINNET]: [WDEX[ChainId.MAINNET], ZUSD[ChainId.MAINNET], ZB[ChainId.MAINNET], ZBST[ChainId.MAINNET]],
+  [ChainId.TESTNET]: [ZUSD[ChainId.MAINNET]],
 }
 
 /**
@@ -82,7 +82,7 @@ export const BLOCKED_PRICE_IMPACT_NON_EXPERT: Percent = new Percent(JSBI.BigInt(
 // used to ensure the user doesn't send so much BNB so they end up with <.01
 // export const MIN_DEX: JSBI = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16)) // .01 DEX
 export const MIN_DEX: JSBI = JSBI.exponentiate(JSBI.BigInt(0), JSBI.BigInt(1))
-export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), JSBI.BigInt(10000))
+export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(5000), JSBI.BigInt(10000))
 
 export const ZERO_PERCENT = new Percent('0')
 export const ONE_HUNDRED_PERCENT = new Percent('1')

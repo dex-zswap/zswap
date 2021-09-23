@@ -77,7 +77,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
-  const { v2Trade, pair, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
+  const { v2Trade, v2TradeMock, pair, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
 
   const {
     wrapType,
@@ -96,6 +96,8 @@ export default function Swap({ history }: RouteComponentProps) {
         [Field.INPUT]: independentField === Field.INPUT ? parsedAmount : trade?.inputAmount,
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
       }
+
+  const usingTransit = useMemo(() => v2TradeMock?.route?.pairs.length > 1, [v2TradeMock])
 
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
@@ -331,6 +333,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const [onPresentConfirmModal] = useModal(
     <ConfirmSwapModal
       trade={trade}
+      usingTransit={usingTransit}
       pair={pair}
       originalTrade={tradeToConfirm}
       onAcceptChanges={handleAcceptChanges}
@@ -418,7 +421,7 @@ export default function Swap({ history }: RouteComponentProps) {
                   <RowBetween align="center">
                     <Label>{t('Price')}</Label>
                     <TradePrice
-                      price={pair.token0Price}
+                      price={usingTransit ? v2TradeMock?.executionPrice : pair.token0Price}
                       showInverted={showInverted}
                       setShowInverted={setShowInverted}
                     />

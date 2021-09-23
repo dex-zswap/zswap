@@ -32,7 +32,8 @@ export function useSwapActionHandlers(): {
   const dispatch = useDispatch<AppDispatch>()
   const onCurrencySelection = useCallback(
     (field: Field, currency: Currency) => {
-      const containDEX = (currencyEquals(currencies?.INPUT, ETHER) || currencyEquals(currencies?.OUTPUT, ETHER)) && field === Field.INPUT
+      const containDEX =
+        (currencyEquals(currencies?.INPUT, ETHER) || currencyEquals(currencies?.OUTPUT, ETHER)) && field === Field.INPUT
       if (containDEX) {
         dispatch(typeInput({ field: Field.INPUT, typedValue: '' }))
         dispatch(typeInput({ field: Field.OUTPUT, typedValue: '' }))
@@ -118,6 +119,7 @@ export function useDerivedSwapInfo(): {
   currencyBalances: { [field in Field]?: CurrencyAmount }
   parsedAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
+  v2TradeMock: Trade | undefined
   pair: Pair | undefined
   inputError?: string
 } {
@@ -145,11 +147,16 @@ export function useDerivedSwapInfo(): {
 
   const isExactIn: boolean = independentField === Field.INPUT
   const parsedAmount = tryParseAmount(typedValue, (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
+  const parsedAmountMock = tryParseAmount('1', (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
 
   const bestTradeExactIn = useTradeExactIn(isExactIn ? parsedAmount : undefined, outputCurrency ?? undefined)
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmount : undefined)
 
+  const bestTradeExactInMock = useTradeExactIn(isExactIn ? parsedAmountMock : undefined, outputCurrency ?? undefined)
+  const bestTradeExactOutMock = useTradeExactOut(inputCurrency ?? undefined, !isExactIn ? parsedAmountMock : undefined)
+
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
+  const v2TradeMock = isExactIn ? bestTradeExactInMock : bestTradeExactOutMock
 
   const currencyBalances = {
     [Field.INPUT]: relevantTokenBalances[0],
@@ -206,6 +213,7 @@ export function useDerivedSwapInfo(): {
     currencyBalances,
     parsedAmount,
     v2Trade: v2Trade ?? undefined,
+    v2TradeMock: v2TradeMock ?? undefined,
     pair,
     inputError,
   }

@@ -28,6 +28,7 @@ const SwapModalFooterContainer = styled(AutoColumn)`
 
 export default function SwapModalFooter({
   trade,
+  usingTransit,
   pair,
   onConfirm,
   allowedSlippage,
@@ -35,6 +36,7 @@ export default function SwapModalFooter({
   disabledConfirm,
 }: {
   trade: Trade
+  usingTransit: boolean
   pair: Pair
   allowedSlippage: number
   onConfirm: () => void
@@ -65,7 +67,7 @@ export default function SwapModalFooter({
             }}
           >
             <TradePrice
-              price={pair.token0Price}
+              price={usingTransit ? trade.executionPrice : pair.token0Price}
               showInverted={showInverted}
               setShowInverted={() => setShowInverted(!showInverted)}
             />

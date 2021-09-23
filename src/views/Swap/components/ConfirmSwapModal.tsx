@@ -25,6 +25,7 @@ function tradeMeaningfullyDiffers(tradeA: Trade, tradeB: Trade): boolean {
 }
 interface ConfirmSwapModalProps {
   trade?: Trade
+  usingTransit: boolean
   pair?: Pair
   originalTrade?: Trade
   attemptingTxn: boolean
@@ -39,6 +40,7 @@ interface ConfirmSwapModalProps {
 
 const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = ({
   trade,
+  usingTransit,
   pair,
   originalTrade,
   onAcceptChanges,
@@ -75,6 +77,7 @@ const ConfirmSwapModal: React.FC<InjectedModalProps & ConfirmSwapModalProps> = (
       <SwapModalFooter
         onConfirm={onConfirm}
         pair={pair}
+        usingTransit={usingTransit}
         trade={trade}
         disabledConfirm={showAcceptChanges}
         swapErrorMessage={swapErrorMessage}
