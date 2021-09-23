@@ -4,6 +4,7 @@ import { Image } from 'zswap-uikit'
 import Carousel from './components/Carousel'
 import Banner from './components/Banner'
 import Footer from './components/Footer'
+import { useTranslation } from 'contexts/Localization'
 
 export const HomeWrap = styled.div`
   position: relative;
@@ -61,6 +62,9 @@ const PinkBg = styled.div`
 `
 
 const Home: React.FC = () => {
+  const { t } = useTranslation()
+  document.title = `${t('Home')} | ${t('ZSwap')}`
+
   return (
     <HomeWrap>
       <Carousel />

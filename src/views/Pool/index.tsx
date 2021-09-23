@@ -11,6 +11,7 @@ import SwapAndLiquidityPage from 'components/SwapAndLiquidityPage'
 import { useUserPairs } from './hooks'
 import WrappedPositionCard from './components/card'
 import ConnectWalletButton from 'components/ConnectWalletButton'
+import Page from 'components/Layout/Page'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.background};
@@ -51,12 +52,13 @@ export default function Pool() {
   }
 
   return (
-    <SwapAndLiquidityPage>
-      <AppBody>
-        <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
-        <Body marginBottom="20px">
-          {renderBody()}
-          {/* {account && !loading && !pairs?.length && (
+    <Page>
+      <SwapAndLiquidityPage>
+        <AppBody>
+          <AppHeader title={t('Your Liquidity')} subtitle={t('Remove liquidity to receive tokens back')} />
+          <Body marginBottom="20px">
+            {renderBody()}
+            {/* {account && !loading && !pairs?.length && (
             <Flex flexDirection="column" alignItems="center" mt="24px">
               <Text color="textSubtle" mb="8px">
                 {t("Don't see a pool you joined?")}
@@ -66,22 +68,23 @@ export default function Pool() {
               </Button>
             </Flex>
           )} */}
-        </Body>
-        <CardFooter style={{ textAlign: 'center' }}>
-          {!account ? (
-            <ConnectWalletButton style={{ width: '100%' }} />
-          ) : (
-            <Button id="join-pool-button" as={Link} to="/add" width="100%">
-              {t('Add Liquidity')}
-            </Button>
-          )}
-          <LearnMoreBtn
-            width="100%"
-            mt="10px"
-            href="https://zswap.gitbook.io/zswap/chan-p/untitled/ru-he-zeng-jia-huo-yi-hui-liu-dong-xing"
-          />
-        </CardFooter>
-      </AppBody>
-    </SwapAndLiquidityPage>
+          </Body>
+          <CardFooter style={{ textAlign: 'center' }}>
+            {!account ? (
+              <ConnectWalletButton style={{ width: '100%' }} />
+            ) : (
+              <Button id="join-pool-button" as={Link} to="/add" width="100%">
+                {t('Add Liquidity')}
+              </Button>
+            )}
+            <LearnMoreBtn
+              width="100%"
+              mt="10px"
+              href="https://zswap.gitbook.io/zswap/chan-p/untitled/ru-he-zeng-jia-huo-yi-hui-liu-dong-xing"
+            />
+          </CardFooter>
+        </AppBody>
+      </SwapAndLiquidityPage>
+    </Page>
   )
 }
