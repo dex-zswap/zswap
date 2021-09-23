@@ -18,17 +18,25 @@ export const getCustomMeta = (path: string, t: ContextApi['t']): PageMeta => {
       return {
         title: `${t('Trading Battle')} | ${t('ZSwap')}`,
       }
+    case '/swap':
+      return {
+        title: `${t('Exchange')} | ${t('ZSwap')}`,
+      }
+    case '/liquidity':
+      return {
+        title: `${t('Liquidity')} | ${t('ZSwap')}`,
+      }
     case '/prediction':
       return {
         title: `${t('Prediction')} | ${t('ZSwap')}`,
       }
     case '/farms':
       return {
-        title: `${t('Farms')} | ${t('ZSwap')}`,
+        title: `${t('LP Pledge Mining')} | ${t('ZSwap')}`,
       }
     case '/pools':
       return {
-        title: `${t('Pools')} | ${t('ZSwap')}`,
+        title: `${t('Single Currency Pledge Mining')} | ${t('ZSwap')}`,
       }
     case '/lottery':
       return {

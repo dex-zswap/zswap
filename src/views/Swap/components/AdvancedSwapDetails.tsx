@@ -73,6 +73,7 @@ export interface AdvancedSwapDetailsProps {
 
 export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
   const [allowedSlippage] = useUserSlippageTolerance()
+  const { t } = useTranslation()
 
   const showRoute = Boolean(trade && trade.route.path.length > 1)
 
@@ -93,7 +94,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
             <>
               <RowBetween>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Text color="textSubtle">Route</Text>
+                  <Text color="textSubtle">{t('Route')}</Text>
                 </span>
                 <SwapRoute trade={trade} />
               </RowBetween>
