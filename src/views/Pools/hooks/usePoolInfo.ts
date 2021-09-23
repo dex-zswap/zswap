@@ -152,7 +152,7 @@ const usePoolInfo = (pool: Pool) => {
     console.log('currentWeight', currentWeightBigNumber.toString())
     console.log('zbstPrice', zbstPrice.toSignificant(18))
     console.log('lockedValue', totalStakedBalance.toString())
-    console.groupEnd()  
+    console.groupEnd()
 
     return Number(
       rewardUsdtValue.dividedBy(totalStakedBalance).multipliedBy(BIG_ONE_YEAR).multipliedBy(BIG_HUNDERED).toFixed(2),

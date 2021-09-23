@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { fetchLotteryIds } from 'views/Tickets/hooks/useUserHistory'
+import useDistributeRewardEnd from 'views/Tickets/hooks/useDistributeRewardEnd'
 import { LotteryContext } from 'contexts/Lottery'
 
 import { Text, Button, useModal } from 'zswap-uikit'
@@ -17,7 +18,7 @@ interface btnProps extends LayoutProps, SpaceProps {
 const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccountTip, ...props }) => {
   const { t } = useTranslation()
   const { timeRange, setUserLotteryIds } = useContext(LotteryContext)
-  console.log(timeRange)
+  const isDistributeRewardEnd = useDistributeRewardEnd()
 
   const { account } = useActiveWeb3React()
   const [useBuyTicketsModal] = useModal(
@@ -49,6 +50,11 @@ const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccount
         setBtnDisabled(true)
         return
       }
+      if (!isDistributeRewardEnd) {
+        setBtnLabel(t('Drawing'))
+        setBtnDisabled(true)
+        return
+      }
       setBtnLabel(t('Buy Tickets'))
       setBtnDisabled(false)
     }
@@ -61,7 +67,7 @@ const BuyTicketsButton: React.FC<btnProps> = ({ onDismiss, accountTip, noAccount
       setBtnDisabled(true)
       timer && clearInterval(timer)
     }
-  }, [timeRange, t])
+  }, [timeRange, isDistributeRewardEnd, t])
 
   return (
     <>

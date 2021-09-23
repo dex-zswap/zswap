@@ -26,6 +26,62 @@
 			"inputs": [
 				{
 					"indexed": false,
+					"internalType": "uint256",
+					"name": "lotteryId",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "pageOffset",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "pageLimit",
+					"type": "uint256"
+				}
+			],
+			"name": "CheckPartTickets",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "lotteryId",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "blocktimestamp",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "blocknumber",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint8[]",
+					"name": "winningNumbers",
+					"type": "uint8[]"
+				}
+			],
+			"name": "DistributeRewards",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
 					"internalType": "address",
 					"name": "user",
 					"type": "address"
@@ -91,9 +147,19 @@
 					"internalType": "uint256",
 					"name": "_randomNumber",
 					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_pageOffset",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "_pageLimit",
+					"type": "uint256"
 				}
 			],
-			"name": "checkAllTickets",
+			"name": "checkTicketsPaging",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -145,6 +211,26 @@
 					"internalType": "uint256",
 					"name": "totalCost",
 					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "distributeRewards",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "distributeRewardsEnd",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "",
+					"type": "bool"
 				}
 			],
 			"stateMutability": "view",
@@ -320,6 +406,32 @@
 				}
 			],
 			"name": "lottoWinningTime",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "pageLimit",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "pageOffset",
 			"outputs": [
 				{
 					"internalType": "uint256",
