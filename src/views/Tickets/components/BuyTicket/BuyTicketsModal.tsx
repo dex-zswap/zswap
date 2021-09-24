@@ -205,7 +205,7 @@ const BuyTicketModal: React.FC<BuyTicketModalProps> = ({ onDismiss, cb }) => {
     }
 
     return (
-      <Button disabled={buying || disableBuy} isLoading={buying} onClick={buy}>
+      <Button disabled={buying || disableBuy || !lotteryNum} isLoading={buying} onClick={buy}>
         {buying ? <Dots>{t('Buying')}</Dots> : t('Confirm and Buy')}
       </Button>
     )

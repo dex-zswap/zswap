@@ -8,6 +8,7 @@ export enum TransactionType {
 export enum TransactionStatus {
   SUCCESS = 1,
   FAILURE = 2,
+  PADDING = 0
 }
 
 enum TransactionCategory {
@@ -166,6 +167,9 @@ class Reporter implements ReporterInterface {
 
   public cacheHash(hash: string, hashInfo: HashInfoBaseStructure): void {
     this.cachedHashMaps[hash] = this.makeInfoFromReportData(hashInfo)
+    this.recordHash(hash, {
+      tranState: 0
+    })
   }
 
   public recordHash(hash: string, transitionInfo: TransactionRecord = {}): void {

@@ -6,7 +6,6 @@ import { getBscScanLink } from 'utils'
 import useToast from 'hooks/useToast'
 import { useBlockNumber } from 'state/application/hooks'
 import { AppDispatch, AppState } from 'state'
-import TxRepoter, { TransactionStatus } from 'reporter'
 import { checkedTransaction, finalizeTransaction } from './actions'
 import { useTranslation } from 'contexts/Localization'
 
@@ -70,10 +69,6 @@ export default function Updater(): null {
                   },
                 }),
               )
-
-              TxRepoter.recordHash(hash, {
-                tranState: receipt.status === 1 ? TransactionStatus.SUCCESS : TransactionStatus.FAILURE,
-              })
 
               const hasSuccess = receipt.status === 1
               const toast = hasSuccess ? toastSuccess : toastError

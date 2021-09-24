@@ -155,8 +155,8 @@ const UserPrizes = () => {
           ZUST.times(REWARD_RATE[Number(key) - 1]),
           ZBST.times(REWARD_RATE[Number(key) - 1]),
         ]
-        zbstEarnedReward = zbstEarnedReward.plus(zbstPool.times(currentRound[key].percent))
-        zustEarnedReward = zustEarnedReward.plus(zustPool.times(currentRound[key].percent))
+        zbstEarnedReward = zbstEarnedReward.plus(zbstPool.times(currentRound[key].percent).toFixed(2, BigNumber.ROUND_DOWN))
+        zustEarnedReward = zustEarnedReward.plus(zustPool.times(currentRound[key].percent).toFixed(2, BigNumber.ROUND_DOWN))
       })
     })
 
