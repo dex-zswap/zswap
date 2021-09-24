@@ -1,14 +1,14 @@
+import { AutoColumn } from 'components/Layout/Column'
+import { RowBetween, RowFixed } from 'components/Layout/Row'
+import { useTranslation } from 'contexts/Localization'
 import React from 'react'
-import { Trade, TradeType } from 'zswap-sdk'
-import { Text } from 'zswap-uikit'
 import { Field } from 'state/swap/actions'
 import { useUserSlippageTolerance } from 'state/user/hooks'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown } from 'utils/prices'
-import { AutoColumn } from 'components/Layout/Column'
-import { RowBetween, RowFixed } from 'components/Layout/Row'
+import { Trade, TradeType } from 'zswap-sdk'
+import { Text } from 'zswap-uikit'
 import FormattedPriceImpact from './FormattedPriceImpact'
 import SwapRoute from './SwapRoute'
-import { useTranslation } from 'contexts/Localization'
 
 function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippage: number }) {
   const { t } = useTranslation()
@@ -94,7 +94,9 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
             <>
               <RowBetween>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Text color="textSubtle">{t('Route')}</Text>
+                  <Text style={{ wordBreak: 'keep-all' }} color="textSubtle">
+                    {t('Route')}
+                  </Text>
                 </span>
                 <SwapRoute trade={trade} />
               </RowBetween>

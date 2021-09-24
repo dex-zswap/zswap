@@ -1,15 +1,14 @@
-import { useContext, useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'contexts/Localization'
 import { LotteryContext } from 'contexts/Lottery'
-import useWinTime from 'views/Tickets/hooks/useWinTime'
-import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
-import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
 import dayjs from 'dayjs'
-
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { Skeleton, Text, Flex, Button, NextArrowIcon, EndArrowIcon, PreArrowIcon } from 'zswap-uikit'
-import Card from './Card'
+import useLotteryReward from 'views/Tickets/hooks/useLotteryReward'
+import { useWinNumbers } from 'views/Tickets/hooks/usePrizes'
+import useWinTime from 'views/Tickets/hooks/useWinTime'
+import { Button, EndArrowIcon, Flex, NextArrowIcon, PreArrowIcon, Skeleton, Text } from 'zswap-uikit'
 import BuyTicketsButton from './BuyTicket/BuyTicketsButton'
+import Card from './Card'
 import PriceRule from './PriceRule'
 
 const TicketDrawWrap = styled.div`
@@ -292,6 +291,11 @@ const TicketDraw = () => {
       <Card
         title={`${t('Round')} ${lotteryId}`}
         subTitle={showPreView ? '' : `${t('Draw')}: ${currentWinTime}`}
+        qa={
+          !showPreView
+            ? 'The drawing time is 13:40-14:00 every day, the specific time may be slightly delayed, please wait patiently ~'
+            : ''
+        }
         rightContent={rightContent}
       >
         <>

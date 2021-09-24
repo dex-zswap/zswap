@@ -1298,8 +1298,8 @@
   "Output is estimated. You will receive at least ": "输出数额仅为估值。您将收到至少",
   " or the transaction will revert.": "，否则将还原交易。",
   "Price Updated": "价格更新",
-  "Minimum received": "收到的最低数额",
-  "Maximum sold": "收到的最高数额",
+  "Minimum received": "最小出售量",
+  "Maximum sold": "最大出售量",
   "Price Impact": "价格影响",
   "Liquidity Provider Fee": "手续费",
   "Pledge Number": "质押数量",
@@ -1517,5 +1517,6 @@
   "Withdraw %assets%": "退回 %assets%",
   "The amount of tokens you have staked. You can withdraw them at any time.": "您可以随时退回质押的代币。",
   "No Prizes": "未开奖",
-  "The winning number consists of the last 6 pure numbers of the hash value of the last BTC block before the draw. The hash value of the BTC chain block is traceable, unpredictable, and non-tamperable, ensuring that the source of the ZSwap winning numbers is fair and can be verified.": "中奖号码由开奖前最后一个BTC区块hash值通过计算生成。 BTC链区块的hash值可溯源且无法预测、不可篡改，确保ZSwap中奖号码来源公平且可以被验证。"
+  "The winning number consists of the last 6 pure numbers of the hash value of the last BTC block before the draw. The hash value of the BTC chain block is traceable, unpredictable, and non-tamperable, ensuring that the source of the ZSwap winning numbers is fair and can be verified.": "中奖号码由开奖前最后一个BTC区块hash值通过计算生成。 BTC链区块的hash值可溯源且无法预测、不可篡改，确保ZSwap中奖号码来源公平且可以被验证。",
+  "The drawing time is 13:40-14:00 every day, the specific time may be slightly delayed, please wait patiently ~": "开奖时间为每天的13：40-14:00，具体时间可能会稍有延迟，请耐心等待一下~"
 }
