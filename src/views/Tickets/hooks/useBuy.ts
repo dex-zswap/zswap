@@ -30,29 +30,31 @@ export default function useBuy(onDismiss: () => void, cb?: () => void) {
   const buyTickets = useCallback(
     async (numbers, lotteryNum) => {
       try {
-        setBuying(true)
-        const { length } = numbers
-        const tickets = numbers.map(hexlify)
-        const tx = await lotteryContract.batchBuyLottoTicket(tickets)
-
-        localStorage.setItem('nextCanBuyTime', `${Date.now() + DISABLE_BUY_TIME}`)
-
-        await tx.wait()
-
-        addTransaction(tx, {
-          summary: t(`Buy %assets% ${length > 1 ? 'Tickets' : 'Ticket'}`, { assets: length }),
-          reportData: {
-            from: 'ticket',
-            args: {
-              lottery: numbers.map((nums) => nums.join('')).join(','),
-              lotteryNum,
+        if (lotteryNum) {
+          setBuying(true)
+          const { length } = numbers
+          const tickets = numbers.map(hexlify)
+          const tx = await lotteryContract.batchBuyLottoTicket(tickets)
+  
+          localStorage.setItem('nextCanBuyTime', `${Date.now() + DISABLE_BUY_TIME}`)
+  
+          await tx.wait()
+  
+          addTransaction(tx, {
+            summary: t(`Buy %assets% ${length > 1 ? 'Tickets' : 'Ticket'}`, { assets: length }),
+            reportData: {
+              from: 'ticket',
+              args: {
+                lottery: numbers.map((nums) => nums.join('')).join(','),
+                lotteryNum,
+              },
             },
-          },
-        })
-
-        setBuying(false)
-        onDismiss()
-        cb()
+          })
+  
+          setBuying(false)
+          onDismiss()
+          cb()
+        }
       } catch (e) {
         setBuying(false)
       }
