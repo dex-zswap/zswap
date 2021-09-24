@@ -1,15 +1,15 @@
+import { AutoColumn } from 'components/Layout/Column'
+import { RowBetween, RowFixed } from 'components/Layout/Row'
+import { CurrencyLogo } from 'components/Logo'
+import { useTranslation } from 'contexts/Localization'
 import React, { useMemo } from 'react'
-import styled from 'styled-components'
-import { Trade, TradeType } from 'zswap-sdk'
-import { Button, Text, ErrorIcon, ArrowDownIcon } from 'zswap-uikit'
 import { Field } from 'state/swap/actions'
+import styled from 'styled-components'
 import { isAddress, shortenAddress } from 'utils'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from 'utils/prices'
-import { AutoColumn } from 'components/Layout/Column'
-import { CurrencyLogo } from 'components/Logo'
-import { RowBetween, RowFixed } from 'components/Layout/Row'
-import { TruncatedText, SwapShowAcceptChanges } from './styleds'
-import { useTranslation } from 'contexts/Localization'
+import { Trade, TradeType } from 'zswap-sdk'
+import { ArrowDownIcon, Button, ErrorIcon, Text } from 'zswap-uikit'
+import { SwapShowAcceptChanges, TruncatedText } from './styleds'
 
 const RowWrap = styled.div`
   padding: 19px 23px;
@@ -107,7 +107,7 @@ export default function SwapModalHeader({
           </Text>
         ) : (
           <Text small color="textSubtle" textAlign="left" style={{ width: '100%' }}>
-            {`Input is estimated. You will sell at most `}
+            {t('Input is estimated. You will sell at most ')}
             <b>
               {slippageAdjustedAmounts[Field.INPUT]?.toSignificant(6)} {trade.inputAmount.currency.symbol}
             </b>
