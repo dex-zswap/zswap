@@ -1,6 +1,6 @@
+import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
-import { Text, Flex, Button } from 'zswap-uikit'
-import { ArrowBackIcon } from 'zswap-uikit'
+import { ArrowBackIcon, Button, Flex, HelpIcon, Text, useTooltip } from 'zswap-uikit'
 
 interface cardProps {
   width?: string
@@ -8,6 +8,7 @@ interface cardProps {
   subTitle?: string
   rightContent?: React.ReactNode
   back?: () => void
+  qa?: string
 }
 
 const CardWrap = styled.div<{ width?: string | number }>`
@@ -20,7 +21,14 @@ const CardWrap = styled.div<{ width?: string | number }>`
   border-radius: 30px;
 `
 
-const Card: React.FC<cardProps> = ({ width, title, subTitle, rightContent, children, back }) => {
+const Card: React.FC<cardProps> = ({ width, title, subTitle, rightContent, children, back, qa = '' }) => {
+  const { t } = useTranslation()
+
+  const { targetRef, tooltip, tooltipVisible } = useTooltip(t(qa), {
+    placement: 'top',
+    trigger: 'hover',
+  })
+
   return (
     <CardWrap width={width}>
       <Flex mb="16px" justifyContent="space-between" alignItems="center">
@@ -34,12 +42,22 @@ const Card: React.FC<cardProps> = ({ width, title, subTitle, rightContent, child
             {title}
           </Text>
         </Flex>
-        {subTitle && (
-          <Text fontSize="16px" bold>
-            {subTitle}
-          </Text>
-        )}
-        {rightContent && rightContent}
+        <Flex alignItems="center">
+          {subTitle && (
+            <Text fontSize="16px" bold>
+              {subTitle}
+            </Text>
+          )}
+          {qa && (
+            <>
+              {tooltipVisible && tooltip}
+              <div ref={targetRef}>
+                <HelpIcon cursor="pointer" width="18px" ml="5px" />
+              </div>
+            </>
+          )}
+          {rightContent && rightContent}
+        </Flex>
       </Flex>
       {children}
     </CardWrap>
