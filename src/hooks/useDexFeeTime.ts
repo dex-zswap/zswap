@@ -11,6 +11,8 @@ export default function useDexFeeTime() {
       return 0
     }
 
+    console.log('fee startTime: ', Number(startTime.result.toString()) * 1000)
+
     return Number(startTime.result.toString()) * 1000
   }, [startTime])
 
