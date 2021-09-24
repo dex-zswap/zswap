@@ -1298,7 +1298,7 @@
   "Output is estimated. You will receive at least ": "輸出數額僅為估值。您將收到至少",
   " or the transaction will revert.": "，否則將還原交易。",
   "Price Updated": "價格更新",
-  "Minimum received": "最小出售量",
+  "Minimum received": "收到的最低數額",
   "Maximum sold": "最大出售量",
   "Price Impact": "價格影響",
   "Liquidity Provider Fee": "手續費",
