@@ -168,7 +168,7 @@ class Reporter implements ReporterInterface {
   public cacheHash(hash: string, hashInfo: HashInfoBaseStructure): void {
     this.cachedHashMaps[hash] = this.makeInfoFromReportData(hashInfo)
     this.recordHash(hash, {
-      tranState: 0,
+      tranState: TransactionStatus.PADDING,
     })
   }
 
