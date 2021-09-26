@@ -35,11 +35,11 @@ export default function useBuy(onDismiss: () => void, cb?: () => void) {
           const { length } = numbers
           const tickets = numbers.map(hexlify)
           const tx = await lotteryContract.batchBuyLottoTicket(tickets)
-  
+
           localStorage.setItem('nextCanBuyTime', `${Date.now() + DISABLE_BUY_TIME}`)
-  
+
           await tx.wait()
-  
+
           addTransaction(tx, {
             summary: t(`Buy %assets% ${length > 1 ? 'Tickets' : 'Ticket'}`, { assets: length }),
             reportData: {
@@ -50,7 +50,7 @@ export default function useBuy(onDismiss: () => void, cb?: () => void) {
               },
             },
           })
-  
+
           setBuying(false)
           onDismiss()
           cb()
