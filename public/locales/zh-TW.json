@@ -1294,7 +1294,7 @@
   "Route": "路線",
   "per": "每",
   "Output will be sent to ": "結果將被發送到",
-  "Input is estimated. You will sell at most ": "輸出數額僅為估值。您將收到最多",
+  "Input is estimated. You will sell at most ": "輸出數額僅為估值。您將出售最多",
   "Output is estimated. You will receive at least ": "輸出數額僅為估值。您將收到至少",
   " or the transaction will revert.": "，否則將還原交易。",
   "Price Updated": "價格更新",
