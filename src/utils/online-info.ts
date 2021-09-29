@@ -1,9 +1,11 @@
 import BigNumber from 'bignumber.js'
+import { BIG_ZERO } from 'utils/bigNumber'
 import { LP_REWARDS } from 'config/reward/lp'
 
 export const EVERY_DAY_SECS = new BigNumber(24 * 60 * 60 * 1000)
 
 const PER_DAY_BLOCK_NUMBER = 14400
+const FIRST_TWO_WEEK_COUNT = '10080000'
 
 const keys = Object.keys(LP_REWARDS).reverse()
 
@@ -56,6 +58,21 @@ class OnlineInfo {
       ceil: Math.ceil(blockDay),
       floor: Math.floor(blockDay),
     }
+  }
+
+  getLpRewardRate() {
+    const { floor } = this.getDayOffset()
+    let blockCount = BIG_ZERO
+    let range
+
+    for (const key of keys) {
+      range = LP_REWARDS[key]
+      if (range[0] <= floor && range[1] >= floor) {
+        blockCount = new BigNumber(key === FIRST_TWO_WEEK_COUNT ? 144000 : Number(key) / (range[1] - range[0]))
+        break
+      }
+    }
+    return blockCount.dividedBy(PER_DAY_BLOCK_NUMBER).dividedBy(100).multipliedBy(0.7)
   }
 
   outFirstWeek() {

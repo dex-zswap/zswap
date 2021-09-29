@@ -9,12 +9,14 @@ import { useZBSTZUSTPrice } from 'hooks/useZUSDPrice'
 import { REWARD_BASE } from 'config/constants/zswap/earing-token'
 import { getAddress } from 'utils/addressHelpers'
 import pools from 'config/constants/zswap/pools'
+import OnlineInfo from 'utils/online-info'
 
 export default function useTotalReward() {
   const lpContract = useZSwapLPContract()
   const stakeContract = useZSwapStakeContract()
   const blockNumber = useBlockNumber()
   const zbstPrice = useZBSTZUSTPrice()
+  const lpRate = OnlineInfo.getLpRewardRate()
 
   const poolIds = useMemo(() => pools.map(({ stakingToken }) => [getAddress(stakingToken.address)]), [])
 
@@ -54,7 +56,7 @@ export default function useTotalReward() {
       return BIG_ZERO
     }
     return blockNumberInfo.lp
-      .multipliedBy(REWARD_BASE)
+      .multipliedBy(lpRate)
       .multipliedBy(zbstPrice.toSignificant(18))
       .plus(blockNumberInfo.stake.multipliedBy(REWARD_BASE).multipliedBy(zbstPrice.toSignificant(18)))
       .integerValue()

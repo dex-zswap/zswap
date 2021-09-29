@@ -18,7 +18,7 @@ export const setupNetwork = async () => {
         params: [
           {
             chainId: `0x${chainId.toString(16)}`,
-            chainName: 'Binance Smart Chain Mainnet',
+            chainName: process.env.REACT_APP_CHAIN_NAME,
             nativeCurrency: {
               name: 'DEX',
               symbol: 'DEX',
