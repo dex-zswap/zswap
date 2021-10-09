@@ -11,10 +11,10 @@ export default function useRandomNumbers(lens: number): number[][] {
       numbers = []
 
       for (let i = 0; i < 6; i++) {
-        randomNumber = random(0, 9)
+        randomNumber = random(0, 10)
 
         while (numbers.includes(randomNumber)) {
-          randomNumber = random(0, 9)
+          randomNumber = random(0, 10)
         }
 
         numbers.push(randomNumber)

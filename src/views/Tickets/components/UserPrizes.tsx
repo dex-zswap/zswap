@@ -84,11 +84,11 @@ const UserPrizes = () => {
   const allWinNumbers = useAllWinNumbers(currentLotteryId)
   const { collectReward, collecting } = useCollectReward()
   const userCollected = useUserCollected()
-  const allPrizes = useMemo(() => {
+  const allPrizes: any = useMemo(() => {
     const prizes = {}
     let level = -1
 
-    lotteryIds.forEach(({ id, isSelf, numbers }) => {
+    lotteryIds.forEach(({ id, isSelf, srcAddr, numbers }) => {
       const winNumbersStr = allWinNumbers[`lottery${id}`]?.join('')
       if (winNumbersStr) {
         numbers.forEach((num) => {

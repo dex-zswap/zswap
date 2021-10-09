@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import useInterval from 'hooks/useInterval'
 import { useWinNumbers } from './usePrizes'
 
 const apiBase = process.env.REACT_APP_API_BASE
@@ -165,7 +166,13 @@ export async function fetchLotteryIds(account, lotteryNum = '') {
 
 export function useUserLotteryIds(lotteryNum: string = '') {
   const [lotteryIds, setlotteryIds] = useState([])
+  const [random, setRandom] = useState(1)
   const { account } = useActiveWeb3React()
+
+  useInterval(() => {
+    setRandom(() => random + 1)
+  }, 6000)
+
   useEffect(() => {
     const getLotteryIds = async () => {
       const data = await fetchLotteryIds(account, lotteryNum)
@@ -175,7 +182,7 @@ export function useUserLotteryIds(lotteryNum: string = '') {
     if (account) {
       getLotteryIds()
     }
-  }, [account, lotteryNum])
+  }, [account, lotteryNum, random])
 
   return lotteryIds
 }
@@ -212,14 +219,14 @@ export function useUserAllLotteryIds() {
                     ids.push({
                       id: lotteryNum,
                       srcAddr,
-                      isSelf: srcAddr === account,
+                      isSelf: srcAddr.toLowerCase() === account.toLowerCase(),
                       numbers: lottery.split(','),
                     })
                   } else {
                     ids[findIndex] = {
                       id: lotteryNum,
                       srcAddr,
-                      isSelf: srcAddr === account,
+                      isSelf: srcAddr.toLowerCase() === account.toLowerCase(),
                       numbers: ids[findIndex].numbers.concat(lottery.split(',')),
                     }
                   }

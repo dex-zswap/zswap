@@ -150,9 +150,12 @@ export default function usePrizes(lotteryId) {
       return res.plus(cur.multipliedBy(priceBigNumber))
     }, BIG_ZERO)
 
+    const zbstReward = zustValue.div(priceBigNumber).minus(lastLpReward)
+    const lessThenZero = zbstReward.lt(BIG_ZERO)
+
     return {
-      currentZustValue: `$${zustValue.toFixed(2)}`,
-      currentZbRewards: `${zustValue.div(priceBigNumber).minus(lastLpReward).toFixed(2)} ZBST`,
+      currentZustValue: lessThenZero ? '-' : `$${zbstReward.multipliedBy(priceBigNumber).toFixed(2)}`,
+      currentZbRewards: lessThenZero ? '-' : `${zustValue.div(priceBigNumber).minus(lastLpReward).toFixed(2)} ZBST`,
     }
   }, [totalUsersCost, lpReward, zbst, zbstPrice, totalRewardsTouser, lottoTotalRewards, lastLpReward])
 }
