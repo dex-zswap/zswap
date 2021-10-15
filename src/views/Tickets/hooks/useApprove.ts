@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState, useEffect } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ethers } from 'ethers'
 import { useContractCall } from 'hooks/useContractCall'
 import { useZSwapLotteryContract, useERC20 } from 'hooks/useContract'
 import { ZSWAP_ZBST_ADDRESS } from 'config/constants/zswap/address'
 import useRefresh from 'hooks/useRefresh'
+import useInterval from 'hooks/useInterval'
 
 export default function useApprove() {
   const [approving, setApproving] = useState(false)
@@ -30,18 +31,42 @@ export default function useApprove() {
 }
 
 export function useApproveStatus() {
-  const { fastRefresh } = useRefresh()
+  const [ allowance, setAllowance ] = useState(0)
+  const [ time, setTime ] = useState(0)
   const { account } = useActiveWeb3React()
   const lotteryContract = useZSwapLotteryContract()
   const zbstContract = useERC20(ZSWAP_ZBST_ADDRESS)
 
-  const allowance = useContractCall(zbstContract, 'allowance', [account, lotteryContract.address])
+  useInterval(() => {
+    setTime(() => time + 1)
+  }, 2000)
+
+  useEffect(() => {
+    const fetchAllowance = async () => {
+      try {
+        const res = await zbstContract.allowance(account, lotteryContract.address)
+        setAllowance(res)
+      } catch (e) {
+        setAllowance(0)
+      }
+    }
+
+    if (account) {
+      fetchAllowance()
+    }
+  }, [
+    account, lotteryContract.address, time
+  ])
 
   return useMemo(() => {
-    if (!allowance.result) {
+    if (!allowance) {
       return false
     }
 
-    return allowance.result.eq(0)
-  }, [allowance, fastRefresh])
+    if (typeof allowance === 'number') {
+      return allowance === 0
+    }
+
+    return (allowance as any).eq(0)
+  }, [allowance])
 }

@@ -49,9 +49,9 @@ const PriceRule = ({ lotteryId }) => {
             : t(`${index + 1}${!index ? 'st' : 1 == index ? 'nd' : 2 == index ? 'rd' : 'th'} Prize`),
           subTitle: t(`Match ${index ? 'first' : 'all'} ${6 - index}${5 == index ? ' or last 1' : ''}`),
           reward:
-            '$-' == zust ? zust : '$' + new BigNumber(zust.split('$')[1]).times(per[index]).integerValue().toFixed(0),
+            '$-' == zust ? zust : '$' + new BigNumber(zust.split('$')[1]).times(per[index]).toFixed(2),
           zbReward: '- ZBST' == zbReward ? zbReward : zbReward.toFixed(0) + ' ZBST',
-          earn: `${rewardNums[index] && '- ZBST' != zbReward ? zbReward.idiv(rewardNums[index]) : 0} ZBST ${t('each')}`,
+          earn: `${rewardNums[index] && '- ZBST' != zbReward ? zbReward.div(rewardNums[index]).toFixed(2) : 0} ZBST ${t('each')}`,
           winner: `${rewardNums[index] ?? 0} ${t('Winners')}`,
         }
         return d

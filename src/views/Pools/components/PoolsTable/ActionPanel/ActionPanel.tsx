@@ -132,6 +132,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
     getPoolBlockInfo(pool, currentBlock)
 
   const isMetaMaskInScope = !!window.ethereum?.isMetaMask
+  const isDexMaskInScope = !!window.dexEthereum?.isMetaMask
   const tokenAddress = earningToken.address ? getAddress(earningToken.address) : ''
 
   const {
@@ -257,7 +258,7 @@ const ActionPanel: React.FC<ActionPanelProps> = ({ account, pool, userDataLoaded
             </LinkExternal>
           </Flex>
         )}
-        {account && isMetaMaskInScope && tokenAddress && (
+        {account && (isMetaMaskInScope || isDexMaskInScope) && tokenAddress && (
           <Flex mb="8px" justifyContent={['flex-end', 'flex-end', 'flex-start']}>
             <Button
               variant="text"

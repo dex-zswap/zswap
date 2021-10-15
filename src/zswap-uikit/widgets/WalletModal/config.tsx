@@ -1,4 +1,5 @@
 import Metamask from '../../components/Svg/Icons/Metamask'
+import Dexmask from '../../components/Svg/Icons/Dexmask'
 import WalletConnect from '../../components/Svg/Icons/WalletConnect'
 import TrustWallet from '../../components/Svg/Icons/TrustWallet'
 import MathWallet from '../../components/Svg/Icons/MathWallet'
@@ -14,6 +15,12 @@ const connectors: Config[] = [
     title: 'Metamask',
     icon: Metamask,
     connectorId: ConnectorNames.Injected,
+    priority: 1,
+  },
+  {
+    title: 'DexMask',
+    icon: Dexmask,
+    connectorId: ConnectorNames.DexMask,
     priority: 1,
   },
   // {

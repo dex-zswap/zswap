@@ -11,11 +11,13 @@ export default function useDistributeRewardEnd() {
 
   return useMemo(() => {
     if (!lotteryId) {
-      return !false
+      return false
     }
 
     if (lotteryId > 1) {
       return distributeRewardEnd.result
     }
+
+    return true
   }, [distributeRewardEnd, lotteryId])
 }

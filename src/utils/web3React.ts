@@ -1,8 +1,10 @@
 import { InjectedConnector } from '@web3-react/injected-connector'
+import { ethers } from 'ethers'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { BscConnector } from '@binance-chain/bsc-connector'
 import { ConnectorNames } from 'zswap-uikit'
-import { ethers } from 'ethers'
+import { DexMaskConnector } from 'connector/dexMask'
+
 import getNodeUrl from './getRpcUrl'
 
 const POLLING_INTERVAL = 12000
@@ -20,10 +22,13 @@ const walletconnect = new WalletConnectConnector({
 
 const bscConnector = new BscConnector({ supportedChainIds: [chainId] })
 
+const dexMaskInjected = new DexMaskConnector({ supportedChainIds: [chainId] })
+
 export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
   [ConnectorNames.BSC]: bscConnector,
+  [ConnectorNames.DexMask]: dexMaskInjected
 }
 
 export const getLibrary = (provider): ethers.providers.Web3Provider => {

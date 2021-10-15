@@ -9,7 +9,7 @@ export function useContractCall(
   inputs: Array<unknown> = [],
   reload: boolean = true,
 ) {
-  const { slowRefresh } = useRefresh()
+  const { fastRefresh } = useRefresh()
   const [result, setResult] = useState(null)
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -34,7 +34,7 @@ export function useContractCall(
 
       call()
     },
-    reload ? [slowRefresh, ...inputs] : [...inputs],
+    reload ? [fastRefresh, ...inputs] : [...inputs],
   )
 
   return useMemo(() => {
