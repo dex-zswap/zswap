@@ -1,22 +1,19 @@
-import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
-import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from 'zswap-sdk'
-import { Text } from 'zswap-uikit'
-import styled from 'styled-components'
-import { FixedSizeList } from 'react-window'
-import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { LightGreyCard } from 'components/Card'
-import QuestionHelper from 'components/QuestionHelper'
+import Column from 'components/Layout/Column'
+import { RowBetween, RowFixed } from 'components/Layout/Row'
+import CircleLoader from 'components/Loader/CircleLoader'
+import { CurrencyLogo } from 'components/Logo'
 import { useTranslation } from 'contexts/Localization'
+import { useAllInactiveTokens, useIsUserAddedToken } from 'hooks/Tokens'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import React, { CSSProperties, MutableRefObject, useCallback, useMemo } from 'react'
+import { FixedSizeList } from 'react-window'
 import { useCombinedActiveList } from 'state/lists/hooks'
 import { useCurrencyBalance } from 'state/wallet/hooks'
-import { useIsUserAddedToken, useAllInactiveTokens } from 'hooks/Tokens'
-import Column from 'components/Layout/Column'
-import { RowFixed, RowBetween } from 'components/Layout/Row'
-import { CurrencyLogo } from 'components/Logo'
-import CircleLoader from 'components/Loader/CircleLoader'
+import styled from 'styled-components'
 import { isTokenOnList } from 'utils'
-import ImportRow from './ImportRow'
+import { wrappedCurrency } from 'utils/wrappedCurrency'
+import { Currency, CurrencyAmount, currencyEquals, ETHER, Token } from 'zswap-sdk'
+import { Text } from 'zswap-uikit'
 
 function currencyKey(currency: Currency): string {
   return currency instanceof Token ? currency.address : currency === ETHER ? 'ETHER' : ''
@@ -78,7 +75,7 @@ function CurrencyRow({
   // only show add or remove buttons if not on selected list
   return (
     <MenuItem
-      // style={style}
+      style={style}
       className={`token-item-${key}`}
       onClick={() => (isSelected ? null : onSelect())}
       disabled={isSelected}
@@ -149,7 +146,7 @@ export default function CurrencyList({
       const showImport = inactiveTokens && token && Object.keys(inactiveTokens).includes(token.address)
 
       if (index === breakIndex || !data) {
-        return <></>
+        return
         // return (
         //   <FixedContentRow style={style}>
         //     <LightGreyCard padding="8px 12px" borderRadius="8px">

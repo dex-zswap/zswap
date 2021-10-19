@@ -1,21 +1,19 @@
-import React, { KeyboardEvent, RefObject, useCallback, useMemo, useRef, useState, useEffect } from 'react'
-import { Currency, ETHER, Token } from 'zswap-sdk'
-import { Text, Input, Box } from 'zswap-uikit'
-import { useTranslation } from 'contexts/Localization'
-import { FixedSizeList } from 'react-window'
-import { useAudioModeManager } from 'state/user/hooks'
-import useDebounce from 'hooks/useDebounce'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useAllTokens, useToken, useIsUserAddedToken, useFoundOnInactiveList } from 'hooks/Tokens'
-import { isAddress } from 'utils'
 import Column, { AutoColumn } from 'components/Layout/Column'
 import Row from 'components/Layout/Row'
-import CommonBases from './CommonBases'
+import { useTranslation } from 'contexts/Localization'
+import { useAllTokens, useFoundOnInactiveList, useIsUserAddedToken, useToken } from 'hooks/Tokens'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import useDebounce from 'hooks/useDebounce'
+import React, { KeyboardEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FixedSizeList } from 'react-window'
+import { useAudioModeManager } from 'state/user/hooks'
+import { isAddress } from 'utils'
+import { Currency, ETHER, Token } from 'zswap-sdk'
+import { Box, Input, Text } from 'zswap-uikit'
 import CurrencyList from './CurrencyList'
 import { filterTokens, useSortedTokensByQuery } from './filtering'
-import useTokenComparator from './sorting'
-
 import ImportRow from './ImportRow'
+import useTokenComparator from './sorting'
 
 const SHOW_DEX_KEYWORDS = ['', 'd', 'de', 'dex']
 
@@ -144,7 +142,7 @@ function CurrencySearch({
         ) : filteredSortedTokens?.length > 0 || filteredInactiveTokens?.length > 0 || showETH ? (
           <Box margin="24px -24px">
             <CurrencyList
-              height={390}
+              height={392}
               showETH={showETH}
               currencies={
                 filteredInactiveTokens ? filteredSortedTokens.concat(filteredInactiveTokens) : filteredSortedTokens
