@@ -88,7 +88,7 @@ export class DexMaskConnector extends AbstractConnector {
     let account
     try {
       account = await (window.dexEthereum.send as Send)('eth_requestAccounts').then(
-        sendReturn => parseSendReturn(sendReturn)[0]
+        (sendReturn) => parseSendReturn(sendReturn)[0],
       )
     } catch (error) {
       if ((error as any).code === 4001) {
@@ -100,7 +100,7 @@ export class DexMaskConnector extends AbstractConnector {
     // if unsuccessful, try enable
     if (!account) {
       // if enable is successful but doesn't return accounts, fall back to getAccount (not happy i have to do this...)
-      account = await window.dexEthereum.enable().then(sendReturn => sendReturn && parseSendReturn(sendReturn)[0])
+      account = await window.dexEthereum.enable().then((sendReturn) => sendReturn && parseSendReturn(sendReturn)[0])
     }
 
     return { provider: window.dexEthereum, ...(account ? { account } : {}) }
@@ -160,14 +160,16 @@ export class DexMaskConnector extends AbstractConnector {
 
     let account
     try {
-      account = await (window.dexEthereum.send as Send)('eth_accounts').then(sendReturn => parseSendReturn(sendReturn)[0])
+      account = await (window.dexEthereum.send as Send)('eth_accounts').then(
+        (sendReturn) => parseSendReturn(sendReturn)[0],
+      )
     } catch {
       warning(false, 'eth_accounts was unsuccessful, falling back to enable')
     }
 
     if (!account) {
       try {
-        account = await window.dexEthereum.enable().then(sendReturn => parseSendReturn(sendReturn)[0])
+        account = await window.dexEthereum.enable().then((sendReturn) => parseSendReturn(sendReturn)[0])
       } catch {
         warning(false, 'enable was unsuccessful, falling back to eth_accounts v2')
       }
@@ -195,7 +197,7 @@ export class DexMaskConnector extends AbstractConnector {
     }
 
     try {
-      return await (window.dexEthereum.send as Send)('eth_accounts').then(sendReturn => {
+      return await (window.dexEthereum.send as Send)('eth_accounts').then((sendReturn) => {
         if (parseSendReturn(sendReturn).length > 0) {
           return true
         } else {

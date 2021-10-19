@@ -31,8 +31,8 @@ export default function useApprove() {
 }
 
 export function useApproveStatus() {
-  const [ allowance, setAllowance ] = useState(0)
-  const [ time, setTime ] = useState(0)
+  const [allowance, setAllowance] = useState(0)
+  const [time, setTime] = useState(0)
   const { account } = useActiveWeb3React()
   const lotteryContract = useZSwapLotteryContract()
   const zbstContract = useERC20(ZSWAP_ZBST_ADDRESS)
@@ -54,9 +54,7 @@ export function useApproveStatus() {
     if (account) {
       fetchAllowance()
     }
-  }, [
-    account, lotteryContract.address, time
-  ])
+  }, [account, lotteryContract.address, time])
 
   return useMemo(() => {
     if (!allowance) {

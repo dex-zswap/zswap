@@ -28,7 +28,7 @@ export const connectorsByName: { [connectorName in ConnectorNames]: any } = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
   [ConnectorNames.BSC]: bscConnector,
-  [ConnectorNames.DexMask]: dexMaskInjected
+  [ConnectorNames.DexMask]: dexMaskInjected,
 }
 
 export const getLibrary = (provider): ethers.providers.Web3Provider => {
