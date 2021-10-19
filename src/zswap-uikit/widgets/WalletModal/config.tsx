@@ -17,12 +17,12 @@ const connectors: Config[] = [
     connectorId: ConnectorNames.Injected,
     priority: 1,
   },
-  {
-    title: 'DexMask',
-    icon: Dexmask,
-    connectorId: ConnectorNames.DexMask,
-    priority: 1,
-  },
+  // {
+  //   title: 'DexMask',
+  //   icon: Dexmask,
+  //   connectorId: ConnectorNames.DexMask,
+  //   priority: 1,
+  // },
   // {
   //   title: 'WalletConnect',
   //   icon: WalletConnect,
