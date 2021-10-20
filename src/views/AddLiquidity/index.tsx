@@ -188,10 +188,12 @@ export default function AddLiquidity({
         }).then((response) => {
           setAttemptingTxn(false)
 
+          const [amountA, amountB] = [parsedAmounts[Field.CURRENCY_A]?.toExact().split('.')[0] ?? 0, parsedAmounts[Field.CURRENCY_B]?.toExact().split('.')[0] ?? 0]
+
           addTransaction(response, {
-            summary: `Add ${parsedAmounts[Field.CURRENCY_A]?.toSignificant(3)} ${
+            summary: `Add ${amountA} ${
               currencies[Field.CURRENCY_A]?.symbol
-            } and ${parsedAmounts[Field.CURRENCY_B]?.toSignificant(3)} ${currencies[Field.CURRENCY_B]?.symbol}`,
+            } and ${amountB} ${currencies[Field.CURRENCY_B]?.symbol}`,
             reportData: {
               from: 'addLiquidity',
               args: {
